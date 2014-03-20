@@ -40,5 +40,21 @@ namespace SZI
                 System.Windows.Forms.MessageBox.Show(innerEx.Message);
             }
         }
+
+        public void ModifyRecord(string id)
+        {
+            using (var dataBase = new CollectorsManagementSystemEntities())
+            {
+                dataBase.Database.ExecuteSqlCommand
+                (
+                    "UPDATE Counter SET CircuitNo={0}, AddressId={1}, CustomerId={2} WHERE CounterNo={3}",
+                    this.CircuitNo,
+                    this.AddressId,
+                    this.CustomerId,
+                    id
+                );
+                dataBase.SaveChanges();
+            }
+        }
     }
 }
