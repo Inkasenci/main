@@ -5,10 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace SZI
 {
     class Customers : IDataBase
     {
+        public ListView lv { get; set; }
         private List<Customer> customerList;
         public string[] columnList { get; set; }
         public string className { get; set; }
@@ -34,6 +36,7 @@ namespace SZI
 
             className = this.GetType().Name;
         }
+
 
         public int recordCount
         {
@@ -67,20 +70,21 @@ namespace SZI
 
         public ListView ListViewInitiate()
         {
-            ListView listView = new ListView();
-            listView.View = View.Details;
+            lv = new ListView();
+            lv.View = View.Details;
+            lv.FullRowSelect = true;
 
             foreach (var column in columnList)
-                listView.Columns.Add(column);
+                lv.Columns.Add(column);
 
-            listView.Location = new System.Drawing.Point(10, 10);
-            listView.Size = new System.Drawing.Size(450, 450);
-            listView.Name = className;
+            lv.Location = new System.Drawing.Point(10, 10);
+            lv.Size = new System.Drawing.Size(450, 450);
+            lv.Name = className;
 
-            foreach (var customer in customerList)
-                listView.Items.Add(ConvertToItem(customer));
+            foreach (var counter in customerList)
+                lv.Items.Add(ConvertToItem(counter));
 
-            return listView;
+            return lv;
         }
     }
 }

@@ -11,12 +11,34 @@ namespace SZI
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class Counter
+    using System.Linq;
+    using System.Data.Entity.Infrastructure;
+
+    public partial class Counter : IItem
     {
         public int CounterNo { get; set; }
         public int CircuitNo { get; set; }
         public Nullable<System.Guid> AddressId { get; set; }
         public string CustomerId { get; set; }
+        public void InsertIntoDB()
+        {
+            try
+            {
+                using (var database = new CollectorsManagementSystemEntities())
+                {
+                    database.Counters.Add(this);
+                    database.SaveChanges();
+                }
+            }
+            catch (DbUpdateException ex)
+            {
+                var innerEx = ex.InnerException;
+
+                while (innerEx.InnerException != null)
+                    innerEx = innerEx.InnerException;
+
+                System.Windows.Forms.MessageBox.Show(innerEx.Message);
+            }
+        }
     }
 }

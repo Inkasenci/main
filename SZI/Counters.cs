@@ -7,8 +7,10 @@ using System.Windows.Forms;
 
 namespace SZI
 {
-    class Counters : IDataBase
+    public class Counters : IDataBase
     {
+        public ListView lv { get; set; }
+
         private List<Counter> counterList;
         public string[] columnList { get; set; }
         public string className { get; set; }
@@ -47,7 +49,8 @@ namespace SZI
 
         private ListViewItem ConvertToItem(Counter counter)
         {
-            string[] infoGroup = new string[4]{
+            string[] infoGroup = new string[4]
+            {
                 counter.CounterNo.ToString(),
                 counter.CircuitNo.ToString(),
                 counter.AddressId.ToString(),
@@ -61,20 +64,21 @@ namespace SZI
 
         public ListView ListViewInitiate()
         {
-            ListView listView = new ListView();
-            listView.View = View.Details;
+            lv = new ListView();
+            lv.View = View.Details;
+            lv.FullRowSelect = true;
 
             foreach (var column in columnList)
-                listView.Columns.Add(column);
+                lv.Columns.Add(column);
 
-            listView.Location = new System.Drawing.Point(10, 10);
-            listView.Size = new System.Drawing.Size(450, 450);
-            listView.Name = className;
+            lv.Location = new System.Drawing.Point(10, 10);
+            lv.Size = new System.Drawing.Size(450, 450);
+            lv.Name = className;
 
             foreach (var counter in counterList)
-                listView.Items.Add(ConvertToItem(counter));
+                lv.Items.Add(ConvertToItem(counter));
 
-            return listView;
+            return lv;
         }
     }
 }
