@@ -9,6 +9,7 @@ namespace SZI
 {
     interface IDataBase
     {
+        ListView lv { get; set; }
         string[] columnList { get; set; }
         string className { get; set; }
         int recordCount { get; }

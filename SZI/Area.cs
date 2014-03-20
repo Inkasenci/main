@@ -11,11 +11,33 @@ namespace SZI
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class Area
+    using System.Linq;
+    using System.Data.Entity.Infrastructure;
+
+    public partial class Area : IItem
     {
         public System.Guid AreaId { get; set; }
         public string Street { get; set; }
         public string CollectorId { get; set; }
+        public void InsertIntoDB()
+        {
+            try
+            {
+                using (var database = new CollectorsManagementSystemEntities())
+                {
+                    database.Areas.Add(this);
+                    database.SaveChanges();
+                }
+            }
+            catch (DbUpdateException ex)
+            {
+                var innerEx = ex.InnerException;
+
+                while (innerEx.InnerException != null)
+                    innerEx = innerEx.InnerException;
+
+                System.Windows.Forms.MessageBox.Show(innerEx.Message);
+            }
+        }
     }
 }

@@ -11,8 +11,10 @@ namespace SZI
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class Collector
+    using System.Data.Entity.Infrastructure;
+    using System.Linq;
+
+    public partial class Collector : IItem
     {
         public string CollectorId { get; set; }
         public string Name { get; set; }
@@ -21,5 +23,26 @@ namespace SZI
         public string City { get; set; }
         public string Address { get; set; }
         public string PhoneNumber { get; set; }
+
+        public void InsertIntoDB()
+        {
+            try
+            {
+                using (var database = new CollectorsManagementSystemEntities())
+                {
+                    database.Collectors.Add(this);
+                    database.SaveChanges();
+                }
+            }
+            catch (DbUpdateException ex)
+            {
+                var innerEx = ex.InnerException;
+
+                while (innerEx.InnerException != null)
+                    innerEx = innerEx.InnerException;
+
+                System.Windows.Forms.MessageBox.Show(innerEx.Message);
+            }
+        }
     }
 }

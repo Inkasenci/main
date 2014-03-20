@@ -9,6 +9,8 @@ namespace SZI
 {
     class Areas : IDataBase
     {
+        public ListView lv { get; set; }
+
         private List<Area> areasList;
         public string[] columnList { get; set; }
         public string className { get; set; }
@@ -59,20 +61,21 @@ namespace SZI
 
         public ListView ListViewInitiate()
         {
-            ListView listView = new ListView();
-            listView.View = View.Details;
+            lv = new ListView();
+            lv.View = View.Details;
+            lv.FullRowSelect = true;
 
             foreach (var column in columnList)
-                listView.Columns.Add(column);
+                lv.Columns.Add(column);
 
-            listView.Location = new System.Drawing.Point(10, 10);
-            listView.Size = new System.Drawing.Size(450, 450);
-            listView.Name = className;
+            lv.Location = new System.Drawing.Point(10, 10);
+            lv.Size = new System.Drawing.Size(450, 450);
+            lv.Name = className;
 
-            foreach (var area in areasList)
-                listView.Items.Add(ConvertToItem(area));
+            foreach (var counter in areasList)
+                lv.Items.Add(ConvertToItem(counter));
 
-            return listView;
+            return lv;
         }
     }
 }

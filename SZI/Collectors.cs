@@ -9,6 +9,8 @@ namespace SZI
 {
     class Collectors : IDataBase
     {
+        public ListView lv { get; set; }
+
         private List<Collector> collectorList;
         public string[] columnList { get; set; }
         public string className { get; set; }
@@ -67,20 +69,31 @@ namespace SZI
 
         public ListView ListViewInitiate()
         {
-            ListView listView = new ListView();
-            listView.View = View.Details;
+            lv = new ListView();
+            lv.View = View.Details;
+            lv.FullRowSelect = true;
 
             foreach (var column in columnList)
-                listView.Columns.Add(column);
+                lv.Columns.Add(column);
 
-            listView.Location = new System.Drawing.Point(10, 10);
-            listView.Size = new System.Drawing.Size(450, 450);
-            listView.Name = className;
+            lv.Location = new System.Drawing.Point(10, 10);
+            lv.Size = new System.Drawing.Size(450, 450);
+            lv.Name = className;
 
-            foreach (var collector in collectorList)
-                listView.Items.Add(ConvertToItem(collector));
+            foreach (var counter in collectorList)
+                lv.Items.Add(ConvertToItem(counter));
+            return lv;
+        }
 
-            return listView;
+        public void DeleteRowsByID(List<string> ids)
+        {
+            using (var dataBase = new CollectorsManagementSystemEntities())
+            {
+                for (int i = 0; i < ids.Count; i++)
+                {
+                    dataBase.Collectors.SqlQuery("delete from Collectors where CollectorId={0}", ids[i]);
+                }
+            }
         }
     }
 }
