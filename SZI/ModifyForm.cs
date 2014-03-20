@@ -55,8 +55,8 @@ namespace SZI
                     break;
             }
 
-            Label[] labels = LabelsInitialize();
-            TextBox[] textBoxes = TextBoxesInitialize();
+            Label[] labels = InitializeLabels();
+            TextBox[] textBoxes = InitializeTextBoxes();
 
             for (int i = 0; i < labelsTexts.Length; i++)
             {
@@ -65,7 +65,7 @@ namespace SZI
             }
         }
 
-        private Label[] LabelsInitialize()
+        private Label[] InitializeLabels()
         {
             Label[] labels = new Label[labelsTexts.Length];
             for (int i = 0; i < labelsTexts.Length; i++)
@@ -77,7 +77,7 @@ namespace SZI
             return labels;
         }
 
-        private TextBox[] TextBoxesInitialize()
+        private TextBox[] InitializeTextBoxes()
         {
             TextBox[] textBoxes = new TextBox[textBoxesTexts.Length];
             for (int i = 0; i < textBoxesTexts.Length; i++)
