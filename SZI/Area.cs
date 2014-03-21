@@ -39,5 +39,20 @@ namespace SZI
                 System.Windows.Forms.MessageBox.Show(innerEx.Message);
             }
         }
+
+        public void ModifyRecord(string id)
+        {
+            using (var dataBase = new CollectorsManagementSystemEntities())
+            {
+                dataBase.Database.ExecuteSqlCommand
+                (
+                    "UPDATE Area SET Street={0}, CollectorId={1} WHERE AreaId={2}",
+                    this.Street,
+                    this.CollectorId,
+                    id
+                );
+                dataBase.SaveChanges();
+            }
+        }
     }
 }

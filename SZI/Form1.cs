@@ -101,5 +101,11 @@ namespace SZI
             insertForm.Show();
         }
 
+        private void btModify_Click(object sender, EventArgs e)
+        {
+            var modifyForm = new ModifyForm(ids, selectedTab);
+            modifyForm.ShowDialog();
+        }
+
     }
 }

@@ -43,5 +43,24 @@ namespace SZI
                 System.Windows.Forms.MessageBox.Show(innerEx.Message);
             }
         }
+
+        public void ModifyRecord(string id)
+        {
+            using (var dataBase = new CollectorsManagementSystemEntities())
+            {
+                dataBase.Database.ExecuteSqlCommand
+                (
+                    "UPDATE Customer SET Name={0}, LastName={1}, PostalCode={2}, City={3}, Address={4}, PhoneNumber={5} WHERE CustomerId={6}",
+                    this.Name,
+                    this.LastName,
+                    this.PostalCode,
+                    this.City,
+                    this.Address,
+                    this.PhoneNumber,
+                    id
+                );
+                dataBase.SaveChanges();
+            }
+        }
     }
 }
