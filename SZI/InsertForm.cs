@@ -69,7 +69,11 @@ namespace SZI
             c.City = tbCity.Text;
             c.Address = tbAddress.Text;
             c.PhoneNumber = tbPhone.Text;
-            c.InsertIntoDB();
+
+            if (MainValidation.CollectorValidate(c))
+                c.InsertIntoDB();
+            else
+                MessageBox.Show(MainValidation.CollectorValidateString(c));
         }
 
         private void InsertCustomer()
@@ -82,7 +86,11 @@ namespace SZI
             c.City = tbCustomerCity.Text;
             c.Address = tbCustomerAddress.Text;
             c.PhoneNumber = tbCustomerPhoneNumber.Text;
-            c.InsertIntoDB();
+
+            if (MainValidation.CustomerValidate(c))
+                c.InsertIntoDB();
+            else
+                MessageBox.Show(MainValidation.CustomerValidateString(c));
         }
 
         private void InsertArea()

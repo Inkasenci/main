@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CollectorsManagementSystemModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="CollectorsManagementSystemEntities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="Addresses" EntityType="CollectorsManagementSystemModel.Address" />
+    <EntitySet Name="Areas" EntityType="CollectorsManagementSystemModel.Area" />
+    <EntitySet Name="Collectors" EntityType="CollectorsManagementSystemModel.Collector" />
+    <EntitySet Name="Counters" EntityType="CollectorsManagementSystemModel.Counter" />
+    <EntitySet Name="Customers" EntityType="CollectorsManagementSystemModel.Customer" />
+    <EntitySet Name="Readings" EntityType="CollectorsManagementSystemModel.Reading" />
+  </EntityContainer>
+  <EntityType Name="Address">
+    <Key>
+      <PropertyRef Name="AddressId" />
+    </Key>
+    <Property Name="AddressId" Type="Guid" Nullable="false" />
+    <Property Name="HouseNo" Type="Int32" Nullable="false" />
+    <Property Name="FlatNo" Type="Int32" />
+    <Property Name="AreaId" Type="Guid" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Area">
+    <Key>
+      <PropertyRef Name="AreaId" />
+    </Key>
+    <Property Name="AreaId" Type="Guid" Nullable="false" />
+    <Property Name="Street" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+    <Property Name="CollectorId" Type="String" MaxLength="11" Unicode="true" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Collector">
+    <Key>
+      <PropertyRef Name="CollectorId" />
+    </Key>
+    <Property Name="CollectorId" Type="String" Nullable="false" MaxLength="11" Unicode="true" FixedLength="false" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+    <Property Name="LastName" Type="String" Nullable="false" MaxLength="64" Unicode="true" FixedLength="false" />
+    <Property Name="PostalCode" Type="String" Nullable="false" MaxLength="5" Unicode="true" FixedLength="false" />
+    <Property Name="City" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+    <Property Name="Address" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+    <Property Name="PhoneNumber" Type="String" Nullable="false" MaxLength="9" Unicode="true" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Counter">
+    <Key>
+      <PropertyRef Name="CounterNo" />
+    </Key>
+    <Property Name="CounterNo" Type="Int32" Nullable="false" />
+    <Property Name="CircuitNo" Type="Int32" Nullable="false" />
+    <Property Name="AddressId" Type="Guid" />
+    <Property Name="CustomerId" Type="String" MaxLength="11" Unicode="true" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="CustomerId" />
+    </Key>
+    <Property Name="CustomerId" Type="String" Nullable="false" MaxLength="11" Unicode="true" FixedLength="false" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+    <Property Name="LastName" Type="String" Nullable="false" MaxLength="64" Unicode="true" FixedLength="false" />
+    <Property Name="PostalCode" Type="String" Nullable="false" MaxLength="5" Unicode="true" FixedLength="false" />
+    <Property Name="City" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+    <Property Name="Address" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+    <Property Name="PhoneNumber" Type="String" Nullable="false" MaxLength="9" Unicode="true" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Reading">
+    <Key>
+      <PropertyRef Name="ReadingId" />
+    </Key>
+    <Property Name="ReadingId" Type="Guid" Nullable="false" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Value" Type="Double" Nullable="false" />
+    <Property Name="CollectorId" Type="String" Nullable="false" MaxLength="11" Unicode="true" FixedLength="false" />
+    <Property Name="CounterNo" Type="Int32" Nullable="false" />
+  </EntityType>
+</Schema>
