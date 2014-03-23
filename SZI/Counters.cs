@@ -33,6 +33,7 @@ namespace SZI
 
         private void GenerateItemList()
         {
+            counterList.Clear();
             using (var dataBase = new CollectorsManagementSystemEntities())
             {
                 foreach (var value in dataBase.Counters)
@@ -42,6 +43,7 @@ namespace SZI
 
         private void GenerateStringList()
         {
+            itemList.Clear();
             foreach (var item in counterList)
                 itemList.Add(item.GetElements);
         }
