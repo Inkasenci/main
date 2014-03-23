@@ -20,6 +20,20 @@ namespace SZI
         public int CircuitNo { get; set; }
         public Nullable<System.Guid> AddressId { get; set; }
         public string CustomerId { get; set; }
+
+        public string[] GetElements
+        {
+            get
+            {
+                return new string[]{
+                    CounterNo.ToString(),
+                    CircuitNo.ToString(),
+                    AddressId.ToString(),
+                    CustomerId
+                };
+            }
+        }
+
         public void InsertIntoDB()
         {
             try

@@ -17,8 +17,9 @@ namespace SZI
         private int selectedTab = 0;
         private TabControl tabControl;
         private ListView.SelectedIndexCollection indexes; //indeksy zaznaczonych w danym momencie elementów listView w aktywnej zakładce
-        private IDataBase[] listViews;
+        private IDataBase[] dataBase;
         List<string> ids;
+        ListView[] listView;
 
         private void MainTabControlInit()
         {
@@ -30,9 +31,9 @@ namespace SZI
             tabNames = new string[4] { "Inkasenci", "Klienci", "Tereny", "Liczniki" };
             tabControl = new TabControl();
             tabPages = new TabPage[4];
-            listViews = new IDataBase[4] { new Collectors(), new Customers(), new Areas(), new Counters() };
-
-
+            dataBase = new IDataBase[4] { new Collectors(), new Customers(), new Areas(), new Counters() };
+            listView = new ListView[dataBase.Length];
+            timerRefresh.Start();
 
             // Tworzenie tabControl
             tabControl.Padding = new Point(10, 10);
@@ -44,7 +45,9 @@ namespace SZI
             {
                 tabPages[i] = new TabPage();
                 tabPages[i].Name = tabPages[i].Text = tabNames[i];
-                tabPages[i].Controls.Add(listViews[i].ListViewInitiate());
+                listView[i] = ListViewConfig.ListViewInit(dataBase[i].columnList, dataBase[i].className, dataBase[i].itemList);
+                listView[i].SelectedIndexChanged += lv_SelectedIndexChanged;
+                tabPages[i].Controls.Add(listView[i]);
             }
 
             // Aktywacja
@@ -52,11 +55,12 @@ namespace SZI
             tabControl.TabPages.AddRange(tabPages);
             tabControl.SelectedTab = tabPages[selectedTab];
 
-            for (int i = 0; i < tabPages.Length; i++)
-            {
-                listViews[i].lv.SelectedIndexChanged += lv_SelectedIndexChanged;
-            }
             tabControl.SelectedIndexChanged += tabControl_SelectedIndexChanged;
+        }
+
+        void listView_DataChanged(object sender, EventArgs e)
+        {
+            selectedTab = tabControl.SelectedIndex;
         }
 
         void tabControl_SelectedIndexChanged(object sender, EventArgs e)
@@ -80,7 +84,6 @@ namespace SZI
                 tbTest.Text += item.SubItems[0].Text + " ";
                 ids.Add(s);
             }
-
         }
 
         public Form1()
@@ -107,5 +110,14 @@ namespace SZI
             modifyForm.ShowDialog();
         }
 
+        private void timerRefresh_Tick(object sender, EventArgs e)
+        {
+            int i = 0;
+            foreach (var data in dataBase)
+            {
+                data.RefreshList();
+                ListViewConfig.ListViewRefresh(listView[i++], data.itemList);
+            }
+        }
     }
 }

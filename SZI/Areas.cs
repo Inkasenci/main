@@ -9,20 +9,15 @@ namespace SZI
 {
     class Areas : IDataBase
     {
-        public ListView lv { get; set; }
-
-        private List<Area> areasList;
+        public List<Area> areasList;
         public string[] columnList { get; set; }
         public string className { get; set; }
+        public List<string[]> itemList { get; set; }
 
         public Areas()
         {
             areasList = new List<Area>();
-            using (var dataBase = new CollectorsManagementSystemEntities())
-            {
-                foreach (var value in dataBase.Areas)
-                    areasList.Add(value);
-            }
+            itemList = new List<string[]>();
 
             columnList = new string[3] {
                 "IdTerenu",
@@ -31,6 +26,31 @@ namespace SZI
             };
 
             className = this.GetType().Name;
+
+            RefreshList();
+        }
+
+        private void GenerateItemList()
+        {
+            areasList.Clear();
+            using (var dataBase = new CollectorsManagementSystemEntities())
+            {
+                foreach (var value in dataBase.Areas)
+                    areasList.Add(value);
+            }
+        }
+
+        private void GenerateStringList()
+        {
+            itemList.Clear();
+            foreach (var item in areasList)
+                itemList.Add(item.GetElements);
+        }
+
+        public void RefreshList()
+        {
+            GenerateItemList();
+            GenerateStringList();
         }
 
         public int recordCount
@@ -44,38 +64,6 @@ namespace SZI
             {
                 return areasList[id];
             }
-        }
-
-        private ListViewItem ConvertToItem(Area area)
-        {
-            string[] infoGroup = new string[3]{
-                area.AreaId.ToString(),
-                area.CollectorId,
-                area.Street
-            };
-
-            ListViewItem convertArea = new ListViewItem(infoGroup);
-
-            return convertArea;
-        }
-
-        public ListView ListViewInitiate()
-        {
-            lv = new ListView();
-            lv.View = View.Details;
-            lv.FullRowSelect = true;
-
-            foreach (var column in columnList)
-                lv.Columns.Add(column);
-
-            lv.Location = new System.Drawing.Point(10, 10);
-            lv.Size = new System.Drawing.Size(450, 450);
-            lv.Name = className;
-
-            foreach (var counter in areasList)
-                lv.Items.Add(ConvertToItem(counter));
-
-            return lv;
         }
     }
 }

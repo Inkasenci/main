@@ -19,6 +19,20 @@ namespace SZI
         public System.Guid AreaId { get; set; }
         public string Street { get; set; }
         public string CollectorId { get; set; }
+
+        public string[] GetElements
+        {
+            get
+            {
+                return new string[]
+                {
+                    AreaId.ToString(),
+                    Street,
+                    CollectorId
+                };
+            }
+        }
+
         public void InsertIntoDB()
         {
             try
