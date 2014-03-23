@@ -24,6 +24,23 @@ namespace SZI
         public string Address { get; set; }
         public string PhoneNumber { get; set; }
 
+        public string[] GetElements
+        {
+            get
+            {
+                return new string[]
+                {
+                    CollectorId,
+                    Name,
+                    LastName,
+                    PostalCode,
+                    City,
+                    Address,
+                    PhoneNumber
+                };
+            }
+        }
+
         public void InsertIntoDB()
         {
             try

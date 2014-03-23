@@ -13,5 +13,7 @@ namespace SZI
     public interface IItem
     {
         void InsertIntoDB();
+        string[] GetElements { get; }
+        void ModifyRecord(string id);
     }
 }

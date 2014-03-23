@@ -13,21 +13,6 @@ namespace SZI
             return (stringToValidate == String.Empty) ? true : false;
         }
 
-        static public bool CollectorValidate(Collector collector)
-        {
-            int checkBug = 0;
-
-            checkBug += (IdentityValidation.CheckId(collector.CollectorId)) ? 1 : 0;
-            checkBug += (EmptyString(collector.Address)) ? 1 : 0;
-            checkBug += (EmptyString(collector.City)) ? 1 : 0;
-            checkBug += (EmptyString(collector.LastName)) ? 1 : 0;
-            checkBug += (EmptyString(collector.Name)) ? 1 : 0;
-            checkBug += (EmptyString(collector.PhoneNumber)) ? 1 : 0;
-            checkBug += (EmptyString(collector.PostalCode)) ? 1 : 0;
-
-            return (checkBug == 0) ? true : false; 
-        }
-
         static public string CollectorValidateString(Collector collector)
         {
             string checkBug = String.Empty;
@@ -41,21 +26,6 @@ namespace SZI
             checkBug += (EmptyString(collector.PostalCode)) ? LangPL.InsertFormLang["textBoxPostalCode"] : String.Empty;
 
             return checkBug;
-        }
-
-        static public bool CustomerValidate(Customer customer)
-        {
-            int checkBug = 0;
-
-            checkBug += (IdentityValidation.CheckId(customer.CustomerId)) ? 1 : 0;
-            checkBug += (EmptyString(customer.Address)) ? 1 : 0;
-            checkBug += (EmptyString(customer.City)) ? 1 : 0;
-            checkBug += (EmptyString(customer.LastName)) ? 1 : 0;
-            checkBug += (EmptyString(customer.Name)) ? 1 : 0;
-            checkBug += (EmptyString(customer.PhoneNumber)) ? 1 : 0;
-            checkBug += (EmptyString(customer.PostalCode)) ? 1 : 0;
-
-            return (checkBug == 0) ? true : false;
         }
 
         static public string CustomerValidateString(Customer customer)

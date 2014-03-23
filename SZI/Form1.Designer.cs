@@ -28,11 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.btDelete = new System.Windows.Forms.Button();
             this.tbTest = new System.Windows.Forms.TextBox();
             this.btInsert = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.btModify = new System.Windows.Forms.Button();
+            this.timerRefresh = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // btDelete
@@ -51,6 +53,7 @@
             this.tbTest.Name = "tbTest";
             this.tbTest.Size = new System.Drawing.Size(323, 20);
             this.tbTest.TabIndex = 1;
+            this.tbTest.Visible = false;
             // 
             // btInsert
             // 
@@ -71,6 +74,11 @@
             this.btModify.Text = "Modyfikuj";
             this.btModify.UseVisualStyleBackColor = true;
             this.btModify.Click += new System.EventHandler(this.btModify_Click);
+            // 
+            // timerRefresh
+            // 
+            this.timerRefresh.Interval = 10000;
+            this.timerRefresh.Tick += new System.EventHandler(this.timerRefresh_Tick);
             // 
             // Form1
             // 
@@ -95,6 +103,7 @@
         private System.Windows.Forms.Button btInsert;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Button btModify;
+        private System.Windows.Forms.Timer timerRefresh;
 
 
 
