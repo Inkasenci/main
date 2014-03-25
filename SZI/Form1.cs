@@ -101,7 +101,7 @@ namespace SZI
         private void btInsert_Click(object sender, EventArgs e)
         {
             var insertForm = new InsertForm();
-            insertForm.Show();
+            insertForm.ShowDialog();
         }
 
         private void btModify_Click(object sender, EventArgs e)

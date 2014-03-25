@@ -19,6 +19,7 @@ namespace SZI
             ListView lv = new ListView();
             lv.View = View.Details;
             lv.FullRowSelect = true;
+            lv.MultiSelect = false;
 
             foreach (var column in columnList)
                 lv.Columns.Add(column);
