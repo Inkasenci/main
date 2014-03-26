@@ -20,6 +20,7 @@ namespace SZI
         private IDataBase[] dataBase;
         List<string> ids;
         ListView[] listView;
+        private bool refreshRequired = false; //dodane tymczasowo - PZ
 
         private void MainTabControlInit()
         {
@@ -96,28 +97,35 @@ namespace SZI
         {
             DBManipulator.DeleteFromDB(ids, selectedTab);
             //listViews[selectedTab].DeleteRowsByID(ids);
+            refreshRequired = true; //dodane tymczasowo - PZ
         }
 
         private void btInsert_Click(object sender, EventArgs e)
         {
             var insertForm = new InsertForm();
             insertForm.ShowDialog();
+            refreshRequired = true; //dodane tymczasowo - PZ
         }
 
         private void btModify_Click(object sender, EventArgs e)
         {
             var modifyForm = new ModifyForm(ids, selectedTab);
             modifyForm.ShowDialog();
+            refreshRequired = true; //dodane tymczasowo - PZ
         }
 
         private void timerRefresh_Tick(object sender, EventArgs e)
         {
-            int i = 0;
-            foreach (var data in dataBase)
-            {
-                data.RefreshList();
-                ListViewConfig.ListViewRefresh(listView[i++], data.itemList);
-            }
+            if (refreshRequired) //dodane tymczasowo - PZ
+            { //dodane tymczasowo - PZ
+                int i = 0;
+                foreach (var data in dataBase)
+                {
+                    data.RefreshList();
+                    ListViewConfig.ListViewRefresh(listView[i++], data.itemList);
+                }
+                refreshRequired = false; //dodane tymczasowo - PZ
+            } //dodane tymczasowo - PZ
         }
     }
 }
