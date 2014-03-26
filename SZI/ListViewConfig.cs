@@ -35,12 +35,12 @@ namespace SZI
 
         static public ListView ListViewRefresh(ListView listView, List<string[]> itemList)
         {
-            listView.BeginUpdate(); //dodane tymczasowo
-            listView.Items.Clear(); //dodane tymczasowo
-            listView.EndUpdate(); //dodane tymczasowo
-            //bool add = true; usuniete tymczasowo
+            listView.BeginUpdate(); //dodane tymczasowo - PZ
+            listView.Items.Clear(); //dodane tymczasowo - PZ
+            listView.EndUpdate(); //dodane tymczasowo - PZ
+            //bool add = true; usuniete tymczasowo - PZ
             foreach (var item in itemList)
-                listView.Items.Add(ConvertToItem(item)); //dodane tymczasowo
+                listView.Items.Add(ConvertToItem(item)); //dodane tymczasowo - PZ
             /*{
                 add = true;
                 foreach (var itemOfList in listView.Items)
@@ -48,7 +48,7 @@ namespace SZI
                         add = false;
                 if(add)
                     listView.Items.Add(ConvertToItem(item));
-            } usuniete tymczasowo */
+            } usuniete tymczasowo - PZ */
 
             return listView;
         }
