@@ -19,6 +19,7 @@ namespace SZI
             ListView lv = new ListView();
             lv.View = View.Details;
             lv.FullRowSelect = true;
+            lv.MultiSelect = false;
 
             foreach (var column in columnList)
                 lv.Columns.Add(column);
@@ -34,16 +35,20 @@ namespace SZI
 
         static public ListView ListViewRefresh(ListView listView, List<string[]> itemList)
         {
-            bool add = true;
+            listView.BeginUpdate(); //dodane tymczasowo - PZ
+            listView.Items.Clear(); //dodane tymczasowo - PZ
+            listView.EndUpdate(); //dodane tymczasowo - PZ
+            //bool add = true; usuniete tymczasowo - PZ
             foreach (var item in itemList)
-            {
+                listView.Items.Add(ConvertToItem(item)); //dodane tymczasowo - PZ
+            /*{
                 add = true;
                 foreach (var itemOfList in listView.Items)
                     if (itemOfList.ToString() == ConvertToItem(item).ToString())
                         add = false;
                 if(add)
                     listView.Items.Add(ConvertToItem(item));
-            }
+            } usuniete tymczasowo - PZ */
 
             return listView;
         }

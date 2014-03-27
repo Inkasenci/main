@@ -13,6 +13,11 @@ namespace SZI
             return (stringToValidate == String.Empty) ? true : false;
         }
 
+        static private bool IncorrectNumberAmount(string stringToValidate, int expectedNumberAmount)
+        {
+            return (stringToValidate.LongCount(str => Char.IsNumber(str)) != expectedNumberAmount) ? true : false;
+        }
+
         static public string CollectorValidateString(Collector collector)
         {
             string checkBug = String.Empty;
@@ -24,6 +29,9 @@ namespace SZI
             checkBug += (EmptyString(collector.Name)) ? LangPL.InsertFormLang["textBoxName"] : String.Empty;
             checkBug += (EmptyString(collector.PhoneNumber)) ? LangPL.InsertFormLang["textBoxPhoneNumber"] : String.Empty;
             checkBug += (EmptyString(collector.PostalCode)) ? LangPL.InsertFormLang["textBoxPostalCode"] : String.Empty;
+
+            checkBug += (IncorrectNumberAmount(collector.PostalCode, 5)) ? LangPL.InsertFormLang["textBoxPostalCodeNumberAmount"] : String.Empty;
+            checkBug += (IncorrectNumberAmount(collector.PhoneNumber, 9)) ? LangPL.InsertFormLang["textBoxPhoneNumberNumberAmount"] : String.Empty;
 
             return checkBug;
         }
@@ -39,6 +47,9 @@ namespace SZI
             checkBug += (EmptyString(customer.Name)) ? LangPL.InsertFormLang["textBoxName"] : String.Empty;
             checkBug += (EmptyString(customer.PhoneNumber)) ? LangPL.InsertFormLang["textBoxPhoneNumber"] : String.Empty;
             checkBug += (EmptyString(customer.PostalCode)) ? LangPL.InsertFormLang["textBoxPostalCode"] : String.Empty;
+
+            checkBug += (IncorrectNumberAmount(customer.PostalCode, 5)) ? LangPL.InsertFormLang["textBoxPostalCodeNumberAmount"] : String.Empty;
+            checkBug += (IncorrectNumberAmount(customer.PhoneNumber, 9)) ? LangPL.InsertFormLang["textBoxPhoneNumberNumberAmount"] : String.Empty;
 
             return checkBug;
         }

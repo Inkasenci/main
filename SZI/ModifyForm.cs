@@ -30,25 +30,25 @@ namespace SZI
             switch (selectedTab)
             {
                 case 0:
-                    labelsTexts = new string[] { "PESEL: ", "Imię: ", "Nazwisko: ", "Kod pocztowy: ", "Miasto: ", "Ulica: ", "Telefon kontaktowy: " };
+                    labelsTexts = new string[] { "IdInkasenta: ", "Imię: ", "Nazwisko: ", "KodPocztowy: ", "Miasto: ", "Ulica: ", "TelefonKontaktowy: " };
                     textBoxesNames = new string[] { "CollectorId", "Name", "LastName", "PostalCode", "City", "Address", "PhoneNumber" };
                     Collector modifiedCollector = dataBase.Collectors.SqlQuery("SELECT * FROM Collector WHERE CollectorId={0}", ids.ElementAt(0)).SingleOrDefault();
                     textBoxesTexts = new string[] { modifiedCollector.CollectorId, modifiedCollector.Name, modifiedCollector.LastName, modifiedCollector.PostalCode, modifiedCollector.City, modifiedCollector.Address, modifiedCollector.PhoneNumber };
                     break;
                 case 1:
-                    labelsTexts = new string[] { "PESEL: ", "Imię: ", "Nazwisko: ", "Kod pocztowy: ", "Miasto: ", "Ulica: ", "Telefon kontaktowy: " };
+                    labelsTexts = new string[] { "IdKlienta: ", "Imię: ", "Nazwisko: ", "KodPocztowy: ", "Miasto: ", "Ulica: ", "TelefonKontaktowy: " };
                     textBoxesNames = new string[] { "CustomerId", "Name", "LastName", "PostalCode", "City", "Address", "PhoneNumber" };
                     Customer modifiedCustomer = dataBase.Customers.SqlQuery("SELECT * FROM Customer WHERE CustomerId={0}", ids.ElementAt(0)).SingleOrDefault();
                     textBoxesTexts = new string[] { modifiedCustomer.CustomerId, modifiedCustomer.Name, modifiedCustomer.LastName, modifiedCustomer.PostalCode, modifiedCustomer.City, modifiedCustomer.Address, modifiedCustomer.PhoneNumber };
                     break;
                 case 2:
-                    labelsTexts = new string[] { "Id terenu: ", "Ulica: ", "Id inkasenta: " };
+                    labelsTexts = new string[] { "IdTerenu: ", "Ulica: ", "IdInkasenta: " };
                     textBoxesNames = new string[] { "AreaId", "Street", "CollectorId" };
                     Area modifiedArea = dataBase.Areas.SqlQuery("SELECT * FROM Area WHERE AreaId={0}", ids.ElementAt(0)).SingleOrDefault();
                     textBoxesTexts = new string[] { modifiedArea.AreaId.ToString(), modifiedArea.Street, modifiedArea.CollectorId };
                     break;
                 case 3:
-                    labelsTexts = new string[] { "Numer licznika: ", "Numer układu: ", "Id adresu: ", "Id klienta: " };
+                    labelsTexts = new string[] { "NumerLicznika: ", "NumerUkładu: ", "IdAdresu: ", "IdKlienta: " };
                     textBoxesNames = new string[] { "CounterNo", "CircuitNo", "AddressId", "CustomerId" };
                     Counter modifiedCounter = dataBase.Counters.SqlQuery("SELECT * FROM Counter WHERE CounterNo={0}", ids.ElementAt(0)).SingleOrDefault();
                     textBoxesTexts = new string[] { modifiedCounter.CounterNo.ToString(), modifiedCounter.CircuitNo.ToString(), modifiedCounter.AddressId.ToString(), modifiedCounter.CustomerId };
@@ -87,6 +87,7 @@ namespace SZI
                 textBoxes[i].Text = textBoxesTexts[i];
                 textBoxes[i].Location = new Point(150, 30 * (i + 1));
             }
+            textBoxes[0].Enabled = false;
             return textBoxes;
         }
 
@@ -97,10 +98,13 @@ namespace SZI
 
         private void btSave_Click(object sender, EventArgs e)
         {
+            string validateString;
+            
             switch (selectedTab)
             {
                 case 0:
                     Collector modifiedCollector = new Collector();
+                    modifiedCollector.CollectorId = this.Controls.Find("CollectorId", true)[0].Text;
                     modifiedCollector.Name = this.Controls.Find("Name", true)[0].Text;
                     modifiedCollector.LastName = this.Controls.Find("LastName", true)[0].Text;
                     modifiedCollector.PostalCode = this.Controls.Find("PostalCode", true)[0].Text;
@@ -108,10 +112,18 @@ namespace SZI
                     modifiedCollector.Address = this.Controls.Find("Address", true)[0].Text;
                     modifiedCollector.PhoneNumber = this.Controls.Find("PhoneNumber", true)[0].Text;
                     
-                    modifiedCollector.ModifyRecord(ids.ElementAt(0));
+                    validateString = MainValidation.CollectorValidateString(modifiedCollector);
+                    if (validateString == String.Empty)
+                    {
+                        modifiedCollector.ModifyRecord(ids.ElementAt(0));
+                        this.Close();
+                    }
+                    else
+                        MessageBox.Show(validateString);
                     break;
                 case 1:
                     Customer modifiedCustomer = new Customer();
+                    modifiedCustomer.CustomerId = this.Controls.Find("CustomerId", true)[0].Text;
                     modifiedCustomer.Name = this.Controls.Find("Name", true)[0].Text;
                     modifiedCustomer.LastName = this.Controls.Find("LastName", true)[0].Text;
                     modifiedCustomer.PostalCode = this.Controls.Find("PostalCode", true)[0].Text;
@@ -119,10 +131,18 @@ namespace SZI
                     modifiedCustomer.Address = this.Controls.Find("Address", true)[0].Text;
                     modifiedCustomer.PhoneNumber = this.Controls.Find("PhoneNumber", true)[0].Text;
                     
-                    modifiedCustomer.ModifyRecord(ids.ElementAt(0));
+                    validateString = MainValidation.CustomerValidateString(modifiedCustomer);
+                    if (validateString == String.Empty)
+                    {
+                        modifiedCustomer.ModifyRecord(ids.ElementAt(0));
+                        this.Close();
+                    }
+                    else
+                        MessageBox.Show(validateString);
                     break;
                 case 2:
                     Area modifiedArea = new Area();
+                    modifiedArea.AreaId = Auxiliary.ToGuid(Convert.ToInt32(this.Controls.Find("AreaId", true)[0].Text));
                     modifiedArea.Street = this.Controls.Find("Street", true)[0].Text;
                     modifiedArea.CollectorId = this.Controls.Find("CollectorId", true)[0].Text;
                     
@@ -130,13 +150,14 @@ namespace SZI
                     break;
                 case 3:
                     Counter modifiedCounter = new Counter();
+                    modifiedCounter.CounterNo = Convert.ToInt32(this.Controls.Find("CounterId", true)[0].Text);
                     modifiedCounter.CircuitNo = Convert.ToInt32(this.Controls.Find("Street", true)[0].Text);
                     modifiedCounter.AddressId = Auxiliary.ToGuid(Convert.ToInt32(this.Controls.Find("AddressId", true)[0].Text));
                     modifiedCounter.CustomerId = this.Controls.Find("CustomerId", true)[0].Text;
                     
                     modifiedCounter.ModifyRecord(ids.ElementAt(0));
                     break;
-            }                
+            }
         }
     }
 }

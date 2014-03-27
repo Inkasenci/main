@@ -86,42 +86,42 @@
             // 
             // tbID
             // 
-            this.tbID.Location = new System.Drawing.Point(89, 3);
+            this.tbID.Location = new System.Drawing.Point(127, 3);
             this.tbID.Name = "tbID";
             this.tbID.Size = new System.Drawing.Size(100, 20);
             this.tbID.TabIndex = 0;
             // 
             // tbFirstName
             // 
-            this.tbFirstName.Location = new System.Drawing.Point(89, 29);
+            this.tbFirstName.Location = new System.Drawing.Point(127, 29);
             this.tbFirstName.Name = "tbFirstName";
             this.tbFirstName.Size = new System.Drawing.Size(100, 20);
             this.tbFirstName.TabIndex = 1;
             // 
             // tbPostal
             // 
-            this.tbPostal.Location = new System.Drawing.Point(89, 81);
+            this.tbPostal.Location = new System.Drawing.Point(127, 81);
             this.tbPostal.Name = "tbPostal";
             this.tbPostal.Size = new System.Drawing.Size(100, 20);
             this.tbPostal.TabIndex = 7;
             // 
             // tbLastName
             // 
-            this.tbLastName.Location = new System.Drawing.Point(89, 55);
+            this.tbLastName.Location = new System.Drawing.Point(127, 55);
             this.tbLastName.Name = "tbLastName";
             this.tbLastName.Size = new System.Drawing.Size(100, 20);
             this.tbLastName.TabIndex = 6;
             // 
             // tbAddress
             // 
-            this.tbAddress.Location = new System.Drawing.Point(89, 133);
+            this.tbAddress.Location = new System.Drawing.Point(127, 133);
             this.tbAddress.Name = "tbAddress";
             this.tbAddress.Size = new System.Drawing.Size(100, 20);
             this.tbAddress.TabIndex = 9;
             // 
             // tbCity
             // 
-            this.tbCity.Location = new System.Drawing.Point(89, 107);
+            this.tbCity.Location = new System.Drawing.Point(127, 107);
             this.tbCity.Name = "tbCity";
             this.tbCity.Size = new System.Drawing.Size(100, 20);
             this.tbCity.TabIndex = 8;
@@ -131,67 +131,67 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(6, 3);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(59, 13);
+            this.label1.Size = new System.Drawing.Size(63, 13);
             this.label1.TabIndex = 10;
-            this.label1.Text = "CollectorID";
+            this.label1.Text = "IdInkasenta";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(6, 29);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(57, 13);
+            this.label2.Size = new System.Drawing.Size(26, 13);
             this.label2.TabIndex = 11;
-            this.label2.Text = "First Name";
+            this.label2.Text = "Imię";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(6, 55);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(58, 13);
+            this.label3.Size = new System.Drawing.Size(53, 13);
             this.label3.TabIndex = 12;
-            this.label3.Text = "Last Name";
+            this.label3.Text = "Nazwisko";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(6, 81);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(64, 13);
+            this.label4.Size = new System.Drawing.Size(72, 13);
             this.label4.TabIndex = 13;
-            this.label4.Text = "Postal Code";
+            this.label4.Text = "KodPocztowy";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(6, 107);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(24, 13);
+            this.label5.Size = new System.Drawing.Size(38, 13);
             this.label5.TabIndex = 14;
-            this.label5.Text = "City";
+            this.label5.Text = "Miasto";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(6, 133);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(45, 13);
+            this.label6.Size = new System.Drawing.Size(34, 13);
             this.label6.TabIndex = 15;
-            this.label6.Text = "Address";
+            this.label6.Text = "Adres";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(6, 159);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(78, 13);
+            this.label7.Size = new System.Drawing.Size(99, 13);
             this.label7.TabIndex = 17;
-            this.label7.Text = "Phone Number";
+            this.label7.Text = "TelefonKontaktowy";
             // 
             // tbPhone
             // 
-            this.tbPhone.Location = new System.Drawing.Point(89, 159);
+            this.tbPhone.Location = new System.Drawing.Point(127, 159);
             this.tbPhone.Name = "tbPhone";
             this.tbPhone.Size = new System.Drawing.Size(100, 20);
             this.tbPhone.TabIndex = 16;
@@ -269,14 +269,14 @@
             // 
             // tbCustomerCity
             // 
-            this.tbCustomerCity.Location = new System.Drawing.Point(89, 107);
+            this.tbCustomerCity.Location = new System.Drawing.Point(127, 107);
             this.tbCustomerCity.Name = "tbCustomerCity";
             this.tbCustomerCity.Size = new System.Drawing.Size(100, 20);
             this.tbCustomerCity.TabIndex = 22;
             // 
             // tbCustomerID
             // 
-            this.tbCustomerID.Location = new System.Drawing.Point(89, 3);
+            this.tbCustomerID.Location = new System.Drawing.Point(127, 3);
             this.tbCustomerID.Name = "tbCustomerID";
             this.tbCustomerID.Size = new System.Drawing.Size(100, 20);
             this.tbCustomerID.TabIndex = 18;
@@ -286,27 +286,27 @@
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(6, 159);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(78, 13);
+            this.label8.Size = new System.Drawing.Size(99, 13);
             this.label8.TabIndex = 31;
-            this.label8.Text = "Phone Number";
+            this.label8.Text = "TelefonKontaktowy";
             // 
             // tbCustomerName
             // 
-            this.tbCustomerName.Location = new System.Drawing.Point(89, 29);
+            this.tbCustomerName.Location = new System.Drawing.Point(127, 29);
             this.tbCustomerName.Name = "tbCustomerName";
             this.tbCustomerName.Size = new System.Drawing.Size(100, 20);
             this.tbCustomerName.TabIndex = 19;
             // 
             // tbCustomerPhoneNumber
             // 
-            this.tbCustomerPhoneNumber.Location = new System.Drawing.Point(89, 159);
+            this.tbCustomerPhoneNumber.Location = new System.Drawing.Point(127, 159);
             this.tbCustomerPhoneNumber.Name = "tbCustomerPhoneNumber";
             this.tbCustomerPhoneNumber.Size = new System.Drawing.Size(100, 20);
             this.tbCustomerPhoneNumber.TabIndex = 30;
             // 
             // tbCustomerLastName
             // 
-            this.tbCustomerLastName.Location = new System.Drawing.Point(89, 55);
+            this.tbCustomerLastName.Location = new System.Drawing.Point(127, 55);
             this.tbCustomerLastName.Name = "tbCustomerLastName";
             this.tbCustomerLastName.Size = new System.Drawing.Size(100, 20);
             this.tbCustomerLastName.TabIndex = 20;
@@ -316,13 +316,13 @@
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(6, 133);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(45, 13);
+            this.label9.Size = new System.Drawing.Size(34, 13);
             this.label9.TabIndex = 29;
-            this.label9.Text = "Address";
+            this.label9.Text = "Adres";
             // 
             // tbCustomerPostalCode
             // 
-            this.tbCustomerPostalCode.Location = new System.Drawing.Point(89, 81);
+            this.tbCustomerPostalCode.Location = new System.Drawing.Point(127, 81);
             this.tbCustomerPostalCode.Name = "tbCustomerPostalCode";
             this.tbCustomerPostalCode.Size = new System.Drawing.Size(100, 20);
             this.tbCustomerPostalCode.TabIndex = 21;
@@ -332,13 +332,13 @@
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(6, 107);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(24, 13);
+            this.label10.Size = new System.Drawing.Size(38, 13);
             this.label10.TabIndex = 28;
-            this.label10.Text = "City";
+            this.label10.Text = "Miasto";
             // 
             // tbCustomerAddress
             // 
-            this.tbCustomerAddress.Location = new System.Drawing.Point(89, 133);
+            this.tbCustomerAddress.Location = new System.Drawing.Point(127, 133);
             this.tbCustomerAddress.Name = "tbCustomerAddress";
             this.tbCustomerAddress.Size = new System.Drawing.Size(100, 20);
             this.tbCustomerAddress.TabIndex = 23;
@@ -348,36 +348,36 @@
             this.label11.AutoSize = true;
             this.label11.Location = new System.Drawing.Point(6, 81);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(64, 13);
+            this.label11.Size = new System.Drawing.Size(72, 13);
             this.label11.TabIndex = 27;
-            this.label11.Text = "Postal Code";
+            this.label11.Text = "KodPocztowy";
             // 
             // label12
             // 
             this.label12.AutoSize = true;
             this.label12.Location = new System.Drawing.Point(6, 3);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(62, 13);
+            this.label12.Size = new System.Drawing.Size(48, 13);
             this.label12.TabIndex = 24;
-            this.label12.Text = "CustomerID";
+            this.label12.Text = "IdKlienta";
             // 
             // label13
             // 
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(6, 55);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(58, 13);
+            this.label13.Size = new System.Drawing.Size(53, 13);
             this.label13.TabIndex = 26;
-            this.label13.Text = "Last Name";
+            this.label13.Text = "Nazwisko";
             // 
             // label14
             // 
             this.label14.AutoSize = true;
             this.label14.Location = new System.Drawing.Point(6, 29);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(57, 13);
+            this.label14.Size = new System.Drawing.Size(26, 13);
             this.label14.TabIndex = 25;
-            this.label14.Text = "First Name";
+            this.label14.Text = "Imię";
             // 
             // tpArea
             // 
@@ -421,27 +421,27 @@
             this.label19.AutoSize = true;
             this.label19.Location = new System.Drawing.Point(6, 3);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(40, 13);
+            this.label19.Size = new System.Drawing.Size(50, 13);
             this.label19.TabIndex = 38;
-            this.label19.Text = "AreaID";
+            this.label19.Text = "IdTerenu";
             // 
             // label20
             // 
             this.label20.AutoSize = true;
             this.label20.Location = new System.Drawing.Point(6, 55);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(59, 13);
+            this.label20.Size = new System.Drawing.Size(63, 13);
             this.label20.TabIndex = 40;
-            this.label20.Text = "CollectorID";
+            this.label20.Text = "IdInkasenta";
             // 
             // label21
             // 
             this.label21.AutoSize = true;
             this.label21.Location = new System.Drawing.Point(6, 29);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(35, 13);
+            this.label21.Size = new System.Drawing.Size(31, 13);
             this.label21.TabIndex = 39;
-            this.label21.Text = "Street";
+            this.label21.Text = "Ulica";
             // 
             // tpCounter
             // 
@@ -494,36 +494,36 @@
             this.label18.AutoSize = true;
             this.label18.Location = new System.Drawing.Point(6, 81);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(62, 13);
+            this.label18.Size = new System.Drawing.Size(48, 13);
             this.label18.TabIndex = 41;
-            this.label18.Text = "CustomerID";
+            this.label18.Text = "IdKlienta";
             // 
             // label22
             // 
             this.label22.AutoSize = true;
             this.label22.Location = new System.Drawing.Point(6, 3);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(58, 13);
+            this.label22.Size = new System.Drawing.Size(77, 13);
             this.label22.TabIndex = 38;
-            this.label22.Text = "CounterNo";
+            this.label22.Text = "NumerLicznika";
             // 
             // label23
             // 
             this.label23.AutoSize = true;
             this.label23.Location = new System.Drawing.Point(6, 55);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(56, 13);
+            this.label23.Size = new System.Drawing.Size(49, 13);
             this.label23.TabIndex = 40;
-            this.label23.Text = "AddressID";
+            this.label23.Text = "IdAdresu";
             // 
             // label24
             // 
             this.label24.AutoSize = true;
             this.label24.Location = new System.Drawing.Point(6, 29);
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(50, 13);
+            this.label24.Size = new System.Drawing.Size(74, 13);
             this.label24.TabIndex = 39;
-            this.label24.Text = "CircuitNo";
+            this.label24.Text = "NumerUkładu";
             // 
             // btClear
             // 
