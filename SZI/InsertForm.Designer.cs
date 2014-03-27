@@ -404,9 +404,6 @@
             this.tbAreaCollectorID.Name = "tbAreaCollectorID";
             this.tbAreaCollectorID.Size = new System.Drawing.Size(100, 20);
             this.tbAreaCollectorID.TabIndex = 34;
-            // 
-            this.label19.Size = new System.Drawing.Size(50, 13);
-            this.label19.Text = "IdTerenu";
             // label20
             // 
             this.label20.AutoSize = true;

@@ -117,9 +117,6 @@ namespace SZI
             checkBug += PostalCodeAndPhoneValidation(collector.PhoneNumber, 9) ? String.Empty : LangPL.InsertFormLang["textBoxPhoneNumber"];
             checkBug += PostalCodeAndPhoneValidation(collector.PostalCode, 5) ? String.Empty : LangPL.InsertFormLang["textBoxPostalCode"];
 
-            checkBug += (IncorrectNumberAmount(collector.PostalCode, 5)) ? LangPL.InsertFormLang["textBoxPostalCodeNumberAmount"] : String.Empty;
-            checkBug += (IncorrectNumberAmount(collector.PhoneNumber, 9)) ? LangPL.InsertFormLang["textBoxPhoneNumberNumberAmount"] : String.Empty;
-
             return checkBug;
         }
 
@@ -161,10 +158,7 @@ namespace SZI
             //if (checkBug == String.Empty)
             //    checkBug += AddressExists(c.AddressId.Value) ? LangPL.InsertFormLang["textBoxAddressID"] : String.Empty;
             checkBug += CustomerExists(c.CustomerId) ? String.Empty : LangPL.InsertFormLang["textBoxCustomerID"];
-
-            checkBug += (IncorrectNumberAmount(customer.PostalCode, 5)) ? LangPL.InsertFormLang["textBoxPostalCodeNumberAmount"] : String.Empty;
-            checkBug += (IncorrectNumberAmount(customer.PhoneNumber, 9)) ? LangPL.InsertFormLang["textBoxPhoneNumberNumberAmount"] : String.Empty;
-
+               
             return checkBug;
         }
     }

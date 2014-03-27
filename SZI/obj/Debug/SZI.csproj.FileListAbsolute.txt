@@ -24,4 +24,4 @@ C:\Users\rafaLiusz\Desktop\roboczy\main\SZI\obj\Debug\SZI.Form1.resources
 C:\Users\rafaLiusz\Desktop\roboczy\main\SZI\obj\Debug\SZI.Properties.Resources.resources
 C:\Users\rafaLiusz\Desktop\roboczy\main\SZI\obj\Debug\SZI.csproj.GenerateResource.Cache
 C:\Users\rafaLiusz\Desktop\roboczy\main\SZI\bin\Debug\EntityFramework.dll
-C:\Users\rafaLiusz\Desktop\main\SZI\bin\Debug\SZI.exe.config
+C:\Users\rafaLiusz\Desktop\main\SZI\bin\Debug\CollectorsManagementSystem.mdf

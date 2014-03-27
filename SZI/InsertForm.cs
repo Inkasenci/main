@@ -24,6 +24,7 @@ namespace SZI
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             InitializeComponent();
             tcInsert.SelectTab(MainFormSelectedTab);
+            selectedTab = MainFormSelectedTab;
         }
 
         #region Czyszczenie textboxów
