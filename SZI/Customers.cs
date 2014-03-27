@@ -10,7 +10,7 @@ namespace SZI
 {
     class Customers : IDataBase
     {
-        public List<Customer> customerList;
+        public static List<Customer> customerList;
         public string[] columnList { get; set; }
         public string className { get; set; }
         public List<string[]> itemList { get; set; }

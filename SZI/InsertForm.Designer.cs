@@ -61,10 +61,8 @@
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.tpArea = new System.Windows.Forms.TabPage();
-            this.tbAreaID = new System.Windows.Forms.TextBox();
             this.tbStreet = new System.Windows.Forms.TextBox();
             this.tbAreaCollectorID = new System.Windows.Forms.TextBox();
-            this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.tpCounter = new System.Windows.Forms.TabPage();
@@ -381,10 +379,8 @@
             // 
             // tpArea
             // 
-            this.tpArea.Controls.Add(this.tbAreaID);
             this.tpArea.Controls.Add(this.tbStreet);
             this.tpArea.Controls.Add(this.tbAreaCollectorID);
-            this.tpArea.Controls.Add(this.label19);
             this.tpArea.Controls.Add(this.label20);
             this.tpArea.Controls.Add(this.label21);
             this.tpArea.Location = new System.Drawing.Point(4, 22);
@@ -395,40 +391,26 @@
             this.tpArea.Text = "Teren";
             this.tpArea.UseVisualStyleBackColor = true;
             // 
-            // tbAreaID
-            // 
-            this.tbAreaID.Location = new System.Drawing.Point(89, 3);
-            this.tbAreaID.Name = "tbAreaID";
-            this.tbAreaID.Size = new System.Drawing.Size(100, 20);
-            this.tbAreaID.TabIndex = 32;
-            // 
             // tbStreet
             // 
-            this.tbStreet.Location = new System.Drawing.Point(89, 29);
+            this.tbStreet.Location = new System.Drawing.Point(86, 3);
             this.tbStreet.Name = "tbStreet";
             this.tbStreet.Size = new System.Drawing.Size(100, 20);
             this.tbStreet.TabIndex = 33;
             // 
             // tbAreaCollectorID
             // 
-            this.tbAreaCollectorID.Location = new System.Drawing.Point(89, 55);
+            this.tbAreaCollectorID.Location = new System.Drawing.Point(86, 29);
             this.tbAreaCollectorID.Name = "tbAreaCollectorID";
             this.tbAreaCollectorID.Size = new System.Drawing.Size(100, 20);
             this.tbAreaCollectorID.TabIndex = 34;
             // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(6, 3);
-            this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(50, 13);
-            this.label19.TabIndex = 38;
             this.label19.Text = "IdTerenu";
-            // 
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(6, 55);
+            this.label20.Location = new System.Drawing.Point(6, 29);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(63, 13);
             this.label20.TabIndex = 40;
@@ -437,7 +419,7 @@
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(6, 29);
+            this.label21.Location = new System.Drawing.Point(6, 3);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(31, 13);
             this.label21.TabIndex = 39;
@@ -595,10 +577,8 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.TextBox tbAreaID;
         private System.Windows.Forms.TextBox tbStreet;
         private System.Windows.Forms.TextBox tbAreaCollectorID;
-        private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.TextBox tbCounterNo;

@@ -11,18 +11,19 @@ namespace SZI
         static public Dictionary<string, string> InsertFormLang = new Dictionary<string,string>()
         {
             {"textBoxCCID", "Pole \"PESEL\": Zły numer PESEL.\n"},
-            {"textBoxName", "Pole \"Imię\": Należy uzupełnić pole.\n"},
-            {"textBoxLastName", "Pole \"Nazwisko\": Należy uzupełnić pole.\n"},
-            {"textBoxPostalCode", "Pole \"Kod Pocztowy\": Należy uzupełnić pole.\n"},
-            {"textBoxCity", "Pole \"Miasto\": Należy uzupełnić pole.\n"},
+            {"textBoxName", "Pole \"Imię\": Wypełniono niepoprawnie.\n"},
+            {"textBoxLastName", "Pole \"Nazwisko\": Wypełniono niepoprawnie.\n"},
+            {"textBoxPostalCode", "Pole \"Kod Pocztowy\": Wypełniono niepoprawnie.\n"},
+            {"textBoxCity", "Pole \"Miasto\":Wypełniono niepoprawnie.\n"},
             {"textBoxAddress", "Pole \"Adres\": Należy uzupełnić pole.\n"},
-            {"textBoxPhoneNumber", "Pole \"Telefon kontaktowy\": Należy uzupełnić pole.\n"},
+            {"textBoxPhoneNumber", "Pole \"Numer Telefonu\": Wypełniono niepoprawnie.\n"},
             {"textBoxAreaID", "Pole \"Id Areny\": Należy uzupełnić pole.\n"},
-            {"textBoxStreet", "Pole \"Ulica\": Należy uzupełnić pole.\n"},
-            {"textBoxCounterNo", "Pole \"Numer Licznika\": Należy uzupełnić pole.\n"},
-            {"textBoxCircuitNo", "Pole \"Numer Układu\": Należy uzupełnić pole.\n"},
-            {"textBoxPostalCodeNumberAmount", "Pole \"Kod pocztowy\": Kod pocztowy powinien składać się z pięciu cyfr.\n"},
-            {"textBoxPhoneNumberNumberAmount", "Pole \"Telefon kontaktowy\": Numer telefonu powinien składać się z dziewięciu cyfr.\n"}
+            {"textBoxStreet", "Pole \"Ulica\": Wypełniono niepoprawnie.\n"},
+            {"textBoxCounterNo", "Pole \"Numer Licznika\": Wypełniono niepoprawnie.\n"},
+            {"textBoxCircuitNo", "Pole \"Numer Układu\": Wypełniono niepoprawnie..\n"},
+            {"textBoxCollectorID", "Nieprawidłowy numer Inkasenta.\n"},
+            {"textBoxCustomerID", "Nieprawidłowy numer Klienta.\n"},
+            {"textBoxAddressID", "Nieprawidłowy numer Adresu.\n"}
         };
     }
 }
