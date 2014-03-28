@@ -9,7 +9,7 @@ namespace SZI
 {
     class Areas : IDataBase
     {
-        public List<Area> areasList;
+        static public List<Area> areasList;
         public string[] columnList { get; set; }
         public string className { get; set; }
         public List<string[]> itemList { get; set; }

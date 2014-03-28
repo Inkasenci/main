@@ -11,17 +11,27 @@ namespace SZI
     {
         public static void DeleteFromDB(List<string> IDs, int TableNumber)
         {
-            if (TableNumber == 0)
-                DeleteFromCollectors(IDs);
+            switch (TableNumber)
+            {
+                case 0:
+                    DeleteFromCollectors(IDs);
+                    break;
 
-            else if (TableNumber == 1)
-                DeleteFromCustomers(IDs);
+                case 1:
+                    DeleteFromCustomers(IDs);
+                    break;
 
-            else if (TableNumber == 2)
-                DeleteFromAreas(IDs);
+                case 2:
+                    DeleteFromAreas(IDs);
+                    break;
 
-            else if (TableNumber == 3)
-                DeleteFromCounters(IDs);
+                case 3:
+                    DeleteFromCounters(IDs);
+                    break;
+
+                default: 
+                    break;
+            }
         }
 
         private static void DeleteFromCollectors(List<string> IDs)
@@ -67,7 +77,7 @@ namespace SZI
             List<Guid> guidIDs = new List<Guid>(IDs.Count);
 
             for (int i = 0; i < IDs.Count; i++)
-                guidIDs.Insert(i, Auxiliary.ToGuid(Convert.ToInt32(IDs[i])));
+                guidIDs.Insert(i, new Guid(IDs[i]));
 
             using (var database = new CollectorsManagementSystemEntities())
             {
@@ -88,20 +98,22 @@ namespace SZI
 
         private static void DeleteFromCounters(List<string> IDs)
         {
-            List<Guid> guidIDs = new List<Guid>(IDs.Count);
+            List<Int32> guidIDs = new List<Int32>(IDs.Count);
 
             for (int i = 0; i < IDs.Count; i++)
-                guidIDs.Insert(i, Auxiliary.ToGuid(Convert.ToInt32(IDs[i])));
+                guidIDs.Insert(i, Convert.ToInt32(IDs[i]));
 
             using (var database = new CollectorsManagementSystemEntities())
             {
-                foreach (var id in guidIDs)
+                foreach (var Id in guidIDs)
                 {
-                    var result = from r in database.Counters where r.AddressId == id select r;
+                    var counters = from counter in database.Counters
+                                   where counter.CounterNo == Id
+                                   select counter;
 
-                    if (result.Count() > 0)
+                    if (counters.Count() > 0)
                     {
-                        foreach (Counter c in result)
+                        foreach (Counter c in counters)
                             database.Counters.Remove(c);
                     }
                     database.SaveChanges();

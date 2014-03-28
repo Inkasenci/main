@@ -102,7 +102,7 @@ namespace SZI
 
         private void btInsert_Click(object sender, EventArgs e)
         {
-            var insertForm = new InsertForm();
+            var insertForm = new InsertForm(selectedTab);
             insertForm.ShowDialog();
             refreshRequired = true; //dodane tymczasowo - PZ
         }

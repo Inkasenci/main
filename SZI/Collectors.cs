@@ -9,7 +9,7 @@ namespace SZI
 {
     class Collectors : IDataBase
     {
-        public List<Collector> collectorList;
+        static public List<Collector> collectorList;
         public string[] columnList { get; set; }
         public string className { get; set; }
         public List<string[]> itemList { get; set; }
@@ -67,17 +67,6 @@ namespace SZI
             get
             {
                 return collectorList[id];
-            }
-        }
-
-        public void DeleteRowsByID(List<string> ids)
-        {
-            using (var dataBase = new CollectorsManagementSystemEntities())
-            {
-                for (int i = 0; i < ids.Count; i++)
-                {
-                    dataBase.Collectors.SqlQuery("delete from Collectors where CollectorId={0}", ids[i]);
-                }
             }
         }
     }

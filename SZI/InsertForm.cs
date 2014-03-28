@@ -19,6 +19,14 @@ namespace SZI
             InitializeComponent();
         }
 
+        public InsertForm(int MainFormSelectedTab)
+        {
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            InitializeComponent();
+            tcInsert.SelectTab(MainFormSelectedTab);
+            selectedTab = MainFormSelectedTab;
+        }
+
         #region Czyszczenie textboxów
         private void ClearTBCollector()
         {
@@ -44,7 +52,6 @@ namespace SZI
 
         private void ClearTBArea()
         {
-            tbAreaID.Text = "";
             tbStreet.Text = "";
             tbAreaCollectorID.Text = "";
         }
@@ -97,20 +104,37 @@ namespace SZI
         private void InsertArea()
         {
             Area a = new Area();
-            a.AreaId = Auxiliary.ToGuid(Convert.ToInt32(tbAreaID.Text));
+            a.AreaId = Guid.NewGuid();
             a.CollectorId = tbAreaCollectorID.Text;
             a.Street = tbStreet.Text;
-            a.InsertIntoDB();
+
+            string validateString = MainValidation.AreaValidateString(a);
+            if (validateString == String.Empty)
+                a.InsertIntoDB();
+            else
+                MessageBox.Show(validateString);
         }
 
         private void InsertCounter()
         {
+            int Parse;
             Counter c = new Counter();
-            c.CounterNo = Convert.ToInt32(tbCounterNo.Text);
-            c.CircuitNo = Convert.ToInt32(tbCircuitNo.Text);
-            c.AddressId = Auxiliary.ToGuid(Convert.ToInt32(tbCounterAddressID.Text));
+
+            if (Int32.TryParse(tbCounterNo.Text, out Parse))
+                c.CounterNo = Parse;
+            if (Int32.TryParse(tbCircuitNo.Text, out Parse))
+                c.CircuitNo = Parse;
+            if (Int32.TryParse(tbCounterAddressID.Text, out Parse))
+                c.AddressId = Auxiliary.ToGuid(Parse);
+            else
+                c.AddressId = Auxiliary.ToGuid(-1);
             c.CustomerId = tbCounterCustomerID.Text;
-            c.InsertIntoDB();
+
+            string validateString = MainValidation.CounterValidateString(c);
+            if (validateString == String.Empty)
+                c.InsertIntoDB();
+            else
+                MessageBox.Show(validateString);
         }
 
         #endregion

@@ -51,14 +51,9 @@ namespace SZI
                     database.SaveChanges();
                 }
             }
-            catch (DbUpdateException ex)
+            catch (DbUpdateException Ex)
             {
-                var innerEx = ex.InnerException;
-
-                while (innerEx.InnerException != null)
-                    innerEx = innerEx.InnerException;
-
-                System.Windows.Forms.MessageBox.Show(innerEx.Message);
+                ExceptionHandling.ShowException(Ex);
             }
         }
 
