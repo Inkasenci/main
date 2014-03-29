@@ -30,8 +30,6 @@ namespace SZI
             foreach (var item in itemList)
                 lv.Items.Add(ConvertToItem(item));
 
-            //AdjustColumnWidth(lv);
-
             return lv;
         }
 
