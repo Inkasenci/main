@@ -19,17 +19,19 @@ namespace SZI
             ListView lv = new ListView();
             lv.View = View.Details;
             lv.FullRowSelect = true;
-            lv.MultiSelect = false;
 
             foreach (var column in columnList)
-                lv.Columns.Add(column);
+                lv.Columns.Add(column, -2);
 
             lv.Location = new System.Drawing.Point(10, 10);
-            lv.Size = new System.Drawing.Size(450, 450);
+            lv.Size = new System.Drawing.Size(600, 450);
             lv.Name = className;
 
             foreach (var item in itemList)
                 lv.Items.Add(ConvertToItem(item));
+
+            //AdjustColumnWidth(lv);
+
             return lv;
         }
 
@@ -50,7 +52,21 @@ namespace SZI
                     listView.Items.Add(ConvertToItem(item));
             } usuniete tymczasowo - PZ */
 
+            AdjustColumnWidth(listView);
+
             return listView;
+        }
+
+        static public void AdjustColumnWidth(ListView listView)
+        {
+            foreach (ColumnHeader column in listView.Columns)
+            {
+                column.Width = -1;
+                int widthAdjustedToItem = column.Width;
+                column.Width = -2;
+                int widthAdjustedToHeader = column.Width;
+                column.Width = (widthAdjustedToItem > widthAdjustedToHeader) ? -1 : -2;
+            }
         }
     }
 }

@@ -39,7 +39,7 @@ namespace SZI
             // Tworzenie tabControl
             tabControl.Padding = new Point(10, 10);
             tabControl.Location = new Point(10, 10);
-            tabControl.Size = new Size(500, 500);
+            tabControl.Size = new Size(650, 500);
 
             // Dodawanie listView
             for (int i = 0; i < tabPages.Length; i++)
@@ -59,6 +59,12 @@ namespace SZI
             tabControl.SelectedIndexChanged += tabControl_SelectedIndexChanged;
         }
 
+        private void SetButtonEnabledProperty(bool btDeleteEnabledProperty, bool btModifyEnabledProperty)
+        {
+            btDelete.Enabled = btDeleteEnabledProperty;
+            btModify.Enabled = btModifyEnabledProperty;
+        }
+
         void listView_DataChanged(object sender, EventArgs e)
         {
             selectedTab = tabControl.SelectedIndex;
@@ -67,6 +73,7 @@ namespace SZI
         void tabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             selectedTab = tabControl.SelectedIndex;
+            SetButtonEnabledProperty(false, false);
         }
 
         void lv_SelectedIndexChanged(object sender, EventArgs e)
@@ -85,6 +92,19 @@ namespace SZI
                 tbTest.Text += item.SubItems[0].Text + " ";
                 ids.Add(s);
             }
+
+            switch (listView[selectedTab].SelectedItems.Count)
+            {
+                case 0:
+                    SetButtonEnabledProperty(false, false);
+                    break;
+                case 1:
+                    SetButtonEnabledProperty(true, true);
+                    break;
+                default:
+                    SetButtonEnabledProperty(true, false);
+                    break;
+            }
         }
 
         public Form1()
@@ -98,6 +118,7 @@ namespace SZI
             DBManipulator.DeleteFromDB(ids, selectedTab);
             //listViews[selectedTab].DeleteRowsByID(ids);
             refreshRequired = true; //dodane tymczasowo - PZ
+            SetButtonEnabledProperty(false, false);
         }
 
         private void btInsert_Click(object sender, EventArgs e)
@@ -105,6 +126,7 @@ namespace SZI
             var insertForm = new InsertForm(selectedTab);
             insertForm.ShowDialog();
             refreshRequired = true; //dodane tymczasowo - PZ
+            SetButtonEnabledProperty(false, false);
         }
 
         private void btModify_Click(object sender, EventArgs e)
@@ -112,6 +134,7 @@ namespace SZI
             var modifyForm = new ModifyForm(ids, selectedTab);
             modifyForm.ShowDialog();
             refreshRequired = true; //dodane tymczasowo - PZ
+            SetButtonEnabledProperty(false, false);
         }
 
         private void timerRefresh_Tick(object sender, EventArgs e)

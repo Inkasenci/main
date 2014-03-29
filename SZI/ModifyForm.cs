@@ -30,25 +30,25 @@ namespace SZI
             switch (selectedTab)
             {
                 case 0:
-                    labelsTexts = new string[] { "IdInkasenta: ", "Imię: ", "Nazwisko: ", "KodPocztowy: ", "Miasto: ", "Ulica: ", "TelefonKontaktowy: " };
+                    labelsTexts = new string[] { "Id inkasenta: ", "Imię: ", "Nazwisko: ", "Kod pocztowy: ", "Miasto: ", "Ulica: ", "Telefon kontaktowy: " };
                     textBoxesNames = new string[] { "CollectorId", "Name", "LastName", "PostalCode", "City", "Address", "PhoneNumber" };
                     Collector modifiedCollector = dataBase.Collectors.SqlQuery("SELECT * FROM Collector WHERE CollectorId={0}", ids.ElementAt(0)).SingleOrDefault();
                     textBoxesTexts = new string[] { modifiedCollector.CollectorId, modifiedCollector.Name, modifiedCollector.LastName, modifiedCollector.PostalCode, modifiedCollector.City, modifiedCollector.Address, modifiedCollector.PhoneNumber };
                     break;
                 case 1:
-                    labelsTexts = new string[] { "IdKlienta: ", "Imię: ", "Nazwisko: ", "KodPocztowy: ", "Miasto: ", "Ulica: ", "TelefonKontaktowy: " };
+                    labelsTexts = new string[] { "Id klienta: ", "Imię: ", "Nazwisko: ", "Kod pocztowy: ", "Miasto: ", "Ulica: ", "Telefon kontaktowy: " };
                     textBoxesNames = new string[] { "CustomerId", "Name", "LastName", "PostalCode", "City", "Address", "PhoneNumber" };
                     Customer modifiedCustomer = dataBase.Customers.SqlQuery("SELECT * FROM Customer WHERE CustomerId={0}", ids.ElementAt(0)).SingleOrDefault();
                     textBoxesTexts = new string[] { modifiedCustomer.CustomerId, modifiedCustomer.Name, modifiedCustomer.LastName, modifiedCustomer.PostalCode, modifiedCustomer.City, modifiedCustomer.Address, modifiedCustomer.PhoneNumber };
                     break;
                 case 2:
-                    labelsTexts = new string[] { "IdTerenu: ", "Ulica: ", "IdInkasenta: " };
+                    labelsTexts = new string[] { "Id terenu: ", "Ulica: ", "Id inkasenta: " };
                     textBoxesNames = new string[] { "AreaId", "Street", "CollectorId" };
                     Area modifiedArea = dataBase.Areas.SqlQuery("SELECT * FROM Area WHERE AreaId={0}", ids.ElementAt(0)).SingleOrDefault();
                     textBoxesTexts = new string[] { modifiedArea.AreaId.ToString(), modifiedArea.Street, modifiedArea.CollectorId };
                     break;
                 case 3:
-                    labelsTexts = new string[] { "NumerLicznika: ", "NumerUkładu: ", "IdAdresu: ", "IdKlienta: " };
+                    labelsTexts = new string[] { "Numer licznika: ", "Numer układu: ", "Id adresu: ", "Id klienta: " };
                     textBoxesNames = new string[] { "CounterNo", "CircuitNo", "AddressId", "CustomerId" };
                     Counter modifiedCounter = dataBase.Counters.SqlQuery("SELECT * FROM Counter WHERE CounterNo={0}", ids.ElementAt(0)).SingleOrDefault();
                     textBoxesTexts = new string[] { modifiedCounter.CounterNo.ToString(), modifiedCounter.CircuitNo.ToString(), modifiedCounter.AddressId.ToString(), modifiedCounter.CustomerId };
@@ -142,11 +142,18 @@ namespace SZI
                     break;
                 case 2:
                     Area modifiedArea = new Area();
-                    modifiedArea.AreaId = Auxiliary.ToGuid(Convert.ToInt32(this.Controls.Find("AreaId", true)[0].Text));
+                    modifiedArea.AreaId = new Guid(this.Controls.Find("AreaId", true)[0].Text);
                     modifiedArea.Street = this.Controls.Find("Street", true)[0].Text;
                     modifiedArea.CollectorId = this.Controls.Find("CollectorId", true)[0].Text;
-                    
-                    modifiedArea.ModifyRecord(ids.ElementAt(0));
+
+                    validateString = MainValidation.AreaValidateString(modifiedArea);
+                    if (validateString == String.Empty)
+                    {
+                        modifiedArea.ModifyRecord(ids.ElementAt(0));
+                        this.Close();
+                    }
+                    else
+                        MessageBox.Show(validateString);
                     break;
                 case 3:
                     Counter modifiedCounter = new Counter();

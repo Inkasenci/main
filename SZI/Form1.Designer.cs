@@ -35,10 +35,12 @@
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.btModify = new System.Windows.Forms.Button();
             this.timerRefresh = new System.Windows.Forms.Timer(this.components);
+            this.backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
             this.SuspendLayout();
             // 
             // btDelete
             // 
+            this.btDelete.Enabled = false;
             this.btDelete.Location = new System.Drawing.Point(12, 570);
             this.btDelete.Name = "btDelete";
             this.btDelete.Size = new System.Drawing.Size(158, 28);
@@ -67,6 +69,7 @@
             // 
             // btModify
             // 
+            this.btModify.Enabled = false;
             this.btModify.Location = new System.Drawing.Point(12, 604);
             this.btModify.Name = "btModify";
             this.btModify.Size = new System.Drawing.Size(157, 29);
@@ -77,14 +80,14 @@
             // 
             // timerRefresh
             // 
-            this.timerRefresh.Interval = 10000;
+            this.timerRefresh.Interval = 5000;
             this.timerRefresh.Tick += new System.EventHandler(this.timerRefresh_Tick);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(537, 645);
+            this.ClientSize = new System.Drawing.Size(684, 645);
             this.Controls.Add(this.btModify);
             this.Controls.Add(this.btInsert);
             this.Controls.Add(this.tbTest);
@@ -104,6 +107,7 @@
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Button btModify;
         private System.Windows.Forms.Timer timerRefresh;
+        private System.ComponentModel.BackgroundWorker backgroundWorker2;
 
 
 
