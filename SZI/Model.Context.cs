@@ -18,33 +18,26 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 
 
-public partial class CollectorsManagementSystemEntities : DbContext
-{
-    public CollectorsManagementSystemEntities()
-        : base("name=CollectorsManagementSystemEntities")
+    public partial class CollectorsManagementSystemEntities : DbContext
     {
+        public CollectorsManagementSystemEntities()
+            : base("name=CollectorsManagementSystemEntities")
+        {
 
+        }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            throw new UnintentionalCodeFirstException();
+        }
+
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<Area> Areas { get; set; }
+        public DbSet<Collector> Collectors { get; set; }
+        public DbSet<Counter> Counters { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Reading> Readings { get; set; }
     }
-
-    protected override void OnModelCreating(DbModelBuilder modelBuilder)
-    {
-        throw new UnintentionalCodeFirstException();
-    }
-
-
-    public DbSet<Address> Addresses { get; set; }
-
-    public DbSet<Area> Areas { get; set; }
-
-    public DbSet<Collector> Collectors { get; set; }
-
-    public DbSet<Counter> Counters { get; set; }
-
-    public DbSet<Customer> Customers { get; set; }
-
-    public DbSet<Reading> Readings { get; set; }
-
-}
 
 }
 

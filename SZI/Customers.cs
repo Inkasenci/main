@@ -21,13 +21,13 @@ namespace SZI
             itemList = new List<string[]>();
 
             columnList = new string[7] {
-                "IdKlienta",
+                "Id klienta",
                 "Imię",
                 "Nazwisko",
-                "KodPocztowy",
+                "Kod pocztowy",
                 "Miasto",
                 "Adres",
-                "TelefonKontaktowy"
+                "Telefon kontaktowy"
             };
 
             className = this.GetType().Name;

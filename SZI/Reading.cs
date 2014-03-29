@@ -15,19 +15,13 @@ namespace SZI
 using System;
     using System.Collections.Generic;
     
-public partial class Reading
-{
-
-    public System.Guid ReadingId { get; set; }
-
-    public System.DateTime Date { get; set; }
-
-    public double Value { get; set; }
-
-    public string CollectorId { get; set; }
-
-    public int CounterNo { get; set; }
-
-}
+    public partial class Reading
+    {
+        public System.Guid ReadingId { get; set; }
+        public System.DateTime Date { get; set; }
+        public double Value { get; set; }
+        public string CollectorId { get; set; }
+        public int CounterNo { get; set; }
+    }
 
 }
