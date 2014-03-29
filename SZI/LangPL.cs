@@ -13,7 +13,7 @@ namespace SZI
             {"textBoxCCID", "Pole \"Id\": Zły numer PESEL.\n"},
             {"textBoxName", "Pole \"Imię\": Wypełniono niepoprawnie.\n"},
             {"textBoxLastName", "Pole \"Nazwisko\": Wypełniono niepoprawnie.\n"},
-            {"textBoxPostalCode", "Pole \"Kod ocztowy\": Wypełniono niepoprawnie.\n"},
+            {"textBoxPostalCode", "Pole \"Kod pocztowy\": Wypełniono niepoprawnie.\n"},
             {"textBoxCity", "Pole \"Miasto\":Wypełniono niepoprawnie.\n"},
             {"textBoxAddress", "Pole \"Adres\": Należy uzupełnić pole.\n"},
             {"textBoxPhoneNumber", "Pole \"Numer kontaktowy\": Wypełniono niepoprawnie.\n"},
