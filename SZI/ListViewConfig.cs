@@ -55,7 +55,7 @@ namespace SZI
             return listView;
         }
 
-        static public void AdjustColumnWidth(ListView listView)
+        static private void AdjustColumnWidth(ListView listView)
         {
             foreach (ColumnHeader column in listView.Columns)
             {
