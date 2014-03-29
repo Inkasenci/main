@@ -16,7 +16,7 @@ namespace SZI
             {"textBoxPostalCode", "Pole \"Kod Pocztowy\": Wypełniono niepoprawnie.\n"},
             {"textBoxCity", "Pole \"Miasto\":Wypełniono niepoprawnie.\n"},
             {"textBoxAddress", "Pole \"Adres\": Należy uzupełnić pole.\n"},
-            {"textBoxPhoneNumber", "Pole \"Numer Telefonu\": Wypełniono niepoprawnie.\n"},
+            {"textBoxPhoneNumber", "Pole \"Telefon kontaktowy\": Wypełniono niepoprawnie.\n"},
             {"textBoxAreaID", "Pole \"Id Areny\": Należy uzupełnić pole.\n"},
             {"textBoxStreet", "Pole \"Ulica\": Wypełniono niepoprawnie.\n"},
             {"textBoxCounterNo", "Pole \"Numer Licznika\": Wypełniono niepoprawnie.\n"},

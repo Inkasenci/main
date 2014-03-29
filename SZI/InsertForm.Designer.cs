@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tbID = new System.Windows.Forms.TextBox();
-            this.tbFirstName = new System.Windows.Forms.TextBox();
-            this.tbPostal = new System.Windows.Forms.TextBox();
-            this.tbLastName = new System.Windows.Forms.TextBox();
-            this.tbAddress = new System.Windows.Forms.TextBox();
-            this.tbCity = new System.Windows.Forms.TextBox();
+            this.tbCollectorID = new System.Windows.Forms.TextBox();
+            this.tbCollectorFirstName = new System.Windows.Forms.TextBox();
+            this.tbCollectorPostalCode = new System.Windows.Forms.TextBox();
+            this.tbCollectorLastName = new System.Windows.Forms.TextBox();
+            this.tbCollectorAddress = new System.Windows.Forms.TextBox();
+            this.tbCollectorCity = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -41,7 +41,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.tbPhone = new System.Windows.Forms.TextBox();
+            this.tbCollectorPhoneNumber = new System.Windows.Forms.TextBox();
             this.btOK = new System.Windows.Forms.Button();
             this.tcInsert = new System.Windows.Forms.TabControl();
             this.tpCollector = new System.Windows.Forms.TabPage();
@@ -49,7 +49,7 @@
             this.tbCustomerCity = new System.Windows.Forms.TextBox();
             this.tbCustomerID = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.tbCustomerName = new System.Windows.Forms.TextBox();
+            this.tbCustomerFirstName = new System.Windows.Forms.TextBox();
             this.tbCustomerPhoneNumber = new System.Windows.Forms.TextBox();
             this.tbCustomerLastName = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -82,47 +82,47 @@
             this.tpCounter.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tbID
+            // tbCollectorID
             // 
-            this.tbID.Location = new System.Drawing.Point(127, 3);
-            this.tbID.Name = "tbID";
-            this.tbID.Size = new System.Drawing.Size(100, 20);
-            this.tbID.TabIndex = 0;
+            this.tbCollectorID.Location = new System.Drawing.Point(127, 3);
+            this.tbCollectorID.Name = "tbCollectorID";
+            this.tbCollectorID.Size = new System.Drawing.Size(100, 20);
+            this.tbCollectorID.TabIndex = 0;
             // 
-            // tbFirstName
+            // tbCollectorFirstName
             // 
-            this.tbFirstName.Location = new System.Drawing.Point(127, 29);
-            this.tbFirstName.Name = "tbFirstName";
-            this.tbFirstName.Size = new System.Drawing.Size(100, 20);
-            this.tbFirstName.TabIndex = 1;
+            this.tbCollectorFirstName.Location = new System.Drawing.Point(127, 29);
+            this.tbCollectorFirstName.Name = "tbCollectorFirstName";
+            this.tbCollectorFirstName.Size = new System.Drawing.Size(100, 20);
+            this.tbCollectorFirstName.TabIndex = 1;
             // 
-            // tbPostal
+            // tbCollectorPostalCode
             // 
-            this.tbPostal.Location = new System.Drawing.Point(127, 81);
-            this.tbPostal.Name = "tbPostal";
-            this.tbPostal.Size = new System.Drawing.Size(100, 20);
-            this.tbPostal.TabIndex = 7;
+            this.tbCollectorPostalCode.Location = new System.Drawing.Point(127, 81);
+            this.tbCollectorPostalCode.Name = "tbCollectorPostalCode";
+            this.tbCollectorPostalCode.Size = new System.Drawing.Size(100, 20);
+            this.tbCollectorPostalCode.TabIndex = 7;
             // 
-            // tbLastName
+            // tbCollectorLastName
             // 
-            this.tbLastName.Location = new System.Drawing.Point(127, 55);
-            this.tbLastName.Name = "tbLastName";
-            this.tbLastName.Size = new System.Drawing.Size(100, 20);
-            this.tbLastName.TabIndex = 6;
+            this.tbCollectorLastName.Location = new System.Drawing.Point(127, 55);
+            this.tbCollectorLastName.Name = "tbCollectorLastName";
+            this.tbCollectorLastName.Size = new System.Drawing.Size(100, 20);
+            this.tbCollectorLastName.TabIndex = 6;
             // 
-            // tbAddress
+            // tbCollectorAddress
             // 
-            this.tbAddress.Location = new System.Drawing.Point(127, 133);
-            this.tbAddress.Name = "tbAddress";
-            this.tbAddress.Size = new System.Drawing.Size(100, 20);
-            this.tbAddress.TabIndex = 9;
+            this.tbCollectorAddress.Location = new System.Drawing.Point(127, 133);
+            this.tbCollectorAddress.Name = "tbCollectorAddress";
+            this.tbCollectorAddress.Size = new System.Drawing.Size(100, 20);
+            this.tbCollectorAddress.TabIndex = 9;
             // 
-            // tbCity
+            // tbCollectorCity
             // 
-            this.tbCity.Location = new System.Drawing.Point(127, 107);
-            this.tbCity.Name = "tbCity";
-            this.tbCity.Size = new System.Drawing.Size(100, 20);
-            this.tbCity.TabIndex = 8;
+            this.tbCollectorCity.Location = new System.Drawing.Point(127, 107);
+            this.tbCollectorCity.Name = "tbCollectorCity";
+            this.tbCollectorCity.Size = new System.Drawing.Size(100, 20);
+            this.tbCollectorCity.TabIndex = 8;
             // 
             // label1
             // 
@@ -187,12 +187,12 @@
             this.label7.TabIndex = 17;
             this.label7.Text = "TelefonKontaktowy";
             // 
-            // tbPhone
+            // tbCollectorPhoneNumber
             // 
-            this.tbPhone.Location = new System.Drawing.Point(127, 159);
-            this.tbPhone.Name = "tbPhone";
-            this.tbPhone.Size = new System.Drawing.Size(100, 20);
-            this.tbPhone.TabIndex = 16;
+            this.tbCollectorPhoneNumber.Location = new System.Drawing.Point(127, 159);
+            this.tbCollectorPhoneNumber.Name = "tbCollectorPhoneNumber";
+            this.tbCollectorPhoneNumber.Size = new System.Drawing.Size(100, 20);
+            this.tbCollectorPhoneNumber.TabIndex = 16;
             // 
             // btOK
             // 
@@ -219,16 +219,16 @@
             // 
             // tpCollector
             // 
-            this.tpCollector.Controls.Add(this.tbCity);
-            this.tpCollector.Controls.Add(this.tbID);
+            this.tpCollector.Controls.Add(this.tbCollectorCity);
+            this.tpCollector.Controls.Add(this.tbCollectorID);
             this.tpCollector.Controls.Add(this.label7);
-            this.tpCollector.Controls.Add(this.tbFirstName);
-            this.tpCollector.Controls.Add(this.tbPhone);
-            this.tpCollector.Controls.Add(this.tbLastName);
+            this.tpCollector.Controls.Add(this.tbCollectorFirstName);
+            this.tpCollector.Controls.Add(this.tbCollectorPhoneNumber);
+            this.tpCollector.Controls.Add(this.tbCollectorLastName);
             this.tpCollector.Controls.Add(this.label6);
-            this.tpCollector.Controls.Add(this.tbPostal);
+            this.tpCollector.Controls.Add(this.tbCollectorPostalCode);
             this.tpCollector.Controls.Add(this.label5);
-            this.tpCollector.Controls.Add(this.tbAddress);
+            this.tpCollector.Controls.Add(this.tbCollectorAddress);
             this.tpCollector.Controls.Add(this.label4);
             this.tpCollector.Controls.Add(this.label1);
             this.tpCollector.Controls.Add(this.label3);
@@ -246,7 +246,7 @@
             this.tpCustomer.Controls.Add(this.tbCustomerCity);
             this.tpCustomer.Controls.Add(this.tbCustomerID);
             this.tpCustomer.Controls.Add(this.label8);
-            this.tpCustomer.Controls.Add(this.tbCustomerName);
+            this.tpCustomer.Controls.Add(this.tbCustomerFirstName);
             this.tpCustomer.Controls.Add(this.tbCustomerPhoneNumber);
             this.tpCustomer.Controls.Add(this.tbCustomerLastName);
             this.tpCustomer.Controls.Add(this.label9);
@@ -288,12 +288,12 @@
             this.label8.TabIndex = 31;
             this.label8.Text = "TelefonKontaktowy";
             // 
-            // tbCustomerName
+            // tbCustomerFirstName
             // 
-            this.tbCustomerName.Location = new System.Drawing.Point(127, 29);
-            this.tbCustomerName.Name = "tbCustomerName";
-            this.tbCustomerName.Size = new System.Drawing.Size(100, 20);
-            this.tbCustomerName.TabIndex = 19;
+            this.tbCustomerFirstName.Location = new System.Drawing.Point(127, 29);
+            this.tbCustomerFirstName.Name = "tbCustomerFirstName";
+            this.tbCustomerFirstName.Size = new System.Drawing.Size(100, 20);
+            this.tbCustomerFirstName.TabIndex = 19;
             // 
             // tbCustomerPhoneNumber
             // 
@@ -404,6 +404,7 @@
             this.tbAreaCollectorID.Name = "tbAreaCollectorID";
             this.tbAreaCollectorID.Size = new System.Drawing.Size(100, 20);
             this.tbAreaCollectorID.TabIndex = 34;
+            // 
             // label20
             // 
             this.label20.AutoSize = true;
@@ -539,12 +540,12 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox tbID;
-        private System.Windows.Forms.TextBox tbFirstName;
-        private System.Windows.Forms.TextBox tbPostal;
-        private System.Windows.Forms.TextBox tbLastName;
-        private System.Windows.Forms.TextBox tbAddress;
-        private System.Windows.Forms.TextBox tbCity;
+        private System.Windows.Forms.TextBox tbCollectorID;
+        private System.Windows.Forms.TextBox tbCollectorFirstName;
+        private System.Windows.Forms.TextBox tbCollectorPostalCode;
+        private System.Windows.Forms.TextBox tbCollectorLastName;
+        private System.Windows.Forms.TextBox tbCollectorAddress;
+        private System.Windows.Forms.TextBox tbCollectorCity;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
@@ -552,7 +553,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox tbPhone;
+        private System.Windows.Forms.TextBox tbCollectorPhoneNumber;
         private System.Windows.Forms.Button btOK;
         private System.Windows.Forms.TabControl tcInsert;
         private System.Windows.Forms.TabPage tpCollector;
@@ -563,7 +564,7 @@
         private System.Windows.Forms.TextBox tbCustomerCity;
         private System.Windows.Forms.TextBox tbCustomerID;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox tbCustomerName;
+        private System.Windows.Forms.TextBox tbCustomerFirstName;
         private System.Windows.Forms.TextBox tbCustomerPhoneNumber;
         private System.Windows.Forms.TextBox tbCustomerLastName;
         private System.Windows.Forms.Label label9;

@@ -18,6 +18,9 @@ namespace SZI
         private string[] textBoxesNames;
         private string[] textBoxesTexts;
         private CollectorsManagementSystemEntities dataBase = new CollectorsManagementSystemEntities();
+        
+        Dictionary<TextBox, ErrorProvider> TBtoEP_Dict;
+        Dictionary<string, ValidatingMethod> NameToMethod_Dict;
 
         public ModifyForm(List<string> ids, int selectedTab)
         {
@@ -30,31 +33,33 @@ namespace SZI
             switch (selectedTab)
             {
                 case 0:
-                    labelsTexts = new string[] { "IdInkasenta: ", "Imię: ", "Nazwisko: ", "KodPocztowy: ", "Miasto: ", "Ulica: ", "TelefonKontaktowy: " };
+                    labelsTexts = new string[] { "Id inkasenta: ", "Imię: ", "Nazwisko: ", "Kod pocztowy: ", "Miasto: ", "Ulica: ", "Telefon kontaktowy: " };
                     textBoxesNames = new string[] { "CollectorId", "Name", "LastName", "PostalCode", "City", "Address", "PhoneNumber" };
                     Collector modifiedCollector = dataBase.Collectors.SqlQuery("SELECT * FROM Collector WHERE CollectorId={0}", ids.ElementAt(0)).SingleOrDefault();
                     textBoxesTexts = new string[] { modifiedCollector.CollectorId, modifiedCollector.Name, modifiedCollector.LastName, modifiedCollector.PostalCode, modifiedCollector.City, modifiedCollector.Address, modifiedCollector.PhoneNumber };
                     break;
                 case 1:
-                    labelsTexts = new string[] { "IdKlienta: ", "Imię: ", "Nazwisko: ", "KodPocztowy: ", "Miasto: ", "Ulica: ", "TelefonKontaktowy: " };
+                    labelsTexts = new string[] { "Id klienta: ", "Imię: ", "Nazwisko: ", "Kod pocztowy: ", "Miasto: ", "Ulica: ", "Telefon kontaktowy: " };
                     textBoxesNames = new string[] { "CustomerId", "Name", "LastName", "PostalCode", "City", "Address", "PhoneNumber" };
                     Customer modifiedCustomer = dataBase.Customers.SqlQuery("SELECT * FROM Customer WHERE CustomerId={0}", ids.ElementAt(0)).SingleOrDefault();
                     textBoxesTexts = new string[] { modifiedCustomer.CustomerId, modifiedCustomer.Name, modifiedCustomer.LastName, modifiedCustomer.PostalCode, modifiedCustomer.City, modifiedCustomer.Address, modifiedCustomer.PhoneNumber };
                     break;
                 case 2:
-                    labelsTexts = new string[] { "IdTerenu: ", "Ulica: ", "IdInkasenta: " };
+                    labelsTexts = new string[] { "Id terenu: ", "Ulica: ", "Id inkasenta: " };
                     textBoxesNames = new string[] { "AreaId", "Street", "CollectorId" };
                     Area modifiedArea = dataBase.Areas.SqlQuery("SELECT * FROM Area WHERE AreaId={0}", ids.ElementAt(0)).SingleOrDefault();
                     textBoxesTexts = new string[] { modifiedArea.AreaId.ToString(), modifiedArea.Street, modifiedArea.CollectorId };
                     break;
                 case 3:
-                    labelsTexts = new string[] { "NumerLicznika: ", "NumerUkładu: ", "IdAdresu: ", "IdKlienta: " };
+                    labelsTexts = new string[] { "Numer licznika: ", "Numer układu: ", "Id adresu: ", "Id klienta: " };
                     textBoxesNames = new string[] { "CounterNo", "CircuitNo", "AddressId", "CustomerId" };
                     Counter modifiedCounter = dataBase.Counters.SqlQuery("SELECT * FROM Counter WHERE CounterNo={0}", ids.ElementAt(0)).SingleOrDefault();
                     textBoxesTexts = new string[] { modifiedCounter.CounterNo.ToString(), modifiedCounter.CircuitNo.ToString(), modifiedCounter.AddressId.ToString(), modifiedCounter.CustomerId };
                     break;
             }
 
+            TBtoEP_Dict = new Dictionary<TextBox, ErrorProvider>();
+            NameToMethod_Dict = Auxiliary.Modify_CreateNameToMethodDict();
             Label[] labels = InitializeLabels();
             TextBox[] textBoxes = InitializeTextBoxes();
 
@@ -80,12 +85,16 @@ namespace SZI
         private TextBox[] InitializeTextBoxes()
         {
             TextBox[] textBoxes = new TextBox[textBoxesTexts.Length];
+            ErrorProvider ep;
             for (int i = 0; i < textBoxesTexts.Length; i++)
-            {
-                textBoxes[i] = new TextBox();
+            {                
+                textBoxes[i] = new TextBox();                
                 textBoxes[i].Name = textBoxesNames[i];
                 textBoxes[i].Text = textBoxesTexts[i];
                 textBoxes[i].Location = new Point(150, 30 * (i + 1));
+                ep = Auxiliary.InitializeErrorProvider(textBoxes[i]);
+                TBtoEP_Dict.Add(textBoxes[i], ep);
+                textBoxes[i].Validating += Validation;
             }
             textBoxes[0].Enabled = false;
             return textBoxes;
@@ -111,7 +120,10 @@ namespace SZI
                     modifiedCollector.City = this.Controls.Find("City", true)[0].Text;
                     modifiedCollector.Address = this.Controls.Find("Address", true)[0].Text;
                     modifiedCollector.PhoneNumber = this.Controls.Find("PhoneNumber", true)[0].Text;
-                    
+
+                    modifiedCollector.ModifyRecord(ids.ElementAt(0));
+                    this.Close();
+                    /*
                     validateString = MainValidation.CollectorValidateString(modifiedCollector);
                     if (validateString == String.Empty)
                     {
@@ -120,6 +132,7 @@ namespace SZI
                     }
                     else
                         MessageBox.Show(validateString);
+                     */
                     break;
                 case 1:
                     Customer modifiedCustomer = new Customer();
@@ -130,7 +143,10 @@ namespace SZI
                     modifiedCustomer.City = this.Controls.Find("City", true)[0].Text;
                     modifiedCustomer.Address = this.Controls.Find("Address", true)[0].Text;
                     modifiedCustomer.PhoneNumber = this.Controls.Find("PhoneNumber", true)[0].Text;
-                    
+
+                    modifiedCustomer.ModifyRecord(ids.ElementAt(0));
+                    this.Close();
+                    /*
                     validateString = MainValidation.CustomerValidateString(modifiedCustomer);
                     if (validateString == String.Empty)
                     {
@@ -139,24 +155,47 @@ namespace SZI
                     }
                     else
                         MessageBox.Show(validateString);
+                     */
                     break;
                 case 2:
                     Area modifiedArea = new Area();
-                    modifiedArea.AreaId = Auxiliary.ToGuid(Convert.ToInt32(this.Controls.Find("AreaId", true)[0].Text));
+                    modifiedArea.AreaId = new Guid(this.Controls.Find("AreaId", true)[0].Text);
                     modifiedArea.Street = this.Controls.Find("Street", true)[0].Text;
                     modifiedArea.CollectorId = this.Controls.Find("CollectorId", true)[0].Text;
-                    
-                    modifiedArea.ModifyRecord(ids.ElementAt(0));
+
+                    validateString = MainValidation.AreaValidateString(modifiedArea);
+                    if (validateString == String.Empty)
+                    {
+                        modifiedArea.ModifyRecord(ids.ElementAt(0));
+                        this.Close();
+                    }
+                    else
+                        MessageBox.Show(validateString);
                     break;
                 case 3:
                     Counter modifiedCounter = new Counter();
                     modifiedCounter.CounterNo = Convert.ToInt32(this.Controls.Find("CounterId", true)[0].Text);
                     modifiedCounter.CircuitNo = Convert.ToInt32(this.Controls.Find("Street", true)[0].Text);
-                    modifiedCounter.AddressId = Auxiliary.ToGuid(Convert.ToInt32(this.Controls.Find("AddressId", true)[0].Text));
+                    modifiedCounter.AddressId = new Guid(this.Controls.Find("AddressId", true)[0].Text);
                     modifiedCounter.CustomerId = this.Controls.Find("CustomerId", true)[0].Text;
                     
                     modifiedCounter.ModifyRecord(ids.ElementAt(0));
                     break;
+            }
+        }
+
+        private void Validation(object sender, CancelEventArgs e)
+        {
+            TextBox ValidatedTextBox = (TextBox)sender;
+
+            if (NameToMethod_Dict[ValidatedTextBox.Name](ValidatedTextBox.Text))
+            {
+                TBtoEP_Dict[ValidatedTextBox].SetError(ValidatedTextBox, String.Empty);
+            }
+            else
+            {
+                TBtoEP_Dict[ValidatedTextBox].SetError(ValidatedTextBox, "Nieprawidłowo wypełnione pole.");
+                e.Cancel = true;
             }
         }
     }

@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CollectorsManagementSystemModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="CollectorsManagementSystemModelStoreContainer">
+    <EntitySet Name="Address" EntityType="CollectorsManagementSystemModel.Store.Address" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Area" EntityType="CollectorsManagementSystemModel.Store.Area" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Collector" EntityType="CollectorsManagementSystemModel.Store.Collector" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Counter" EntityType="CollectorsManagementSystemModel.Store.Counter" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Customer" EntityType="CollectorsManagementSystemModel.Store.Customer" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Reading" EntityType="CollectorsManagementSystemModel.Store.Reading" store:Type="Tables" Schema="dbo" />
+  </EntityContainer>
+  <EntityType Name="Address">
+    <Key>
+      <PropertyRef Name="AddressId" />
+    </Key>
+    <Property Name="AddressId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="HouseNo" Type="int" Nullable="false" />
+    <Property Name="FlatNo" Type="int" />
+    <Property Name="AreaId" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Area">
+    <Key>
+      <PropertyRef Name="AreaId" />
+    </Key>
+    <Property Name="AreaId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Street" Type="nvarchar" Nullable="false" MaxLength="32" />
+    <Property Name="CollectorId" Type="nvarchar" MaxLength="11" />
+  </EntityType>
+  <EntityType Name="Collector">
+    <Key>
+      <PropertyRef Name="CollectorId" />
+    </Key>
+    <Property Name="CollectorId" Type="nvarchar" Nullable="false" MaxLength="11" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="32" />
+    <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="64" />
+    <Property Name="PostalCode" Type="nvarchar" Nullable="false" MaxLength="5" />
+    <Property Name="City" Type="nvarchar" Nullable="false" MaxLength="32" />
+    <Property Name="Address" Type="nvarchar" Nullable="false" MaxLength="32" />
+    <Property Name="PhoneNumber" Type="nvarchar" Nullable="false" MaxLength="9" />
+  </EntityType>
+  <EntityType Name="Counter">
+    <Key>
+      <PropertyRef Name="CounterNo" />
+    </Key>
+    <Property Name="CounterNo" Type="int" Nullable="false" />
+    <Property Name="CircuitNo" Type="int" Nullable="false" />
+    <Property Name="AddressId" Type="uniqueidentifier" />
+    <Property Name="CustomerId" Type="nvarchar" MaxLength="11" />
+  </EntityType>
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="CustomerId" />
+    </Key>
+    <Property Name="CustomerId" Type="nvarchar" Nullable="false" MaxLength="11" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="32" />
+    <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="64" />
+    <Property Name="PostalCode" Type="nvarchar" Nullable="false" MaxLength="5" />
+    <Property Name="City" Type="nvarchar" Nullable="false" MaxLength="32" />
+    <Property Name="Address" Type="nvarchar" Nullable="false" MaxLength="32" />
+    <Property Name="PhoneNumber" Type="nvarchar" Nullable="false" MaxLength="9" />
+  </EntityType>
+  <EntityType Name="Reading">
+    <Key>
+      <PropertyRef Name="ReadingId" />
+    </Key>
+    <Property Name="ReadingId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="Value" Type="float" Nullable="false" />
+    <Property Name="CollectorId" Type="nvarchar" Nullable="false" MaxLength="11" />
+    <Property Name="CounterNo" Type="int" Nullable="false" />
+  </EntityType>
+</Schema>
