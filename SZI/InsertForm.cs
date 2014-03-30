@@ -15,8 +15,8 @@ namespace SZI
         int selectedTab = 0;
 
         bool CollectorEPInitialized = false, CustomerEPInitialized = false, AreaEPInitialized = false, CounterEPInitialized = false;
-        Dictionary<TextBox, ErrorProvider> TBtoEP_Dict_Collector, TBtoEP_Dict_Customer, TBtoEP_Dict_Area, TBtoEP_Dict_Counter;
-        Dictionary<string, ValidatingMethod> NameToMethod_Dict;    
+        Dictionary<string, ValidatingMethod> NameToMethod_Dict;
+        ErrorProvider errorProvider;
     
         public InsertForm(int MainFormSelectedTab)
         {
@@ -26,66 +26,43 @@ namespace SZI
             tcInsert.SelectTab(MainFormSelectedTab);
             NameToMethod_Dict = Auxiliary.Insert_CreateNameToMethodDict();
             InitializeEP(selectedTab);
+            errorProvider = Auxiliary.InitializeErrorProvider();
         }
 
         #region Inicjalizacja słowników i przypisywanie event handlerów do TextBoxów
         private void InitializeCollectorDictAndTB()
         {
-            TBtoEP_Dict_Collector = new Dictionary<TextBox, ErrorProvider>();
-            TBtoEP_Dict_Collector.Add(tbCollectorID, Auxiliary.InitializeErrorProvider(tbCollectorID));
             tbCollectorID.Validating += Validation;
-            TBtoEP_Dict_Collector.Add(tbCollectorFirstName, Auxiliary.InitializeErrorProvider(tbCollectorFirstName));
             tbCollectorFirstName.Validating += Validation;
-            TBtoEP_Dict_Collector.Add(tbCollectorLastName, Auxiliary.InitializeErrorProvider(tbCollectorLastName));
             tbCollectorLastName.Validating += Validation;
-            TBtoEP_Dict_Collector.Add(tbCollectorPostalCode, Auxiliary.InitializeErrorProvider(tbCollectorPostalCode));
             tbCollectorPostalCode.Validating += Validation;
-            TBtoEP_Dict_Collector.Add(tbCollectorCity, Auxiliary.InitializeErrorProvider(tbCollectorCity));
             tbCollectorCity.Validating += Validation;
-            TBtoEP_Dict_Collector.Add(tbCollectorAddress, Auxiliary.InitializeErrorProvider(tbCollectorAddress));
             tbCollectorAddress.Validating += Validation;
-            TBtoEP_Dict_Collector.Add(tbCollectorPhoneNumber, Auxiliary.InitializeErrorProvider(tbCollectorPhoneNumber));
             tbCollectorPhoneNumber.Validating += Validation;
         }
 
         private void InitializeCustomerDictAndTB()
         {
-            TBtoEP_Dict_Customer = new Dictionary<TextBox, ErrorProvider>();
-            TBtoEP_Dict_Customer.Add(tbCustomerID, Auxiliary.InitializeErrorProvider(tbCollectorID));
             tbCustomerID.Validating += Validation;
-            TBtoEP_Dict_Customer.Add(tbCustomerFirstName, Auxiliary.InitializeErrorProvider(tbCollectorFirstName));
             tbCustomerFirstName.Validating += Validation;
-            TBtoEP_Dict_Customer.Add(tbCustomerLastName, Auxiliary.InitializeErrorProvider(tbCollectorLastName));
             tbCustomerLastName.Validating += Validation;
-            TBtoEP_Dict_Customer.Add(tbCustomerPostalCode, Auxiliary.InitializeErrorProvider(tbCollectorPostalCode));
             tbCustomerPostalCode.Validating += Validation;
-            TBtoEP_Dict_Customer.Add(tbCustomerCity, Auxiliary.InitializeErrorProvider(tbCollectorCity));
             tbCustomerCity.Validating += Validation;
-            TBtoEP_Dict_Customer.Add(tbCustomerAddress, Auxiliary.InitializeErrorProvider(tbCollectorAddress));
             tbCustomerAddress.Validating += Validation;
-            TBtoEP_Dict_Customer.Add(tbCustomerPhoneNumber, Auxiliary.InitializeErrorProvider(tbCollectorPhoneNumber));
             tbCustomerPhoneNumber.Validating += Validation;
         }
 
         private void InitializeAreaDictAndTB()
         {
-            TBtoEP_Dict_Area = new Dictionary<TextBox, ErrorProvider>();
-            TBtoEP_Dict_Area.Add(tbStreet, Auxiliary.InitializeErrorProvider(tbStreet));
             tbStreet.Validating += Validation;
-            TBtoEP_Dict_Area.Add(tbAreaCollectorID, Auxiliary.InitializeErrorProvider(tbAreaCollectorID));
             tbAreaCollectorID.Validating += Validation;
         }
 
         private void InitializeCounterDictAndTB()
         {
-            TBtoEP_Dict_Counter = new Dictionary<TextBox, ErrorProvider>();
-            TBtoEP_Dict_Counter.Add(tbCounterNo, Auxiliary.InitializeErrorProvider(tbCounterNo));
             tbCounterNo.Validating += Validation;
-            TBtoEP_Dict_Counter.Add(tbCircuitNo, Auxiliary.InitializeErrorProvider(tbCircuitNo));
             tbCircuitNo.Validating += Validation;
-            TBtoEP_Dict_Counter.Add(tbCounterAddressID, Auxiliary.InitializeErrorProvider(tbCounterAddressID));
             tbCounterAddressID.Validating += Validation;
-            TBtoEP_Dict_Counter.Add(tbCounterCustomerID, Auxiliary.InitializeErrorProvider(tbCounterCustomerID));
             tbCounterCustomerID.Validating += Validation;
         }
 
@@ -213,15 +190,15 @@ namespace SZI
         private void Validation(object sender, CancelEventArgs e)
         {
             TextBox ValidatedTextBox = (TextBox)sender;
-            Dictionary<TextBox, ErrorProvider> CurrentTBToMethodDict = CurrentTBToEP();
+            Auxiliary.SetErrorProvider(errorProvider, ValidatedTextBox);
 
             if (NameToMethod_Dict[ValidatedTextBox.Name](ValidatedTextBox.Text))
             {
-                CurrentTBToMethodDict[ValidatedTextBox].SetError(ValidatedTextBox, String.Empty);
+                errorProvider.SetError(ValidatedTextBox, String.Empty);
             }
             else
             {
-                CurrentTBToMethodDict[ValidatedTextBox].SetError(ValidatedTextBox, "Nieprawidłowo wypełnione pole.");
+                errorProvider.SetError(ValidatedTextBox, "Nieprawidłowo wypełnione pole.");
                 e.Cancel = true;
             }
         }
@@ -319,27 +296,6 @@ namespace SZI
         }
 
         #endregion
-
-        private Dictionary<TextBox, ErrorProvider> CurrentTBToEP()
-        {
-            switch (selectedTab)
-            {
-                case 0:
-                    return TBtoEP_Dict_Collector;
-
-                case 1:
-                    return TBtoEP_Dict_Customer;
-
-                case 2:
-                    return TBtoEP_Dict_Area;
-
-                case 3:
-                    return TBtoEP_Dict_Counter;
-
-                default:
-                    return TBtoEP_Dict_Collector;
-            }
-        }
 
     }
 }

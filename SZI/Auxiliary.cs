@@ -18,11 +18,15 @@ namespace SZI
             return new Guid(bytes);
         }
 
-        public static ErrorProvider InitializeErrorProvider(TextBox tb)
+        public static void SetErrorProvider(ErrorProvider ep, TextBox tb)
         {
-            ErrorProvider ep = new ErrorProvider();
             ep.SetIconAlignment(tb, ErrorIconAlignment.MiddleRight);
             ep.SetIconPadding(tb, 2);
+        }
+
+        public static ErrorProvider InitializeErrorProvider()
+        {
+            ErrorProvider ep = new ErrorProvider();
             ep.BlinkRate = 750;
             ep.BlinkStyle = ErrorBlinkStyle.AlwaysBlink;
             ep.Icon = new System.Drawing.Icon("icons/ladybug.ico");
@@ -34,7 +38,6 @@ namespace SZI
         {
             return new Dictionary<string, ValidatingMethod>()
             {
-               // {"Name", new ValidatingMethod(MainValidation.CityNameValidation)},
                 {"Name", new ValidatingMethod(MainValidation.CityNameValidation)},
                 {"City", new ValidatingMethod(MainValidation.CityNameValidation)},
                 {"LastName", new ValidatingMethod(MainValidation.CityNameValidation)},

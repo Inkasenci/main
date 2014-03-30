@@ -19,8 +19,8 @@ namespace SZI
         private string[] textBoxesTexts;
         private CollectorsManagementSystemEntities dataBase = new CollectorsManagementSystemEntities();
         
-        Dictionary<TextBox, ErrorProvider> TBtoEP_Dict;
         Dictionary<string, ValidatingMethod> NameToMethod_Dict;
+        ErrorProvider errorProvider;
 
         public ModifyForm(List<string> ids, int selectedTab)
         {
@@ -58,10 +58,10 @@ namespace SZI
                     break;
             }
 
-            TBtoEP_Dict = new Dictionary<TextBox, ErrorProvider>();
             NameToMethod_Dict = Auxiliary.Modify_CreateNameToMethodDict();
             Label[] labels = InitializeLabels();
             TextBox[] textBoxes = InitializeTextBoxes();
+            errorProvider = Auxiliary.InitializeErrorProvider();
 
             for (int i = 0; i < labelsTexts.Length; i++)
             {
@@ -85,15 +85,13 @@ namespace SZI
         private TextBox[] InitializeTextBoxes()
         {
             TextBox[] textBoxes = new TextBox[textBoxesTexts.Length];
-            ErrorProvider ep;
+
             for (int i = 0; i < textBoxesTexts.Length; i++)
             {                
                 textBoxes[i] = new TextBox();                
                 textBoxes[i].Name = textBoxesNames[i];
                 textBoxes[i].Text = textBoxesTexts[i];
                 textBoxes[i].Location = new Point(150, 30 * (i + 1));
-                ep = Auxiliary.InitializeErrorProvider(textBoxes[i]);
-                TBtoEP_Dict.Add(textBoxes[i], ep);
                 textBoxes[i].Validating += Validation;
             }
             textBoxes[0].Enabled = false;
@@ -187,14 +185,15 @@ namespace SZI
         private void Validation(object sender, CancelEventArgs e)
         {
             TextBox ValidatedTextBox = (TextBox)sender;
+            Auxiliary.SetErrorProvider(errorProvider, ValidatedTextBox);
 
             if (NameToMethod_Dict[ValidatedTextBox.Name](ValidatedTextBox.Text))
             {
-                TBtoEP_Dict[ValidatedTextBox].SetError(ValidatedTextBox, String.Empty);
+                errorProvider.SetError(ValidatedTextBox, String.Empty);
             }
             else
             {
-                TBtoEP_Dict[ValidatedTextBox].SetError(ValidatedTextBox, "Nieprawidłowo wypełnione pole.");
+                errorProvider.SetError(ValidatedTextBox, "Nieprawidłowo wypełnione pole.");
                 e.Cancel = true;
             }
         }
