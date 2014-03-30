@@ -20,10 +20,10 @@ namespace SZI
             itemList = new List<string[]>();
 
             columnList = new string[4] {
-                "NumerLicznika",
-                "NumerUkładu",
-                "IdAdresu",
-                "IdKlienta"
+                "Numer licznika",
+                "Numer układu",
+                "Id adresu",
+                "Id klienta"
             };
 
             className = this.GetType().Name;

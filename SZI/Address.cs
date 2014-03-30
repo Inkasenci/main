@@ -15,17 +15,12 @@ namespace SZI
 using System;
     using System.Collections.Generic;
     
-public partial class Address
-{
-
-    public System.Guid AddressId { get; set; }
-
-    public int HouseNo { get; set; }
-
-    public Nullable<int> FlatNo { get; set; }
-
-    public System.Guid AreaId { get; set; }
-
-}
+    public partial class Address
+    {
+        public System.Guid AddressId { get; set; }
+        public int HouseNo { get; set; }
+        public Nullable<int> FlatNo { get; set; }
+        public System.Guid AreaId { get; set; }
+    }
 
 }

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 C:\Users\Zawadzcy\Desktop\SZI\SZI\bin\Debug\SZI.exe.config
 C:\Users\Zawadzcy\Desktop\SZI\SZI\bin\Debug\CollectorsManagementSystem.mdf
 C:\Users\Zawadzcy\Desktop\SZI\SZI\bin\Debug\CollectorsManagementSystem_log.ldf
@@ -54,3 +55,6 @@ C:\Users\rafaLiusz\Desktop\main\SZI\obj\Debug\SZI.pdb
 C:\Users\rafaLiusz\Desktop\main\SZI\bin\Debug\icons\cross.ico
 C:\Users\rafaLiusz\Desktop\main\SZI\bin\Debug\icons\ladybug.ico
 C:\Users\rafaLiusz\Desktop\main\SZI\bin\Debug\icons\rabbit.ico
+=======
+C:\Users\Zawadzcy\Documents\GitHub\main\SZI\bin\Debug\SZI.exe.config
+>>>>>>> upstream/master
