@@ -21,7 +21,7 @@ namespace SZI
 
         private Dictionary<TextBox, ErrorProvider> TBtoEP_Dict;
         private Dictionary<string, ValidatingMethod> NameToMethod_Dict;
-        private int InvalidFieldsCount = 0;
+        private Dictionary<TextBox, bool> TBtoBool_Dict;
 
         public ModifyForm(List<string> ids, int selectedTab)
         {
@@ -64,13 +64,19 @@ namespace SZI
             Label[] labels = InitializeLabels();
             TextBox[] textBoxes = InitializeTextBoxes();
             TBtoEP_Dict = new Dictionary<TextBox, ErrorProvider>();
+            TBtoBool_Dict = new Dictionary<TextBox, bool>();
 
             for (int i = 0; i < labelsTexts.Length; i++)
             {
                 this.Controls.Add(labels[i]);
                 this.Controls.Add(textBoxes[i]);
-                ep = Auxiliary.InitializeErrorProvider(textBoxes[i]);
-                TBtoEP_Dict.Add(textBoxes[i], ep);
+                if (i != 0)
+                {
+                    ep = Auxiliary.InitializeErrorProvider(textBoxes[i]);
+                    TBtoEP_Dict.Add(textBoxes[i], ep);
+                    TBtoBool_Dict.Add(textBoxes[i], true);
+                    textBoxes[i].Validating += Validation;
+                }
             }
         }
 
@@ -96,7 +102,6 @@ namespace SZI
                 textBoxes[i].Name = textBoxesNames[i];
                 textBoxes[i].Text = textBoxesTexts[i];
                 textBoxes[i].Location = new Point(150, 30 * (i + 1));
-                textBoxes[i].Validating += Validation;
             }
             textBoxes[0].Enabled = false;
             return textBoxes;
@@ -123,7 +128,7 @@ namespace SZI
                     modifiedCollector.Address = this.Controls.Find("Address", true)[0].Text;
                     modifiedCollector.PhoneNumber = this.Controls.Find("PhoneNumber", true)[0].Text;
 
-                    if (InvalidFieldsCount <= 0)
+                    if (Auxiliary.IsCurrentValueOK(TBtoBool_Dict))
                     {
                         modifiedCollector.ModifyRecord(ids.ElementAt(0));
                         this.Close();
@@ -152,7 +157,7 @@ namespace SZI
                     modifiedCustomer.Address = this.Controls.Find("Address", true)[0].Text;
                     modifiedCustomer.PhoneNumber = this.Controls.Find("PhoneNumber", true)[0].Text;
 
-                    if (InvalidFieldsCount == 0)
+                    if (Auxiliary.IsCurrentValueOK(TBtoBool_Dict))
                     {
                         modifiedCustomer.ModifyRecord(ids.ElementAt(0));
                         this.Close();
@@ -178,7 +183,7 @@ namespace SZI
                     modifiedArea.CollectorId = this.Controls.Find("CollectorId", true)[0].Text;
 
                     validateString = MainValidation.AreaValidateString(modifiedArea);
-                    if (validateString == String.Empty || InvalidFieldsCount == 0)
+                    if (validateString == String.Empty || Auxiliary.IsCurrentValueOK(TBtoBool_Dict))
                     {
                         modifiedArea.ModifyRecord(ids.ElementAt(0));
                         this.Close();
@@ -194,7 +199,7 @@ namespace SZI
                     modifiedCounter.AddressId = new Guid(this.Controls.Find("AddressId", true)[0].Text);
                     modifiedCounter.CustomerId = this.Controls.Find("CustomerId", true)[0].Text;
 
-                    if (InvalidFieldsCount == 0)
+                    if (Auxiliary.IsCurrentValueOK(TBtoBool_Dict))
                     {
                         modifiedCounter.ModifyRecord(ids.ElementAt(0));
                         this.Close();
@@ -205,6 +210,7 @@ namespace SZI
             }
         }
 
+
         private void Validation(object sender, CancelEventArgs e)
         {
             TextBox ValidatedTextBox = (TextBox)sender;
@@ -212,12 +218,12 @@ namespace SZI
             if (NameToMethod_Dict[ValidatedTextBox.Name](ValidatedTextBox.Text))
             {
                 TBtoEP_Dict[ValidatedTextBox].SetError(ValidatedTextBox, String.Empty);
-                InvalidFieldsCount--;
+                TBtoBool_Dict[ValidatedTextBox] = true;
             }
             else
             {
                 TBtoEP_Dict[ValidatedTextBox].SetError(ValidatedTextBox, "Nieprawidłowo wypełnione pole.");
-                InvalidFieldsCount++;
+                TBtoBool_Dict[ValidatedTextBox] = false;
                 //e.Cancel = true;
             }
         }

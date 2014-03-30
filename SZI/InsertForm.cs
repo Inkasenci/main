@@ -29,15 +29,6 @@ namespace SZI
             InitializeEP(selectedTab);
         }
 
-        private bool IsCurrentValueOK()
-        {
-            Dictionary<TextBox, bool>.ValueCollection valueColl = Current_TBtoBool_Dict.Values;
-            foreach (bool b in valueColl)
-                if (!b) return false;
-
-            return true;
-        }
-
 
         #region Inicjalizacja słowników i przypisywanie EventHandlerów do TextBoxów
         
@@ -224,7 +215,7 @@ namespace SZI
             c.Address = tbCollectorAddress.Text;
             c.PhoneNumber = tbCollectorPhoneNumber.Text;
 
-            if (IsCurrentValueOK())
+            if (Auxiliary.IsCurrentValueOK(Current_TBtoBool_Dict))
                 c.InsertIntoDB();
             else
                 MessageBox.Show(LangPL.InsertFormLang["Fill in all fields"]);
@@ -241,7 +232,7 @@ namespace SZI
             c.Address = tbCustomerAddress.Text;
             c.PhoneNumber = tbCustomerPhoneNumber.Text;
 
-            if (IsCurrentValueOK())
+            if (Auxiliary.IsCurrentValueOK(Current_TBtoBool_Dict))
                 c.InsertIntoDB();
             else
                 MessageBox.Show(LangPL.InsertFormLang["Fill in all fields"]);
@@ -254,7 +245,7 @@ namespace SZI
             a.CollectorId = tbAreaCollectorID.Text;
             a.Street = tbStreet.Text;
 
-            if (IsCurrentValueOK())
+            if (Auxiliary.IsCurrentValueOK(Current_TBtoBool_Dict))
                 a.InsertIntoDB();
             else
                 MessageBox.Show(LangPL.InsertFormLang["Fill in all fields"]);
@@ -272,7 +263,7 @@ namespace SZI
             c.AddressId = new Guid(tbCounterAddressID.Text);
             c.CustomerId = tbCounterCustomerID.Text;
 
-            if (IsCurrentValueOK())
+            if (Auxiliary.IsCurrentValueOK(Current_TBtoBool_Dict))
                 c.InsertIntoDB();
             else
                 MessageBox.Show(LangPL.InsertFormLang["Fill in all fields"]);

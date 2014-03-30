@@ -10,6 +10,14 @@ namespace SZI
     public delegate bool ValidatingMethod(string S);
     public static class Auxiliary
     {
+        public static bool IsCurrentValueOK(Dictionary<TextBox, bool> Dict)
+        {
+            Dictionary<TextBox, bool>.ValueCollection valueColl = Dict.Values;
+            foreach (bool b in valueColl)
+                if (!b) return false;
+
+            return true;
+        }
         
         public static Guid ToGuid(int value)
         {
