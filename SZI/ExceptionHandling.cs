@@ -16,12 +16,12 @@ namespace SZI
             MessageBox.Show("Istnieje już wpis z takim kluczem głównym", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Stop);
         }
 
-        private static void OtherException()
+        private static void OtherException(string Message)
         {
-            MessageBox.Show("Błąd wprowadzania danych", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            MessageBox.Show("Błąd wprowadzania danych\n" + Message, "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Stop);
         }
 
-        private static void SpecificException(int Number)
+        private static void SpecificException(int Number, string Message)
         {
             switch (Number)
             {
@@ -34,7 +34,7 @@ namespace SZI
                     break;
 
                 default:
-                    OtherException();
+                    OtherException(Message);
                     break;
             }
         }
@@ -48,7 +48,19 @@ namespace SZI
 
             SqlException ProjectedException = (SqlException)innerEx;
 
-            ExceptionHandling.SpecificException(ProjectedException.Number);
+            ExceptionHandling.SpecificException(ProjectedException.Number, ProjectedException.Message);
+        }
+
+        public static void ShowException(System.ComponentModel.DataAnnotations.ValidationException Ex)
+        {
+            var innerEx = Ex.InnerException;
+
+            while (innerEx.InnerException != null)
+                innerEx = innerEx.InnerException;
+
+            SqlException ProjectedException = (SqlException)innerEx;
+
+            ExceptionHandling.SpecificException(ProjectedException.Number, ProjectedException.Message);
         }
        
     }

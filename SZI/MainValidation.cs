@@ -17,7 +17,7 @@ namespace SZI
                 return true;
         }
 
-        static private string UppercaseFirst(string s)
+        static public string UppercaseFirst(string s)
         {
             char[] a = s.ToCharArray();
             a[0] = char.ToUpper(a[0]);
@@ -98,7 +98,7 @@ namespace SZI
             return false;
         }
 
-        static private bool CollectorExists(string ID)
+        static public bool CollectorExists(string ID)
         {
             foreach (Collector c in Collectors.collectorList)
                 if (c.CollectorId == ID)

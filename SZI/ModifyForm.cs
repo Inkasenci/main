@@ -18,13 +18,15 @@ namespace SZI
         private string[] textBoxesNames;
         private string[] textBoxesTexts;
         private CollectorsManagementSystemEntities dataBase = new CollectorsManagementSystemEntities();
-        
-        Dictionary<string, ValidatingMethod> NameToMethod_Dict;
-        ErrorProvider errorProvider;
+
+        private Dictionary<TextBox, ErrorProvider> TBtoEP_Dict;
+        private Dictionary<string, ValidatingMethod> NameToMethod_Dict;
+        private int InvalidFieldsCount = 0;
 
         public ModifyForm(List<string> ids, int selectedTab)
         {
             InitializeComponent();
+            ErrorProvider ep;
 
             this.Text = "Modyfikacja rekordu";
             this.ids = ids;
@@ -61,12 +63,14 @@ namespace SZI
             NameToMethod_Dict = Auxiliary.Modify_CreateNameToMethodDict();
             Label[] labels = InitializeLabels();
             TextBox[] textBoxes = InitializeTextBoxes();
-            errorProvider = Auxiliary.InitializeErrorProvider();
+            TBtoEP_Dict = new Dictionary<TextBox, ErrorProvider>();
 
             for (int i = 0; i < labelsTexts.Length; i++)
             {
                 this.Controls.Add(labels[i]);
                 this.Controls.Add(textBoxes[i]);
+                ep = Auxiliary.InitializeErrorProvider(textBoxes[i]);
+                TBtoEP_Dict.Add(textBoxes[i], ep);
             }
         }
 
@@ -119,8 +123,13 @@ namespace SZI
                     modifiedCollector.Address = this.Controls.Find("Address", true)[0].Text;
                     modifiedCollector.PhoneNumber = this.Controls.Find("PhoneNumber", true)[0].Text;
 
-                    modifiedCollector.ModifyRecord(ids.ElementAt(0));
-                    this.Close();
+                    if (InvalidFieldsCount <= 0)
+                    {
+                        modifiedCollector.ModifyRecord(ids.ElementAt(0));
+                        this.Close();
+                    }
+                    else
+                        MessageBox.Show(LangPL.InsertFormLang["Fill in all fields"]);                    
                     /*
                     validateString = MainValidation.CollectorValidateString(modifiedCollector);
                     if (validateString == String.Empty)
@@ -132,6 +141,7 @@ namespace SZI
                         MessageBox.Show(validateString);
                      */
                     break;
+
                 case 1:
                     Customer modifiedCustomer = new Customer();
                     modifiedCustomer.CustomerId = this.Controls.Find("CustomerId", true)[0].Text;
@@ -142,8 +152,13 @@ namespace SZI
                     modifiedCustomer.Address = this.Controls.Find("Address", true)[0].Text;
                     modifiedCustomer.PhoneNumber = this.Controls.Find("PhoneNumber", true)[0].Text;
 
-                    modifiedCustomer.ModifyRecord(ids.ElementAt(0));
-                    this.Close();
+                    if (InvalidFieldsCount == 0)
+                    {
+                        modifiedCustomer.ModifyRecord(ids.ElementAt(0));
+                        this.Close();
+                    }
+                    else
+                        MessageBox.Show(LangPL.InsertFormLang["Fill in all fields"]);  
                     /*
                     validateString = MainValidation.CustomerValidateString(modifiedCustomer);
                     if (validateString == String.Empty)
@@ -155,6 +170,7 @@ namespace SZI
                         MessageBox.Show(validateString);
                      */
                     break;
+
                 case 2:
                     Area modifiedArea = new Area();
                     modifiedArea.AreaId = new Guid(this.Controls.Find("AreaId", true)[0].Text);
@@ -162,7 +178,7 @@ namespace SZI
                     modifiedArea.CollectorId = this.Controls.Find("CollectorId", true)[0].Text;
 
                     validateString = MainValidation.AreaValidateString(modifiedArea);
-                    if (validateString == String.Empty)
+                    if (validateString == String.Empty || InvalidFieldsCount == 0)
                     {
                         modifiedArea.ModifyRecord(ids.ElementAt(0));
                         this.Close();
@@ -170,14 +186,21 @@ namespace SZI
                     else
                         MessageBox.Show(validateString);
                     break;
+
                 case 3:
                     Counter modifiedCounter = new Counter();
                     modifiedCounter.CounterNo = Convert.ToInt32(this.Controls.Find("CounterId", true)[0].Text);
                     modifiedCounter.CircuitNo = Convert.ToInt32(this.Controls.Find("Street", true)[0].Text);
                     modifiedCounter.AddressId = new Guid(this.Controls.Find("AddressId", true)[0].Text);
                     modifiedCounter.CustomerId = this.Controls.Find("CustomerId", true)[0].Text;
-                    
-                    modifiedCounter.ModifyRecord(ids.ElementAt(0));
+
+                    if (InvalidFieldsCount == 0)
+                    {
+                        modifiedCounter.ModifyRecord(ids.ElementAt(0));
+                        this.Close();
+                    }
+                    else
+                        MessageBox.Show(LangPL.InsertFormLang["Fill in all fields"]);  
                     break;
             }
         }
@@ -185,16 +208,17 @@ namespace SZI
         private void Validation(object sender, CancelEventArgs e)
         {
             TextBox ValidatedTextBox = (TextBox)sender;
-            Auxiliary.SetErrorProvider(errorProvider, ValidatedTextBox);
-
+            
             if (NameToMethod_Dict[ValidatedTextBox.Name](ValidatedTextBox.Text))
             {
-                errorProvider.SetError(ValidatedTextBox, String.Empty);
+                TBtoEP_Dict[ValidatedTextBox].SetError(ValidatedTextBox, String.Empty);
+                InvalidFieldsCount--;
             }
             else
             {
-                errorProvider.SetError(ValidatedTextBox, "Nieprawidłowo wypełnione pole.");
-                e.Cancel = true;
+                TBtoEP_Dict[ValidatedTextBox].SetError(ValidatedTextBox, "Nieprawidłowo wypełnione pole.");
+                InvalidFieldsCount++;
+                //e.Cancel = true;
             }
         }
     }

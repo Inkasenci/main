@@ -24,9 +24,11 @@ namespace SZI
             ep.SetIconPadding(tb, 2);
         }
 
-        public static ErrorProvider InitializeErrorProvider()
+        public static ErrorProvider InitializeErrorProvider(TextBox tb)
         {
             ErrorProvider ep = new ErrorProvider();
+            ep.SetIconAlignment(tb, ErrorIconAlignment.MiddleRight);
+            ep.SetIconPadding(tb, 2);
             ep.BlinkRate = 750;
             ep.BlinkStyle = ErrorBlinkStyle.AlwaysBlink;
             ep.Icon = new System.Drawing.Icon("icons/ladybug.ico");
@@ -72,7 +74,7 @@ namespace SZI
                 {"tbCustomerPhoneNumber", new ValidatingMethod(MainValidation.PhoneValidation)},
 
                 {"tbStreet", new ValidatingMethod(MainValidation.StreetValidation)},
-                {"tbAreaCollectorID", new ValidatingMethod(MainValidation.IDValidation)},
+                {"tbAreaCollectorID", new ValidatingMethod(MainValidation.CollectorExists)},
 
                 {"tbCounterNo", new ValidatingMethod(MainValidation.CircuitAndCounterNumberValidation)},
                 {"tbCircuitNo", new ValidatingMethod(MainValidation.CircuitAndCounterNumberValidation)},
