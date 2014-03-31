@@ -219,6 +219,7 @@ namespace SZI
             {
                 TBtoEP_Dict[ValidatedTextBox].SetError(ValidatedTextBox, String.Empty);
                 TBtoBool_Dict[ValidatedTextBox] = true;
+                ValidatedTextBox.Text = MainValidation.UppercaseFirst(ValidatedTextBox.Text);
             }
             else
             {
