@@ -51,6 +51,10 @@ namespace SZI
                     database.SaveChanges();
                 }
             }
+            catch(System.ComponentModel.DataAnnotations.ValidationException Ex)
+            {
+                ExceptionHandling.ShowException(Ex);
+            }
             catch (DbUpdateException Ex)
             {
                 ExceptionHandling.ShowException(Ex);

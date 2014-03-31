@@ -23,7 +23,8 @@ namespace SZI
             {"textBoxCircuitNo", "Pole \"Numer układu\": Wypełniono niepoprawnie..\n"},
             {"textBoxCollectorID", "Nieprawidłowy numer inkasenta.\n"},
             {"textBoxCustomerID", "Nieprawidłowy numer klienta.\n"},
-            {"textBoxAddressID", "Nieprawidłowy numer adresu.\n"}
+            {"textBoxAddressID", "Nieprawidłowy numer adresu.\n"},
+            {"Fill in all fields", "Wypełnij poprawnie wszystkie pola"}
         };
     }
 }

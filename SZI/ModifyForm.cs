@@ -19,9 +19,14 @@ namespace SZI
         private string[] textBoxesTexts;
         private CollectorsManagementSystemEntities dataBase = new CollectorsManagementSystemEntities();
 
+        private Dictionary<TextBox, ErrorProvider> TBtoEP_Dict;
+        private Dictionary<string, ValidatingMethod> NameToMethod_Dict;
+        private Dictionary<TextBox, bool> TBtoBool_Dict;
+
         public ModifyForm(List<string> ids, int selectedTab)
         {
             InitializeComponent();
+            ErrorProvider ep;
 
             this.Text = "Modyfikacja rekordu";
             this.ids = ids;
@@ -55,13 +60,23 @@ namespace SZI
                     break;
             }
 
+            NameToMethod_Dict = Auxiliary.Modify_CreateNameToMethodDict();
             Label[] labels = InitializeLabels();
             TextBox[] textBoxes = InitializeTextBoxes();
+            TBtoEP_Dict = new Dictionary<TextBox, ErrorProvider>();
+            TBtoBool_Dict = new Dictionary<TextBox, bool>();
 
             for (int i = 0; i < labelsTexts.Length; i++)
             {
                 this.Controls.Add(labels[i]);
                 this.Controls.Add(textBoxes[i]);
+                if (i != 0)
+                {
+                    ep = Auxiliary.InitializeErrorProvider(textBoxes[i]);
+                    TBtoEP_Dict.Add(textBoxes[i], ep);
+                    TBtoBool_Dict.Add(textBoxes[i], true);
+                    textBoxes[i].Validating += Validation;
+                }
             }
         }
 
@@ -80,9 +95,10 @@ namespace SZI
         private TextBox[] InitializeTextBoxes()
         {
             TextBox[] textBoxes = new TextBox[textBoxesTexts.Length];
+
             for (int i = 0; i < textBoxesTexts.Length; i++)
-            {
-                textBoxes[i] = new TextBox();
+            {                
+                textBoxes[i] = new TextBox();                
                 textBoxes[i].Name = textBoxesNames[i];
                 textBoxes[i].Text = textBoxesTexts[i];
                 textBoxes[i].Location = new Point(150, 30 * (i + 1));
@@ -111,7 +127,15 @@ namespace SZI
                     modifiedCollector.City = this.Controls.Find("City", true)[0].Text;
                     modifiedCollector.Address = this.Controls.Find("Address", true)[0].Text;
                     modifiedCollector.PhoneNumber = this.Controls.Find("PhoneNumber", true)[0].Text;
-                    
+
+                    if (Auxiliary.IsCurrentValueOK(TBtoBool_Dict))
+                    {
+                        modifiedCollector.ModifyRecord(ids.ElementAt(0));
+                        this.Close();
+                    }
+                    else
+                        MessageBox.Show(LangPL.InsertFormLang["Fill in all fields"]);                    
+                    /*
                     validateString = MainValidation.CollectorValidateString(modifiedCollector);
                     if (validateString == String.Empty)
                     {
@@ -120,7 +144,9 @@ namespace SZI
                     }
                     else
                         MessageBox.Show(validateString);
+                     */
                     break;
+
                 case 1:
                     Customer modifiedCustomer = new Customer();
                     modifiedCustomer.CustomerId = this.Controls.Find("CustomerId", true)[0].Text;
@@ -130,7 +156,15 @@ namespace SZI
                     modifiedCustomer.City = this.Controls.Find("City", true)[0].Text;
                     modifiedCustomer.Address = this.Controls.Find("Address", true)[0].Text;
                     modifiedCustomer.PhoneNumber = this.Controls.Find("PhoneNumber", true)[0].Text;
-                    
+
+                    if (Auxiliary.IsCurrentValueOK(TBtoBool_Dict))
+                    {
+                        modifiedCustomer.ModifyRecord(ids.ElementAt(0));
+                        this.Close();
+                    }
+                    else
+                        MessageBox.Show(LangPL.InsertFormLang["Fill in all fields"]);  
+                    /*
                     validateString = MainValidation.CustomerValidateString(modifiedCustomer);
                     if (validateString == String.Empty)
                     {
@@ -139,7 +173,9 @@ namespace SZI
                     }
                     else
                         MessageBox.Show(validateString);
+                     */
                     break;
+
                 case 2:
                     Area modifiedArea = new Area();
                     modifiedArea.AreaId = new Guid(this.Controls.Find("AreaId", true)[0].Text);
@@ -147,7 +183,7 @@ namespace SZI
                     modifiedArea.CollectorId = this.Controls.Find("CollectorId", true)[0].Text;
 
                     validateString = MainValidation.AreaValidateString(modifiedArea);
-                    if (validateString == String.Empty)
+                    if (validateString == String.Empty || Auxiliary.IsCurrentValueOK(TBtoBool_Dict))
                     {
                         modifiedArea.ModifyRecord(ids.ElementAt(0));
                         this.Close();
@@ -155,15 +191,41 @@ namespace SZI
                     else
                         MessageBox.Show(validateString);
                     break;
+
                 case 3:
                     Counter modifiedCounter = new Counter();
                     modifiedCounter.CounterNo = Convert.ToInt32(this.Controls.Find("CounterId", true)[0].Text);
                     modifiedCounter.CircuitNo = Convert.ToInt32(this.Controls.Find("Street", true)[0].Text);
-                    modifiedCounter.AddressId = Auxiliary.ToGuid(Convert.ToInt32(this.Controls.Find("AddressId", true)[0].Text));
+                    modifiedCounter.AddressId = new Guid(this.Controls.Find("AddressId", true)[0].Text);
                     modifiedCounter.CustomerId = this.Controls.Find("CustomerId", true)[0].Text;
-                    
-                    modifiedCounter.ModifyRecord(ids.ElementAt(0));
+
+                    if (Auxiliary.IsCurrentValueOK(TBtoBool_Dict))
+                    {
+                        modifiedCounter.ModifyRecord(ids.ElementAt(0));
+                        this.Close();
+                    }
+                    else
+                        MessageBox.Show(LangPL.InsertFormLang["Fill in all fields"]);  
                     break;
+            }
+        }
+
+
+        private void Validation(object sender, CancelEventArgs e)
+        {
+            TextBox ValidatedTextBox = (TextBox)sender;
+            
+            if (NameToMethod_Dict[ValidatedTextBox.Name](ValidatedTextBox.Text))
+            {
+                TBtoEP_Dict[ValidatedTextBox].SetError(ValidatedTextBox, String.Empty);
+                TBtoBool_Dict[ValidatedTextBox] = true;
+                ValidatedTextBox.Text = MainValidation.UppercaseFirst(ValidatedTextBox.Text);
+            }
+            else
+            {
+                TBtoEP_Dict[ValidatedTextBox].SetError(ValidatedTextBox, "Nieprawidłowo wypełnione pole.");
+                TBtoBool_Dict[ValidatedTextBox] = false;
+                //e.Cancel = true;
             }
         }
     }

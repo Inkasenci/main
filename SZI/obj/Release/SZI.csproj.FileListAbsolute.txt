@@ -1,7 +1,0 @@
-C:\Users\Marcin\Documents\GitHub\main\SZI\bin\Release\SZI.exe.config
-C:\Users\Marcin\Documents\GitHub\main\SZI\obj\Release\SZI.Form1.resources
-C:\Users\Marcin\Documents\GitHub\main\SZI\obj\Release\SZI.InsertForm.resources
-C:\Users\Marcin\Documents\GitHub\main\SZI\obj\Release\SZI.ModifyForm.resources
-C:\Users\Marcin\Documents\GitHub\main\SZI\obj\Release\SZI.Properties.Resources.resources
-C:\Users\Marcin\Documents\GitHub\main\SZI\obj\Release\SZI.csproj.GenerateResource.Cache
-C:\Users\rafaLiusz\Desktop\main\SZI\bin\Release\CollectorsManagementSystem.mdf
