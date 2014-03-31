@@ -39,24 +39,31 @@ namespace SZI
 
             tbCollectorID.Validating += Validation;
             TBtoEP_Collector_Dict.Add(tbCollectorID, Auxiliary.InitializeErrorProvider(tbCollectorID));
+            TBtoBool_Collector_Dict.Add(tbCollectorID, false);
             
             tbCollectorFirstName.Validating += Validation;
             TBtoEP_Collector_Dict.Add(tbCollectorFirstName, Auxiliary.InitializeErrorProvider(tbCollectorFirstName));
+            TBtoBool_Collector_Dict.Add(tbCollectorFirstName, false);
 
             tbCollectorLastName.Validating += Validation;
             TBtoEP_Collector_Dict.Add(tbCollectorLastName, Auxiliary.InitializeErrorProvider(tbCollectorLastName));
+            TBtoBool_Collector_Dict.Add(tbCollectorLastName, false);
 
             tbCollectorPostalCode.Validating += Validation;
             TBtoEP_Collector_Dict.Add(tbCollectorPostalCode, Auxiliary.InitializeErrorProvider(tbCollectorPostalCode));
+            TBtoBool_Collector_Dict.Add(tbCollectorPostalCode, false);
 
             tbCollectorCity.Validating += Validation;
             TBtoEP_Collector_Dict.Add(tbCollectorCity, Auxiliary.InitializeErrorProvider(tbCollectorCity));
+            TBtoBool_Collector_Dict.Add(tbCollectorCity, false);
 
             tbCollectorAddress.Validating += Validation;
             TBtoEP_Collector_Dict.Add(tbCollectorAddress, Auxiliary.InitializeErrorProvider(tbCollectorAddress));
+            TBtoBool_Collector_Dict.Add(tbCollectorAddress, false);
 
             tbCollectorPhoneNumber.Validating += Validation;
             TBtoEP_Collector_Dict.Add(tbCollectorPhoneNumber, Auxiliary.InitializeErrorProvider(tbCollectorPhoneNumber));
+            TBtoBool_Collector_Dict.Add(tbCollectorPhoneNumber, false);
         }
 
         private void InitializeCustomerDictAndTB()
