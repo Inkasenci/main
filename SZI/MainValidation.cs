@@ -8,6 +8,14 @@ namespace SZI
 {
     static class MainValidation
     {
+        static public bool OptionalCollector(string s)
+        {
+            if (EmptyString(s))
+                return true;
+            else
+                return CollectorExists(s);
+        }
+
         static public bool IDValidation(string ID)
         {
             Int64 Parse;

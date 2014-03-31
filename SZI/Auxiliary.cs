@@ -82,7 +82,7 @@ namespace SZI
                 {"tbCustomerPhoneNumber", new ValidatingMethod(MainValidation.PhoneValidation)},
 
                 {"tbStreet", new ValidatingMethod(MainValidation.StreetValidation)},
-                {"tbAreaCollectorID", new ValidatingMethod(MainValidation.CollectorExists)},
+                {"tbAreaCollectorID", new ValidatingMethod(MainValidation.OptionalCollector)},
 
                 {"tbCounterNo", new ValidatingMethod(MainValidation.CircuitAndCounterNumberValidation)},
                 {"tbCircuitNo", new ValidatingMethod(MainValidation.CircuitAndCounterNumberValidation)},
