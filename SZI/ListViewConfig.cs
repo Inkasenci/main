@@ -58,13 +58,7 @@ namespace SZI
         static private void AdjustColumnWidth(ListView listView)
         {
             foreach (ColumnHeader column in listView.Columns)
-            {
-                column.Width = -1;
-                int widthAdjustedToItem = column.Width;
                 column.Width = -2;
-                int widthAdjustedToHeader = column.Width;
-                column.Width = (widthAdjustedToItem > widthAdjustedToHeader) ? -1 : -2;
-            }
         }
     }
 }

@@ -57,6 +57,18 @@ namespace SZI
             tabControl.SelectedTab = tabPages[selectedTab];
 
             tabControl.SelectedIndexChanged += tabControl_SelectedIndexChanged;
+
+            Button button = new Button();
+            button.Text = "TEST";
+            button.Location = new Point(200, 600);
+            button.Click += button_Click;
+            this.Controls.Add(button);
+        }
+
+        void button_Click(object sender, EventArgs e)
+        {
+            TESTForm test = new TESTForm();
+            test.ShowDialog();
         }
 
         private void SetButtonEnabledProperty(bool btDeleteEnabledProperty, bool btModifyEnabledProperty)
