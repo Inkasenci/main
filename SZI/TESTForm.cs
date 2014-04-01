@@ -15,7 +15,7 @@ namespace SZI
         public TESTForm()
         {
             InitializeComponent();
-            ComboBoxConfig cbc1 = new ComboBoxConfig("Collector", "customerComboBox", new Point(10, 10));
+            ComboBoxConfig cbc1 = new ComboBoxConfig("Collector", "collectorComboBox", new Point(10, 10));
             this.Controls.Add(cbc1.InitializeComboBox());
         }
     }
