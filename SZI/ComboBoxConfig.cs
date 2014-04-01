@@ -84,7 +84,7 @@ namespace SZI
             System.Drawing.Graphics g = comboBox.CreateGraphics();
             System.Drawing.Font f = comboBox.Font;
 
-            int maxWidth = 0;
+            int maxWidth = 1;
             int newWidth = 0;
             foreach (ComboBoxItem item in itemList)
             {
@@ -138,14 +138,16 @@ namespace SZI
 
         private void comboBox_DropDownClosed(object sender, EventArgs e)
         {
-            comboBox.Items[comboBox.SelectedIndex] = itemList.ElementAt(comboBox.SelectedIndex).shortItemDescription;
+            if (comboBox.SelectedIndex >= 0)
+                comboBox.Items[comboBox.SelectedIndex] = itemList.ElementAt(comboBox.SelectedIndex).shortItemDescription;
         }
 
         private void comboBox_DropDown(object sender, EventArgs e)
         {
             comboBox.DropDownWidth = AdjustComboBoxWidth();
 
-            comboBox.Items[comboBox.SelectedIndex] = itemList.ElementAt(comboBox.SelectedIndex).longItemDescription;
+            if (comboBox.SelectedIndex >= 0)
+                comboBox.Items[comboBox.SelectedIndex] = itemList.ElementAt(comboBox.SelectedIndex).longItemDescription;
         }
     }
 }
