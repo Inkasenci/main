@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -38,13 +39,13 @@ namespace SZI
                     labelsTexts = new string[] { "Id inkasenta: ", "Imię: ", "Nazwisko: ", "Kod pocztowy: ", "Miasto: ", "Ulica: ", "Telefon kontaktowy: " };
                     textBoxesNames = new string[] { "CollectorId", "Name", "LastName", "PostalCode", "City", "Address", "PhoneNumber" };
                     Collector modifiedCollector = dataBase.Collectors.SqlQuery("SELECT * FROM Collector WHERE CollectorId={0}", ids.ElementAt(0)).SingleOrDefault();
-                    textBoxesTexts = new string[] { modifiedCollector.CollectorId, modifiedCollector.Name, modifiedCollector.LastName, modifiedCollector.PostalCode, modifiedCollector.City, modifiedCollector.Address, modifiedCollector.PhoneNumber };
+                    textBoxesTexts = new string[] { modifiedCollector.CollectorId, modifiedCollector.Name, modifiedCollector.LastName, Regex.Replace(modifiedCollector.PostalCode, "([0-9]{2})([0-9]{3})", "${1}-${2}"), modifiedCollector.City, modifiedCollector.Address, modifiedCollector.PhoneNumber };
                     break;
                 case 1:
                     labelsTexts = new string[] { "Id klienta: ", "Imię: ", "Nazwisko: ", "Kod pocztowy: ", "Miasto: ", "Ulica: ", "Telefon kontaktowy: " };
                     textBoxesNames = new string[] { "CustomerId", "Name", "LastName", "PostalCode", "City", "Address", "PhoneNumber" };
                     Customer modifiedCustomer = dataBase.Customers.SqlQuery("SELECT * FROM Customer WHERE CustomerId={0}", ids.ElementAt(0)).SingleOrDefault();
-                    textBoxesTexts = new string[] { modifiedCustomer.CustomerId, modifiedCustomer.Name, modifiedCustomer.LastName, modifiedCustomer.PostalCode, modifiedCustomer.City, modifiedCustomer.Address, modifiedCustomer.PhoneNumber };
+                    textBoxesTexts = new string[] { modifiedCustomer.CustomerId, modifiedCustomer.Name, modifiedCustomer.LastName, Regex.Replace(modifiedCustomer.PostalCode, "([0-9]{2})([0-9]{3})", "${1}-${2}"), modifiedCustomer.City, modifiedCustomer.Address, modifiedCustomer.PhoneNumber };
                     break;
                 case 2:
                     labelsTexts = new string[] { "Id terenu: ", "Ulica: ", "Id inkasenta: " };

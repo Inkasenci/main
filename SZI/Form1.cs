@@ -20,8 +20,8 @@ namespace SZI
         private IDataBase[] dataBase;
         List<string> ids;
         ListView[] listView;
-        private bool refreshRequired = false; //dodane tymczasowo - PZ
 
+        // Data tabControl init
         private void MainTabControlInit()
         {
             // Deklaracja            
@@ -119,48 +119,60 @@ namespace SZI
             }
         }
 
+        // Initialize DB form
         public Form1()
         {
             InitializeComponent();
             MainTabControlInit();
         }
 
+        // Delete event click
         private void btDelete_Click(object sender, EventArgs e)
         {
             DBManipulator.DeleteFromDB(ids, selectedTab);
-            //listViews[selectedTab].DeleteRowsByID(ids);
-            refreshRequired = true; //dodane tymczasowo - PZ
+            closeForm_Click(sender, e);
             SetButtonEnabledProperty(false, false);
         }
 
+        // Insert event click
         private void btInsert_Click(object sender, EventArgs e)
         {
             var insertForm = new InsertForm(selectedTab);
+            insertForm.FormClosing += closeForm_Click;
             insertForm.ShowDialog();
-            refreshRequired = true; //dodane tymczasowo - PZ
             SetButtonEnabledProperty(false, false);
         }
 
+        // Modify event click
         private void btModify_Click(object sender, EventArgs e)
         {
             var modifyForm = new ModifyForm(ids, selectedTab);
+            modifyForm.FormClosing += closeForm_Click;
             modifyForm.ShowDialog();
-            refreshRequired = true; //dodane tymczasowo - PZ
             SetButtonEnabledProperty(false, false);
         }
 
+        // List wiew refresh ( every tick = 15 min [ 900000 ms ] )
         private void timerRefresh_Tick(object sender, EventArgs e)
         {
-            if (refreshRequired) //dodane tymczasowo - PZ
-            { //dodane tymczasowo - PZ
-                int i = 0;
-                foreach (var data in dataBase)
-                {
-                    data.RefreshList();
-                    ListViewConfig.ListViewRefresh(listView[i++], data.itemList);
-                }
-                refreshRequired = false; //dodane tymczasowo - PZ
-            } //dodane tymczasowo - PZ
+            closeForm_Click(sender,e);
+        }
+
+        // Data refresh
+        private void closeForm_Click(object sender, EventArgs e)
+        {
+            int i = 0;
+            foreach (var data in dataBase)
+            {
+                data.RefreshList();
+                ListViewConfig.ListViewRefresh(listView[i++], data.itemList);
+            }
+        }
+        
+        // Refresh data button
+        private void btRefresh_Click(object sender, EventArgs e)
+        {
+            closeForm_Click(sender, e);
         }
     }
 }

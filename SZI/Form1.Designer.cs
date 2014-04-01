@@ -36,12 +36,13 @@
             this.btModify = new System.Windows.Forms.Button();
             this.timerRefresh = new System.Windows.Forms.Timer(this.components);
             this.backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
+            this.btRefresh = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btDelete
             // 
             this.btDelete.Enabled = false;
-            this.btDelete.Location = new System.Drawing.Point(12, 570);
+            this.btDelete.Location = new System.Drawing.Point(12, 556);
             this.btDelete.Name = "btDelete";
             this.btDelete.Size = new System.Drawing.Size(158, 28);
             this.btDelete.TabIndex = 0;
@@ -59,7 +60,7 @@
             // 
             // btInsert
             // 
-            this.btInsert.Location = new System.Drawing.Point(12, 535);
+            this.btInsert.Location = new System.Drawing.Point(12, 521);
             this.btInsert.Name = "btInsert";
             this.btInsert.Size = new System.Drawing.Size(157, 29);
             this.btInsert.TabIndex = 2;
@@ -70,7 +71,7 @@
             // btModify
             // 
             this.btModify.Enabled = false;
-            this.btModify.Location = new System.Drawing.Point(12, 604);
+            this.btModify.Location = new System.Drawing.Point(12, 590);
             this.btModify.Name = "btModify";
             this.btModify.Size = new System.Drawing.Size(157, 29);
             this.btModify.TabIndex = 3;
@@ -80,14 +81,25 @@
             // 
             // timerRefresh
             // 
-            this.timerRefresh.Interval = 5000;
+            this.timerRefresh.Interval = 900000;
             this.timerRefresh.Tick += new System.EventHandler(this.timerRefresh_Tick);
+            // 
+            // btRefresh
+            // 
+            this.btRefresh.Location = new System.Drawing.Point(12, 625);
+            this.btRefresh.Name = "btRefresh";
+            this.btRefresh.Size = new System.Drawing.Size(157, 29);
+            this.btRefresh.TabIndex = 5;
+            this.btRefresh.Text = "Odśwież";
+            this.btRefresh.UseVisualStyleBackColor = true;
+            this.btRefresh.Click += new System.EventHandler(this.btRefresh_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(684, 645);
+            this.ClientSize = new System.Drawing.Size(684, 662);
+            this.Controls.Add(this.btRefresh);
             this.Controls.Add(this.btModify);
             this.Controls.Add(this.btInsert);
             this.Controls.Add(this.tbTest);
@@ -108,6 +120,7 @@
         private System.Windows.Forms.Button btModify;
         private System.Windows.Forms.Timer timerRefresh;
         private System.ComponentModel.BackgroundWorker backgroundWorker2;
+        private System.Windows.Forms.Button btRefresh;
 
 
 

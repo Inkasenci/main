@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace SZI
 {
@@ -77,7 +78,9 @@ namespace SZI
         }
         static public bool PostalCodeValidation(string PostalCode)
         {
-            if (PostalCode.Length != 5 || ContainsLetters(PostalCode))
+            Regex regex = new Regex(@"[0-9]{2}-[0-9]{3}");
+            Match match = regex.Match(PostalCode);
+            if (!match.Success)
                 return false;
             else
                 return true;
