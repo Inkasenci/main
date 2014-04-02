@@ -8,7 +8,7 @@ namespace SZI
 {
     static class LangPL
     {
-        static public Dictionary<string, string> InsertFormLang = new Dictionary<string,string>()
+        static public Dictionary<string, string> InsertFormLang = new Dictionary<string, string>()
         {
             {"textBoxCCID", "Pole \"Id\": Zły numer PESEL.\n"},
             {"textBoxName", "Pole \"Imię\": Wypełniono niepoprawnie.\n"},
@@ -29,27 +29,30 @@ namespace SZI
 
         static public Dictionary<string, string> FaqQuestion = new Dictionary<string, string>()
         {
-            {"dataBaseTables", "Zarządzanie bazą danych"},
-            {"dataBaseTableAdress", "Adresy"},
-            {"dataBaseTableArea", "Tereny"},
-            {"dataBaseTableCollector", "Inkasenci"},
-            {"dataBaseTableCounter", "Liczniki"},
-            {"dataBaseTableCustomer", "Klienci"}
+            {"aboutHelp","O tym dokumencie."},
+            {"dataBaseTables", "Zarządzanie bazą danych."},
+            {"dataBaseTableAdress", "Nie mogę dodać nowego adresu."},
+            {"dataBaseTableArea", "Nie mogę dodać nowego terenu."},
+            {"dataBaseTableCollector", "Nie mogę dodać nowego inkasenta."},
+            {"dataBaseTableCounter", "Nie mogę dodać nowego licznika."},
+            {"dataBaseTableCustomer", "Nie mogę dodać nowego klienta."}
         };
 
         static public Dictionary<string, string> FaqAnswers = new Dictionary<string, string>()
         {
-            {"dataBaseTables", "W przypadku problemów związanych z zarządzaniem danych, \n poniższe dzały odpowiedzą na pytania dotyczące każdej tabeli."},
-            {"dataBaseTableAdress", "Zarządzanie adresami: \n Id adresu: generowany automatycznie \n Numer domu \n Numer mieszkania \n Id terenu: identyfikator terenu, \n inaczej mówiąc, ulicy, do której przypisany jest dany adres"},
-            {"dataBaseTableArea", "Zarządzanie terenami: \n Id terenu: generowane automatycznie \n Ulica: nazwa ulicy należącej do terenu, \n zakładamy, że każdy teren jest oddzielną ulicą \n Id inkasenta: numer PESEL inkasenta, \n który zajmuje się sprawdzaniem stanu liczników na danym terenie"},
-            {"dataBaseTableCollector", "Zarządzanie inkasentami: \n Id inkasenta: numer PESEL inkasenta \n Imię: imię inkasenta \n Nazwisko: nazwisko inkasenta \n Kod pocztowy: kod pocztowy z myślnikiem miejsca zamieszkania inkasenta \n Adres: ulica, na której mieszka inkasent \n Telefon kontaktowy: numer telefonu inkasenta, 9 cyfr"},
-            {"dataBaseTableCounter", "Zarządzanie licznikami: \n Numer licznika: cyfrowy numer licznika \n Numer układu: fabryczny numer układu, złożony z cyfr \n Id adresu: identyfikator adresu, pod którym znajduje się dany licznik \n Id klienta: numer PESEL właściciela licznika"},
-            {"dataBaseTableCustomer", "Zarządzanie klientami: \n Id klienta: numer PESEL klienta \n Imię: imię klienta \n Nazwisko: nazwisko klienta \n Kod pocztowy: kod pocztowy z myślnikiem miejsca zamieszkania klienta \n Adres: ulica, na której mieszka klient \n Telefon kontaktowy: numer telefonu klienta, 9 cyfr"}
+            {"aboutHelp","Dokument ten ma służyć pomocą w podstawowych kwestiach dotyczących obsługi aplikacji pozwalającej zarządzać danymi dostarczanymi przez inkasentów jak i również nimi samymi. \r\n\r\n Autoram aplikacji SZI ( System Zarządzania Inkasentami ) są: \r\n Patryk Zawadzki [ 254155 ], \r\n Rafał Burzyński [ 254068 ], \r\n Marcin Nowak [ 254118 ]"},
+            {"dataBaseTables", "W przypadku problemów związanych z zarządzaniem danymi w bazie, sekcja ta powinna pozwolić na rozwiązanie pojawiających się problemów, wyjaśniając krok po kroku powstałe błędy. \r\n\r\n Możemy napotkać się z dwoma rodzajami błędów, pierwszy dotyczy pojedynczego pola występujące podczas uzupełniania, informujący o błędnie wprowadzonych danych ( Rys. 1 ) HelpImg/errorIcon.png Drugim typem jest informacja zwrotna uzyskana podczas wysyłania formularza oznajmująca błędnie wypełniony formularz ( Rys. 2 ) HelpImg/errorMessage.png"},
+            {"dataBaseTableAdress", "W przypadku problemu związanego z dodaniem nowego adresu należy podać odpowiednio: \r\n Numer domu - postać numeryczna \r\n Numer mieszkania - postać numeryczna \r\n Id terenu: wybierany spośród dostępnych terenów - wpisanych w bazie ulic, \r\n Przykład poprawnie uzupełnionego formularza ( Rys. 1 ) HelpImg/trueFormAdress.png"},
+            {"dataBaseTableArea", "W przypadku problemu związanego z dodaniem nowego terenu: \r\n Ulica - nazwa ulicy należącej do danego terenu, forma tekstowa, zakładamy, że każdy teren jest oddzielną ulicą \r\n Id inkasenta: jeden z inkasentów wybranych spośród dostępnych, który zajmuje się sprawdzaniem stanu liczników na danym terenie \r\n Przykład poprawnie uzupełnionego formularza ( Rys. 1 ) HelpImg/trueFormArea.png"},
+            {"dataBaseTableCollector", "W przypadku problemu związanego z dodaniem nowego inkasenta: \r\n Id inkasenta: numer PESEL inkasenta ( 11 cyfr ) \r\n Imię: imię inkasenta ( minimum 2 litery ) \r\n Nazwisko: nazwisko inkasenta ( minimum 2 litery ) \r\n Kod pocztowy: kod pocztowy w formacie XX-XXX \r\n Adres: ulica i nr lokalu w którym mieszka inkasent \r\n Telefon kontaktowy: numer telefonu inkasenta, 9 cyfr \r\n Przykład poprawnie uzupełnionego formularza ( Rys. 1 ) HelpImg/trueFormCollector.png"},
+            {"dataBaseTableCounter", "W przypadku problemu związanego z dodaniem nowego licznika: \r\n Numer licznika: cyfrowy numer licznika \r\n Numer układu: fabryczny numer układu złożony z cyfr \r\n Id adresu: adresu, pod którym znajduje się dany licznik \r\n Id klienta: wybierany właściciel licznika \r\n Przykład poprawnie uzupełnionego formularza ( Rys. 1 ) HelpImg/trueFormCounter.png"},
+            {"dataBaseTableCustomer", "W przypadku problemu związanego z dodaniem nowego klienta: \r\n Id inkasenta: numer PESEL klienta ( 11 cyfr ) \r\n Imię: imię klienta ( minimum 2 litery ) \r\n Nazwisko: nazwisko klienta ( minimum 2 litery ) \r\n Kod pocztowy: kod pocztowy w formacie XX-XXX \r\n Adres: ulica i nr lokalu w którym mieszka inkasent \r\n Telefon kontaktowy: numer telefonu inkasenta, 9 cyfr \r\n Przykład poprawnie uzupełnionego formularza ( Rys. 1 ) HelpImg/trueFormCollector.png"}
         };
 
         static public Dictionary<string, string> FaqErrors = new Dictionary<string, string>()
         {
-            {"indexOurOfRange","Nie istnieje pomoc dla wskazanego elementu!"}
+            {"indexOurOfRange","Nie istnieje pomoc dla wskazanego elementu!"},
+            {"loadHelp","Problem z ładowanie danych!"}
         };
     }
 }
