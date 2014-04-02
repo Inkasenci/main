@@ -29,10 +29,10 @@ namespace SZI
             string[] tabNames;
 
             // Inicjalizacja
-            tabNames = new string[4] { "Inkasenci", "Klienci", "Tereny", "Liczniki" };
+            tabNames = new string[5] { "Inkasenci", "Klienci", "Tereny", "Liczniki", "Adresy" };
             tabControl = new TabControl();
-            tabPages = new TabPage[4];
-            dataBase = new IDataBase[4] { new Collectors(), new Customers(), new Areas(), new Counters() };
+            tabPages = new TabPage[5];
+            dataBase = new IDataBase[5] { new Collectors(), new Customers(), new Areas(), new Counters(), new Addresses() };
             listView = new ListView[dataBase.Length];
             timerRefresh.Start();
 

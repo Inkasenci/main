@@ -14,10 +14,10 @@ namespace SZI
     {
         private int selectedTab = 0;
 
-        private bool CollectorEPInitialized = false, CustomerEPInitialized = false, AreaEPInitialized = false, CounterEPInitialized = false;
+        private bool CollectorEPInitialized = false, CustomerEPInitialized = false, AreaEPInitialized = false, CounterEPInitialized = false, AddressEPInitialized = false;
         private Dictionary<string, ValidatingMethod> NameToMethod_Dict;
-        private Dictionary<TextBox, ErrorProvider> TBtoEP_Collector_Dict, TBtoEP_Customer_Dict, TBtoEP_Area_Dict, TBtoEP_Counter_Dict, Current_TBtoEP_Dict;
-        private Dictionary<TextBox, bool> TBtoBool_Collector_Dict, TBtoBool_Customer_Dict, TBtoBool_Area_Dict, TBtoBool_Counter_Dict, Current_TBtoBool_Dict;
+        private Dictionary<TextBox, ErrorProvider> TBtoEP_Collector_Dict, TBtoEP_Customer_Dict, TBtoEP_Area_Dict, TBtoEP_Counter_Dict, TBtoEP_Address_Dict, Current_TBtoEP_Dict;
+        private Dictionary<TextBox, bool> TBtoBool_Collector_Dict, TBtoBool_Customer_Dict, TBtoBool_Area_Dict, TBtoBool_Counter_Dict, TBtoBool_Address_Dict, Current_TBtoBool_Dict;
 
         public InsertForm(int MainFormSelectedTab)
         {
@@ -137,6 +137,20 @@ namespace SZI
             TBtoBool_Counter_Dict.Add(tbCounterCustomerID, false);
         }
 
+        private void InitializeAddressDictAndTB()
+        {
+            TBtoEP_Address_Dict = new Dictionary<TextBox, ErrorProvider>();
+            TBtoBool_Address_Dict = new Dictionary<TextBox, bool>();
+
+            tbHouseNo.Validating += Validation;
+            TBtoEP_Address_Dict.Add(tbHouseNo, Auxiliary.InitializeErrorProvider(tbHouseNo));
+            TBtoBool_Address_Dict.Add(tbHouseNo, false);
+
+            tbFlatNo.Validating += Validation;
+            TBtoEP_Address_Dict.Add(tbFlatNo, Auxiliary.InitializeErrorProvider(tbFlatNo));
+            TBtoBool_Address_Dict.Add(tbFlatNo, false);
+        }
+
         private void InitializeEP(int tabPage)
         {
             switch (tabPage)
@@ -163,6 +177,12 @@ namespace SZI
                     InitializeCounterDictAndTB();
                     Current_TBtoEP_Dict = TBtoEP_Counter_Dict;
                     Current_TBtoBool_Dict = TBtoBool_Counter_Dict;
+                    break;
+
+                case 4:
+                    InitializeAddressDictAndTB();
+                    Current_TBtoEP_Dict = TBtoEP_Address_Dict;
+                    Current_TBtoBool_Dict = TBtoBool_Address_Dict;
                     break;
 
                 default:
@@ -206,6 +226,13 @@ namespace SZI
             tbCounterNo.Text = "";
             tbCounterCustomerID.Text = "";
             tbCounterAddressID.Text = "";
+        }
+
+        private void ClearTBAddress()
+        {
+            tbHouseNo.Text = "";
+            tbFlatNo.Text = "";
+            tbAddressAreaId.Text = "";
         }
 
         #endregion
@@ -300,6 +327,29 @@ namespace SZI
             }
         }
 
+        private bool InsertAddress()
+        {
+            int Parse;
+            Address a = new Address();
+
+            a.AddressId = Guid.NewGuid();
+            Int32.TryParse(tbHouseNo.Text, out Parse);
+            a.HouseNo = Parse;
+            Int32.TryParse(tbFlatNo.Text, out Parse);
+            a.FlatNo = Parse;
+            a.AreaId = new Guid(tbAddressAreaId.Text);
+
+            if (Auxiliary.IsCurrentValueOK(Current_TBtoBool_Dict))
+            {
+                a.InsertIntoDB();
+                return true;
+            }
+            else
+            {
+                MessageBox.Show(LangPL.InsertFormLang["Fill in all fields"]);
+                return false;
+            }
+        }
 
         #endregion
 
@@ -345,6 +395,11 @@ namespace SZI
                         this.Close();
                     break;
 
+                case 4:
+                    if (InsertAddress())
+                        this.Close();
+                    break;
+
                 default:
                     break;
             }
@@ -368,6 +423,10 @@ namespace SZI
 
                 case 3:
                     ClearTBCounter();
+                    break;
+
+                case 4:
+                    ClearTBAddress();
                     break;
 
                 default:
@@ -418,6 +477,16 @@ namespace SZI
                     }
                     Current_TBtoEP_Dict = TBtoEP_Counter_Dict;
                     Current_TBtoBool_Dict = TBtoBool_Counter_Dict;
+                    break;
+
+                case 4:
+                    if (!AddressEPInitialized)
+                    {
+                        InitializeEP(selectedTab);
+                        AddressEPInitialized = true;
+                    }
+                    Current_TBtoEP_Dict = TBtoEP_Address_Dict;
+                    Current_TBtoBool_Dict = TBtoBool_Address_Dict;
                     break;
 
                 default:

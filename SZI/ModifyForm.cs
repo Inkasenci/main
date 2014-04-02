@@ -59,6 +59,12 @@ namespace SZI
                     Counter modifiedCounter = dataBase.Counters.SqlQuery("SELECT * FROM Counter WHERE CounterNo={0}", ids.ElementAt(0)).SingleOrDefault();
                     textBoxesTexts = new string[] { modifiedCounter.CounterNo.ToString(), modifiedCounter.CircuitNo.ToString(), modifiedCounter.AddressId.ToString(), modifiedCounter.CustomerId };
                     break;
+                case 4:
+                    labelsTexts = new string[] { "Id adresu: ", "Numer domu: ", "Numer mieszkania: ", "Id terenu: " };
+                    textBoxesNames = new string[] { "AddressId", "HouseNo", "FlatNo", "AreaId" };
+                    Address modifiedAddress = dataBase.Addresses.SqlQuery("SELECT * FROM Address WHERE AddressId={0}", ids.ElementAt(0)).SingleOrDefault();
+                    textBoxesTexts = new string[] { modifiedAddress.AddressId.ToString(), modifiedAddress.HouseNo.ToString(), modifiedAddress.FlatNo.ToString(), modifiedAddress.AreaId.ToString() };
+                    break;
             }
 
             NameToMethod_Dict = Auxiliary.Modify_CreateNameToMethodDict();
@@ -104,7 +110,7 @@ namespace SZI
                 textBoxes[i].Text = textBoxesTexts[i];
                 textBoxes[i].Location = new Point(150, 30 * (i + 1));
             }
-            textBoxes[0].Enabled = false;
+            //textBoxes[0].Enabled = false;
             return textBoxes;
         }
 
@@ -116,6 +122,7 @@ namespace SZI
         private void btSave_Click(object sender, EventArgs e)
         {
             string validateString;
+            int Parse;
             
             switch (selectedTab)
             {
@@ -195,14 +202,35 @@ namespace SZI
 
                 case 3:
                     Counter modifiedCounter = new Counter();
-                    modifiedCounter.CounterNo = Convert.ToInt32(this.Controls.Find("CounterId", true)[0].Text);
-                    modifiedCounter.CircuitNo = Convert.ToInt32(this.Controls.Find("Street", true)[0].Text);
+
+                    modifiedCounter.CounterNo = Convert.ToInt32(this.Controls.Find("CounterNo", true)[0].Text);
+                    Int32.TryParse(this.Controls.Find("CircuitNo", true)[0].Text, out Parse);
+                    modifiedCounter.CircuitNo = Parse;
                     modifiedCounter.AddressId = new Guid(this.Controls.Find("AddressId", true)[0].Text);
                     modifiedCounter.CustomerId = this.Controls.Find("CustomerId", true)[0].Text;
 
                     if (Auxiliary.IsCurrentValueOK(TBtoBool_Dict))
                     {
                         modifiedCounter.ModifyRecord(ids.ElementAt(0));
+                        this.Close();
+                    }
+                    else
+                        MessageBox.Show(LangPL.InsertFormLang["Fill in all fields"]);  
+                    break;
+
+                case 4:
+                    Address modifiedAddress = new Address();
+
+                    modifiedAddress.AddressId = new Guid(this.Controls.Find("AddressId", true)[0].Text);
+                    Int32.TryParse(this.Controls.Find("HouseNo", true)[0].Text, out Parse);
+                    modifiedAddress.HouseNo = Parse;
+                    Int32.TryParse(this.Controls.Find("FlatNo", true)[0].Text, out Parse);
+                    modifiedAddress.FlatNo = Parse;
+                    modifiedAddress.AreaId = new Guid(this.Controls.Find("AreaId", true)[0].Text);
+
+                    if (Auxiliary.IsCurrentValueOK(TBtoBool_Dict))
+                    {
+                        modifiedAddress.ModifyRecord(ids.ElementAt(0));
                         this.Close();
                     }
                     else

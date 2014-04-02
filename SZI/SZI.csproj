@@ -72,6 +72,7 @@
       <DependentUpon>Model.tt</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Addresses.cs" />
     <Compile Include="Area.cs">
       <DependentUpon>Model.tt</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -29,6 +29,10 @@ namespace SZI
                     DeleteFromCounters(IDs);
                     break;
 
+                case 4:
+                    DeleteFromAddresses(IDs);
+                    break;
+
                 default: 
                     break;
             }
@@ -120,6 +124,28 @@ namespace SZI
                 }
             }
         }
+        
+        private static void DeleteFromAddresses(List<string> IDs)
+        {
+            List<Guid> guidIDs = new List<Guid>(IDs.Count);
 
+            for (int i = 0; i < IDs.Count; i++)
+                guidIDs.Insert(i, new Guid(IDs[i]));
+
+            using (var database = new CollectorsManagementSystemEntities())
+            {
+                foreach (var Id in guidIDs)
+                {
+                    var result = from r in database.Addresses where r.AddressId == Id select r;
+
+                    if (result.Count() > 0)
+                    {
+                        foreach (Address a in result)
+                            database.Addresses.Remove(a);
+                    }
+                    database.SaveChanges();
+                }
+            }
+        }
     }
 }
