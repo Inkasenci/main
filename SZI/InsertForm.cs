@@ -208,6 +208,13 @@ namespace SZI
             tbCounterAddressID.Text = "";
         }
 
+        private void ClearTBAddress()
+        {
+            tbHouseNo.Text = "";
+            tbFlatNo.Text = "";
+            tbAddressAreaId.Text = "";
+        }
+
         #endregion
 
         #region Wprowadzanie do bazy
@@ -300,6 +307,18 @@ namespace SZI
             }
         }
 
+        private bool InsertAddress()
+        {
+            Address a = new Address();
+
+            a.AddressId = Guid.NewGuid();
+            a.HouseNo = Convert.ToInt32(tbHouseNo.Text);
+            a.FlatNo = Convert.ToInt32(tbFlatNo.Text);
+            a.AreaId = new Guid(tbAddressAreaId.Text);
+
+            a.InsertIntoDB();
+            return true;
+        }
 
         #endregion
 
@@ -345,6 +364,11 @@ namespace SZI
                         this.Close();
                     break;
 
+                case 4:
+                    if (InsertAddress())
+                        this.Close();
+                    break;
+
                 default:
                     break;
             }
@@ -368,6 +392,10 @@ namespace SZI
 
                 case 3:
                     ClearTBCounter();
+                    break;
+
+                case 4:
+                    ClearTBAddress();
                     break;
 
                 default:
