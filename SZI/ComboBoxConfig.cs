@@ -145,7 +145,6 @@ namespace SZI
         private void comboBox_DropDown(object sender, EventArgs e)
         {
             comboBox.DropDownWidth = AdjustComboBoxWidth();
-
             if (comboBox.SelectedIndex >= 0)
                 comboBox.Items[comboBox.SelectedIndex] = itemList.ElementAt(comboBox.SelectedIndex).longItemDescription;
         }

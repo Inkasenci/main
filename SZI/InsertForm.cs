@@ -211,7 +211,7 @@ namespace SZI
         #endregion
 
         #region Wprowadzanie do bazy
-        private void InsertCollector()
+        private bool InsertCollector()
         {
             Collector c = new Collector();
             c.CollectorId = tbCollectorID.Text;
@@ -223,12 +223,18 @@ namespace SZI
             c.PhoneNumber = tbCollectorPhoneNumber.Text;
 
             if (Auxiliary.IsCurrentValueOK(Current_TBtoBool_Dict))
+            {
                 c.InsertIntoDB();
+                return true;
+            }
             else
+            {
                 MessageBox.Show(LangPL.InsertFormLang["Fill in all fields"]);
+                return false;
+            }
         }
 
-        private void InsertCustomer()
+        private bool InsertCustomer()
         {
             Customer c = new Customer();
             c.CustomerId = tbCustomerID.Text;
@@ -240,12 +246,18 @@ namespace SZI
             c.PhoneNumber = tbCustomerPhoneNumber.Text;
 
             if (Auxiliary.IsCurrentValueOK(Current_TBtoBool_Dict))
+            {
                 c.InsertIntoDB();
+                return true;
+            }
             else
+            {
                 MessageBox.Show(LangPL.InsertFormLang["Fill in all fields"]);
+                return false;
+            }
         }
 
-        private void InsertArea()
+        private bool InsertArea()
         {
             Area a = new Area();
             a.AreaId = Guid.NewGuid();
@@ -253,12 +265,18 @@ namespace SZI
             a.Street = tbStreet.Text;
 
             if (Auxiliary.IsCurrentValueOK(Current_TBtoBool_Dict))
+            {
                 a.InsertIntoDB();
+                return true;
+            }
             else
+            {
                 MessageBox.Show(LangPL.InsertFormLang["Fill in all fields"]);
+                return false;
+            }
         }
 
-        private void InsertCounter()
+        private bool InsertCounter()
         {
             int Parse;
             Counter c = new Counter();
@@ -271,10 +289,17 @@ namespace SZI
             c.CustomerId = tbCounterCustomerID.Text;
 
             if (Auxiliary.IsCurrentValueOK(Current_TBtoBool_Dict))
+            {
                 c.InsertIntoDB();
+                return true;
+            }
             else
+            {
                 MessageBox.Show(LangPL.InsertFormLang["Fill in all fields"]);
+                return false;
+            }
         }
+
 
         #endregion
 
@@ -297,23 +322,27 @@ namespace SZI
             }
         }
         private void btOK_Click(object sender, EventArgs e)
-        {            
+        {
             switch (selectedTab)
             {
                 case 0:
-                    InsertCollector();
+                    if (InsertCollector())
+                        this.Close();
                     break;
 
                 case 1:
-                    InsertCustomer();
+                    if (InsertCustomer())
+                        this.Close();
                     break;
 
                 case 2:
-                    InsertArea();
+                    if (InsertArea())
+                        this.Close();
                     break;
 
                 case 3:
-                    InsertCounter();
+                    if (InsertCounter())
+                        this.Close();
                     break;
 
                 default:

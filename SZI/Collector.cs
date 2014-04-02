@@ -13,6 +13,7 @@ namespace SZI
     using System.Collections.Generic;
     using System.Data.Entity.Infrastructure;
     using System.Linq;
+    using System.Text.RegularExpressions;
 
     public partial class Collector : IItem
     {
@@ -47,6 +48,7 @@ namespace SZI
             {
                 using (var database = new CollectorsManagementSystemEntities())
                 {
+                    this.PostalCode = Regex.Replace(this.PostalCode, "-", "");
                     database.Collectors.Add(this);
                     database.SaveChanges();
                 }
@@ -70,7 +72,7 @@ namespace SZI
                     "UPDATE Collector SET Name={0}, LastName={1}, PostalCode={2}, City={3}, Address={4}, PhoneNumber={5} WHERE CollectorId={6}",
                     this.Name,
                     this.LastName,
-                    this.PostalCode,
+                    Regex.Replace(this.PostalCode, "-", ""),
                     this.City,
                     this.Address,
                     this.PhoneNumber,
