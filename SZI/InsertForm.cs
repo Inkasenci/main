@@ -329,11 +329,14 @@ namespace SZI
 
         private bool InsertAddress()
         {
+            int Parse;
             Address a = new Address();
 
             a.AddressId = Guid.NewGuid();
-            a.HouseNo = Convert.ToInt32(tbHouseNo.Text);
-            a.FlatNo = Convert.ToInt32(tbFlatNo.Text);
+            Int32.TryParse(tbHouseNo.Text, out Parse);
+            a.HouseNo = Parse;
+            Int32.TryParse(tbFlatNo.Text, out Parse);
+            a.FlatNo = Parse;
             a.AreaId = new Guid(tbAddressAreaId.Text);
 
             if (Auxiliary.IsCurrentValueOK(Current_TBtoBool_Dict))
