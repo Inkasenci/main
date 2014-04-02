@@ -9,13 +9,15 @@ namespace SZI
 {
     class ComboBoxConfig
     {
-        string tableName;
-        string foreignKey;
-        ComboBox comboBox;
-        int[] shortDescriptionWords;
-        List<ComboBoxItem> itemList;
+        string tableName; //nazwa tabeli, ktorej rekordy beda wyswietlanie w comboBox
+        string foreignKey; //klucz elementu, ktory ma byc wybrany po otwarciu formularza z comboBox (potrzebne przy modyfikacji)
+        ComboBox comboBox; //zwracany comboBox
+        int[] shortDescriptionWords; //numery slow rekordu, ktore maja byc uzyte jako skrocony opis rekordu (liczone od zera)
+        List<ComboBoxItem> itemList; //rekordy, ich krotkie i dlugie opisy
 
         private string ConvertRecordToString(string[] recordFields)
+        /*przyjmuje tablice stringow (pol rekordu)
+         * zwraca pola polaczone w jeden string*/
         {
             string convertedRecord = String.Empty;
 
@@ -26,6 +28,7 @@ namespace SZI
         }
 
         private List<ComboBoxItem> InitializeItems()
+        //inicjalizuje rekordy comboBoxa, ich krotki i dlugi opis
         {
             List<ComboBoxItem> initializedItems = new List<ComboBoxItem>();
             IDataBase dataBase;
@@ -60,11 +63,15 @@ namespace SZI
         }
 
         private string MineForeignKey(string item)
+        /*przyjmuje dlugi opis rekordu
+         * zwraca klucz rekordu*/
         {
             return item.Substring(0, item.IndexOf(' '));
         }
 
         private string MineDescriptionWords(string item)
+        /*przyjmuje dlugi opis rekordu
+         * zwraca krotki opis*/
         {
             string minedDescription = String.Empty;
 
@@ -80,6 +87,7 @@ namespace SZI
         }
 
         private int AdjustComboBoxWidth()
+        //dopasowywuje szerokosc comboBox po rozwinieciu do najszerszego elementu
         {
             System.Drawing.Graphics g = comboBox.CreateGraphics();
             System.Drawing.Font f = comboBox.Font;
@@ -97,16 +105,21 @@ namespace SZI
         }
 
         public string ReturnForeignKey()
+        //zwraca klucz rekordu, mozna wykorzystac ta metode, aby zapisac klucz w tabeli na koniec modyfikacji lub dodawania
         {
             return MineForeignKey(itemList.ElementAt(comboBox.SelectedIndex).longItemDescription);
         }
 
         public ComboBox InitializeComboBox()
+        //zwraca zainicjalizowany comboBox
         {
             return this.comboBox;
         }
 
         public ComboBoxConfig(string tableName, string comboBoxName, System.Drawing.Point location, string foreignKey = "")
+        /*przyjmuje nazwe tabeli, ktorej rekordy beda w comboBox, nazwe comboBoxa, jego polozenie
+         * ewentualnie przyjmuje tez klucz glowny rekordu, jesli comboBox powinien miec od razu cos ustawione*
+         * inicjalizuje odpowiednie pola klasy i wykonuje podstawowe czynnosci*/
         {
             this.tableName = tableName;
             this.foreignKey = foreignKey;
@@ -137,12 +150,14 @@ namespace SZI
         }
 
         private void comboBox_DropDownClosed(object sender, EventArgs e)
+        //kiedy comboBox jest zwijany
         {
             if (comboBox.SelectedIndex >= 0)
                 comboBox.Items[comboBox.SelectedIndex] = itemList.ElementAt(comboBox.SelectedIndex).shortItemDescription;
         }
 
         private void comboBox_DropDown(object sender, EventArgs e)
+        //kiedy comboBox jest rozwijany
         {
             comboBox.DropDownWidth = AdjustComboBoxWidth();
             if (comboBox.SelectedIndex >= 0)
