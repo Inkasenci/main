@@ -122,6 +122,7 @@ namespace SZI
         private void btSave_Click(object sender, EventArgs e)
         {
             string validateString;
+            int Parse;
             
             switch (selectedTab)
             {
@@ -201,8 +202,10 @@ namespace SZI
 
                 case 3:
                     Counter modifiedCounter = new Counter();
+
                     modifiedCounter.CounterNo = Convert.ToInt32(this.Controls.Find("CounterNo", true)[0].Text);
-                    modifiedCounter.CircuitNo = Convert.ToInt32(this.Controls.Find("CircuitNo", true)[0].Text);
+                    Int32.TryParse(this.Controls.Find("CircuitNo", true)[0].Text, out Parse);
+                    modifiedCounter.CircuitNo = Parse;
                     modifiedCounter.AddressId = new Guid(this.Controls.Find("AddressId", true)[0].Text);
                     modifiedCounter.CustomerId = this.Controls.Find("CustomerId", true)[0].Text;
 
@@ -217,9 +220,12 @@ namespace SZI
 
                 case 4:
                     Address modifiedAddress = new Address();
+
                     modifiedAddress.AddressId = new Guid(this.Controls.Find("AddressId", true)[0].Text);
-                    modifiedAddress.HouseNo = Convert.ToInt32(this.Controls.Find("HouseNo", true)[0].Text);
-                    modifiedAddress.FlatNo = Convert.ToInt32(this.Controls.Find("FlatNo", true)[0].Text);
+                    Int32.TryParse(this.Controls.Find("HouseNo", true)[0].Text, out Parse);
+                    modifiedAddress.HouseNo = Parse;
+                    Int32.TryParse(this.Controls.Find("FlatNo", true)[0].Text, out Parse);
+                    modifiedAddress.FlatNo = Parse;
                     modifiedAddress.AreaId = new Guid(this.Controls.Find("AreaId", true)[0].Text);
 
                     if (Auxiliary.IsCurrentValueOK(TBtoBool_Dict))
