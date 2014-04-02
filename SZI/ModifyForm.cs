@@ -110,7 +110,7 @@ namespace SZI
                 textBoxes[i].Text = textBoxesTexts[i];
                 textBoxes[i].Location = new Point(150, 30 * (i + 1));
             }
-            textBoxes[0].Enabled = false;
+            //textBoxes[0].Enabled = false;
             return textBoxes;
         }
 
@@ -201,8 +201,8 @@ namespace SZI
 
                 case 3:
                     Counter modifiedCounter = new Counter();
-                    modifiedCounter.CounterNo = Convert.ToInt32(this.Controls.Find("CounterId", true)[0].Text);
-                    modifiedCounter.CircuitNo = Convert.ToInt32(this.Controls.Find("Street", true)[0].Text);
+                    modifiedCounter.CounterNo = Convert.ToInt32(this.Controls.Find("CounterNo", true)[0].Text);
+                    modifiedCounter.CircuitNo = Convert.ToInt32(this.Controls.Find("CircuitNo", true)[0].Text);
                     modifiedCounter.AddressId = new Guid(this.Controls.Find("AddressId", true)[0].Text);
                     modifiedCounter.CustomerId = this.Controls.Find("CustomerId", true)[0].Text;
 
@@ -222,8 +222,13 @@ namespace SZI
                     modifiedAddress.FlatNo = Convert.ToInt32(this.Controls.Find("FlatNo", true)[0].Text);
                     modifiedAddress.AreaId = new Guid(this.Controls.Find("AreaId", true)[0].Text);
 
-                    modifiedAddress.ModifyRecord(ids.ElementAt(0));
-                    this.Close();
+                    if (Auxiliary.IsCurrentValueOK(TBtoBool_Dict))
+                    {
+                        modifiedAddress.ModifyRecord(ids.ElementAt(0));
+                        this.Close();
+                    }
+                    else
+                        MessageBox.Show(LangPL.InsertFormLang["Fill in all fields"]);  
                     break;
             }
         }

@@ -28,6 +28,7 @@ namespace SZI
                 case 3:
                     DeleteFromCounters(IDs);
                     break;
+
                 case 4:
                     DeleteFromAddresses(IDs);
                     break;

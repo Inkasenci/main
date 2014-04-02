@@ -54,10 +54,13 @@ namespace SZI
                 {"PostalCode", new ValidatingMethod(MainValidation.PostalCodeValidation)},
                 {"PhoneNumber", new ValidatingMethod(MainValidation.PhoneValidation)},
                 {"Address", new ValidatingMethod(MainValidation.EmptyString)},
-                {"CounterNo", new ValidatingMethod(MainValidation.CircuitAndCounterNumberValidation)},
-                {"CircuitNo", new ValidatingMethod(MainValidation.CircuitAndCounterNumberValidation)},
+                {"CounterNo", new ValidatingMethod(MainValidation.CircuitAndCounterAndHouseAndFlatNumberValidation)},
+                {"CircuitNo", new ValidatingMethod(MainValidation.CircuitAndCounterAndHouseAndFlatNumberValidation)},
                 {"AddressId", new ValidatingMethod(MainValidation.EmptyString)},
-                {"CustomerId", new ValidatingMethod(MainValidation.CustomerExists)}
+                {"CustomerId", new ValidatingMethod(MainValidation.CustomerExists)},
+                {"Street", new ValidatingMethod(MainValidation.EmptyString)},
+                {"HouseNo", new ValidatingMethod(MainValidation.CircuitAndCounterAndHouseAndFlatNumberValidation)},
+                {"FlatNo", new ValidatingMethod(MainValidation.CircuitAndCounterAndHouseAndFlatNumberValidation)}
             };
         }
 
@@ -84,10 +87,13 @@ namespace SZI
                 {"tbStreet", new ValidatingMethod(MainValidation.StreetValidation)},
                 {"tbAreaCollectorID", new ValidatingMethod(MainValidation.OptionalCollector)},
 
-                {"tbCounterNo", new ValidatingMethod(MainValidation.CircuitAndCounterNumberValidation)},
-                {"tbCircuitNo", new ValidatingMethod(MainValidation.CircuitAndCounterNumberValidation)},
+                {"tbCounterNo", new ValidatingMethod(MainValidation.CircuitAndCounterAndHouseAndFlatNumberValidation)},
+                {"tbCircuitNo", new ValidatingMethod(MainValidation.CircuitAndCounterAndHouseAndFlatNumberValidation)},
                 {"tbCounterAddressID", new ValidatingMethod(MainValidation.EmptyString)},
-                {"tbCounterCustomerID", new ValidatingMethod(MainValidation.CustomerExists)}
+                {"tbCounterCustomerID", new ValidatingMethod(MainValidation.CustomerExists)},
+
+                {"tbHouseNo", new ValidatingMethod(MainValidation.CircuitAndCounterAndHouseAndFlatNumberValidation)},
+                {"tbFlatNo", new ValidatingMethod(MainValidation.CircuitAndCounterAndHouseAndFlatNumberValidation)}
             };
         }
     }
