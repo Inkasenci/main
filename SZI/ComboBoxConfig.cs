@@ -45,7 +45,7 @@ namespace SZI
                     break;
                 case "Area":
                     dataBase = new Areas();
-                    shortDescriptionWords = new int[] { 1, 2 };
+                    shortDescriptionWords = new int[] { 1 };
                     break;
                 case "Address":
                     dataBase = new Addresses();
