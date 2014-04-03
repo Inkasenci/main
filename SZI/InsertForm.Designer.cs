@@ -74,11 +74,19 @@
             this.label23 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
             this.btClear = new System.Windows.Forms.Button();
+            this.tpAddress = new System.Windows.Forms.TabPage();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.tbHouseNo = new System.Windows.Forms.TextBox();
+            this.tbFlatNo = new System.Windows.Forms.TextBox();
+            this.tbAddressAreaId = new System.Windows.Forms.TextBox();
             this.tcInsert.SuspendLayout();
             this.tpCollector.SuspendLayout();
             this.tpCustomer.SuspendLayout();
             this.tpArea.SuspendLayout();
             this.tpCounter.SuspendLayout();
+            this.tpAddress.SuspendLayout();
             this.SuspendLayout();
             // 
             // tbCollectorID
@@ -209,6 +217,7 @@
             this.tcInsert.Controls.Add(this.tpCustomer);
             this.tcInsert.Controls.Add(this.tpArea);
             this.tcInsert.Controls.Add(this.tpCounter);
+            this.tcInsert.Controls.Add(this.tpAddress);
             this.tcInsert.Location = new System.Drawing.Point(49, 12);
             this.tcInsert.Name = "tcInsert";
             this.tcInsert.SelectedIndex = 0;
@@ -506,6 +515,70 @@
             this.btClear.UseVisualStyleBackColor = true;
             this.btClear.Click += new System.EventHandler(this.btClear_Click);
             // 
+            // tpAddress
+            // 
+            this.tpAddress.Controls.Add(this.tbAddressAreaId);
+            this.tpAddress.Controls.Add(this.tbFlatNo);
+            this.tpAddress.Controls.Add(this.tbHouseNo);
+            this.tpAddress.Controls.Add(this.label25);
+            this.tpAddress.Controls.Add(this.label17);
+            this.tpAddress.Controls.Add(this.label15);
+            this.tpAddress.Location = new System.Drawing.Point(4, 22);
+            this.tpAddress.Name = "tpAddress";
+            this.tpAddress.Padding = new System.Windows.Forms.Padding(3);
+            this.tpAddress.Size = new System.Drawing.Size(274, 225);
+            this.tpAddress.TabIndex = 4;
+            this.tpAddress.Text = "Adres";
+            this.tpAddress.UseVisualStyleBackColor = true;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(6, 3);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(70, 13);
+            this.label15.TabIndex = 0;
+            this.label15.Text = "Numer domu:";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(6, 29);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(96, 13);
+            this.label17.TabIndex = 2;
+            this.label17.Text = "Numer mieszkania:";
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(6, 55);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(52, 13);
+            this.label25.TabIndex = 4;
+            this.label25.Text = "Id terenu:";
+            // 
+            // tbHouseNo
+            // 
+            this.tbHouseNo.Location = new System.Drawing.Point(117, 3);
+            this.tbHouseNo.Name = "tbHouseNo";
+            this.tbHouseNo.Size = new System.Drawing.Size(100, 20);
+            this.tbHouseNo.TabIndex = 5;
+            // 
+            // tbFlatNo
+            // 
+            this.tbFlatNo.Location = new System.Drawing.Point(117, 29);
+            this.tbFlatNo.Name = "tbFlatNo";
+            this.tbFlatNo.Size = new System.Drawing.Size(100, 20);
+            this.tbFlatNo.TabIndex = 6;
+            // 
+            // tbAddressAreaId
+            // 
+            this.tbAddressAreaId.Location = new System.Drawing.Point(117, 55);
+            this.tbAddressAreaId.Name = "tbAddressAreaId";
+            this.tbAddressAreaId.Size = new System.Drawing.Size(100, 20);
+            this.tbAddressAreaId.TabIndex = 7;
+            // 
             // InsertForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -525,6 +598,8 @@
             this.tpArea.PerformLayout();
             this.tpCounter.ResumeLayout(false);
             this.tpCounter.PerformLayout();
+            this.tpAddress.ResumeLayout(false);
+            this.tpAddress.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -577,5 +652,12 @@
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.TabPage tpAddress;
+        private System.Windows.Forms.TextBox tbAddressAreaId;
+        private System.Windows.Forms.TextBox tbFlatNo;
+        private System.Windows.Forms.TextBox tbHouseNo;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label15;
     }
 }

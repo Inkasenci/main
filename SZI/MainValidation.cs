@@ -42,17 +42,17 @@ namespace SZI
             return new string(a);
         }
 
-        static public bool CircuitAndCounterNumberValidation(string Number)
+        static public bool CircuitAndCounterAndHouseAndFlatNumberValidation(string Number)
         {
             int Parse;
 
             if (Int32.TryParse(Number, out Parse))
-                return CheckCircuitAndCounterNumber(Parse);
+                return CheckCircuitAndCounterAndHouseAndFlatNumber(Parse);
             else
                 return false;
         }
 
-        static private bool CheckCircuitAndCounterNumber(int No)
+        static private bool CheckCircuitAndCounterAndHouseAndFlatNumber(int No)
         {
             if (No > 0)
                 return true;
@@ -227,8 +227,8 @@ namespace SZI
         {
             string checkBug = String.Empty;
 
-            checkBug += CheckCircuitAndCounterNumber(c.CounterNo) ? String.Empty : LangPL.InsertFormLang["textBoxCounterNo"];
-            checkBug += CheckCircuitAndCounterNumber(c.CircuitNo) ? String.Empty : LangPL.InsertFormLang["textBoxCircuitNo"];
+            checkBug += CheckCircuitAndCounterAndHouseAndFlatNumber(c.CounterNo) ? String.Empty : LangPL.InsertFormLang["textBoxCounterNo"];
+            checkBug += CheckCircuitAndCounterAndHouseAndFlatNumber(c.CircuitNo) ? String.Empty : LangPL.InsertFormLang["textBoxCircuitNo"];
             checkBug += (EmptyString(c.AddressId.Value.ToString())) ? String.Empty : LangPL.InsertFormLang["textBoxAddress"];
             //if (checkBug == String.Empty)
             //    checkBug += AddressExists(c.AddressId.Value) ? LangPL.InsertFormLang["textBoxAddressID"] : String.Empty;
