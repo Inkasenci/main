@@ -12,21 +12,39 @@ namespace SZI
 {
     public partial class InsertForm : Form
     {
-        private int selectedTab = 0;
+        private int selectedTab = 0; 
 
         private bool CollectorEPInitialized = false, CustomerEPInitialized = false, AreaEPInitialized = false, CounterEPInitialized = false, AddressEPInitialized = false;
         private Dictionary<string, ValidatingMethod> NameToMethod_Dict;
-        private Dictionary<TextBox, ErrorProvider> TBtoEP_Collector_Dict, TBtoEP_Customer_Dict, TBtoEP_Area_Dict, TBtoEP_Counter_Dict, TBtoEP_Address_Dict, Current_TBtoEP_Dict;
-        private Dictionary<TextBox, bool> TBtoBool_Collector_Dict, TBtoBool_Customer_Dict, TBtoBool_Area_Dict, TBtoBool_Counter_Dict, TBtoBool_Address_Dict, Current_TBtoBool_Dict;
+        private Dictionary<Control, ErrorProvider> ControltoEP_Collector_Dict, ControltoEP_Customer_Dict, ControltoEP_Area_Dict, ControltoEP_Counter_Dict, ControltoEP_Address_Dict, Current_ControltoEP_Dict;
+        private Dictionary<Control, bool> ControlToBool_Collector_Dict, ControlToBool_Customer_Dict, ControlToBool_Area_Dict, ControlToBool_Counter_Dict, ControlToBool_Address_Dict, Current_ControlToBool_Dict;
+        private ComboBoxConfig cbcCustomer, cbcCollector, cbcArea, cbcAddress;
 
         public InsertForm(int MainFormSelectedTab)
+        {            
+            InitializeComponent();
+            SetupControls(); 
+            selectedTab = MainFormSelectedTab;
+            tcInsert.SelectTab(MainFormSelectedTab); 
+            InitializeEP(selectedTab);                      
+        }
+
+        private void SetupControls()
         {
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            InitializeComponent();
-            selectedTab = MainFormSelectedTab;
-            tcInsert.SelectTab(MainFormSelectedTab);
             NameToMethod_Dict = Auxiliary.Insert_CreateNameToMethodDict();
-            InitializeEP(selectedTab);
+
+            cbcCollector = new ComboBoxConfig("Collector", "cbCollector", new Point(86, 29));
+            tcInsert.TabPages[2].Controls.Add(cbcCollector.InitializeComboBox());            
+
+            cbcCustomer = new ComboBoxConfig("Customer", "cbCustomer", new Point(89, 81));
+            tcInsert.TabPages[3].Controls.Add(cbcCustomer.InitializeComboBox());
+
+            cbcAddress = new ComboBoxConfig("Address", "cbAddress", new Point(89, 55));
+            tcInsert.TabPages[3].Controls.Add(cbcAddress.InitializeComboBox());  
+
+            cbcArea = new ComboBoxConfig("Area", "cbArea", new Point(117, 55));
+            tcInsert.TabPages[4].Controls.Add(cbcArea.InitializeComboBox());
         }
 
 
@@ -34,121 +52,124 @@ namespace SZI
         
         private void InitializeCollectorDictAndTB()
         {
-            TBtoEP_Collector_Dict = new Dictionary<TextBox, ErrorProvider>();
-            TBtoBool_Collector_Dict = new Dictionary<TextBox, bool>();
+            ControltoEP_Collector_Dict = new Dictionary<Control, ErrorProvider>();
+            ControlToBool_Collector_Dict = new Dictionary<Control, bool>();
 
             tbCollectorID.Validating += Validation;
-            TBtoEP_Collector_Dict.Add(tbCollectorID, Auxiliary.InitializeErrorProvider(tbCollectorID));
-            TBtoBool_Collector_Dict.Add(tbCollectorID, false);
+            ControltoEP_Collector_Dict.Add(tbCollectorID, Auxiliary.InitializeErrorProvider(tbCollectorID));
+            ControlToBool_Collector_Dict.Add(tbCollectorID, false);
             
             tbCollectorFirstName.Validating += Validation;
-            TBtoEP_Collector_Dict.Add(tbCollectorFirstName, Auxiliary.InitializeErrorProvider(tbCollectorFirstName));
-            TBtoBool_Collector_Dict.Add(tbCollectorFirstName, false);
+            ControltoEP_Collector_Dict.Add(tbCollectorFirstName, Auxiliary.InitializeErrorProvider(tbCollectorFirstName));
+            ControlToBool_Collector_Dict.Add(tbCollectorFirstName, false);
 
             tbCollectorLastName.Validating += Validation;
-            TBtoEP_Collector_Dict.Add(tbCollectorLastName, Auxiliary.InitializeErrorProvider(tbCollectorLastName));
-            TBtoBool_Collector_Dict.Add(tbCollectorLastName, false);
+            ControltoEP_Collector_Dict.Add(tbCollectorLastName, Auxiliary.InitializeErrorProvider(tbCollectorLastName));
+            ControlToBool_Collector_Dict.Add(tbCollectorLastName, false);
 
             tbCollectorPostalCode.Validating += Validation;
-            TBtoEP_Collector_Dict.Add(tbCollectorPostalCode, Auxiliary.InitializeErrorProvider(tbCollectorPostalCode));
-            TBtoBool_Collector_Dict.Add(tbCollectorPostalCode, false);
+            ControltoEP_Collector_Dict.Add(tbCollectorPostalCode, Auxiliary.InitializeErrorProvider(tbCollectorPostalCode));
+            ControlToBool_Collector_Dict.Add(tbCollectorPostalCode, false);
 
             tbCollectorCity.Validating += Validation;
-            TBtoEP_Collector_Dict.Add(tbCollectorCity, Auxiliary.InitializeErrorProvider(tbCollectorCity));
-            TBtoBool_Collector_Dict.Add(tbCollectorCity, false);
+            ControltoEP_Collector_Dict.Add(tbCollectorCity, Auxiliary.InitializeErrorProvider(tbCollectorCity));
+            ControlToBool_Collector_Dict.Add(tbCollectorCity, false);
 
             tbCollectorAddress.Validating += Validation;
-            TBtoEP_Collector_Dict.Add(tbCollectorAddress, Auxiliary.InitializeErrorProvider(tbCollectorAddress));
-            TBtoBool_Collector_Dict.Add(tbCollectorAddress, false);
+            ControltoEP_Collector_Dict.Add(tbCollectorAddress, Auxiliary.InitializeErrorProvider(tbCollectorAddress));
+            ControlToBool_Collector_Dict.Add(tbCollectorAddress, false);
 
             tbCollectorPhoneNumber.Validating += Validation;
-            TBtoEP_Collector_Dict.Add(tbCollectorPhoneNumber, Auxiliary.InitializeErrorProvider(tbCollectorPhoneNumber));
-            TBtoBool_Collector_Dict.Add(tbCollectorPhoneNumber, false);
+            ControltoEP_Collector_Dict.Add(tbCollectorPhoneNumber, Auxiliary.InitializeErrorProvider(tbCollectorPhoneNumber));
+            ControlToBool_Collector_Dict.Add(tbCollectorPhoneNumber, false);
         }
 
         private void InitializeCustomerDictAndTB()
         {
-            TBtoEP_Customer_Dict = new Dictionary<TextBox, ErrorProvider>();
-            TBtoBool_Customer_Dict = new Dictionary<TextBox, bool>();
+            ControltoEP_Customer_Dict = new Dictionary<Control, ErrorProvider>();
+            ControlToBool_Customer_Dict = new Dictionary<Control, bool>();
 
             tbCustomerID.Validating += Validation;
-            TBtoEP_Customer_Dict.Add(tbCustomerID, Auxiliary.InitializeErrorProvider(tbCustomerID));
-            TBtoBool_Customer_Dict.Add(tbCustomerID, false);
+            ControltoEP_Customer_Dict.Add(tbCustomerID, Auxiliary.InitializeErrorProvider(tbCustomerID));
+            ControlToBool_Customer_Dict.Add(tbCustomerID, false);
 
             tbCustomerFirstName.Validating += Validation;
-            TBtoEP_Customer_Dict.Add(tbCustomerFirstName, Auxiliary.InitializeErrorProvider(tbCustomerFirstName));
-            TBtoBool_Customer_Dict.Add(tbCustomerFirstName, false);
+            ControltoEP_Customer_Dict.Add(tbCustomerFirstName, Auxiliary.InitializeErrorProvider(tbCustomerFirstName));
+            ControlToBool_Customer_Dict.Add(tbCustomerFirstName, false);
 
             tbCustomerLastName.Validating += Validation;
-            TBtoEP_Customer_Dict.Add(tbCustomerLastName, Auxiliary.InitializeErrorProvider(tbCustomerLastName));
-            TBtoBool_Customer_Dict.Add(tbCustomerLastName, false);
+            ControltoEP_Customer_Dict.Add(tbCustomerLastName, Auxiliary.InitializeErrorProvider(tbCustomerLastName));
+            ControlToBool_Customer_Dict.Add(tbCustomerLastName, false);
 
             tbCustomerPostalCode.Validating += Validation;
-            TBtoEP_Customer_Dict.Add(tbCustomerPostalCode, Auxiliary.InitializeErrorProvider(tbCustomerPostalCode));
-            TBtoBool_Customer_Dict.Add(tbCustomerPostalCode, false);
+            ControltoEP_Customer_Dict.Add(tbCustomerPostalCode, Auxiliary.InitializeErrorProvider(tbCustomerPostalCode));
+            ControlToBool_Customer_Dict.Add(tbCustomerPostalCode, false);
 
             tbCustomerCity.Validating += Validation;
-            TBtoEP_Customer_Dict.Add(tbCustomerCity, Auxiliary.InitializeErrorProvider(tbCustomerCity));
-            TBtoBool_Customer_Dict.Add(tbCustomerCity, false);
-
+            ControltoEP_Customer_Dict.Add(tbCustomerCity, Auxiliary.InitializeErrorProvider(tbCustomerCity));
+            ControlToBool_Customer_Dict.Add(tbCustomerCity, false);
 
             tbCustomerAddress.Validating += Validation;
-            TBtoEP_Customer_Dict.Add(tbCustomerAddress, Auxiliary.InitializeErrorProvider(tbCustomerAddress));
-            TBtoBool_Customer_Dict.Add(tbCustomerAddress, false);
+            ControltoEP_Customer_Dict.Add(tbCustomerAddress, Auxiliary.InitializeErrorProvider(tbCustomerAddress));
+            ControlToBool_Customer_Dict.Add(tbCustomerAddress, false);
 
             tbCustomerPhoneNumber.Validating += Validation;
-            TBtoEP_Customer_Dict.Add(tbCustomerPhoneNumber, Auxiliary.InitializeErrorProvider(tbCustomerPhoneNumber));
-            TBtoBool_Customer_Dict.Add(tbCustomerPhoneNumber, false);
+            ControltoEP_Customer_Dict.Add(tbCustomerPhoneNumber, Auxiliary.InitializeErrorProvider(tbCustomerPhoneNumber));
+            ControlToBool_Customer_Dict.Add(tbCustomerPhoneNumber, false);
         }
 
         private void InitializeAreaDictAndTB()
         {
-            TBtoEP_Area_Dict = new Dictionary<TextBox, ErrorProvider>();
-            TBtoBool_Area_Dict = new Dictionary<TextBox, bool>();
+            ControltoEP_Area_Dict = new Dictionary<Control, ErrorProvider>();
+            ControlToBool_Area_Dict = new Dictionary<Control, bool>();
 
             tbStreet.Validating += Validation;
-            TBtoEP_Area_Dict.Add(tbStreet, Auxiliary.InitializeErrorProvider(tbStreet));
-            TBtoBool_Area_Dict.Add(tbStreet, false);
+            ControltoEP_Area_Dict.Add(tbStreet, Auxiliary.InitializeErrorProvider(tbStreet));
+            ControlToBool_Area_Dict.Add(tbStreet, false);
 
-            tbAreaCollectorID.Validating += Validation;
-            TBtoEP_Area_Dict.Add(tbAreaCollectorID, Auxiliary.InitializeErrorProvider(tbAreaCollectorID));
-            TBtoBool_Area_Dict.Add(tbAreaCollectorID, false);
+            ComboBox cbCollector = (ComboBox)this.Controls.Find("cbCollector", true)[0];
+            cbCollector.Validating += ComboBoxValidation;
+            ControltoEP_Area_Dict.Add(cbCollector, Auxiliary.InitializeErrorProvider(cbCollector));
+            ControlToBool_Area_Dict.Add(cbCollector, false);
         }
 
         private void InitializeCounterDictAndTB()
         {
-            TBtoEP_Counter_Dict = new Dictionary<TextBox, ErrorProvider>();
-            TBtoBool_Counter_Dict = new Dictionary<TextBox, bool>();
+            ControltoEP_Counter_Dict = new Dictionary<Control, ErrorProvider>();
+            ControlToBool_Counter_Dict = new Dictionary<Control, bool>();
 
             tbCounterNo.Validating += Validation;
-            TBtoEP_Counter_Dict.Add(tbCounterNo, Auxiliary.InitializeErrorProvider(tbCounterNo));
-            TBtoBool_Counter_Dict.Add(tbCounterNo, false);
+            ControltoEP_Counter_Dict.Add(tbCounterNo, Auxiliary.InitializeErrorProvider(tbCounterNo));
+            ControlToBool_Counter_Dict.Add(tbCounterNo, false);
 
             tbCircuitNo.Validating += Validation;
-            TBtoEP_Counter_Dict.Add(tbCircuitNo, Auxiliary.InitializeErrorProvider(tbCircuitNo));
-            TBtoBool_Counter_Dict.Add(tbCircuitNo, false);
+            ControltoEP_Counter_Dict.Add(tbCircuitNo, Auxiliary.InitializeErrorProvider(tbCircuitNo));
+            ControlToBool_Counter_Dict.Add(tbCircuitNo, false);
 
-            tbCounterAddressID.Validating += Validation;
-            TBtoEP_Counter_Dict.Add(tbCounterAddressID, Auxiliary.InitializeErrorProvider(tbCounterAddressID));
-            TBtoBool_Counter_Dict.Add(tbCounterAddressID, false);
+            ComboBox cbAddress = (ComboBox)this.Controls.Find("cbAddress", true)[0];
+            cbAddress.Validating += ComboBoxValidation;
+            ControltoEP_Counter_Dict.Add(cbAddress, Auxiliary.InitializeErrorProvider(cbAddress));
+            ControlToBool_Counter_Dict.Add(cbAddress, false);
 
-            tbCounterCustomerID.Validating += Validation;
-            TBtoEP_Counter_Dict.Add(tbCounterCustomerID, Auxiliary.InitializeErrorProvider(tbCounterCustomerID));
-            TBtoBool_Counter_Dict.Add(tbCounterCustomerID, false);
+            ComboBox cbCustomer = (ComboBox)this.Controls.Find("cbCustomer", true)[0];
+            cbCustomer.Validating += ComboBoxValidation;
+            ControltoEP_Counter_Dict.Add(cbCustomer, Auxiliary.InitializeErrorProvider(cbCustomer));
+            ControlToBool_Counter_Dict.Add(cbCustomer, false);
         }
 
         private void InitializeAddressDictAndTB()
         {
-            TBtoEP_Address_Dict = new Dictionary<TextBox, ErrorProvider>();
-            TBtoBool_Address_Dict = new Dictionary<TextBox, bool>();
+            ControltoEP_Address_Dict = new Dictionary<Control, ErrorProvider>();
+            ControlToBool_Address_Dict = new Dictionary<Control, bool>();
 
             tbHouseNo.Validating += Validation;
-            TBtoEP_Address_Dict.Add(tbHouseNo, Auxiliary.InitializeErrorProvider(tbHouseNo));
-            TBtoBool_Address_Dict.Add(tbHouseNo, false);
+            ControltoEP_Address_Dict.Add(tbHouseNo, Auxiliary.InitializeErrorProvider(tbHouseNo));
+            ControlToBool_Address_Dict.Add(tbHouseNo, false);
 
-            tbFlatNo.Validating += Validation;
-            TBtoEP_Address_Dict.Add(tbFlatNo, Auxiliary.InitializeErrorProvider(tbFlatNo));
-            TBtoBool_Address_Dict.Add(tbFlatNo, false);
+            ComboBox cbArea = (ComboBox)this.Controls.Find("cbArea", true)[0];
+            cbArea.Validating += ComboBoxValidation;
+            ControltoEP_Address_Dict.Add(cbArea, Auxiliary.InitializeErrorProvider(cbArea));
+            ControlToBool_Address_Dict.Add(cbArea, false);
         }
 
         private void InitializeEP(int tabPage)
@@ -157,32 +178,32 @@ namespace SZI
             {
                 case 0:
                     InitializeCollectorDictAndTB();
-                    Current_TBtoEP_Dict = TBtoEP_Collector_Dict;
-                    Current_TBtoBool_Dict = TBtoBool_Collector_Dict;
+                    Current_ControltoEP_Dict = ControltoEP_Collector_Dict;
+                    Current_ControlToBool_Dict = ControlToBool_Collector_Dict;
                     break;
 
                 case 1:
                     InitializeCustomerDictAndTB();
-                    Current_TBtoEP_Dict = TBtoEP_Customer_Dict;
-                    Current_TBtoBool_Dict = TBtoBool_Customer_Dict;
+                    Current_ControltoEP_Dict = ControltoEP_Customer_Dict;
+                    Current_ControlToBool_Dict = ControlToBool_Customer_Dict;
                     break;
 
                 case 2:
                     InitializeAreaDictAndTB();
-                    Current_TBtoEP_Dict = TBtoEP_Area_Dict;
-                    Current_TBtoBool_Dict = TBtoBool_Area_Dict;
+                    Current_ControltoEP_Dict = ControltoEP_Area_Dict;
+                    Current_ControlToBool_Dict = ControlToBool_Area_Dict;
                     break;
 
                 case 3:
                     InitializeCounterDictAndTB();
-                    Current_TBtoEP_Dict = TBtoEP_Counter_Dict;
-                    Current_TBtoBool_Dict = TBtoBool_Counter_Dict;
+                    Current_ControltoEP_Dict = ControltoEP_Counter_Dict;
+                    Current_ControlToBool_Dict = ControlToBool_Counter_Dict;
                     break;
 
                 case 4:
                     InitializeAddressDictAndTB();
-                    Current_TBtoEP_Dict = TBtoEP_Address_Dict;
-                    Current_TBtoBool_Dict = TBtoBool_Address_Dict;
+                    Current_ControltoEP_Dict = ControltoEP_Address_Dict;
+                    Current_ControlToBool_Dict = ControlToBool_Address_Dict;
                     break;
 
                 default:
@@ -218,21 +239,17 @@ namespace SZI
         private void ClearTBArea()
         {
             tbStreet.Text = "";
-            tbAreaCollectorID.Text = "";
         }
 
         private void ClearTBCounter()
         {
             tbCounterNo.Text = "";
-            tbCounterCustomerID.Text = "";
-            tbCounterAddressID.Text = "";
         }
 
         private void ClearTBAddress()
         {
             tbHouseNo.Text = "";
             tbFlatNo.Text = "";
-            tbAddressAreaId.Text = "";
         }
 
         #endregion
@@ -249,7 +266,7 @@ namespace SZI
             c.Address = tbCollectorAddress.Text;
             c.PhoneNumber = tbCollectorPhoneNumber.Text;
 
-            if (Auxiliary.IsCurrentValueOK(Current_TBtoBool_Dict))
+            if (Auxiliary.IsCurrentValueOK(Current_ControlToBool_Dict))
             {
                 c.InsertIntoDB();
                 return true;
@@ -272,7 +289,7 @@ namespace SZI
             c.Address = tbCustomerAddress.Text;
             c.PhoneNumber = tbCustomerPhoneNumber.Text;
 
-            if (Auxiliary.IsCurrentValueOK(Current_TBtoBool_Dict))
+            if (Auxiliary.IsCurrentValueOK(Current_ControlToBool_Dict))
             {
                 c.InsertIntoDB();
                 return true;
@@ -288,10 +305,10 @@ namespace SZI
         {
             Area a = new Area();
             a.AreaId = Guid.NewGuid();
-            a.CollectorId = tbAreaCollectorID.Text;
+            a.CollectorId = cbcCollector.ReturnForeignKey();
             a.Street = tbStreet.Text;
 
-            if (Auxiliary.IsCurrentValueOK(Current_TBtoBool_Dict))
+            if (Auxiliary.IsCurrentValueOK(Current_ControlToBool_Dict))
             {
                 a.InsertIntoDB();
                 return true;
@@ -312,11 +329,11 @@ namespace SZI
             c.CounterNo = Parse;
             Int32.TryParse(tbCircuitNo.Text, out Parse);
             c.CircuitNo = Parse;
-            c.AddressId = new Guid(tbCounterAddressID.Text);
-            c.CustomerId = tbCounterCustomerID.Text;
+            c.CustomerId = cbcCustomer.ReturnForeignKey();
 
-            if (Auxiliary.IsCurrentValueOK(Current_TBtoBool_Dict))
+            if (Auxiliary.IsCurrentValueOK(Current_ControlToBool_Dict))
             {
+                c.AddressId = new Guid(cbcAddress.ReturnForeignKey());
                 c.InsertIntoDB();
                 return true;
             }
@@ -337,10 +354,11 @@ namespace SZI
             a.HouseNo = Parse;
             Int32.TryParse(tbFlatNo.Text, out Parse);
             a.FlatNo = Parse;
-            a.AreaId = new Guid(tbAddressAreaId.Text);
+            
 
-            if (Auxiliary.IsCurrentValueOK(Current_TBtoBool_Dict))
+            if (Auxiliary.IsCurrentValueOK(Current_ControlToBool_Dict))
             {
+                a.AreaId = new Guid(cbcArea.ReturnForeignKey());
                 a.InsertIntoDB();
                 return true;
             }
@@ -354,20 +372,35 @@ namespace SZI
         #endregion
 
         #region EventHandlery
+        private void ComboBoxValidation(object sender, CancelEventArgs e)
+        {
+            ComboBox cb = (ComboBox)sender;
+            if (NameToMethod_Dict[cb.Name](cb.SelectedIndex.ToString()))
+            {
+                Current_ControltoEP_Dict[cb].SetError(cb, String.Empty);
+                Current_ControlToBool_Dict[cb] = true;
+            }
+            else
+            {
+                Current_ControltoEP_Dict[cb].SetError(cb, "Nieprawidłowo wypełnione pole.");
+                Current_ControlToBool_Dict[cb] = false;
+            }
+        }
+
         private void Validation(object sender, CancelEventArgs e)
         {
             TextBox ValidatedTextBox = (TextBox)sender;
 
             if (NameToMethod_Dict[ValidatedTextBox.Name](ValidatedTextBox.Text))
             {
-                Current_TBtoEP_Dict[ValidatedTextBox].SetError(ValidatedTextBox, String.Empty);
+                Current_ControltoEP_Dict[ValidatedTextBox].SetError(ValidatedTextBox, String.Empty);
                 ValidatedTextBox.Text = MainValidation.UppercaseFirst(ValidatedTextBox.Text);
-                Current_TBtoBool_Dict[ValidatedTextBox] = true;
+                Current_ControlToBool_Dict[ValidatedTextBox] = true;
             }
             else
             {
-                Current_TBtoEP_Dict[ValidatedTextBox].SetError(ValidatedTextBox, "Nieprawidłowo wypełnione pole.");
-                Current_TBtoBool_Dict[ValidatedTextBox] = false;
+                Current_ControltoEP_Dict[ValidatedTextBox].SetError(ValidatedTextBox, "Nieprawidłowo wypełnione pole.");
+                Current_ControlToBool_Dict[ValidatedTextBox] = false;
                 //e.Cancel = true;
             }
         }
@@ -445,8 +478,8 @@ namespace SZI
                         InitializeEP(selectedTab);
                         CollectorEPInitialized = true;
                     }
-                    Current_TBtoEP_Dict = TBtoEP_Collector_Dict;
-                    Current_TBtoBool_Dict = TBtoBool_Collector_Dict;
+                    Current_ControltoEP_Dict = ControltoEP_Collector_Dict;
+                    Current_ControlToBool_Dict = ControlToBool_Collector_Dict;
                     break;
 
                 case 1:
@@ -455,8 +488,8 @@ namespace SZI
                         InitializeEP(selectedTab);
                         CustomerEPInitialized = true;
                     }
-                    Current_TBtoEP_Dict = TBtoEP_Customer_Dict;
-                    Current_TBtoBool_Dict = TBtoBool_Area_Dict;
+                    Current_ControltoEP_Dict = ControltoEP_Customer_Dict;
+                    Current_ControlToBool_Dict = ControlToBool_Area_Dict;
                     break;
 
                 case 2:
@@ -465,8 +498,8 @@ namespace SZI
                         InitializeEP(selectedTab);
                         AreaEPInitialized = true;
                     }
-                    Current_TBtoEP_Dict = TBtoEP_Area_Dict;
-                    Current_TBtoBool_Dict = TBtoBool_Area_Dict;
+                    Current_ControltoEP_Dict = ControltoEP_Area_Dict;
+                    Current_ControlToBool_Dict = ControlToBool_Area_Dict;
                     break;
 
                 case 3:
@@ -475,8 +508,8 @@ namespace SZI
                         InitializeEP(selectedTab);
                         CounterEPInitialized = true;
                     }
-                    Current_TBtoEP_Dict = TBtoEP_Counter_Dict;
-                    Current_TBtoBool_Dict = TBtoBool_Counter_Dict;
+                    Current_ControltoEP_Dict = ControltoEP_Counter_Dict;
+                    Current_ControlToBool_Dict = ControlToBool_Counter_Dict;
                     break;
 
                 case 4:
@@ -485,8 +518,8 @@ namespace SZI
                         InitializeEP(selectedTab);
                         AddressEPInitialized = true;
                     }
-                    Current_TBtoEP_Dict = TBtoEP_Address_Dict;
-                    Current_TBtoBool_Dict = TBtoBool_Address_Dict;
+                    Current_ControltoEP_Dict = ControltoEP_Address_Dict;
+                    Current_ControlToBool_Dict = ControlToBool_Address_Dict;
                     break;
 
                 default:

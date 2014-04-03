@@ -43,6 +43,14 @@ namespace SZI
                     dataBase = new Customers();
                     shortDescriptionWords = new int[] { 1, 2 };
                     break;
+                case "Area":
+                    dataBase = new Areas();
+                    shortDescriptionWords = new int[] { 1 };
+                    break;
+                case "Address":
+                    dataBase = new Addresses();
+                    shortDescriptionWords = new int[] { 1, 2 };
+                    break;
                 default:
                     dataBase = new Collectors();
                     break;
@@ -50,6 +58,8 @@ namespace SZI
 
             List<string[]> itemList = dataBase.itemList;
             string convertedRecord, descriptionWords;
+
+            initializedItems.Add(new ComboBoxItem(" ", "")); //dodanie pustego rekordu, przydatne gdy wybór rekordu jest opcjonalny
 
             foreach (string[] item in itemList)
             {
@@ -134,6 +144,7 @@ namespace SZI
             comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox.DropDown += comboBox_DropDown;
             comboBox.DropDownClosed += comboBox_DropDownClosed;
+            comboBox.SelectedIndex = 0;
 
             if (foreignKey != String.Empty)
             {

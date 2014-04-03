@@ -10,9 +10,9 @@ namespace SZI
     public delegate bool ValidatingMethod(string S);
     public static class Auxiliary
     {
-        public static bool IsCurrentValueOK(Dictionary<TextBox, bool> Dict)
+        public static bool IsCurrentValueOK(Dictionary<Control, bool> Dict)
         {
-            Dictionary<TextBox, bool>.ValueCollection valueColl = Dict.Values;
+            Dictionary<Control, bool>.ValueCollection valueColl = Dict.Values;
             foreach (bool b in valueColl)
                 if (!b) return false;
 
@@ -26,13 +26,13 @@ namespace SZI
             return new Guid(bytes);
         }
 
-        public static void SetErrorProvider(ErrorProvider ep, TextBox tb)
+        public static void SetErrorProvider(ErrorProvider ep, Control tb)
         {
             ep.SetIconAlignment(tb, ErrorIconAlignment.MiddleRight);
             ep.SetIconPadding(tb, 2);
         }
 
-        public static ErrorProvider InitializeErrorProvider(TextBox tb)
+        public static ErrorProvider InitializeErrorProvider(Control tb)
         {
             ErrorProvider ep = new ErrorProvider();
             ep.SetIconAlignment(tb, ErrorIconAlignment.MiddleRight);
@@ -58,8 +58,9 @@ namespace SZI
                 {"CircuitNo", new ValidatingMethod(MainValidation.CircuitAndCounterAndHouseAndFlatNumberValidation)},
                 {"AddressId", new ValidatingMethod(MainValidation.EmptyString)},
                 {"CustomerId", new ValidatingMethod(MainValidation.CustomerExists)},
-                {"Street", new ValidatingMethod(MainValidation.EmptyString)},
                 {"HouseNo", new ValidatingMethod(MainValidation.CircuitAndCounterAndHouseAndFlatNumberValidation)},
+                {"Street", new ValidatingMethod(MainValidation.StreetValidation)},
+                {"CollectorId", new ValidatingMethod(MainValidation.OptionalCollector)},
                 {"FlatNo", new ValidatingMethod(MainValidation.CircuitAndCounterAndHouseAndFlatNumberValidation)}
             };
         }
@@ -91,6 +92,11 @@ namespace SZI
                 {"tbCircuitNo", new ValidatingMethod(MainValidation.CircuitAndCounterAndHouseAndFlatNumberValidation)},
                 {"tbCounterAddressID", new ValidatingMethod(MainValidation.EmptyString)},
                 {"tbCounterCustomerID", new ValidatingMethod(MainValidation.CustomerExists)},
+
+                {"cbCustomer", new ValidatingMethod(MainValidation.MandatoryChoice_ComboBox)},
+                {"cbAddress", new ValidatingMethod(MainValidation.MandatoryChoice_ComboBox)},
+                {"cbArea", new ValidatingMethod(MainValidation.MandatoryChoice_ComboBox)},
+                {"cbCollector", new ValidatingMethod(MainValidation.OptionalChoice_ComboBox)},
 
                 {"tbHouseNo", new ValidatingMethod(MainValidation.CircuitAndCounterAndHouseAndFlatNumberValidation)},
                 {"tbFlatNo", new ValidatingMethod(MainValidation.CircuitAndCounterAndHouseAndFlatNumberValidation)}

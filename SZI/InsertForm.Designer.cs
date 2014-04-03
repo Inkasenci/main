@@ -62,26 +62,22 @@
             this.label14 = new System.Windows.Forms.Label();
             this.tpArea = new System.Windows.Forms.TabPage();
             this.tbStreet = new System.Windows.Forms.TextBox();
-            this.tbAreaCollectorID = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.tpCounter = new System.Windows.Forms.TabPage();
             this.tbCounterNo = new System.Windows.Forms.TextBox();
             this.tbCircuitNo = new System.Windows.Forms.TextBox();
-            this.tbCounterAddressID = new System.Windows.Forms.TextBox();
-            this.tbCounterCustomerID = new System.Windows.Forms.TextBox();
             this.label18 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
-            this.btClear = new System.Windows.Forms.Button();
             this.tpAddress = new System.Windows.Forms.TabPage();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label25 = new System.Windows.Forms.Label();
-            this.tbHouseNo = new System.Windows.Forms.TextBox();
             this.tbFlatNo = new System.Windows.Forms.TextBox();
-            this.tbAddressAreaId = new System.Windows.Forms.TextBox();
+            this.tbHouseNo = new System.Windows.Forms.TextBox();
+            this.label25 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.btClear = new System.Windows.Forms.Button();
             this.tcInsert.SuspendLayout();
             this.tpCollector.SuspendLayout();
             this.tpCustomer.SuspendLayout();
@@ -389,7 +385,6 @@
             // tpArea
             // 
             this.tpArea.Controls.Add(this.tbStreet);
-            this.tpArea.Controls.Add(this.tbAreaCollectorID);
             this.tpArea.Controls.Add(this.label20);
             this.tpArea.Controls.Add(this.label21);
             this.tpArea.Location = new System.Drawing.Point(4, 22);
@@ -406,13 +401,6 @@
             this.tbStreet.Name = "tbStreet";
             this.tbStreet.Size = new System.Drawing.Size(100, 20);
             this.tbStreet.TabIndex = 33;
-            // 
-            // tbAreaCollectorID
-            // 
-            this.tbAreaCollectorID.Location = new System.Drawing.Point(86, 29);
-            this.tbAreaCollectorID.Name = "tbAreaCollectorID";
-            this.tbAreaCollectorID.Size = new System.Drawing.Size(100, 20);
-            this.tbAreaCollectorID.TabIndex = 34;
             // 
             // label20
             // 
@@ -436,8 +424,6 @@
             // 
             this.tpCounter.Controls.Add(this.tbCounterNo);
             this.tpCounter.Controls.Add(this.tbCircuitNo);
-            this.tpCounter.Controls.Add(this.tbCounterAddressID);
-            this.tpCounter.Controls.Add(this.tbCounterCustomerID);
             this.tpCounter.Controls.Add(this.label18);
             this.tpCounter.Controls.Add(this.label22);
             this.tpCounter.Controls.Add(this.label23);
@@ -463,20 +449,6 @@
             this.tbCircuitNo.Name = "tbCircuitNo";
             this.tbCircuitNo.Size = new System.Drawing.Size(100, 20);
             this.tbCircuitNo.TabIndex = 33;
-            // 
-            // tbCounterAddressID
-            // 
-            this.tbCounterAddressID.Location = new System.Drawing.Point(89, 55);
-            this.tbCounterAddressID.Name = "tbCounterAddressID";
-            this.tbCounterAddressID.Size = new System.Drawing.Size(100, 20);
-            this.tbCounterAddressID.TabIndex = 34;
-            // 
-            // tbCounterCustomerID
-            // 
-            this.tbCounterCustomerID.Location = new System.Drawing.Point(89, 81);
-            this.tbCounterCustomerID.Name = "tbCounterCustomerID";
-            this.tbCounterCustomerID.Size = new System.Drawing.Size(100, 20);
-            this.tbCounterCustomerID.TabIndex = 35;
             // 
             // label18
             // 
@@ -514,19 +486,8 @@
             this.label24.TabIndex = 39;
             this.label24.Text = "Numer układu:";
             // 
-            // btClear
-            // 
-            this.btClear.Location = new System.Drawing.Point(53, 269);
-            this.btClear.Name = "btClear";
-            this.btClear.Size = new System.Drawing.Size(100, 27);
-            this.btClear.TabIndex = 20;
-            this.btClear.Text = "Wyczyść";
-            this.btClear.UseVisualStyleBackColor = true;
-            this.btClear.Click += new System.EventHandler(this.btClear_Click);
-            // 
             // tpAddress
             // 
-            this.tpAddress.Controls.Add(this.tbAddressAreaId);
             this.tpAddress.Controls.Add(this.tbFlatNo);
             this.tpAddress.Controls.Add(this.tbHouseNo);
             this.tpAddress.Controls.Add(this.label25);
@@ -540,23 +501,19 @@
             this.tpAddress.Text = "Adres";
             this.tpAddress.UseVisualStyleBackColor = true;
             // 
-            // label15
+            // tbFlatNo
             // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(6, 3);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(70, 13);
-            this.label15.TabIndex = 0;
-            this.label15.Text = "Numer domu:";
+            this.tbFlatNo.Location = new System.Drawing.Point(117, 29);
+            this.tbFlatNo.Name = "tbFlatNo";
+            this.tbFlatNo.Size = new System.Drawing.Size(100, 20);
+            this.tbFlatNo.TabIndex = 6;
             // 
-            // label17
+            // tbHouseNo
             // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(6, 29);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(96, 13);
-            this.label17.TabIndex = 2;
-            this.label17.Text = "Numer mieszkania:";
+            this.tbHouseNo.Location = new System.Drawing.Point(117, 3);
+            this.tbHouseNo.Name = "tbHouseNo";
+            this.tbHouseNo.Size = new System.Drawing.Size(100, 20);
+            this.tbHouseNo.TabIndex = 5;
             // 
             // label25
             // 
@@ -567,26 +524,33 @@
             this.label25.TabIndex = 4;
             this.label25.Text = "Id terenu:";
             // 
-            // tbHouseNo
+            // label17
             // 
-            this.tbHouseNo.Location = new System.Drawing.Point(117, 3);
-            this.tbHouseNo.Name = "tbHouseNo";
-            this.tbHouseNo.Size = new System.Drawing.Size(100, 20);
-            this.tbHouseNo.TabIndex = 5;
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(6, 29);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(96, 13);
+            this.label17.TabIndex = 2;
+            this.label17.Text = "Numer mieszkania:";
             // 
-            // tbFlatNo
+            // label15
             // 
-            this.tbFlatNo.Location = new System.Drawing.Point(117, 29);
-            this.tbFlatNo.Name = "tbFlatNo";
-            this.tbFlatNo.Size = new System.Drawing.Size(100, 20);
-            this.tbFlatNo.TabIndex = 6;
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(6, 3);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(70, 13);
+            this.label15.TabIndex = 0;
+            this.label15.Text = "Numer domu:";
             // 
-            // tbAddressAreaId
+            // btClear
             // 
-            this.tbAddressAreaId.Location = new System.Drawing.Point(117, 55);
-            this.tbAddressAreaId.Name = "tbAddressAreaId";
-            this.tbAddressAreaId.Size = new System.Drawing.Size(100, 20);
-            this.tbAddressAreaId.TabIndex = 7;
+            this.btClear.Location = new System.Drawing.Point(53, 269);
+            this.btClear.Name = "btClear";
+            this.btClear.Size = new System.Drawing.Size(100, 27);
+            this.btClear.TabIndex = 20;
+            this.btClear.Text = "Wyczyść";
+            this.btClear.UseVisualStyleBackColor = true;
+            this.btClear.Click += new System.EventHandler(this.btClear_Click);
             // 
             // InsertForm
             // 
@@ -651,19 +615,15 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox tbStreet;
-        private System.Windows.Forms.TextBox tbAreaCollectorID;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.TextBox tbCounterNo;
         private System.Windows.Forms.TextBox tbCircuitNo;
-        private System.Windows.Forms.TextBox tbCounterAddressID;
-        private System.Windows.Forms.TextBox tbCounterCustomerID;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.TabPage tpAddress;
-        private System.Windows.Forms.TextBox tbAddressAreaId;
         private System.Windows.Forms.TextBox tbFlatNo;
         private System.Windows.Forms.TextBox tbHouseNo;
         private System.Windows.Forms.Label label25;

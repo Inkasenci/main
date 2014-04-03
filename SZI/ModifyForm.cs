@@ -18,15 +18,16 @@ namespace SZI
         private string[] labelsTexts;
         private string[] textBoxesNames;
         private string[] textBoxesTexts;
-        private CollectorsManagementSystemEntities dataBase = new CollectorsManagementSystemEntities();
+        private CollectorsManagementSystemEntities dataBase;// = new CollectorsManagementSystemEntities();
 
-        private Dictionary<TextBox, ErrorProvider> TBtoEP_Dict;
+        private Dictionary<Control, ErrorProvider> TBtoEP_Dict;
         private Dictionary<string, ValidatingMethod> NameToMethod_Dict;
-        private Dictionary<TextBox, bool> TBtoBool_Dict;
+        private Dictionary<Control, bool> TBtoBool_Dict;
 
         public ModifyForm(List<string> ids, int selectedTab)
         {
             InitializeComponent();
+            dataBase = new CollectorsManagementSystemEntities();
             ErrorProvider ep;
 
             this.Text = "Modyfikacja rekordu";
@@ -70,8 +71,8 @@ namespace SZI
             NameToMethod_Dict = Auxiliary.Modify_CreateNameToMethodDict();
             Label[] labels = InitializeLabels();
             TextBox[] textBoxes = InitializeTextBoxes();
-            TBtoEP_Dict = new Dictionary<TextBox, ErrorProvider>();
-            TBtoBool_Dict = new Dictionary<TextBox, bool>();
+            TBtoEP_Dict = new Dictionary<Control, ErrorProvider>();
+            TBtoBool_Dict = new Dictionary<Control, bool>();
 
             for (int i = 0; i < labelsTexts.Length; i++)
             {
