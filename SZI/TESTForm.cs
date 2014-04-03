@@ -17,6 +17,10 @@ namespace SZI
             InitializeComponent();
             ComboBoxConfig cbc1 = new ComboBoxConfig("Collector", "collectorComboBox", new Point(10, 10));
             this.Controls.Add(cbc1.InitializeComboBox());
+
+            ComboBoxConfig cbc2 = new ComboBoxConfig("Customer", "collectorComboBox", new Point(10, 50));
+            //MessageBox.Show(cbc2.comboBox.SelectedIndex.ToString());
+            this.Controls.Add(cbc2.InitializeComboBox());
         }
     }
 }

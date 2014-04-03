@@ -69,7 +69,6 @@
             this.tbCounterNo = new System.Windows.Forms.TextBox();
             this.tbCircuitNo = new System.Windows.Forms.TextBox();
             this.tbCounterAddressID = new System.Windows.Forms.TextBox();
-            this.tbCounterCustomerID = new System.Windows.Forms.TextBox();
             this.label18 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
@@ -428,7 +427,6 @@
             this.tpCounter.Controls.Add(this.tbCounterNo);
             this.tpCounter.Controls.Add(this.tbCircuitNo);
             this.tpCounter.Controls.Add(this.tbCounterAddressID);
-            this.tpCounter.Controls.Add(this.tbCounterCustomerID);
             this.tpCounter.Controls.Add(this.label18);
             this.tpCounter.Controls.Add(this.label22);
             this.tpCounter.Controls.Add(this.label23);
@@ -461,13 +459,6 @@
             this.tbCounterAddressID.Name = "tbCounterAddressID";
             this.tbCounterAddressID.Size = new System.Drawing.Size(100, 20);
             this.tbCounterAddressID.TabIndex = 34;
-            // 
-            // tbCounterCustomerID
-            // 
-            this.tbCounterCustomerID.Location = new System.Drawing.Point(89, 81);
-            this.tbCounterCustomerID.Name = "tbCounterCustomerID";
-            this.tbCounterCustomerID.Size = new System.Drawing.Size(100, 20);
-            this.tbCounterCustomerID.TabIndex = 35;
             // 
             // label18
             // 
@@ -582,7 +573,6 @@
         private System.Windows.Forms.TextBox tbCounterNo;
         private System.Windows.Forms.TextBox tbCircuitNo;
         private System.Windows.Forms.TextBox tbCounterAddressID;
-        private System.Windows.Forms.TextBox tbCounterCustomerID;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label23;

@@ -11,7 +11,7 @@ namespace SZI
     {
         string tableName;
         string foreignKey;
-        ComboBox comboBox;
+        public ComboBox comboBox;
         int[] shortDescriptionWords;
         List<ComboBoxItem> itemList;
 
@@ -47,6 +47,8 @@ namespace SZI
 
             List<string[]> itemList = dataBase.itemList;
             string convertedRecord, descriptionWords;
+
+            initializedItems.Add(new ComboBoxItem(" ", ""));
 
             foreach (string[] item in itemList)
             {
@@ -121,6 +123,7 @@ namespace SZI
             comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox.DropDown += comboBox_DropDown;
             comboBox.DropDownClosed += comboBox_DropDownClosed;
+            comboBox.SelectedIndex = 0;
 
             if (foreignKey != String.Empty)
             {

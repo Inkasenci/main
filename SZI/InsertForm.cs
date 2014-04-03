@@ -16,17 +16,25 @@ namespace SZI
 
         private bool CollectorEPInitialized = false, CustomerEPInitialized = false, AreaEPInitialized = false, CounterEPInitialized = false;
         private Dictionary<string, ValidatingMethod> NameToMethod_Dict;
-        private Dictionary<TextBox, ErrorProvider> TBtoEP_Collector_Dict, TBtoEP_Customer_Dict, TBtoEP_Area_Dict, TBtoEP_Counter_Dict, Current_TBtoEP_Dict;
-        private Dictionary<TextBox, bool> TBtoBool_Collector_Dict, TBtoBool_Customer_Dict, TBtoBool_Area_Dict, TBtoBool_Counter_Dict, Current_TBtoBool_Dict;
+        private Dictionary<Control, ErrorProvider> TBtoEP_Collector_Dict, TBtoEP_Customer_Dict, TBtoEP_Area_Dict, TBtoEP_Counter_Dict, Current_TBtoEP_Dict;
+        private Dictionary<Control, bool> TBtoBool_Collector_Dict, TBtoBool_Customer_Dict, TBtoBool_Area_Dict, TBtoBool_Counter_Dict, Current_TBtoBool_Dict;
+        private ComboBoxConfig cbcCustomer;
 
         public InsertForm(int MainFormSelectedTab)
+        {            
+            InitializeComponent();
+            SetupControls(); 
+            selectedTab = MainFormSelectedTab;
+            tcInsert.SelectTab(MainFormSelectedTab); 
+            InitializeEP(selectedTab);                      
+        }
+
+        private void SetupControls()
         {
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            InitializeComponent();
-            selectedTab = MainFormSelectedTab;
-            tcInsert.SelectTab(MainFormSelectedTab);
             NameToMethod_Dict = Auxiliary.Insert_CreateNameToMethodDict();
-            InitializeEP(selectedTab);
+            cbcCustomer = new ComboBoxConfig("Customer", "cbCustomer", new Point(89, 81));
+            tcInsert.TabPages[3].Controls.Add(cbcCustomer.InitializeComboBox());                       
         }
 
 
@@ -34,8 +42,8 @@ namespace SZI
         
         private void InitializeCollectorDictAndTB()
         {
-            TBtoEP_Collector_Dict = new Dictionary<TextBox, ErrorProvider>();
-            TBtoBool_Collector_Dict = new Dictionary<TextBox, bool>();
+            TBtoEP_Collector_Dict = new Dictionary<Control, ErrorProvider>();
+            TBtoBool_Collector_Dict = new Dictionary<Control, bool>();
 
             tbCollectorID.Validating += Validation;
             TBtoEP_Collector_Dict.Add(tbCollectorID, Auxiliary.InitializeErrorProvider(tbCollectorID));
@@ -68,8 +76,8 @@ namespace SZI
 
         private void InitializeCustomerDictAndTB()
         {
-            TBtoEP_Customer_Dict = new Dictionary<TextBox, ErrorProvider>();
-            TBtoBool_Customer_Dict = new Dictionary<TextBox, bool>();
+            TBtoEP_Customer_Dict = new Dictionary<Control, ErrorProvider>();
+            TBtoBool_Customer_Dict = new Dictionary<Control, bool>();
 
             tbCustomerID.Validating += Validation;
             TBtoEP_Customer_Dict.Add(tbCustomerID, Auxiliary.InitializeErrorProvider(tbCustomerID));
@@ -91,7 +99,6 @@ namespace SZI
             TBtoEP_Customer_Dict.Add(tbCustomerCity, Auxiliary.InitializeErrorProvider(tbCustomerCity));
             TBtoBool_Customer_Dict.Add(tbCustomerCity, false);
 
-
             tbCustomerAddress.Validating += Validation;
             TBtoEP_Customer_Dict.Add(tbCustomerAddress, Auxiliary.InitializeErrorProvider(tbCustomerAddress));
             TBtoBool_Customer_Dict.Add(tbCustomerAddress, false);
@@ -103,8 +110,8 @@ namespace SZI
 
         private void InitializeAreaDictAndTB()
         {
-            TBtoEP_Area_Dict = new Dictionary<TextBox, ErrorProvider>();
-            TBtoBool_Area_Dict = new Dictionary<TextBox, bool>();
+            TBtoEP_Area_Dict = new Dictionary<Control, ErrorProvider>();
+            TBtoBool_Area_Dict = new Dictionary<Control, bool>();
 
             tbStreet.Validating += Validation;
             TBtoEP_Area_Dict.Add(tbStreet, Auxiliary.InitializeErrorProvider(tbStreet));
@@ -117,8 +124,8 @@ namespace SZI
 
         private void InitializeCounterDictAndTB()
         {
-            TBtoEP_Counter_Dict = new Dictionary<TextBox, ErrorProvider>();
-            TBtoBool_Counter_Dict = new Dictionary<TextBox, bool>();
+            TBtoEP_Counter_Dict = new Dictionary<Control, ErrorProvider>();
+            TBtoBool_Counter_Dict = new Dictionary<Control, bool>();
 
             tbCounterNo.Validating += Validation;
             TBtoEP_Counter_Dict.Add(tbCounterNo, Auxiliary.InitializeErrorProvider(tbCounterNo));
@@ -132,9 +139,10 @@ namespace SZI
             TBtoEP_Counter_Dict.Add(tbCounterAddressID, Auxiliary.InitializeErrorProvider(tbCounterAddressID));
             TBtoBool_Counter_Dict.Add(tbCounterAddressID, false);
 
-            tbCounterCustomerID.Validating += Validation;
-            TBtoEP_Counter_Dict.Add(tbCounterCustomerID, Auxiliary.InitializeErrorProvider(tbCounterCustomerID));
-            TBtoBool_Counter_Dict.Add(tbCounterCustomerID, false);
+            ComboBox cbCustomer = (ComboBox)this.Controls.Find("cbCustomer", true)[0];
+            cbCustomer.Validating += ComboBoxValidation;
+            TBtoEP_Counter_Dict.Add(cbCustomer, Auxiliary.InitializeErrorProvider(cbCustomer));
+            TBtoBool_Counter_Dict.Add(cbCustomer, false);
         }
 
         private void InitializeEP(int tabPage)
@@ -204,7 +212,6 @@ namespace SZI
         private void ClearTBCounter()
         {
             tbCounterNo.Text = "";
-            tbCounterCustomerID.Text = "";
             tbCounterAddressID.Text = "";
         }
 
@@ -285,8 +292,8 @@ namespace SZI
             c.CounterNo = Parse;
             Int32.TryParse(tbCircuitNo.Text, out Parse);
             c.CircuitNo = Parse;
-            c.AddressId = new Guid(tbCounterAddressID.Text);
-            c.CustomerId = tbCounterCustomerID.Text;
+            c.AddressId = new Guid();//new Guid(tbCounterAddressID.Text);
+            c.CustomerId = cbcCustomer.ReturnForeignKey();
 
             if (Auxiliary.IsCurrentValueOK(Current_TBtoBool_Dict))
             {
@@ -304,6 +311,21 @@ namespace SZI
         #endregion
 
         #region EventHandlery
+        private void ComboBoxValidation(object sender, CancelEventArgs e)
+        {
+            ComboBox cb = (ComboBox)sender;
+            if (NameToMethod_Dict[cb.Name](cb.SelectedIndex.ToString()))
+            {
+                Current_TBtoEP_Dict[cb].SetError(cb, String.Empty);
+                Current_TBtoBool_Dict[cb] = true;
+            }
+            else
+            {
+                Current_TBtoEP_Dict[cb].SetError(cb, "Nieprawidłowo wypełnione pole.");
+                Current_TBtoBool_Dict[cb] = false;
+            }
+        }
+
         private void Validation(object sender, CancelEventArgs e)
         {
             TextBox ValidatedTextBox = (TextBox)sender;

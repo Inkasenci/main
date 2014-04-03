@@ -18,15 +18,16 @@ namespace SZI
         private string[] labelsTexts;
         private string[] textBoxesNames;
         private string[] textBoxesTexts;
-        private CollectorsManagementSystemEntities dataBase = new CollectorsManagementSystemEntities();
+        private CollectorsManagementSystemEntities dataBase;// = new CollectorsManagementSystemEntities();
 
-        private Dictionary<TextBox, ErrorProvider> TBtoEP_Dict;
+        private Dictionary<Control, ErrorProvider> TBtoEP_Dict;
         private Dictionary<string, ValidatingMethod> NameToMethod_Dict;
-        private Dictionary<TextBox, bool> TBtoBool_Dict;
+        private Dictionary<Control, bool> TBtoBool_Dict;
 
         public ModifyForm(List<string> ids, int selectedTab)
         {
             InitializeComponent();
+            dataBase = new CollectorsManagementSystemEntities();
             ErrorProvider ep;
 
             this.Text = "Modyfikacja rekordu";
@@ -64,8 +65,8 @@ namespace SZI
             NameToMethod_Dict = Auxiliary.Modify_CreateNameToMethodDict();
             Label[] labels = InitializeLabels();
             TextBox[] textBoxes = InitializeTextBoxes();
-            TBtoEP_Dict = new Dictionary<TextBox, ErrorProvider>();
-            TBtoBool_Dict = new Dictionary<TextBox, bool>();
+            TBtoEP_Dict = new Dictionary<Control, ErrorProvider>();
+            TBtoBool_Dict = new Dictionary<Control, bool>();
 
             for (int i = 0; i < labelsTexts.Length; i++)
             {
@@ -195,8 +196,8 @@ namespace SZI
 
                 case 3:
                     Counter modifiedCounter = new Counter();
-                    modifiedCounter.CounterNo = Convert.ToInt32(this.Controls.Find("CounterId", true)[0].Text);
-                    modifiedCounter.CircuitNo = Convert.ToInt32(this.Controls.Find("Street", true)[0].Text);
+                    modifiedCounter.CounterNo = Convert.ToInt32(this.Controls.Find("CounterNo", true)[0].Text);
+                    modifiedCounter.CircuitNo = Convert.ToInt32(this.Controls.Find("CircuitNo", true)[0].Text);
                     modifiedCounter.AddressId = new Guid(this.Controls.Find("AddressId", true)[0].Text);
                     modifiedCounter.CustomerId = this.Controls.Find("CustomerId", true)[0].Text;
 

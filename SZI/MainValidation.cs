@@ -9,6 +9,15 @@ namespace SZI
 {
     static class MainValidation
     {
+        static public bool ValidateCustomer_ComboBox(string index)
+        {
+            int i = Convert.ToInt32(index);
+            if (i <= 0)
+                return false;
+            else
+                return true;
+        }
+
         static public bool OptionalCollector(string s)
         {
             if (EmptyString(s))
