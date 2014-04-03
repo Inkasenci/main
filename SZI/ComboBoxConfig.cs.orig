@@ -9,11 +9,19 @@ namespace SZI
 {
     class ComboBoxConfig
     {
+<<<<<<< HEAD
+        string tableName;
+        string foreignKey;
+        public ComboBox comboBox;
+        int[] shortDescriptionWords;
+        List<ComboBoxItem> itemList;
+=======
         string tableName; //nazwa tabeli, ktorej rekordy beda wyswietlanie w comboBox
         string foreignKey; //klucz elementu, ktory ma byc wybrany po otwarciu formularza z comboBox (potrzebne przy modyfikacji)
         ComboBox comboBox; //zwracany comboBox
         int[] shortDescriptionWords; //numery slow rekordu, ktore maja byc uzyte jako skrocony opis rekordu (liczone od zera)
         List<ComboBoxItem> itemList; //rekordy, ich krotkie i dlugie opisy
+>>>>>>> upstream/master
 
         private string ConvertRecordToString(string[] recordFields)
         /*przyjmuje tablice stringow (pol rekordu)
@@ -43,14 +51,6 @@ namespace SZI
                     dataBase = new Customers();
                     shortDescriptionWords = new int[] { 1, 2 };
                     break;
-                case "Area":
-                    dataBase = new Areas();
-                    shortDescriptionWords = new int[] { 1, 2 };
-                    break;
-                case "Address":
-                    dataBase = new Addresses();
-                    shortDescriptionWords = new int[] { 1, 2 };
-                    break;
                 default:
                     dataBase = new Collectors();
                     break;
@@ -59,7 +59,7 @@ namespace SZI
             List<string[]> itemList = dataBase.itemList;
             string convertedRecord, descriptionWords;
 
-            initializedItems.Add(new ComboBoxItem(" ", "")); //dodanie pustego rekordu, przydatne gdy wybór rekordu jest opcjonalny
+            initializedItems.Add(new ComboBoxItem(" ", ""));
 
             foreach (string[] item in itemList)
             {

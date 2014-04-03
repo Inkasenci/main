@@ -9,7 +9,15 @@ namespace SZI
 {
     static class MainValidation
     {
-        static public bool ValidateCustomer_ComboBox(string index)
+        static public bool OptionalChoice_ComboBox(string index) //z Comboboxa nie musi być wybrany żaden item
+        {
+            int i = Convert.ToInt32(index);
+            if (i < 0)
+                return false;
+            else 
+                return true;
+        }
+        static public bool MandatoryChoice_ComboBox(string index) //z Comboboxa musi zostać wybrany item
         {
             int i = Convert.ToInt32(index);
             if (i <= 0)

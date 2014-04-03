@@ -58,10 +58,14 @@ namespace SZI
                 {"CircuitNo", new ValidatingMethod(MainValidation.CircuitAndCounterAndHouseAndFlatNumberValidation)},
                 {"AddressId", new ValidatingMethod(MainValidation.EmptyString)},
                 {"CustomerId", new ValidatingMethod(MainValidation.CustomerExists)},
-                {"HouseNo", new ValidatingMethod(MainValidation.CircuitAndCounterAndHouseAndFlatNumberValidation)},
+<<<<<<< HEAD
                 {"Street", new ValidatingMethod(MainValidation.StreetValidation)},
-                {"CollectorId", new ValidatingMethod(MainValidation.OptionalCollector)},
+                {"CollectorId", new ValidatingMethod(MainValidation.OptionalCollector)}
+=======
+                {"Street", new ValidatingMethod(MainValidation.EmptyString)},
+                {"HouseNo", new ValidatingMethod(MainValidation.CircuitAndCounterAndHouseAndFlatNumberValidation)},
                 {"FlatNo", new ValidatingMethod(MainValidation.CircuitAndCounterAndHouseAndFlatNumberValidation)}
+>>>>>>> upstream/master
             };
         }
 
@@ -92,14 +96,13 @@ namespace SZI
                 {"tbCircuitNo", new ValidatingMethod(MainValidation.CircuitAndCounterAndHouseAndFlatNumberValidation)},
                 {"tbCounterAddressID", new ValidatingMethod(MainValidation.EmptyString)},
                 {"tbCounterCustomerID", new ValidatingMethod(MainValidation.CustomerExists)},
-
-                {"cbCustomer", new ValidatingMethod(MainValidation.MandatoryChoice_ComboBox)},
-                {"cbAddress", new ValidatingMethod(MainValidation.MandatoryChoice_ComboBox)},
-                {"cbArea", new ValidatingMethod(MainValidation.MandatoryChoice_ComboBox)},
-                {"cbCollector", new ValidatingMethod(MainValidation.OptionalChoice_ComboBox)},
+<<<<<<< HEAD
+                {"cbCustomer", new ValidatingMethod(MainValidation.ValidateCustomer_ComboBox)}
+=======
 
                 {"tbHouseNo", new ValidatingMethod(MainValidation.CircuitAndCounterAndHouseAndFlatNumberValidation)},
                 {"tbFlatNo", new ValidatingMethod(MainValidation.CircuitAndCounterAndHouseAndFlatNumberValidation)}
+>>>>>>> upstream/master
             };
         }
     }
