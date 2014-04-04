@@ -101,6 +101,8 @@ namespace SZI
                 {"cbCustomer", new ValidatingMethod(MainValidation.MandatoryChoice_ComboBox)},
                 {"cbAddress", new ValidatingMethod(MainValidation.MandatoryChoice_ComboBox)},
                 {"cbArea", new ValidatingMethod(MainValidation.MandatoryChoice_ComboBox)},
+                {"cbAddress_Collector", new ValidatingMethod(MainValidation.MandatoryChoice_ComboBox)},
+                {"cbAddress_Customer", new ValidatingMethod(MainValidation.MandatoryChoice_ComboBox)},
                 {"cbCollector", new ValidatingMethod(MainValidation.OptionalChoice_ComboBox)},
 
                 {"tbHouseNo", new ValidatingMethod(MainValidation.CircuitAndCounterAndHouseAndFlatNumberValidation)},

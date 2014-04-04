@@ -109,15 +109,16 @@ namespace SZI
                 }
             }
 
-            for (int j = 0; j < comboBoxesNames.Length; j++)
-            {
-                this.Controls.Add(labels[i + j]);
-                this.Controls.Add(CBConfigs[j].comboBox);
-                ep = Auxiliary.InitializeErrorProvider(CBConfigs[j].comboBox);
-                ControlToEP_Dict.Add(CBConfigs[j].comboBox, ep);
-                ControlToBool_Dict.Add(CBConfigs[j].comboBox, true);
-                CBConfigs[j].comboBox.Validating += ComboBoxValidation;
-            }
+            if (comboBoxesNames!=null)                
+                for (int j = 0; j < comboBoxesNames.Length; j++)
+                {
+                    this.Controls.Add(labels[i + j]);
+                    this.Controls.Add(CBConfigs[j].comboBox);
+                    ep = Auxiliary.InitializeErrorProvider(CBConfigs[j].comboBox);
+                    ControlToEP_Dict.Add(CBConfigs[j].comboBox, ep);
+                    ControlToBool_Dict.Add(CBConfigs[j].comboBox, true);
+                    CBConfigs[j].comboBox.Validating += ComboBoxValidation;
+                }
         }
 
         private Label[] InitializeLabels()
@@ -134,8 +135,7 @@ namespace SZI
 
         private TextBox[] InitializeTextAndCBConfigs()
         {
-            TextBox[] textBoxes = new TextBox[textBoxesTexts.Length];
-            CBConfigs = new ComboBoxConfig[comboBoxesNames.Length];
+            TextBox[] textBoxes = new TextBox[textBoxesTexts.Length];            
             int i;
 
             for (i = 0; i < textBoxesTexts.Length; i++)
@@ -146,10 +146,14 @@ namespace SZI
                 textBoxes[i].Location = new Point(150, 30 * (i + 1));
             }
 
-            for (int j = 0; j < comboBoxesNames.Length;j++)
+            if (comboBoxesNames != null)
             {
-                CBConfigs[j] = new ComboBoxConfig(TableNames[j], comboBoxesNames[j], new Point(150, 30 * (i + 1)), comboBoxesKeys[j]);
-                i++;
+                CBConfigs = new ComboBoxConfig[comboBoxesNames.Length];
+                for (int j = 0; j < comboBoxesNames.Length; j++)
+                {
+                    CBConfigs[j] = new ComboBoxConfig(TableNames[j], comboBoxesNames[j], new Point(150, 30 * (i + 1)), comboBoxesKeys[j]);
+                    i++;
+                }
             }
 
             return textBoxes;
