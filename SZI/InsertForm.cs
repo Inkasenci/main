@@ -489,7 +489,7 @@ namespace SZI
                         CustomerEPInitialized = true;
                     }
                     Current_ControltoEP_Dict = ControltoEP_Customer_Dict;
-                    Current_ControlToBool_Dict = ControlToBool_Area_Dict;
+                    Current_ControlToBool_Dict = ControlToBool_Customer_Dict;
                     break;
 
                 case 2:
