@@ -61,7 +61,12 @@ namespace SZI
                 {"HouseNo", new ValidatingMethod(MainValidation.CircuitAndCounterAndHouseAndFlatNumberValidation)},
                 {"Street", new ValidatingMethod(MainValidation.StreetValidation)},
                 {"CollectorId", new ValidatingMethod(MainValidation.OptionalCollector)},
-                {"FlatNo", new ValidatingMethod(MainValidation.CircuitAndCounterAndHouseAndFlatNumberValidation)}
+                {"FlatNo", new ValidatingMethod(MainValidation.CircuitAndCounterAndHouseAndFlatNumberValidation)},
+                
+                {"cbArea", new ValidatingMethod(MainValidation.MandatoryChoice_ComboBox)},
+                {"cbCustomer", new ValidatingMethod(MainValidation.MandatoryChoice_ComboBox)},
+                {"cbAddress", new ValidatingMethod(MainValidation.MandatoryChoice_ComboBox)},
+                {"cbCollector", new ValidatingMethod(MainValidation.OptionalChoice_ComboBox)}
             };
         }
 

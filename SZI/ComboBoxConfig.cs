@@ -11,7 +11,7 @@ namespace SZI
     {
         string tableName; //nazwa tabeli, ktorej rekordy beda wyswietlanie w comboBox
         string foreignKey; //klucz elementu, ktory ma byc wybrany po otwarciu formularza z comboBox (potrzebne przy modyfikacji)
-        ComboBox comboBox; //zwracany comboBox
+        public ComboBox comboBox; //zwracany comboBox
         int[] shortDescriptionWords; //numery slow rekordu, ktore maja byc uzyte jako skrocony opis rekordu (liczone od zera)
         List<ComboBoxItem> itemList; //rekordy, ich krotkie i dlugie opisy
 

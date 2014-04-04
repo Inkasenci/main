@@ -16,19 +16,25 @@ namespace SZI
         private List<string> ids;
         private int selectedTab;
         private string[] labelsTexts;
-        private string[] textBoxesNames;
+        private string[] textBoxesNames;        
         private string[] textBoxesTexts;
-        private CollectorsManagementSystemEntities dataBase;// = new CollectorsManagementSystemEntities();
+        private string[] comboBoxesNames;
+        private string[] comboBoxesKeys; //klucze obce z danego rekordu, potrzebne do inicjalizacji ComboBoxConfigów
+        private string[] TableNames; //nazwy tabel z których wyciągane są klucze obce modyfikowanego rekordu
 
-        private Dictionary<Control, ErrorProvider> TBtoEP_Dict;
+        private CollectorsManagementSystemEntities dataBase;
+
+        private Dictionary<Control, ErrorProvider> ControlToEP_Dict;
         private Dictionary<string, ValidatingMethod> NameToMethod_Dict;
-        private Dictionary<Control, bool> TBtoBool_Dict;
+        private Dictionary<Control, bool> ControlToBool_Dict;
+        private ComboBoxConfig[] CBConfigs;
 
         public ModifyForm(List<string> ids, int selectedTab)
         {
             InitializeComponent();
             dataBase = new CollectorsManagementSystemEntities();
             ErrorProvider ep;
+            int i;
 
             this.Text = "Modyfikacja rekordu";
             this.ids = ids;
@@ -50,41 +56,67 @@ namespace SZI
                     break;
                 case 2:
                     labelsTexts = new string[] { "Id terenu: ", "Ulica: ", "Id inkasenta: " };
-                    textBoxesNames = new string[] { "AreaId", "Street", "CollectorId" };
+                    textBoxesNames = new string[] { "AreaId", "Street"};
                     Area modifiedArea = dataBase.Areas.SqlQuery("SELECT * FROM Area WHERE AreaId={0}", ids.ElementAt(0)).SingleOrDefault();
-                    textBoxesTexts = new string[] { modifiedArea.AreaId.ToString(), modifiedArea.Street, modifiedArea.CollectorId };
+                    textBoxesTexts = new string[] { modifiedArea.AreaId.ToString(), modifiedArea.Street};
+                    
+                    comboBoxesNames = new string[] { "cbCollector" };
+                    comboBoxesKeys = new string[] { modifiedArea.CollectorId };
+                    TableNames = new string[] {"Collector"};
                     break;
                 case 3:
                     labelsTexts = new string[] { "Numer licznika: ", "Numer układu: ", "Id adresu: ", "Id klienta: " };
-                    textBoxesNames = new string[] { "CounterNo", "CircuitNo", "AddressId", "CustomerId" };
+                    textBoxesNames = new string[] { "CounterNo", "CircuitNo" };
                     Counter modifiedCounter = dataBase.Counters.SqlQuery("SELECT * FROM Counter WHERE CounterNo={0}", ids.ElementAt(0)).SingleOrDefault();
-                    textBoxesTexts = new string[] { modifiedCounter.CounterNo.ToString(), modifiedCounter.CircuitNo.ToString(), modifiedCounter.AddressId.ToString(), modifiedCounter.CustomerId };
+                    textBoxesTexts = new string[] { modifiedCounter.CounterNo.ToString(), modifiedCounter.CircuitNo.ToString() };
+                    
+                    comboBoxesNames = new string[] { "cbAddress", "cbCustomer" };
+                    comboBoxesKeys = new string[] { modifiedCounter.AddressId.ToString(), modifiedCounter.CustomerId };
+                    TableNames = new string[] {"Address", "Customer"};
+                    
                     break;
                 case 4:
                     labelsTexts = new string[] { "Id adresu: ", "Numer domu: ", "Numer mieszkania: ", "Id terenu: " };
-                    textBoxesNames = new string[] { "AddressId", "HouseNo", "FlatNo", "AreaId" };
+                    textBoxesNames = new string[] { "AddressId", "HouseNo", "FlatNo" };
                     Address modifiedAddress = dataBase.Addresses.SqlQuery("SELECT * FROM Address WHERE AddressId={0}", ids.ElementAt(0)).SingleOrDefault();
-                    textBoxesTexts = new string[] { modifiedAddress.AddressId.ToString(), modifiedAddress.HouseNo.ToString(), modifiedAddress.FlatNo.ToString(), modifiedAddress.AreaId.ToString() };
+                    textBoxesTexts = new string[] { modifiedAddress.AddressId.ToString(), modifiedAddress.HouseNo.ToString(), modifiedAddress.FlatNo.ToString()};
+                    
+                    comboBoxesNames = new string[] { "cbArea" };
+                    comboBoxesKeys = new string[] { modifiedAddress.AreaId.ToString() };
+                    TableNames = new string[] {"Area"};
+                    
+                    break;
+                default:
                     break;
             }
 
             NameToMethod_Dict = Auxiliary.Modify_CreateNameToMethodDict();
             Label[] labels = InitializeLabels();
-            TextBox[] textBoxes = InitializeTextBoxes();
-            TBtoEP_Dict = new Dictionary<Control, ErrorProvider>();
-            TBtoBool_Dict = new Dictionary<Control, bool>();
+            TextBox[] textBoxes = InitializeTextAndCBConfigs();
+            ControlToEP_Dict = new Dictionary<Control, ErrorProvider>();
+            ControlToBool_Dict = new Dictionary<Control, bool>();
 
-            for (int i = 0; i < labelsTexts.Length; i++)
+            for (i = 0; i < textBoxesNames.Length; i++) //inicjowanie labeli które opisują textboxy
             {
                 this.Controls.Add(labels[i]);
                 this.Controls.Add(textBoxes[i]);
                 if (i != 0)
                 {
                     ep = Auxiliary.InitializeErrorProvider(textBoxes[i]);
-                    TBtoEP_Dict.Add(textBoxes[i], ep);
-                    TBtoBool_Dict.Add(textBoxes[i], true);
+                    ControlToEP_Dict.Add(textBoxes[i], ep);
+                    ControlToBool_Dict.Add(textBoxes[i], true);
                     textBoxes[i].Validating += Validation;
                 }
+            }
+
+            for (int j = 0; j < comboBoxesNames.Length; j++)
+            {
+                this.Controls.Add(labels[i + j]);
+                this.Controls.Add(CBConfigs[j].comboBox);
+                ep = Auxiliary.InitializeErrorProvider(CBConfigs[j].comboBox);
+                ControlToEP_Dict.Add(CBConfigs[j].comboBox, ep);
+                ControlToBool_Dict.Add(CBConfigs[j].comboBox, true);
+                CBConfigs[j].comboBox.Validating += ComboBoxValidation;
             }
         }
 
@@ -100,18 +132,26 @@ namespace SZI
             return labels;
         }
 
-        private TextBox[] InitializeTextBoxes()
+        private TextBox[] InitializeTextAndCBConfigs()
         {
             TextBox[] textBoxes = new TextBox[textBoxesTexts.Length];
+            CBConfigs = new ComboBoxConfig[comboBoxesNames.Length];
+            int i;
 
-            for (int i = 0; i < textBoxesTexts.Length; i++)
+            for (i = 0; i < textBoxesTexts.Length; i++)
             {                
                 textBoxes[i] = new TextBox();                
                 textBoxes[i].Name = textBoxesNames[i];
                 textBoxes[i].Text = textBoxesTexts[i];
                 textBoxes[i].Location = new Point(150, 30 * (i + 1));
             }
-            //textBoxes[0].Enabled = false;
+
+            for (int j = 0; j < comboBoxesNames.Length;j++)
+            {
+                CBConfigs[j] = new ComboBoxConfig(TableNames[j], comboBoxesNames[j], new Point(150, 30 * (i + 1)), comboBoxesKeys[j]);
+                i++;
+            }
+
             return textBoxes;
         }
 
@@ -122,7 +162,6 @@ namespace SZI
 
         private void btSave_Click(object sender, EventArgs e)
         {
-            string validateString;
             int Parse;
             
             switch (selectedTab)
@@ -137,23 +176,13 @@ namespace SZI
                     modifiedCollector.Address = this.Controls.Find("Address", true)[0].Text;
                     modifiedCollector.PhoneNumber = this.Controls.Find("PhoneNumber", true)[0].Text;
 
-                    if (Auxiliary.IsCurrentValueOK(TBtoBool_Dict))
+                    if (Auxiliary.IsCurrentValueOK(ControlToBool_Dict))
                     {
                         modifiedCollector.ModifyRecord(ids.ElementAt(0));
                         this.Close();
                     }
                     else
-                        MessageBox.Show(LangPL.InsertFormLang["Fill in all fields"]);                    
-                    /*
-                    validateString = MainValidation.CollectorValidateString(modifiedCollector);
-                    if (validateString == String.Empty)
-                    {
-                        modifiedCollector.ModifyRecord(ids.ElementAt(0));
-                        this.Close();
-                    }
-                    else
-                        MessageBox.Show(validateString);
-                     */
+                        MessageBox.Show(LangPL.InsertFormLang["Fill in all fields"]);    
                     break;
 
                 case 1:
@@ -166,39 +195,32 @@ namespace SZI
                     modifiedCustomer.Address = this.Controls.Find("Address", true)[0].Text;
                     modifiedCustomer.PhoneNumber = this.Controls.Find("PhoneNumber", true)[0].Text;
 
-                    if (Auxiliary.IsCurrentValueOK(TBtoBool_Dict))
+                    if (Auxiliary.IsCurrentValueOK(ControlToBool_Dict))
                     {
                         modifiedCustomer.ModifyRecord(ids.ElementAt(0));
                         this.Close();
                     }
                     else
                         MessageBox.Show(LangPL.InsertFormLang["Fill in all fields"]);  
-                    /*
-                    validateString = MainValidation.CustomerValidateString(modifiedCustomer);
-                    if (validateString == String.Empty)
-                    {
-                        modifiedCustomer.ModifyRecord(ids.ElementAt(0));
-                        this.Close();
-                    }
-                    else
-                        MessageBox.Show(validateString);
-                     */
                     break;
 
                 case 2:
                     Area modifiedArea = new Area();
                     modifiedArea.AreaId = new Guid(this.Controls.Find("AreaId", true)[0].Text);
                     modifiedArea.Street = this.Controls.Find("Street", true)[0].Text;
-                    modifiedArea.CollectorId = this.Controls.Find("CollectorId", true)[0].Text;
+                    if (CBConfigs[0].ReturnForeignKey() == "")
+                        modifiedArea.CollectorId = "";
+                    else
+                        modifiedArea.CollectorId = CBConfigs[0].ReturnForeignKey();
 
-                    validateString = MainValidation.AreaValidateString(modifiedArea);
-                    if (validateString == String.Empty || Auxiliary.IsCurrentValueOK(TBtoBool_Dict))
+                    
+                    if (Auxiliary.IsCurrentValueOK(ControlToBool_Dict))
                     {
                         modifiedArea.ModifyRecord(ids.ElementAt(0));
                         this.Close();
                     }
                     else
-                        MessageBox.Show(validateString);
+                        MessageBox.Show(LangPL.InsertFormLang["Fill in all fields"]);
                     break;
 
                 case 3:
@@ -207,10 +229,10 @@ namespace SZI
                     modifiedCounter.CounterNo = Convert.ToInt32(this.Controls.Find("CounterNo", true)[0].Text);
                     Int32.TryParse(this.Controls.Find("CircuitNo", true)[0].Text, out Parse);
                     modifiedCounter.CircuitNo = Parse;
-                    modifiedCounter.AddressId = new Guid(this.Controls.Find("AddressId", true)[0].Text);
-                    modifiedCounter.CustomerId = this.Controls.Find("CustomerId", true)[0].Text;
+                    modifiedCounter.AddressId = new Guid(CBConfigs[0].ReturnForeignKey());
+                    modifiedCounter.CustomerId = CBConfigs[1].ReturnForeignKey();
 
-                    if (Auxiliary.IsCurrentValueOK(TBtoBool_Dict))
+                    if (Auxiliary.IsCurrentValueOK(ControlToBool_Dict))
                     {
                         modifiedCounter.ModifyRecord(ids.ElementAt(0));
                         this.Close();
@@ -227,9 +249,9 @@ namespace SZI
                     modifiedAddress.HouseNo = Parse;
                     Int32.TryParse(this.Controls.Find("FlatNo", true)[0].Text, out Parse);
                     modifiedAddress.FlatNo = Parse;
-                    modifiedAddress.AreaId = new Guid(this.Controls.Find("AreaId", true)[0].Text);
+                    modifiedAddress.AreaId = new Guid(CBConfigs[0].ReturnForeignKey());
 
-                    if (Auxiliary.IsCurrentValueOK(TBtoBool_Dict))
+                    if (Auxiliary.IsCurrentValueOK(ControlToBool_Dict))
                     {
                         modifiedAddress.ModifyRecord(ids.ElementAt(0));
                         this.Close();
@@ -240,6 +262,20 @@ namespace SZI
             }
         }
 
+        private void ComboBoxValidation(object sender, CancelEventArgs e)
+        {
+            ComboBox cb = (ComboBox)sender;
+            if (NameToMethod_Dict[cb.Name](cb.SelectedIndex.ToString()))
+            {
+                ControlToEP_Dict[cb].SetError(cb, String.Empty);
+                ControlToBool_Dict[cb] = true;
+            }
+            else
+            {
+                ControlToEP_Dict[cb].SetError(cb, "Nieprawidłowo wypełnione pole.");
+                ControlToBool_Dict[cb] = false;
+            }
+        }
 
         private void Validation(object sender, CancelEventArgs e)
         {
@@ -247,15 +283,14 @@ namespace SZI
             
             if (NameToMethod_Dict[ValidatedTextBox.Name](ValidatedTextBox.Text))
             {
-                TBtoEP_Dict[ValidatedTextBox].SetError(ValidatedTextBox, String.Empty);
-                TBtoBool_Dict[ValidatedTextBox] = true;
+                ControlToEP_Dict[ValidatedTextBox].SetError(ValidatedTextBox, String.Empty);
+                ControlToBool_Dict[ValidatedTextBox] = true;
                 ValidatedTextBox.Text = MainValidation.UppercaseFirst(ValidatedTextBox.Text);
             }
             else
             {
-                TBtoEP_Dict[ValidatedTextBox].SetError(ValidatedTextBox, "Nieprawidłowo wypełnione pole.");
-                TBtoBool_Dict[ValidatedTextBox] = false;
-                //e.Cancel = true;
+                ControlToEP_Dict[ValidatedTextBox].SetError(ValidatedTextBox, "Nieprawidłowo wypełnione pole.");
+                ControlToBool_Dict[ValidatedTextBox] = false;
             }
         }
     }

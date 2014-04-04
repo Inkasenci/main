@@ -16,7 +16,7 @@ namespace SZI
     using System.Collections.Generic;
     using System.Data.Entity.Infrastructure;
     
-    public partial class Address
+    public partial class Address : IItem
     {
         public System.Guid AddressId { get; set; }
         public int HouseNo { get; set; }
