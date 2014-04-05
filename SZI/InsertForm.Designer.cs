@@ -32,6 +32,7 @@
             this.tbCollectorFirstName = new System.Windows.Forms.TextBox();
             this.tbCollectorPostalCode = new System.Windows.Forms.TextBox();
             this.tbCollectorLastName = new System.Windows.Forms.TextBox();
+            this.tbCollectorAddress = new System.Windows.Forms.TextBox();
             this.tbCollectorCity = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -54,6 +55,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.tbCustomerPostalCode = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
+            this.tbCustomerAddress = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
@@ -111,6 +113,13 @@
             this.tbCollectorLastName.Name = "tbCollectorLastName";
             this.tbCollectorLastName.Size = new System.Drawing.Size(100, 20);
             this.tbCollectorLastName.TabIndex = 6;
+            // 
+            // tbCollectorAddress
+            // 
+            this.tbCollectorAddress.Location = new System.Drawing.Point(127, 133);
+            this.tbCollectorAddress.Name = "tbCollectorAddress";
+            this.tbCollectorAddress.Size = new System.Drawing.Size(100, 20);
+            this.tbCollectorAddress.TabIndex = 9;
             // 
             // tbCollectorCity
             // 
@@ -224,6 +233,7 @@
             this.tpCollector.Controls.Add(this.label6);
             this.tpCollector.Controls.Add(this.tbCollectorPostalCode);
             this.tpCollector.Controls.Add(this.label5);
+            this.tpCollector.Controls.Add(this.tbCollectorAddress);
             this.tpCollector.Controls.Add(this.label4);
             this.tpCollector.Controls.Add(this.label1);
             this.tpCollector.Controls.Add(this.label3);
@@ -247,6 +257,7 @@
             this.tpCustomer.Controls.Add(this.label9);
             this.tpCustomer.Controls.Add(this.tbCustomerPostalCode);
             this.tpCustomer.Controls.Add(this.label10);
+            this.tpCustomer.Controls.Add(this.tbCustomerAddress);
             this.tpCustomer.Controls.Add(this.label11);
             this.tpCustomer.Controls.Add(this.label12);
             this.tpCustomer.Controls.Add(this.label13);
@@ -327,6 +338,13 @@
             this.label10.Size = new System.Drawing.Size(41, 13);
             this.label10.TabIndex = 28;
             this.label10.Text = "Miasto:";
+            // 
+            // tbCustomerAddress
+            // 
+            this.tbCustomerAddress.Location = new System.Drawing.Point(127, 133);
+            this.tbCustomerAddress.Name = "tbCustomerAddress";
+            this.tbCustomerAddress.Size = new System.Drawing.Size(100, 20);
+            this.tbCustomerAddress.TabIndex = 23;
             // 
             // label11
             // 
@@ -565,6 +583,7 @@
         private System.Windows.Forms.TextBox tbCollectorFirstName;
         private System.Windows.Forms.TextBox tbCollectorPostalCode;
         private System.Windows.Forms.TextBox tbCollectorLastName;
+        private System.Windows.Forms.TextBox tbCollectorAddress;
         private System.Windows.Forms.TextBox tbCollectorCity;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
@@ -590,6 +609,7 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox tbCustomerPostalCode;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox tbCustomerAddress;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;

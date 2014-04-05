@@ -48,7 +48,6 @@ namespace SZI
             {
                 using (var database = new CollectorsManagementSystemEntities())
                 {
-                    this.Address = this.Address.Substring(0, 17); // <- do poprawienia w przysz³oœci
                     this.PostalCode = Regex.Replace(this.PostalCode, "-", "");
                     database.Collectors.Add(this);
                     database.SaveChanges();

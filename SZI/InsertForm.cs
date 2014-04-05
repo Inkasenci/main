@@ -12,21 +12,21 @@ namespace SZI
 {
     public partial class InsertForm : Form
     {
-        private int selectedTab = 0; 
+        private int selectedTab = 0;
 
         private bool CollectorEPInitialized = false, CustomerEPInitialized = false, AreaEPInitialized = false, CounterEPInitialized = false, AddressEPInitialized = false;
         private Dictionary<string, ValidatingMethod> NameToMethod_Dict;
         private Dictionary<Control, ErrorProvider> ControltoEP_Collector_Dict, ControltoEP_Customer_Dict, ControltoEP_Area_Dict, ControltoEP_Counter_Dict, ControltoEP_Address_Dict, Current_ControltoEP_Dict;
         private Dictionary<Control, bool> ControlToBool_Collector_Dict, ControlToBool_Customer_Dict, ControlToBool_Area_Dict, ControlToBool_Counter_Dict, ControlToBool_Address_Dict, Current_ControlToBool_Dict;
-        private ComboBoxConfig cbcCustomer, cbcCollector, cbcArea, cbcAddress, cbcAddress_Collector, cbcAddress_Customer;
+        private ComboBoxConfig cbcCustomer, cbcCollector, cbcArea, cbcAddress;
 
         public InsertForm(int MainFormSelectedTab)
-        {            
+        {
             InitializeComponent();
-            SetupControls(); 
+            SetupControls();
             selectedTab = MainFormSelectedTab;
-            tcInsert.SelectTab(MainFormSelectedTab); 
-            InitializeEP(selectedTab);                      
+            tcInsert.SelectTab(MainFormSelectedTab);
+            InitializeEP(selectedTab);
         }
 
         private void SetupControls()
@@ -35,27 +35,21 @@ namespace SZI
             NameToMethod_Dict = Auxiliary.Insert_CreateNameToMethodDict();
 
             cbcCollector = new ComboBoxConfig("Collector", "cbCollector", new Point(86, 29));
-            tcInsert.TabPages[2].Controls.Add(cbcCollector.InitializeComboBox());            
+            tcInsert.TabPages[2].Controls.Add(cbcCollector.InitializeComboBox());
 
             cbcCustomer = new ComboBoxConfig("Customer", "cbCustomer", new Point(89, 81));
             tcInsert.TabPages[3].Controls.Add(cbcCustomer.InitializeComboBox());
 
             cbcAddress = new ComboBoxConfig("Address", "cbAddress", new Point(89, 55));
-            tcInsert.TabPages[3].Controls.Add(cbcAddress.InitializeComboBox());  
+            tcInsert.TabPages[3].Controls.Add(cbcAddress.InitializeComboBox());
 
             cbcArea = new ComboBoxConfig("Area", "cbArea", new Point(117, 55));
             tcInsert.TabPages[4].Controls.Add(cbcArea.InitializeComboBox());
-
-            cbcAddress_Collector = new ComboBoxConfig("Address", "cbAddress_Collector", new Point(127, 133));
-            tcInsert.TabPages[0].Controls.Add(cbcAddress_Collector.InitializeComboBox());
-
-            cbcAddress_Customer = new ComboBoxConfig("Address", "cbAddress_Customer", new Point(127, 133));
-            tcInsert.TabPages[1].Controls.Add(cbcAddress_Customer.InitializeComboBox());  
         }
 
 
         #region Inicjalizacja słowników i przypisywanie EventHandlerów do TextBoxów
-        
+
         private void InitializeCollectorDictAndTB()
         {
             ControltoEP_Collector_Dict = new Dictionary<Control, ErrorProvider>();
@@ -64,7 +58,7 @@ namespace SZI
             tbCollectorID.Validating += Validation;
             ControltoEP_Collector_Dict.Add(tbCollectorID, Auxiliary.InitializeErrorProvider(tbCollectorID));
             ControlToBool_Collector_Dict.Add(tbCollectorID, false);
-            
+
             tbCollectorFirstName.Validating += Validation;
             ControltoEP_Collector_Dict.Add(tbCollectorFirstName, Auxiliary.InitializeErrorProvider(tbCollectorFirstName));
             ControlToBool_Collector_Dict.Add(tbCollectorFirstName, false);
@@ -81,10 +75,9 @@ namespace SZI
             ControltoEP_Collector_Dict.Add(tbCollectorCity, Auxiliary.InitializeErrorProvider(tbCollectorCity));
             ControlToBool_Collector_Dict.Add(tbCollectorCity, false);
 
-            ComboBox cbAddress_Collector = (ComboBox)this.Controls.Find("cbAddress_Collector", true)[0];
-            cbAddress_Collector.Validating += ComboBoxValidation;
-            ControltoEP_Collector_Dict.Add(cbAddress_Collector, Auxiliary.InitializeErrorProvider(cbAddress_Collector));
-            ControlToBool_Collector_Dict.Add(cbAddress_Collector, false);
+            tbCollectorAddress.Validating += Validation;
+            ControltoEP_Collector_Dict.Add(tbCollectorAddress, Auxiliary.InitializeErrorProvider(tbCollectorAddress));
+            ControlToBool_Collector_Dict.Add(tbCollectorAddress, false);
 
             tbCollectorPhoneNumber.Validating += Validation;
             ControltoEP_Collector_Dict.Add(tbCollectorPhoneNumber, Auxiliary.InitializeErrorProvider(tbCollectorPhoneNumber));
@@ -116,10 +109,9 @@ namespace SZI
             ControltoEP_Customer_Dict.Add(tbCustomerCity, Auxiliary.InitializeErrorProvider(tbCustomerCity));
             ControlToBool_Customer_Dict.Add(tbCustomerCity, false);
 
-            ComboBox cbAddress_Customer = (ComboBox)this.Controls.Find("cbAddress_Customer", true)[0];
-            cbAddress_Customer.Validating += ComboBoxValidation;
-            ControltoEP_Customer_Dict.Add(cbAddress_Customer, Auxiliary.InitializeErrorProvider(cbAddress_Customer));
-            ControlToBool_Customer_Dict.Add(cbAddress_Customer, false);
+            tbCustomerAddress.Validating += Validation;
+            ControltoEP_Customer_Dict.Add(tbCustomerAddress, Auxiliary.InitializeErrorProvider(tbCustomerAddress));
+            ControlToBool_Customer_Dict.Add(tbCustomerAddress, false);
 
             tbCustomerPhoneNumber.Validating += Validation;
             ControltoEP_Customer_Dict.Add(tbCustomerPhoneNumber, Auxiliary.InitializeErrorProvider(tbCustomerPhoneNumber));
@@ -221,10 +213,10 @@ namespace SZI
 
                 default:
                     break;
-            }        
+            }
         }
 
-        #endregion  
+        #endregion
 
         #region Czyszczenie textboxów
         private void ClearTBCollector()
@@ -234,6 +226,7 @@ namespace SZI
             tbCollectorLastName.Text = "";
             tbCollectorPostalCode.Text = "";
             tbCollectorCity.Text = "";
+            tbCollectorAddress.Text = "";
             tbCollectorPhoneNumber.Text = "";
         }
 
@@ -244,6 +237,7 @@ namespace SZI
             tbCustomerLastName.Text = "";
             tbCustomerPostalCode.Text = "";
             tbCustomerCity.Text = "";
+            tbCustomerAddress.Text = "";
             tbCustomerPhoneNumber.Text = "";
         }
 
@@ -274,8 +268,8 @@ namespace SZI
             c.LastName = tbCollectorLastName.Text;
             c.PostalCode = tbCollectorPostalCode.Text;
             c.City = tbCollectorCity.Text;
+            c.Address = tbCollectorAddress.Text;
             c.PhoneNumber = tbCollectorPhoneNumber.Text;
-            c.Address = cbcAddress_Collector.ReturnForeignKey();
 
             if (Auxiliary.IsCurrentValueOK(Current_ControlToBool_Dict))
             {
@@ -297,8 +291,8 @@ namespace SZI
             c.LastName = tbCustomerLastName.Text;
             c.PostalCode = tbCustomerPostalCode.Text;
             c.City = tbCustomerCity.Text;
+            c.Address = tbCustomerAddress.Text;
             c.PhoneNumber = tbCustomerPhoneNumber.Text;
-            c.Address = cbcAddress_Customer.ReturnForeignKey();
 
             if (Auxiliary.IsCurrentValueOK(Current_ControlToBool_Dict))
             {
@@ -365,7 +359,7 @@ namespace SZI
             a.HouseNo = Parse;
             Int32.TryParse(tbFlatNo.Text, out Parse);
             a.FlatNo = Parse;
-            
+
 
             if (Auxiliary.IsCurrentValueOK(Current_ControlToBool_Dict))
             {
@@ -412,6 +406,7 @@ namespace SZI
             {
                 Current_ControltoEP_Dict[ValidatedTextBox].SetError(ValidatedTextBox, "Nieprawidłowo wypełnione pole.");
                 Current_ControlToBool_Dict[ValidatedTextBox] = false;
+                //e.Cancel = true;
             }
         }
         private void btOK_Click(object sender, EventArgs e)
