@@ -110,7 +110,7 @@ namespace SZI
                                 rtbHelp.Text = LangPL.FaqAnswers["dataBaseTables"];
                                 break;
                             default:
-                                MessageBox.Show(LangPL.FaqErrors["indexOurOfRange"]);
+                                MessageBox.Show(LangPL.FaqErrors["indexOutOfRange"]);
                                 break;
                         }
                         break;
@@ -139,18 +139,18 @@ namespace SZI
                                         rtbHelp.Text = LangPL.FaqAnswers["dataBaseTableCustomer"];
                                         break;
                                     default:
-                                        MessageBox.Show(LangPL.FaqErrors["indexOurOfRange"]);
+                                        MessageBox.Show(LangPL.FaqErrors["indexOutOfRange"]);
                                         break;
                                 }
                                 break;
                             default:
-                                MessageBox.Show(LangPL.FaqErrors["indexOurOfRange"]);
+                                MessageBox.Show(LangPL.FaqErrors["indexOutOfRange"]);
                                 break;
                         }
                         break;
 
                     default:
-                        MessageBox.Show(LangPL.FaqErrors["indexOurOfRange"]);
+                        MessageBox.Show(LangPL.FaqErrors["indexOutOfRange"]);
                         break;
                 }
                 AddEmoticons(HelpTextBox.Text);
