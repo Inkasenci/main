@@ -35,16 +35,45 @@ namespace SZI
             areasList.Clear();
             using (var dataBase = new CollectorsManagementSystemEntities())
             {
-                foreach (var value in dataBase.Areas)
-                    areasList.Add(value);
+                foreach (var value in dataBase.Areas)                    
+                    areasList.Add(value);                
             }
+        }
+
+        private string FetchCollector(string CollectorID) //zwraca imię i nazwisko inkasenta na podstawie jego ID
+        {
+            string FullName = "";
+
+            using (var database = new CollectorsManagementSystemEntities())
+            {
+                var collector = from c in database.Collectors 
+                                where c.CollectorId == CollectorID 
+                                select c;
+
+                if (collector.Count() == 1)
+                {
+                    foreach (Collector c in collector)
+                        FullName = c.Name + " " + c.LastName;
+                }
+            }
+
+            return FullName;
         }
 
         private void GenerateStringList()
         {
+            List<string> convertedItem;
+
             itemList.Clear();
             foreach (var item in areasList)
-                itemList.Add(item.GetElements);
+            {
+                convertedItem = new List<string>();
+                convertedItem.Add(item.AreaId.ToString());
+                convertedItem.Add(item.Street);
+                convertedItem.Add(FetchCollector(item.CollectorId));
+                itemList.Add(convertedItem.ToArray());
+            }
+                
         }
 
         public void RefreshList()
