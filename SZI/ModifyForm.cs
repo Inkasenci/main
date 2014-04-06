@@ -171,17 +171,16 @@ namespace SZI
             switch (selectedTab)
             {
                 case 0:
-                    Collector modifiedCollector = new Collector();
-                    modifiedCollector.CollectorId = this.Controls.Find("CollectorId", true)[0].Text;
-                    modifiedCollector.Name = this.Controls.Find("Name", true)[0].Text;
-                    modifiedCollector.LastName = this.Controls.Find("LastName", true)[0].Text;
-                    modifiedCollector.PostalCode = this.Controls.Find("PostalCode", true)[0].Text;
-                    modifiedCollector.City = this.Controls.Find("City", true)[0].Text;
-                    modifiedCollector.Address = this.Controls.Find("Address", true)[0].Text;
-                    modifiedCollector.PhoneNumber = this.Controls.Find("PhoneNumber", true)[0].Text;
-
                     if (Auxiliary.IsCurrentValueOK(ControlToBool_Dict))
                     {
+                        Collector modifiedCollector = new Collector();
+                        modifiedCollector.CollectorId = this.Controls.Find("CollectorId", true)[0].Text;
+                        modifiedCollector.Name = this.Controls.Find("Name", true)[0].Text;
+                        modifiedCollector.LastName = this.Controls.Find("LastName", true)[0].Text;
+                        modifiedCollector.PostalCode = this.Controls.Find("PostalCode", true)[0].Text;
+                        modifiedCollector.City = this.Controls.Find("City", true)[0].Text;
+                        modifiedCollector.Address = this.Controls.Find("Address", true)[0].Text;
+                        modifiedCollector.PhoneNumber = this.Controls.Find("PhoneNumber", true)[0].Text;
                         modifiedCollector.ModifyRecord(ids.ElementAt(0));
                         this.Close();
                     }
@@ -190,17 +189,16 @@ namespace SZI
                     break;
 
                 case 1:
-                    Customer modifiedCustomer = new Customer();
-                    modifiedCustomer.CustomerId = this.Controls.Find("CustomerId", true)[0].Text;
-                    modifiedCustomer.Name = this.Controls.Find("Name", true)[0].Text;
-                    modifiedCustomer.LastName = this.Controls.Find("LastName", true)[0].Text;
-                    modifiedCustomer.PostalCode = this.Controls.Find("PostalCode", true)[0].Text;
-                    modifiedCustomer.City = this.Controls.Find("City", true)[0].Text;
-                    modifiedCustomer.Address = this.Controls.Find("Address", true)[0].Text;
-                    modifiedCustomer.PhoneNumber = this.Controls.Find("PhoneNumber", true)[0].Text;
-
                     if (Auxiliary.IsCurrentValueOK(ControlToBool_Dict))
                     {
+                        Customer modifiedCustomer = new Customer();
+                        modifiedCustomer.CustomerId = this.Controls.Find("CustomerId", true)[0].Text;
+                        modifiedCustomer.Name = this.Controls.Find("Name", true)[0].Text;
+                        modifiedCustomer.LastName = this.Controls.Find("LastName", true)[0].Text;
+                        modifiedCustomer.PostalCode = this.Controls.Find("PostalCode", true)[0].Text;
+                        modifiedCustomer.City = this.Controls.Find("City", true)[0].Text;
+                        modifiedCustomer.Address = this.Controls.Find("Address", true)[0].Text;
+                        modifiedCustomer.PhoneNumber = this.Controls.Find("PhoneNumber", true)[0].Text;
                         modifiedCustomer.ModifyRecord(ids.ElementAt(0));
                         this.Close();
                     }
@@ -208,18 +206,16 @@ namespace SZI
                         MessageBox.Show(LangPL.InsertFormLang["Fill in all fields"]);  
                     break;
 
-                case 2:
-                    Area modifiedArea = new Area();
-                    modifiedArea.AreaId = new Guid(this.Controls.Find("AreaId", true)[0].Text);
-                    modifiedArea.Street = this.Controls.Find("Street", true)[0].Text;
-                    if (CBConfigs[0].ReturnForeignKey() == "")
-                        modifiedArea.CollectorId = "";
-                    else
-                        modifiedArea.CollectorId = CBConfigs[0].ReturnForeignKey();
-
-                    
+                case 2:                    
                     if (Auxiliary.IsCurrentValueOK(ControlToBool_Dict))
                     {
+                        Area modifiedArea = new Area();
+                        modifiedArea.AreaId = new Guid(this.Controls.Find("AreaId", true)[0].Text);
+                        modifiedArea.Street = this.Controls.Find("Street", true)[0].Text;
+                        if (CBConfigs[0].ReturnForeignKey() == "")
+                            modifiedArea.CollectorId = "";
+                        else
+                            modifiedArea.CollectorId = CBConfigs[0].ReturnForeignKey();
                         modifiedArea.ModifyRecord(ids.ElementAt(0));
                         this.Close();
                     }
@@ -228,16 +224,15 @@ namespace SZI
                     break;
 
                 case 3:
-                    Counter modifiedCounter = new Counter();
-
-                    modifiedCounter.CounterNo = Convert.ToInt32(this.Controls.Find("CounterNo", true)[0].Text);
-                    Int32.TryParse(this.Controls.Find("CircuitNo", true)[0].Text, out Parse);
-                    modifiedCounter.CircuitNo = Parse;
-                    modifiedCounter.AddressId = new Guid(CBConfigs[0].ReturnForeignKey());
-                    modifiedCounter.CustomerId = CBConfigs[1].ReturnForeignKey();
-
                     if (Auxiliary.IsCurrentValueOK(ControlToBool_Dict))
                     {
+                        Counter modifiedCounter = new Counter();
+
+                        modifiedCounter.CounterNo = Convert.ToInt32(this.Controls.Find("CounterNo", true)[0].Text);
+                        Int32.TryParse(this.Controls.Find("CircuitNo", true)[0].Text, out Parse);
+                        modifiedCounter.CircuitNo = Parse;
+                        modifiedCounter.AddressId = new Guid(CBConfigs[0].ReturnForeignKey());
+                        modifiedCounter.CustomerId = CBConfigs[1].ReturnForeignKey();
                         modifiedCounter.ModifyRecord(ids.ElementAt(0));
                         this.Close();
                     }
@@ -245,18 +240,16 @@ namespace SZI
                         MessageBox.Show(LangPL.InsertFormLang["Fill in all fields"]);  
                     break;
 
-                case 4:
-                    Address modifiedAddress = new Address();
-
-                    modifiedAddress.AddressId = new Guid(this.Controls.Find("AddressId", true)[0].Text);
-                    Int32.TryParse(this.Controls.Find("HouseNo", true)[0].Text, out Parse);
-                    modifiedAddress.HouseNo = Parse;
-                    Int32.TryParse(this.Controls.Find("FlatNo", true)[0].Text, out Parse);
-                    modifiedAddress.FlatNo = Parse;
-                    modifiedAddress.AreaId = new Guid(CBConfigs[0].ReturnForeignKey());
-
+                case 4:     
                     if (Auxiliary.IsCurrentValueOK(ControlToBool_Dict))
                     {
+                        Address modifiedAddress = new Address();
+                        modifiedAddress.AddressId = new Guid(this.Controls.Find("AddressId", true)[0].Text);
+                        Int32.TryParse(this.Controls.Find("HouseNo", true)[0].Text, out Parse);
+                        modifiedAddress.HouseNo = Parse;
+                        Int32.TryParse(this.Controls.Find("FlatNo", true)[0].Text, out Parse);
+                        modifiedAddress.FlatNo = Parse;
+                        modifiedAddress.AreaId = new Guid(CBConfigs[0].ReturnForeignKey());
                         modifiedAddress.ModifyRecord(ids.ElementAt(0));
                         this.Close();
                     }
