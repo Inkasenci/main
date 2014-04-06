@@ -12,7 +12,7 @@ namespace SZI
 {
     public partial class InsertForm : Form
     {
-        private int selectedTab = 0; 
+        private int selectedTab = 0;
 
         private bool CollectorEPInitialized = false, CustomerEPInitialized = false, AreaEPInitialized = false, CounterEPInitialized = false, AddressEPInitialized = false;
         private Dictionary<string, ValidatingMethod> NameToMethod_Dict;
@@ -21,12 +21,12 @@ namespace SZI
         private ComboBoxConfig cbcCustomer, cbcCollector, cbcArea, cbcAddress;
 
         public InsertForm(int MainFormSelectedTab)
-        {            
+        {
             InitializeComponent();
-            SetupControls(); 
+            SetupControls();
             selectedTab = MainFormSelectedTab;
-            tcInsert.SelectTab(MainFormSelectedTab); 
-            InitializeEP(selectedTab);                      
+            tcInsert.SelectTab(MainFormSelectedTab);
+            InitializeEP(selectedTab);
         }
 
         private void SetupControls()
@@ -35,13 +35,13 @@ namespace SZI
             NameToMethod_Dict = Auxiliary.Insert_CreateNameToMethodDict();
 
             cbcCollector = new ComboBoxConfig("Collector", "cbCollector", new Point(86, 29));
-            tcInsert.TabPages[2].Controls.Add(cbcCollector.InitializeComboBox());            
+            tcInsert.TabPages[2].Controls.Add(cbcCollector.InitializeComboBox());
 
             cbcCustomer = new ComboBoxConfig("Customer", "cbCustomer", new Point(89, 81));
             tcInsert.TabPages[3].Controls.Add(cbcCustomer.InitializeComboBox());
 
             cbcAddress = new ComboBoxConfig("Address", "cbAddress", new Point(89, 55));
-            tcInsert.TabPages[3].Controls.Add(cbcAddress.InitializeComboBox());  
+            tcInsert.TabPages[3].Controls.Add(cbcAddress.InitializeComboBox());
 
             cbcArea = new ComboBoxConfig("Area", "cbArea", new Point(117, 55));
             tcInsert.TabPages[4].Controls.Add(cbcArea.InitializeComboBox());
@@ -49,7 +49,7 @@ namespace SZI
 
 
         #region Inicjalizacja słowników i przypisywanie EventHandlerów do TextBoxów
-        
+
         private void InitializeCollectorDictAndTB()
         {
             ControltoEP_Collector_Dict = new Dictionary<Control, ErrorProvider>();
@@ -58,7 +58,7 @@ namespace SZI
             tbCollectorID.Validating += Validation;
             ControltoEP_Collector_Dict.Add(tbCollectorID, Auxiliary.InitializeErrorProvider(tbCollectorID));
             ControlToBool_Collector_Dict.Add(tbCollectorID, false);
-            
+
             tbCollectorFirstName.Validating += Validation;
             ControltoEP_Collector_Dict.Add(tbCollectorFirstName, Auxiliary.InitializeErrorProvider(tbCollectorFirstName));
             ControlToBool_Collector_Dict.Add(tbCollectorFirstName, false);
@@ -178,40 +178,45 @@ namespace SZI
             {
                 case 0:
                     InitializeCollectorDictAndTB();
+                    CollectorEPInitialized = true;
                     Current_ControltoEP_Dict = ControltoEP_Collector_Dict;
                     Current_ControlToBool_Dict = ControlToBool_Collector_Dict;
                     break;
 
                 case 1:
                     InitializeCustomerDictAndTB();
+                    CustomerEPInitialized = true;
                     Current_ControltoEP_Dict = ControltoEP_Customer_Dict;
                     Current_ControlToBool_Dict = ControlToBool_Customer_Dict;
                     break;
 
                 case 2:
                     InitializeAreaDictAndTB();
+                    AreaEPInitialized = true;
                     Current_ControltoEP_Dict = ControltoEP_Area_Dict;
                     Current_ControlToBool_Dict = ControlToBool_Area_Dict;
                     break;
 
                 case 3:
                     InitializeCounterDictAndTB();
+                    CounterEPInitialized = true;
                     Current_ControltoEP_Dict = ControltoEP_Counter_Dict;
                     Current_ControlToBool_Dict = ControlToBool_Counter_Dict;
                     break;
 
                 case 4:
                     InitializeAddressDictAndTB();
+                    AddressEPInitialized = true;
                     Current_ControltoEP_Dict = ControltoEP_Address_Dict;
                     Current_ControlToBool_Dict = ControlToBool_Address_Dict;
                     break;
 
                 default:
                     break;
-            }        
+            }
         }
 
-        #endregion  
+        #endregion
 
         #region Czyszczenie textboxów
         private void ClearTBCollector()
@@ -354,7 +359,7 @@ namespace SZI
             a.HouseNo = Parse;
             Int32.TryParse(tbFlatNo.Text, out Parse);
             a.FlatNo = Parse;
-            
+
 
             if (Auxiliary.IsCurrentValueOK(Current_ControlToBool_Dict))
             {
