@@ -40,11 +40,42 @@ namespace SZI
             }
         }
 
+        private string FetchAreaAndCollector(Guid AreaID) //zwraca przypisany do adresu teren i przypisanego do niego inkasenta
+        {
+            string AreaAndCollector = "";
+
+            using (var database = new CollectorsManagementSystemEntities())
+            {
+                var Result = from area in database.Areas
+                             join collector in database.Collectors on area.CollectorId equals collector.CollectorId
+                             where area.AreaId == AreaID
+                             select new { Area = area, Collector = collector };
+
+                if (Result.Count() == 1)
+                {
+                    foreach (var item in Result)                    
+                        AreaAndCollector = item.Area.Street + ": " + item.Collector.Name + " " + item.Collector.LastName;                   
+                }
+            }
+
+            return AreaAndCollector;
+        }
+
         private void GenerateStringList()
         {
+            List<string> convertedItem;
+
             itemList.Clear();
+
             foreach (var item in addressesList)
-                itemList.Add(item.GetElements);
+            {
+                convertedItem = new List<string>();
+                convertedItem.Add(item.AddressId.ToString());
+                convertedItem.Add(item.HouseNo.ToString());
+                convertedItem.Add(item.FlatNo.ToString());
+                convertedItem.Add(FetchAreaAndCollector(item.AreaId));
+                itemList.Add(convertedItem.ToArray());
+            }
         }
 
         public void RefreshList()
