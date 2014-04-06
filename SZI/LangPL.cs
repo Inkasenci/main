@@ -51,7 +51,7 @@ namespace SZI
 
         static public Dictionary<string, string> FaqErrors = new Dictionary<string, string>()
         {
-            {"indexOurOfRange","Nie istnieje pomoc dla wskazanego elementu!"},
+            {"indexOutOfRange","Nie istnieje pomoc dla wskazanego elementu!"},
             {"loadHelp","Problem z ładowanie danych!"}
         };
     }
