@@ -60,6 +60,8 @@ namespace SZI
         }
 
         private void SetButtonEnabledProperty(bool btDeleteEnabledProperty, bool btModifyEnabledProperty)
+        /* przyjmuje wartosci boolowskie
+         * podstawia je pod wlasciwosc Enabled przyciskow usuwania i modyfikacji*/
         {
             btDelete.Enabled = btDeleteEnabledProperty;
             btModify.Enabled = btModifyEnabledProperty;
