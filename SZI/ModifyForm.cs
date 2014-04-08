@@ -168,7 +168,7 @@ namespace SZI
             this.Close();
         }
 
-        private void btSave_Click(object sender, EventArgs e) //po naciscnieciu przycisku Zapisz
+        private void btSave_Click(object sender, EventArgs e) //po nacisnieciu przycisku Zapisz
         {
             int Parse;
             
