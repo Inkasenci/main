@@ -156,6 +156,8 @@ namespace SZI
                 }
             }
 
+            textBoxes[0].Enabled = false;
+
             return textBoxes;
         }
 
