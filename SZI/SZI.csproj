@@ -158,6 +158,8 @@
       <DependentUpon>Model.tt</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="SampleDataConfig.cs" />
+    <Compile Include="SampleDataSource.cs" />
     <EmbeddedResource Include="ConfigManagementForm.resx">
       <DependentUpon>ConfigManagementForm.cs</DependentUpon>
     </EmbeddedResource>

@@ -48,6 +48,8 @@ namespace SZI
         }
 
         static private void AdjustColumnWidth(ListView listView)
+        /* przyjmuje listView
+         * dopasowywuje szerokosc kazdej kolumny listView do najszerszego elementu*/
         {
             foreach (ColumnHeader column in listView.Columns)
                 column.Width = -2;

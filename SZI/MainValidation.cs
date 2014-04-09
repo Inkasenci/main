@@ -150,6 +150,21 @@ namespace SZI
             return false;
         }
 
+        static public bool CounterExists(int ID)
+        {
+            using (var dataBase = new CollectorsManagementSystemEntities())
+            {
+                var Counters = from c in dataBase.Counters
+                               select c.CounterNo;
+
+                foreach (int counterNo in Counters)
+                    if (counterNo == ID)
+                        return true;
+            }
+
+            return false;
+        }
+
         static public bool EmptyString(string stringToValidate)
         {
             return (stringToValidate == String.Empty) ? false : true;

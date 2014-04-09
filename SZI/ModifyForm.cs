@@ -13,16 +13,16 @@ namespace SZI
 {
     public partial class ModifyForm : Form
     {
-        private List<string> ids;
-        private int selectedTab;
-        private string[] labelsTexts;
-        private string[] textBoxesNames;        
-        private string[] textBoxesTexts;
-        private string[] comboBoxesNames;
+        private List<string> ids; //identyfikatory zaznaczonych wierszy
+        private int selectedTab; //aktualnie otwarta karta
+        private string[] labelsTexts; //teksty etykiet
+        private string[] textBoxesNames; //nazwy pol tekstowych
+        private string[] textBoxesTexts; //teksty pol tekstowych
+        private string[] comboBoxesNames; //nazwy rozwijanych list
         private string[] comboBoxesKeys; //klucze obce z danego rekordu, potrzebne do inicjalizacji ComboBoxConfigów
         private string[] TableNames; //nazwy tabel z których wyciągane są klucze obce modyfikowanego rekordu
 
-        private CollectorsManagementSystemEntities dataBase;
+        private CollectorsManagementSystemEntities dataBase; //odwolanie do bazy
 
         private Dictionary<Control, ErrorProvider> ControlToEP_Dict;
         private Dictionary<string, ValidatingMethod> NameToMethod_Dict;
@@ -30,6 +30,8 @@ namespace SZI
         private ComboBoxConfig[] CBConfigs;
 
         public ModifyForm(List<string> ids, int selectedTab)
+        /* przyjmuje id zaznaczonych rekordow i aktualnie otwarta karte
+         * wstawia kontrolki i inicjalizuje je*/
         {
             InitializeComponent();
             dataBase = new CollectorsManagementSystemEntities();
@@ -121,7 +123,7 @@ namespace SZI
                 }
         }
 
-        private Label[] InitializeLabels()
+        private Label[] InitializeLabels() //inicjalizuje etykiety
         {
             Label[] labels = new Label[labelsTexts.Length];
             for (int i = 0; i < labelsTexts.Length; i++)
@@ -133,7 +135,7 @@ namespace SZI
             return labels;
         }
 
-        private TextBox[] InitializeTextAndCBConfigs()
+        private TextBox[] InitializeTextAndCBConfigs() //inicjalizuje pola tekstowe i rozwijane listy
         {
             TextBox[] textBoxes = new TextBox[textBoxesTexts.Length];            
             int i;
@@ -156,15 +158,17 @@ namespace SZI
                 }
             }
 
+            textBoxes[0].Enabled = false;
+
             return textBoxes;
         }
 
-        private void btCancel_Click(object sender, EventArgs e)
+        private void btCancel_Click(object sender, EventArgs e) //po nacisnieciu przycisku Anuluj
         {
             this.Close();
         }
 
-        private void btSave_Click(object sender, EventArgs e)
+        private void btSave_Click(object sender, EventArgs e) //po nacisnieciu przycisku Zapisz
         {
             int Parse;
             
