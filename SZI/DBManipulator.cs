@@ -149,6 +149,8 @@ namespace SZI
         }
 
         static public bool IdExistsInOtherTable(string tableName, string id)
+        /* przyjmuje nazwe tabeli, z ktorej pochodzi id, samo id
+         * zwraca true, jesli id jest kluczem obcym w innej tabeli*/
         {
             int count;
             Guid guidId;
