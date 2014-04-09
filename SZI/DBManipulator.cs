@@ -147,5 +147,41 @@ namespace SZI
                 }
             }
         }
+
+        static public bool IdExistsInOtherTable(string tableName, string id)
+        {
+            int count;
+            Guid guidId;
+
+            using (var dataBase = new CollectorsManagementSystemEntities())
+            {
+                switch (tableName)
+                {
+                    case "Collector":
+                        count = (from a in dataBase.Areas where a.CollectorId == id select a).Count();
+                        break;
+                    case "Customer":
+                        count = (from c in dataBase.Counters where c.CustomerId == id select c).Count();
+                        break;
+                    case "Area":
+                        guidId = new Guid(id);
+                        count = (from a in dataBase.Addresses where a.AreaId == guidId select a).Count();
+                        break;
+                    case "Address":
+                        guidId = new Guid(id);
+                        count = (from c in dataBase.Counters where c.AddressId == guidId select c).Count();
+                        break;
+                    default:
+                        count = 0;
+                        break;
+                }
+
+            }
+
+            if (count > 0)
+                return true;
+            else
+                return false;
+        }
     }
 }

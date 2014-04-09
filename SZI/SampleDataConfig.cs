@@ -9,10 +9,10 @@ namespace SZI
     static class SampleDataConfig
     {
         static int numberOfCollectors = 5;
-        static int numberOfCustomers = 50;
-        static int numberOfAreas = 10; //aczkolwiek nie moze byc ich wiecej niz ulic w SampleDataSource
-        static int numberOfCounters = 50;
-        static int numberOfAddresses = 50;
+        static int numberOfCustomers = 10;
+        static int numberOfAreas = 5; //aczkolwiek nie moze byc ich wiecej niz ulic w SampleDataSource
+        static int numberOfCounters = 10;
+        static int numberOfAddresses = 10;
 
         static void GenerateCollectors() //generuje losowo inkasentow
         {

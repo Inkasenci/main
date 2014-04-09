@@ -54,5 +54,13 @@ namespace SZI
             {"indexOutOfRange","Nie istnieje pomoc dla wskazanego elementu!"},
             {"loadHelp","Problem z ładowanie danych!"}
         };
+
+        static public Dictionary<string, string> IntegrityWarnings = new Dictionary<string, string>()
+        {
+            { "collectorRemoval", "Jeden lub więcej wybranych inkasentów ma przydzielony teren. Czy chcesz kontynuować? "},
+            { "customerRemoval", "Jeden lub więcej wybranych klientów jest właścicielem licznika. Czy chcesz kontynuować? "},
+            { "areaRemoval", "Do jednego lub więcej wybranych terenów należą adresy liczników. Czy chcesz kontynuować? "},
+            { "addressRemoval", "Pod jednym lub więcej adresów zamontowane są liczniki. Czy chcesz kontynuować? "}
+        };
     }
 }
