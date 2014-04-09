@@ -134,12 +134,11 @@ namespace SZI
         {
             using (var dataBase = new CollectorsManagementSystemEntities())
             {
-                string query = @"
-                    DELETE FROM Collector
-                    DELETE FROM Customer
-                    DELETE FROM Area
-                    DELETE FROM Counter
-                    DELETE FROM Address";
+                string query = @"DELETE FROM Collector;"+
+                                "DELETE FROM Customer;"+
+                                "DELETE FROM Area;"+
+                                "DELETE FROM Counter;"+
+                                "DELETE FROM Address;";
 
                 dataBase.Database.ExecuteSqlCommand(query);
             }
