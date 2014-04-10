@@ -47,14 +47,15 @@ namespace SZI
             using (var database = new CollectorsManagementSystemEntities())
             {
                 var Result = from area in database.Areas
-                             join collector in database.Collectors on area.CollectorId equals collector.CollectorId
+                             join collector in database.Collectors on area.CollectorId equals collector.CollectorId into areaJoinedCollector
                              where area.AreaId == AreaID
-                             select new { Area = area, Collector = collector };
+                             from collector in areaJoinedCollector.DefaultIfEmpty()
+                             select new { Area = area, Collector = collector == null ? String.Empty : ": " + collector.Name + " " + collector.LastName };
 
                 if (Result.Count() == 1)
                 {
-                    foreach (var item in Result)                    
-                        AreaAndCollector = item.Area.Street + ": " + item.Collector.Name + " " + item.Collector.LastName;                   
+                    foreach (var item in Result)
+                        AreaAndCollector = item.Area.Street + item.Collector;             
                 }
             }
 
