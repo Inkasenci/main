@@ -94,7 +94,7 @@
             this.btRefresh.UseVisualStyleBackColor = true;
             this.btRefresh.Click += new System.EventHandler(this.btRefresh_Click);
             // 
-            // Form1
+            // ConfigManagementForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -104,7 +104,7 @@
             this.Controls.Add(this.btInsert);
             this.Controls.Add(this.tbTest);
             this.Controls.Add(this.btDelete);
-            this.Name = "Form1";
+            this.Name = "ConfigManagementForm";
             this.Text = "System Zarządzania Inkasentami";
             this.ResumeLayout(false);
             this.PerformLayout();

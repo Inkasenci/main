@@ -138,7 +138,8 @@ namespace SZI
                                 "DELETE FROM Customer;"+
                                 "DELETE FROM Area;"+
                                 "DELETE FROM Counter;"+
-                                "DELETE FROM Address;";
+                                "DELETE FROM Address;"+
+                                "DELETE FROM Reading;";
 
                 dataBase.Database.ExecuteSqlCommand(query);
             }

@@ -12,8 +12,9 @@
 namespace SZI
 {
 
-using System;
+    using System;
     using System.Collections.Generic;
+    using System.Data.Entity.Infrastructure;
     
     public partial class Reading
     {
@@ -22,6 +23,22 @@ using System;
         public double Value { get; set; }
         public string CollectorId { get; set; }
         public int CounterNo { get; set; }
+
+        public void InsertIntoDB()
+        {
+            try
+            {
+                using (var database = new CollectorsManagementSystemEntities())
+                {
+                    database.Readings.Add(this);
+                    database.SaveChanges();
+                }
+            }
+            catch (DbUpdateException ex)
+            {
+                ExceptionHandling.ShowException(ex);
+            }
+        }
     }
 
 }
