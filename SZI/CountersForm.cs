@@ -20,9 +20,9 @@ namespace SZI
 
         string[] columnList = new string[]
         {
+            "Id Inkasenta",
             "Imię",
             "Nazwisko",
-            "Id Inkasenta",
             "Liczb odczytów"
         };
 

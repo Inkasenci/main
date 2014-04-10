@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.XPath;
+using System.Windows.Forms;
 
 namespace SZI
 {
@@ -27,9 +28,11 @@ namespace SZI
                 XmlWriter.WriteElementString("ReadId", element[0]);
                 XmlWriter.WriteElementString("CounterNo", element[1]);
                 XmlWriter.WriteElementString("CircuitNo", element[2]);
-                XmlWriter.WriteElementString("Address", element[3]);
-                XmlWriter.WriteElementString("LastRead", (element[4] != "Brak danych!") ? element[4] : String.Empty);
-                XmlWriter.WriteElementString("NewRead", String.Empty);
+                XmlWriter.WriteElementString("Customer", element[3]);
+                XmlWriter.WriteElementString("Address", element[4]);
+                XmlWriter.WriteElementString("LastReadDate", (element[5] != LangPL.CountersWarnings["noRecord"]) ? element[5] : String.Empty);
+                XmlWriter.WriteElementString("LastValue", (element[6] != LangPL.CountersWarnings["noRecord"]) ? element[6] : String.Empty);
+                XmlWriter.WriteElementString("NewValue", String.Empty);
                 XmlWriter.WriteEndElement();
             }
 
@@ -39,56 +42,64 @@ namespace SZI
 
         static public void XMLImport(string output)
         {
-            Reading newRecord = new Reading();
             string collectorId = String.Empty;
             string strRegex = @"([a-zA-Z0-9]*)\.xml";
+            string counterNo, newValue, collId;
+
             if (Regex.IsMatch(output, strRegex, RegexOptions.None))
             {
-                XmlTextReader reader = new XmlTextReader(output);
-                while (reader.Read())
+                try
                 {
-                    if (reader.IsStartElement())
-                    {
-                        switch (reader.Name)
-                        {
-                            case "Counters":
-                                collectorId = reader.GetAttribute("CollectorID");
-                                break;
-                            case "ReadId":
-                                newRecord = new Reading();
-                                newRecord.Date = DateTime.MinValue;
-                                break;
-                            case "CounterNo":
-                                newRecord.CounterNo = Convert.ToInt32(reader.ReadString());
-                                break;
-                            case "CircuitNo":
-                                break;
-                            case "Address":
-                                break;
-                            case "LastRead":
-                                string lastRead = reader.ReadString();
-                                if (lastRead == String.Empty)
-                                    newRecord.Date = DateTime.ParseExact("2001-01-01", "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                                else
-                                    newRecord.Date = DateTime.ParseExact(lastRead, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                                break;
-                            case "NewRead":
-                                string newRead = reader.ReadString();
-                                if (newRead != String.Empty)
-                                {
-                                    newRecord.Date = DateTime.Now;
-                                    newRecord.Value = Convert.ToDouble(newRead);
-                                }
-                                else
-                                    newRecord.Value = 0;
+                    XmlTextReader reader = new XmlTextReader(output);
 
-                                newRecord.ReadingId = Guid.NewGuid();
-                                newRecord.CollectorId = collectorId;
-                                newRecord.InsertIntoDB();
-                                break;
+                    counterNo = String.Empty;
+                    collId = String.Empty;
+                    newValue = String.Empty;
+
+                    while (reader.Read())
+                    {
+                        if (reader.IsStartElement())
+                        {
+                            switch (reader.Name)
+                            {
+                                case "Counters":
+                                    collId = reader.GetAttribute("CollectorID");
+                                    break;
+                                case "ReadId":
+                                    break;
+                                case "CounterNo":
+                                    counterNo = reader.ReadString();
+                                    break;
+                                case "CircuitNo":
+                                    break;
+                                case "Address":
+                                    break;
+                                case "LastReadDate":
+                                    break;
+                                case "LastValue":
+                                    break;
+                                case "NewValue":
+                                    newValue = reader.ReadString();
+                                    if (newValue != String.Empty)
+                                    {
+                                        Reading newRecord = new Reading();
+                                        newRecord.CollectorId = collId;
+                                        newRecord.Date = DateTime.Now.AddDays(1);
+                                        newRecord.CounterNo = Convert.ToInt32(counterNo);
+                                        newRecord.Value = Convert.ToInt32(newValue);
+                                        newRecord.ReadingId = Guid.NewGuid();
+                                        newRecord.InsertIntoDB();
+                                    }
+                                    counterNo = String.Empty;
+                                    newValue = String.Empty;
+                                    break;
+                            }
                         }
                     }
-
+                } 
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
                 }
             }
         }
