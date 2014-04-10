@@ -16,7 +16,7 @@ namespace SZI
         {
             InitializeComponent();
 
-            Button button1 = new Button();
+            /*Button button1 = new Button();
             button1.Text = "Generuj";
             button1.Location = new Point(100, 100);
             button1.Click += button1_Click;
@@ -26,10 +26,10 @@ namespace SZI
             button2.Text = "Wyczyść";
             button2.Location = new Point(100, 130);
             button2.Click += button2_Click;
-            this.Controls.Add(button2);
+            this.Controls.Add(button2);*/
         }
 
-        void button1_Click(object sender, EventArgs e)
+        /*void button1_Click(object sender, EventArgs e)
         {
             SampleDataConfig.GenerateDataBase();
         }
@@ -37,16 +37,18 @@ namespace SZI
         void button2_Click(object sender, EventArgs e)
         {
             SampleDataConfig.ClearDataBase();
-        }
+        }*/
 
         private void btCounters_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Nie teraz!");
+            var countersForm = new CountersForm();
+            countersForm.ShowDialog();
         }
 
         private void btConfig_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Nie teraz!");
+            var configurationForm = new ConfigurationForm();
+            configurationForm.ShowDialog();
         }
 
         private void btHelp_Click(object sender, EventArgs e)
