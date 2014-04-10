@@ -119,8 +119,42 @@ namespace SZI
         // Delete event click
         private void btDelete_Click(object sender, EventArgs e)
         {
-            DBManipulator.DeleteFromDB(ids, selectedTab);
-            closeForm_Click(sender, e);
+            bool idExists;
+            string tableName = string.Empty;
+            DialogResult choiceFromMessageBox = DialogResult.Yes;
+
+            switch (selectedTab)
+            {
+                case 0:
+                    tableName = "Collector";
+                    break;
+                case 1:
+                    tableName = "Customer";
+                    break;
+                case 2:
+                    tableName = "Area";
+                    break;
+                case 4:
+                    tableName = "Address";
+                    break;
+            }
+
+            for (int i = 0; i < ids.Count; i++)
+            {
+                idExists = DBManipulator.IdExistsInOtherTable(tableName, ids.ElementAt(i));
+                if (idExists)
+                {
+                    tableName = tableName.ToLower();
+                    choiceFromMessageBox = MessageBox.Show(LangPL.IntegrityWarnings[tableName + "Removal"], "Ostrzeżenie", MessageBoxButtons.YesNo);
+                    break;
+                }
+            }
+
+            if (choiceFromMessageBox == DialogResult.Yes)
+            {
+                DBManipulator.DeleteFromDB(ids, selectedTab);
+                closeForm_Click(sender, e);
+            }
             SetButtonEnabledProperty(false, false);
         }
 
