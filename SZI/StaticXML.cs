@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -84,7 +84,7 @@ namespace SZI
                                     {
                                         Reading newRecord = new Reading();
                                         newRecord.CollectorId = collId;
-                                        newRecord.Date = DateTime.Now.AddDays(1);
+                                        newRecord.Date = DateTime.Now;
                                         newRecord.CounterNo = Convert.ToInt32(counterNo);
                                         newRecord.Value = Convert.ToInt32(newValue);
                                         newRecord.ReadingId = Guid.NewGuid();
