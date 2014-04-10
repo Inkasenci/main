@@ -62,5 +62,11 @@ namespace SZI
             { "areaRemoval", "Do jednego lub więcej wybranych terenów należą adresy liczników. Czy chcesz kontynuować? "},
             { "addressRemoval", "Pod jednym lub więcej adresów zamontowane są liczniki. Czy chcesz kontynuować? "}
         };
+
+        static public Dictionary<string, string> CountersWarnings = new Dictionary<string, string>()
+        {
+            { "noRecord", "----"},
+            { "wrongFileName", "Błąd! Niepoprawna nazwa pliku!" }
+        };
     }
 }

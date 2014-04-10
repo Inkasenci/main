@@ -21,10 +21,12 @@ namespace SZI
                 "Id",
                 "Numer licznika",
                 "Numer układu",
+                "Właściciel",
                 "Adres",
-                "Ostatni odczyt",
+                "Data odczyt",
                 "Wartość odczytu",
-                "Id Inkasenta"
+                "Id Inkasenta",
+                "Imię i Nazwisko Inkasenta",
         };
 
         public CheckCounters( string collectorId )
@@ -53,6 +55,7 @@ namespace SZI
                                 CounterNo = counter.CounterNo,
                                 CircuitNo = counter.CircuitNo,
                                 CounterAddress = area.Street + " " + address.HouseNo + "/" + address.FlatNo,
+                                CustomerId = counter.CustomerId
                             };
 
                 foreach (var element in items)
@@ -60,22 +63,40 @@ namespace SZI
                     var reading = from read in dataBase.Readings
                                   where read.CounterNo == element.CounterNo
                                   select read;
-                    string date, value, collectorId;
+
+                    string date, value, collectorId, collectorName, customerName;
 
                     if (reading.Count() > 0)
                     {
                         var lastRead = reading.OrderByDescending(x => x.Date).FirstOrDefault();
-                        date = lastRead.Date.ToShortDateString() ?? "Brak danych!";
-                        value = lastRead.Value.ToString() ?? "Brak danych!";
-                        collectorId = lastRead.CollectorId ?? "Brak danych!";
+                        date = lastRead.Date.ToShortDateString() ?? LangPL.CountersWarnings["noRecord"];
+                        value = lastRead.Value.ToString() ?? LangPL.CountersWarnings["noRecord"];
+                        collectorId = lastRead.CollectorId ?? LangPL.CountersWarnings["noRecord"];
+
+                        var collectorRead = ( from collector in dataBase.Collectors
+                                        where collector.CollectorId == collectorId
+                                        select new { collector.Name, collector.LastName }).FirstOrDefault();
+
+                        collectorName = collectorRead.Name + " " + collectorRead.LastName;
                     }
                     else
                     {
-                        date = "Brak danych!";
-                        value = "Brak danych!";
-                        collectorId = "Brak danych!";
+                        date = LangPL.CountersWarnings["noRecord"];
+                        value = LangPL.CountersWarnings["noRecord"];
+                        collectorId = LangPL.CountersWarnings["noRecord"];
+                        collectorName = LangPL.CountersWarnings["noRecord"];
                     }
-                    cList.Add(new string[] { i++.ToString(), element.CounterNo.ToString(), element.CircuitNo.ToString(), element.CounterAddress, date, value, collectorId });
+
+                    var cutomerRead = (from customer in dataBase.Customers
+                                       where element.CustomerId == customer.CustomerId
+                                       select new { customer.Name, customer.LastName }).FirstOrDefault();
+
+                    if ( cutomerRead != null )
+                        customerName = cutomerRead.Name + " " + cutomerRead.LastName;
+                    else
+                        customerName = LangPL.CountersWarnings["noRecord"];
+
+                    cList.Add(new string[] { i++.ToString(), element.CounterNo.ToString(), element.CircuitNo.ToString(), customerName, element.CounterAddress, date, value, collectorId, collectorName });
                 }
             }
 
@@ -96,7 +117,7 @@ namespace SZI
             DialogResult check = saveFileDialog.ShowDialog();
 
             if (saveFileDialog.FileName == String.Empty && check == DialogResult.OK)
-                MessageBox.Show("Błędna nazwa pliku!");
+                MessageBox.Show(LangPL.CountersWarnings["wrongFileName"]);
             else if (check == DialogResult.OK)
                 StaticXML.XMLExport(saveFileDialog.FileName, this.collectorId, this.cList);
         }
