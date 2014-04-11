@@ -8,99 +8,62 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.XPath;
 using System.Windows.Forms;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace SZI
 {
+    /// <summary>
+    /// Statyczna klasa odpowiedzialna za zapis i odczyt z pliku XML
+    /// </summary>
     static class StaticXML
     {
-        static public void XMLExport( string output, string collectorId, List<string[]> itemList )
+        /// <summary>
+        /// Wczytywanie rekordów z pliku XML
+        /// </summary>
+        /// <param name="path">Adres plku do odczytu</param>
+        /// <param name="cCollection">Argument wyjściowy zawierający kolekcję odczytów</param>
+        static public void ReadFromXml(string path, out CounersCollection cCollection)
         {
-            string strRegex = @"([a-zA-Z0-9]*)\.xml";
-            XmlTextWriter XmlWriter = new XmlTextWriter(Regex.IsMatch(output, strRegex, RegexOptions.None) ? output : output+".xml", null);
-            XmlWriter.WriteStartDocument();
-            XmlWriter.WriteComment("XML wygenerowany przez aplikację SZI.");
-            XmlWriter.WriteStartElement("Counters");
-            XmlWriter.WriteAttributeString("CollectorID", collectorId);
-
-            foreach (var element in itemList)
+            cCollection = null;
+            try
             {
-                XmlWriter.WriteStartElement("Counter");
-                XmlWriter.WriteElementString("ReadId", element[0]);
-                XmlWriter.WriteElementString("CounterNo", element[1]);
-                XmlWriter.WriteElementString("CircuitNo", element[2]);
-                XmlWriter.WriteElementString("Customer", element[3]);
-                XmlWriter.WriteElementString("Address", element[4]);
-                XmlWriter.WriteElementString("LastReadDate", (element[5] != LangPL.CountersWarnings["noRecord"]) ? element[5] : String.Empty);
-                XmlWriter.WriteElementString("LastValue", (element[6] != LangPL.CountersWarnings["noRecord"]) ? element[6] : String.Empty);
-                XmlWriter.WriteElementString("NewValue", String.Empty);
-                XmlWriter.WriteEndElement();
-            }
+                XmlSerializer serializer = new XmlSerializer(typeof(CounersCollection));
 
-            XmlWriter.WriteEndDocument();
-            XmlWriter.Close();  
+                StreamReader reader = new StreamReader(path);
+                cCollection = (CounersCollection)serializer.Deserialize(reader);
+                reader.Close();
+                if (cCollection != null)
+                    cCollection.AddNewElementsToDataBase();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
-        static public void XMLImport(string output)
+        /// <summary>
+        /// Zapis danych do pliku XML
+        /// </summary>
+        /// <param name="path">Adres plku do odczytu</param>
+        /// <param name="cCollection">Argument zawierający kolekcję odczytów</param>
+        /// <param name="SaveFile">Zwracaj informację o zapisie danych do pliku ( true w przypadku nieudanej próby, true w przypadku udanej )</param>
+        static public void WriteToXml(string path, CounersCollection cCollection, out bool SaveFile)
         {
-            string collectorId = String.Empty;
-            string strRegex = @"([a-zA-Z0-9]*)\.xml";
-            string counterNo, newValue, collId;
-
-            if (Regex.IsMatch(output, strRegex, RegexOptions.None))
+            try
             {
-                try
-                {
-                    XmlTextReader reader = new XmlTextReader(output);
+                System.Xml.Serialization.XmlSerializer writer =
+                        new System.Xml.Serialization.XmlSerializer(typeof(CounersCollection));
 
-                    counterNo = String.Empty;
-                    collId = String.Empty;
-                    newValue = String.Empty;
-
-                    while (reader.Read())
-                    {
-                        if (reader.IsStartElement())
-                        {
-                            switch (reader.Name)
-                            {
-                                case "Counters":
-                                    collId = reader.GetAttribute("CollectorID");
-                                    break;
-                                case "ReadId":
-                                    break;
-                                case "CounterNo":
-                                    counterNo = reader.ReadString();
-                                    break;
-                                case "CircuitNo":
-                                    break;
-                                case "Address":
-                                    break;
-                                case "LastReadDate":
-                                    break;
-                                case "LastValue":
-                                    break;
-                                case "NewValue":
-                                    newValue = reader.ReadString();
-                                    if (newValue != String.Empty)
-                                    {
-                                        Reading newRecord = new Reading();
-                                        newRecord.CollectorId = collId;
-                                        newRecord.Date = DateTime.Now.AddDays(1);
-                                        newRecord.CounterNo = Convert.ToInt32(counterNo);
-                                        newRecord.Value = Convert.ToInt32(newValue);
-                                        newRecord.ReadingId = Guid.NewGuid();
-                                        newRecord.InsertIntoDB();
-                                    }
-                                    counterNo = String.Empty;
-                                    newValue = String.Empty;
-                                    break;
-                            }
-                        }
-                    }
-                } 
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.ToString());
-                }
+                System.IO.StreamWriter file = new System.IO.StreamWriter(path);
+                writer.Serialize(file, cCollection);
+                file.Close();
+                SaveFile = false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+                SaveFile = true;
             }
         }
     }

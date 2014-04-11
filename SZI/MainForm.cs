@@ -67,5 +67,11 @@ namespace SZI
         {
             this.Close();
         }
+
+        private void btXMLTextEditor_Click(object sender, EventArgs e)
+        {
+            var XMLTextEditorForm = new XMLTextEditor();
+            XMLTextEditorForm.ShowDialog();
+        }
     }
 }
