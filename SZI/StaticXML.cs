@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -54,7 +54,6 @@ namespace SZI
             {
                 System.Xml.Serialization.XmlSerializer writer =
                         new System.Xml.Serialization.XmlSerializer(typeof(CounersCollection));
-
                 System.IO.StreamWriter file = new System.IO.StreamWriter(path);
                 writer.Serialize(file, cCollection);
                 file.Close();
@@ -64,6 +63,55 @@ namespace SZI
             {
                 MessageBox.Show(ex.ToString());
                 SaveFile = true;
+                    counterNo = String.Empty;
+                    collId = String.Empty;
+                    newValue = String.Empty;
+
+                    while (reader.Read())
+                    {
+                        if (reader.IsStartElement())
+                        {
+                            switch (reader.Name)
+                            {
+                                case "Counters":
+                                    collId = reader.GetAttribute("CollectorID");
+                                    break;
+                                case "ReadId":
+                                    break;
+                                case "CounterNo":
+                                    counterNo = reader.ReadString();
+                                    break;
+                                case "CircuitNo":
+                                    break;
+                                case "Address":
+                                    break;
+                                case "LastReadDate":
+                                    break;
+                                case "LastValue":
+                                    break;
+                                case "NewValue":
+                                    newValue = reader.ReadString();
+                                    if (newValue != String.Empty)
+                                    {
+                                        Reading newRecord = new Reading();
+                                        newRecord.CollectorId = collId;
+                                        newRecord.Date = DateTime.Now;
+                                        newRecord.CounterNo = Convert.ToInt32(counterNo);
+                                        newRecord.Value = Convert.ToInt32(newValue);
+                                        newRecord.ReadingId = Guid.NewGuid();
+                                        newRecord.InsertIntoDB();
+                                    }
+                                    counterNo = String.Empty;
+                                    newValue = String.Empty;
+                                    break;
+                            }
+                        }
+                    }
+                } 
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
             }
         }
     }
