@@ -66,7 +66,8 @@ namespace SZI
         static public Dictionary<string, string> CountersWarnings = new Dictionary<string, string>()
         {
             { "noRecord", "----"},
-            { "wrongFileName", "Błąd! Niepoprawna nazwa pliku!" }
+            { "wrongFileName", "Błąd! Niepoprawna nazwa pliku!" },
+            { "xmlError", "Błąd podczas przetwarzania piku XML!" }
         };
     }
 }

@@ -14,7 +14,7 @@ namespace SZI
             return new ListViewItem(item);
         }
 
-        static public ListView ListViewInit(string[] columnList, string className, List<string[]> itemList)
+        static public ListView ListViewInit(string[] columnList, string className, List<string[]> itemList = null)
         {
             ListView lv = new ListView();
             lv.View = View.Details;
@@ -26,11 +26,16 @@ namespace SZI
             lv.Location = new System.Drawing.Point(10, 10);
             lv.Size = new System.Drawing.Size(600, 450);
             lv.Name = className;
-
-            foreach (var item in itemList)
-                lv.Items.Add(ConvertToItem(item));
+            if ( itemList != null )
+                foreach (var item in itemList)
+                    lv.Items.Add(ConvertToItem(item));
 
             return lv;
+        }
+
+        static public void AddItem(ListView listView, string[] item)
+        {
+            listView.Items.Add(ConvertToItem(item));
         }
 
         static public ListView ListViewRefresh(ListView listView, List<string[]> itemList)

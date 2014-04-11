@@ -10,12 +10,26 @@ using System.Windows.Forms;
 
 namespace SZI
 {
+    /// <summary>
+    /// Klasa obsługująca Liczniki dla wybranego inkasenta
+    /// </summary>
     public partial class CheckCounters : Form
     {
+        /// <summary>
+        /// Id inkasenta dla którego szukamy odczytów
+        /// </summary>
         private string collectorId;
+        /// <summary>
+        /// Obsługa listView
+        /// </summary>
         private ListView listViewC;
-        private List<string[]> cList;
-
+        /// <summary>
+        /// Kolekcja rekordów odpowiadających inkasentowi
+        /// </summary>
+        private CounersCollection cCollection;
+        /// <summary>
+        /// Lista kolumn w listView
+        /// </summary>
         string[] columnList = new string[]
         {
                 "Id",
@@ -24,11 +38,14 @@ namespace SZI
                 "Właściciel",
                 "Adres",
                 "Data odczyt",
-                "Wartość odczytu",
-                "Id Inkasenta",
-                "Imię i Nazwisko Inkasenta",
+                "Inkasent",
+                "Wartość odczytu"
         };
 
+        /// <summary>
+        /// Konstruktor formy
+        /// </summary>
+        /// <param name="collectorId">pobranie danych względem danego w argumencie rekordu</param>
         public CheckCounters( string collectorId )
         {
             this.collectorId = collectorId;
@@ -36,11 +53,14 @@ namespace SZI
             InitializeForm();
         }
 
+        /// <summary>
+        /// Metoda inicjalizująca wyświetlanie listy rekordów
+        /// </summary>
         public void InitializeForm()
         {
             listViewC = new ListView();
-            cList = new List<string[]>();
-
+            cCollection = new CounersCollection();
+            cCollection.collectorId = this.collectorId;
             int i = 1;
 
             using (var dataBase = new CollectorsManagementSystemEntities())
@@ -69,45 +89,63 @@ namespace SZI
                     if (reading.Count() > 0)
                     {
                         var lastRead = reading.OrderByDescending(x => x.Date).FirstOrDefault();
-                        date = lastRead.Date.ToShortDateString() ?? LangPL.CountersWarnings["noRecord"];
-                        value = lastRead.Value.ToString() ?? LangPL.CountersWarnings["noRecord"];
-                        collectorId = lastRead.CollectorId ?? LangPL.CountersWarnings["noRecord"];
 
-                        var collectorRead = ( from collector in dataBase.Collectors
-                                        where collector.CollectorId == collectorId
-                                        select new { collector.Name, collector.LastName }).FirstOrDefault();
+                        date = lastRead.Date.ToShortDateString() ?? String.Empty;
+                        value = lastRead.Value.ToString() ?? String.Empty;
+                        collectorId = lastRead.CollectorId ?? String.Empty;
 
-                        collectorName = collectorRead.Name + " " + collectorRead.LastName;
+                        var collectorRead = (from collector in dataBase.Collectors
+                                             where collector.CollectorId == collectorId
+                                             select new { collector.Name, collector.LastName }).FirstOrDefault();
+
+                        collectorName = collectorId + " " + collectorRead.Name + " " + collectorRead.LastName;
                     }
                     else
-                    {
-                        date = LangPL.CountersWarnings["noRecord"];
-                        value = LangPL.CountersWarnings["noRecord"];
-                        collectorId = LangPL.CountersWarnings["noRecord"];
-                        collectorName = LangPL.CountersWarnings["noRecord"];
-                    }
+                        date = value = collectorName = String.Empty;
 
                     var cutomerRead = (from customer in dataBase.Customers
                                        where element.CustomerId == customer.CustomerId
                                        select new { customer.Name, customer.LastName }).FirstOrDefault();
 
-                    if ( cutomerRead != null )
+                    if (cutomerRead != null)
                         customerName = cutomerRead.Name + " " + cutomerRead.LastName;
                     else
-                        customerName = LangPL.CountersWarnings["noRecord"];
+                        customerName = String.Empty;
 
-                    cList.Add(new string[] { i++.ToString(), element.CounterNo.ToString(), element.CircuitNo.ToString(), customerName, element.CounterAddress, date, value, collectorId, collectorName });
+                    {
+                        CounterXML newItem = new CounterXML();
+                        newItem.ReadId = i++.ToString();
+                        newItem.CounterNo = element.CounterNo.ToString();
+                        newItem.CircuitNo = element.CircuitNo.ToString();
+                        newItem.Customer = customerName;
+                        newItem.Address = element.CounterAddress;
+                        newItem.LastReadDate = date;
+                        newItem.LastValue = value;
+                        newItem.LastCollector = collectorName;
+                        newItem.NewValue = String.Empty;
+                        cCollection.AddNewElement(newItem);
+                    }
                 }
             }
 
-            listViewC = ListViewConfig.ListViewInit(columnList, this.GetType().Name, cList);
+            listViewC = ListViewConfig.ListViewInit(columnList, this.GetType().Name);
+
+            foreach (var element in cCollection.counter)
+                ListViewConfig.AddItem(listViewC, element.PrintStringArray);
+
             listViewC.MultiSelect = false;
             listViewC.Size = new System.Drawing.Size(750, 450);
             this.Controls.Add(listViewC);
         }
 
+        /// <summary>
+        /// Export ( wysłanie ) danych do pliku XML
+        /// </summary>
+        /// <param name="sender">object eventu</param>
+        /// <param name="e">argument eventu</param>
         private void btExport_Click(object sender, EventArgs e)
         {
+            CounersCollection collection = new CounersCollection();
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.InitialDirectory = @"C:\";
             saveFileDialog.DefaultExt = "xml";
@@ -119,7 +157,10 @@ namespace SZI
             if (saveFileDialog.FileName == String.Empty && check == DialogResult.OK)
                 MessageBox.Show(LangPL.CountersWarnings["wrongFileName"]);
             else if (check == DialogResult.OK)
-                StaticXML.XMLExport(saveFileDialog.FileName, this.collectorId, this.cList);
+            {
+                bool test;
+                StaticXML.WriteToXml(saveFileDialog.FileName, cCollection, out test);
+            }
         }
     }
 }
