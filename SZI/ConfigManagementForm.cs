@@ -59,9 +59,10 @@ namespace SZI
             tabControl.SelectedIndexChanged += tabControl_SelectedIndexChanged;
         }
 
+        //! Ustawia właściwość "Enabled" dla przycisków "Usuń" i "Modyfikuj".
+        //! \param btDeleteEnabledProperty Pożądany stan właściwości "Enabled" dla przycisku "Usuń".
+        //! \param btDeleteModifyProperty Pożądany stan właściwości "Enabled" dla przycisku "Modyfikuj".
         private void SetButtonEnabledProperty(bool btDeleteEnabledProperty, bool btModifyEnabledProperty)
-        /* przyjmuje wartosci boolowskie
-         * podstawia je pod wlasciwosc Enabled przyciskow usuwania i modyfikacji*/
         {
             btDelete.Enabled = btDeleteEnabledProperty;
             btModify.Enabled = btModifyEnabledProperty;
@@ -116,7 +117,10 @@ namespace SZI
             MainTabControlInit();
         }
 
-        // Delete event click
+        //! Wywoływana po naciścnięciu przycisku "Usuń".
+        //! Usuwa zaznaczone rekordy, wcześniej sprawdzając, czy nie ma do nich odniesienia w innych tabelach.
+        //! \param sender Przycisk "Usuń".
+        //! \param e Argumenty zdarzenia.
         private void btDelete_Click(object sender, EventArgs e)
         {
             bool idExists;
@@ -158,7 +162,9 @@ namespace SZI
             SetButtonEnabledProperty(false, false);
         }
 
-        // Insert event click
+        //! Wywoływana po naciśnięciu przycisku "Dodaj". Otwiera formularz umożliwiający dodawanie rekordów.
+        //! \param Przycisk "Dodaj".
+        //! \param e Argumenty zdarzenia.
         private void btInsert_Click(object sender, EventArgs e)
         {
             var insertForm = new InsertForm(selectedTab);
@@ -167,7 +173,9 @@ namespace SZI
             SetButtonEnabledProperty(false, false);
         }
 
-        // Modify event click
+        //! Wywoływana po naciśnięciu przycisku "Modyfikuj". Otwiera formularz umożliwiający modyfikację zaznaczonego rekordu.
+        //! \param Przycisk "Modyfikuj".
+        //! \param e Argumenty zdarzenia.
         private void btModify_Click(object sender, EventArgs e)
         {
             var modifyForm = new ModifyForm(ids, selectedTab);
