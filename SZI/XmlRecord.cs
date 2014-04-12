@@ -8,58 +8,60 @@ using System.Xml.Serialization;
 namespace SZI
 {
     /// <summary>
-    /// Klasa obsługująca Model XML Odczytu - SZI
+    /// Klasa obsługująca Model XML Odczytu - SZI.
     /// </summary>
     [Serializable()]
     public class CounterXML
     {
+        #region XML Form
         /// <summary>
-        /// Nr porządkowy odczytu
+        /// Nr porządkowy odczytu.
         /// </summary>
         [XmlElement("ReadId")]
         public string ReadId { get; set; }
         /// <summary>
-        /// Numer licznika
+        /// Numer licznika.
         /// </summary>
         [XmlElement("CounterNo")]
         public string CounterNo { get; set; }
         /// <summary>
-        /// Numer układu
+        /// Numer układu.
         /// </summary>
         [XmlElement("CircuitNo")]
         public string CircuitNo { get; set; }
         /// <summary>
-        /// Inofrmacje na temat klienta
+        /// Inofrmacje na temat klienta.
         /// </summary>
         [XmlElement("Customer")]
         public string Customer { get; set; }
         /// <summary>
-        /// Adres licznika
+        /// Adres licznika.
         /// </summary>
         [XmlElement("Address")]
         public string Address { get; set; }
         /// <summary>
-        /// Data ostatniego odczytu
+        /// Data ostatniego odczytu.
         /// </summary>
         [XmlElement("LastReadDate")]
         public string LastReadDate { get; set; }
         /// <summary>
-        /// Ostatnio wykonujący odczyt Inkasent
+        /// Ostatnio wykonujący odczyt Inkasent.
         /// </summary>
         public string LastCollector { get; set; }
         /// <summary>
-        /// Wartość ostatniego odczytu
+        /// Wartość ostatniego odczytu.
         /// </summary>
         [XmlElement("LastValue")]
         public string LastValue { get; set; }
         /// <summary>
-        /// Nowa wartość
+        /// Nowa wartość.
         /// </summary>
         [XmlElement("NewValue")]
         public string NewValue { get; set; }
-
+        #endregion
+        #region Custom Fun 
         /// <summary>
-        /// Tablica wartości zapisywanych do pliku
+        /// Tablica wartości zapisywanych do pliku.
         /// </summary>
         public string[] StringArray
         {
@@ -80,7 +82,7 @@ namespace SZI
         }
 
         /// <summary>
-        /// Tablica wartości wyświetlanych na ekranie
+        /// Tablica wartości wyświetlanych na ekranie.
         /// </summary>
         public string[] PrintStringArray
         {
@@ -99,27 +101,30 @@ namespace SZI
                 };
             }
         }
+        #endregion
     }
     /// <summary>
-    /// Klasa zawierająca informacje dotyczące kolejnych odczytów
+    /// Klasa zawierająca informacje dotyczące kolejnych odczytów.
     /// </summary>
     [Serializable()]
     [XmlRoot("Counters")]
-    public class CounersCollection
+    public class CountersCollection
     {
+        #region XML Form
         /// <summary>
-        /// Id Inkasenta wykonującego dane odczyty
+        /// Id Inkasenta wykonującego dane odczyty.
         /// </summary>
         [XmlAttribute("CollectorID")]
         public string collectorId { get; set; }
         /// <summary>
-        /// Lista liczników
+        /// Lista liczników.
         /// </summary>
         [XmlElement("Counter")]
         public List<CounterXML> counter { get; set; }
-
+        #endregion
+        #region Custom Fun
         /// <summary>
-        /// Zwraca ilość liczników w bazie
+        /// Zwraca ilość liczników w bazie.
         /// </summary>
         public int RecordsCount
         {
@@ -130,7 +135,7 @@ namespace SZI
         }
 
         /// <summary>
-        /// Dodanie nowego elementu do listy elementów XML
+        /// Dodanie nowego elementu do listy elementów XML.
         /// </summary>
         public void AddNewElement(CounterXML item)
         {
@@ -140,7 +145,7 @@ namespace SZI
         }
 
         /// <summary>
-        /// Zapis wartości do bazy danych
+        /// Zapis wartości do bazy danych.
         /// </summary>
         public void AddNewElementsToDataBase()
         {
@@ -158,5 +163,6 @@ namespace SZI
                 }
             }
         }
+        #endregion
     }
 }

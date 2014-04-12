@@ -84,15 +84,11 @@ namespace SZI
             ListView activeListView = (ListView)sender;
             indexes = activeListView.SelectedIndices;
 
-            tbTest.Text = "";
 
             ListView.SelectedListViewItemCollection selectedItems = activeListView.SelectedItems;
             foreach (ListViewItem item in selectedItems)
-            //for (int i = 0; i < item.SubItems.Count; i++)
             {
-                string s = item.SubItems[0].Text;
-                tbTest.Text += item.SubItems[0].Text + " ";
-                ids.Add(s);
+                ids.Add(item.SubItems[0].Text);
             }
 
             switch (listView[selectedTab].SelectedItems.Count)

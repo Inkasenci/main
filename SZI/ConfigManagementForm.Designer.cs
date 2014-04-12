@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             this.btDelete = new System.Windows.Forms.Button();
-            this.tbTest = new System.Windows.Forms.TextBox();
             this.btInsert = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.btModify = new System.Windows.Forms.Button();
@@ -49,14 +48,6 @@
             this.btDelete.Text = "Usuń";
             this.btDelete.UseVisualStyleBackColor = true;
             this.btDelete.Click += new System.EventHandler(this.btDelete_Click);
-            // 
-            // tbTest
-            // 
-            this.tbTest.Location = new System.Drawing.Point(190, 578);
-            this.tbTest.Name = "tbTest";
-            this.tbTest.Size = new System.Drawing.Size(323, 20);
-            this.tbTest.TabIndex = 1;
-            this.tbTest.Visible = false;
             // 
             // btInsert
             // 
@@ -102,19 +93,16 @@
             this.Controls.Add(this.btRefresh);
             this.Controls.Add(this.btModify);
             this.Controls.Add(this.btInsert);
-            this.Controls.Add(this.tbTest);
             this.Controls.Add(this.btDelete);
             this.Name = "ConfigManagementForm";
             this.Text = "System Zarządzania Inkasentami";
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.Button btDelete;
-        private System.Windows.Forms.TextBox tbTest;
         private System.Windows.Forms.Button btInsert;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Button btModify;
