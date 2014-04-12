@@ -119,7 +119,10 @@ namespace SZI
                     ep = Auxiliary.InitializeErrorProvider(CBConfigs[j].comboBox);
                     ControlToEP_Dict.Add(CBConfigs[j].comboBox, ep);
                     ControlToBool_Dict.Add(CBConfigs[j].comboBox, true);
-                    CBConfigs[j].comboBox.Validating += ComboBoxValidation;
+                    if (selectedTab != 3)
+                        CBConfigs[j].comboBox.Validating += ComboBoxValidation;
+                    else //jeśli modyfikowany jest wpis w Counters
+                        CBConfigs[j].comboBox.Validating += CountersValidation;
                 }
         }
 
@@ -235,8 +238,18 @@ namespace SZI
                         modifiedCounter.CounterNo = Convert.ToInt32(this.Controls.Find("CounterNo", true)[0].Text);
                         Int32.TryParse(this.Controls.Find("CircuitNo", true)[0].Text, out Parse);
                         modifiedCounter.CircuitNo = Parse;
-                        modifiedCounter.AddressId = new Guid(CBConfigs[0].ReturnForeignKey());
-                        modifiedCounter.CustomerId = CBConfigs[1].ReturnForeignKey();
+
+                        if (CBConfigs[0].comboBox.SelectedIndex != 0) //jeśli w jednym comboboxie index jest różny od 0, to w drugim też
+                        {
+                            modifiedCounter.AddressId = new Guid(CBConfigs[0].ReturnForeignKey());
+                            modifiedCounter.CustomerId = CBConfigs[1].ReturnForeignKey();
+                        }
+                        else
+                        {
+                            modifiedCounter.AddressId = null;
+                            modifiedCounter.CustomerId = null;
+                        }
+
                         modifiedCounter.ModifyRecord(ids.ElementAt(0));
                         this.Close();
                     }
@@ -252,7 +265,10 @@ namespace SZI
                         Int32.TryParse(this.Controls.Find("HouseNo", true)[0].Text, out Parse);
                         modifiedAddress.HouseNo = Parse;
                         Int32.TryParse(this.Controls.Find("FlatNo", true)[0].Text, out Parse);
-                        modifiedAddress.FlatNo = Parse;
+                        if (Parse > 0)
+                            modifiedAddress.FlatNo = Parse;
+                        else
+                            modifiedAddress.FlatNo = null;
                         modifiedAddress.AreaId = new Guid(CBConfigs[0].ReturnForeignKey());
                         modifiedAddress.ModifyRecord(ids.ElementAt(0));
                         this.Close();
@@ -261,6 +277,17 @@ namespace SZI
                         MessageBox.Show(LangPL.InsertFormLang["Fill in all fields"]);  
                     break;
             }
+        }
+
+        private void CountersValidation(object sender, CancelEventArgs e)
+        {
+            ComboBox cb = (ComboBox)sender;
+            if (cb == CBConfigs[0].comboBox)
+            {
+                MainValidation.XNOR_ComboBoxValidation(cb, CBConfigs[1].comboBox, ControlToEP_Dict, ControlToBool_Dict);
+            }
+            else
+                MainValidation.XNOR_ComboBoxValidation(cb, CBConfigs[0].comboBox, ControlToEP_Dict, ControlToBool_Dict);
         }
 
         private void ComboBoxValidation(object sender, CancelEventArgs e)
