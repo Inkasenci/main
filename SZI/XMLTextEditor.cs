@@ -13,33 +13,33 @@ using System.Xml.Serialization;
 namespace SZI
 {
     /// <summary>
-    /// Klasa obsługująca Model XML Odczytu - SZI
+    /// Klasa obsługująca Model XML Odczytu - SZI.
     /// </summary>
     public partial class XMLTextEditor : Form
     {
         /// <summary>
-        /// Lista textBoxów zawierających dane poszczególnych pól pliku XMA
+        /// Lista textBoxów zawierających dane poszczególnych pól pliku XMA.
         /// </summary>
         private List<TextBox> textBox;
         /// <summary>
-        /// Informuje o nie zapisanych danych - zapobiega ich utrace
+        /// Informuje o nie zapisanych danych - zapobiega ich utrace.
         /// </summary>
         private bool SaveData = false;
         /// <summary>
-        /// Rekord w którym aktualnie przebywamy
+        /// Rekord w którym aktualnie przebywamy.
         /// </summary>
         private int nrRecord = 0;
         /// <summary>
-        /// Wczytane rekordy z pliku XML
+        /// Wczytane rekordy z pliku XML.
         /// </summary>
-        private CounersCollection xmlRecords = new CounersCollection();
+        private CountersCollection xmlRecords = new CountersCollection();
         /// <summary>
-        /// Adres pliku z ktorego pobieramy dane
+        /// Adres pliku z ktorego pobieramy dane.
         /// </summary>
         private string path;
 
         /// <summary>
-        /// Pozycja kolejnych textBoxów
+        /// Pozycja kolejnych textBoxów.
         /// </summary>
         private int[][] initPosition = new int[][]
         {
@@ -54,7 +54,7 @@ namespace SZI
         };
 
         /// <summary>
-        /// Określanie dostępu do kolejnych pól
+        /// Określanie dostępu do kolejnych pól.
         /// </summary>
         private bool[] readOnly = new bool[]
         {
@@ -69,7 +69,7 @@ namespace SZI
         };
 
         /// <summary>
-        /// Opis poszczególnych textBoxów
+        /// Opis poszczególnych textBoxów.
         /// </summary>
         private string[] labels = new string[]
         {
@@ -84,7 +84,7 @@ namespace SZI
         };
 
         /// <summary>
-        /// Funkcja inicjowane przy starcie okna
+        /// Funkcja inicjowane przy starcie okna.
         /// </summary>
         public XMLTextEditor()
         {
@@ -93,7 +93,7 @@ namespace SZI
         }
 
         /// <summary>
-        /// Ustawienie textBoxów i opisów w oknie edytora
+        /// Ustawienie textBoxów i opisów w oknie edytora.
         /// </summary>
         private void InitForm()
         {
@@ -117,9 +117,9 @@ namespace SZI
         }
 
         /// <summary>
-        /// Odczyt elementu z listy
+        /// Odczyt elementu z listy.
         /// </summary>
-        /// <param name="i">Indeks odczytywanego elementu</param>
+        /// <param name="i">Indeks odczytywanego elementu.</param>
         private void ReadElement(int i)
         {
             if (xmlRecords.RecordsCount > 0)
@@ -141,10 +141,10 @@ namespace SZI
         }
 
         /// <summary>
-        /// Kończenie działania aplikacji - Click
+        /// Kończenie działania aplikacji - Click.
         /// </summary>
-        /// <param name="sender">object eventu</param>
-        /// <param name="e">argument eventu</param>
+        /// <param name="sender">Obiekt eventu.</param>
+        /// <param name="e">Argument eventu.</param>
         private void zakończProgramToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DialogResult choiceFromMessageBox = DialogResult.Yes;
@@ -155,10 +155,10 @@ namespace SZI
         }
 
         /// <summary>
-        /// Otwarcie i wczytanie danych z pliku XML - Click
+        /// Otwarcie i wczytanie danych z pliku XML - Click.
         /// </summary>
-        /// <param name="sender">object eventu</param>
-        /// <param name="e">argument eventu</param>
+        /// <param name="sender">Obiekt eventu.</param>
+        /// <param name="e">Argument eventu.</param>
         private void otwórzToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -181,10 +181,10 @@ namespace SZI
         }
 
         /// <summary>
-        /// Zapis danych do tego samego pliku - Click
+        /// Zapis danych do tego samego pliku - Click.
         /// </summary>
-        /// <param name="sender">object eventu</param>
-        /// <param name="e">argument eventu</param>
+        /// <param name="sender">Obiekt eventu.</param>
+        /// <param name="e">Argument eventu.</param>
         private void zapiszToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (xmlRecords.RecordsCount > 0)
@@ -198,10 +198,10 @@ namespace SZI
         }
 
         /// <summary>
-        /// Uruchomienie pomocy - Click
+        /// Uruchomienie pomocy - Click.
         /// </summary>
-        /// <param name="sender">object eventu</param>
-        /// <param name="e">argument eventu</param>
+        /// <param name="sender">Obiekt eventu.</param>
+        /// <param name="e">Argument eventu.</param>
         private void pomocToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var helpForm = new HelpForm();
@@ -209,10 +209,10 @@ namespace SZI
         }
 
         /// <summary>
-        /// Przejście do następnego rekordu - Click
+        /// Przejście do następnego rekordu - Click.
         /// </summary>
-        /// <param name="sender">object eventu</param>
-        /// <param name="e">argument eventu</param>
+        /// <param name="sender">Obiekt eventu.</param>
+        /// <param name="e">Argument eventu.</param>
         private void btNext_Click(object sender, EventArgs e)
         {
             if (++nrRecord >= xmlRecords.RecordsCount)
@@ -221,10 +221,10 @@ namespace SZI
         }
 
         /// <summary>
-        /// Przejście do poprzedniego rekordu - Click
+        /// Przejście do poprzedniego rekordu - Click.
         /// </summary>
-        /// <param name="sender">object eventu</param>
-        /// <param name="e">argument eventu</param>
+        /// <param name="sender">Obiekt eventu.</param>
+        /// <param name="e">Argument eventu.</param>
         private void btPrevious_Click(object sender, EventArgs e)
         {
             if (--nrRecord < 0)
@@ -233,10 +233,10 @@ namespace SZI
         }
 
         /// <summary>
-        /// Zapis zmian wprowadzonych w textBoxie - Click
+        /// Zapis zmian wprowadzonych w textBoxie - Click.
         /// </summary>
-        /// <param name="sender">object eventu</param>
-        /// <param name="e">argument eventu</param>
+        /// <param name="sender">Obiekt eventu.</param>
+        /// <param name="e">Argument eventu.</param>
         private void btSaveChanges_Click(object sender, EventArgs e)
         {
             double ret;
@@ -249,30 +249,30 @@ namespace SZI
         }
 
         /// <summary>
-        /// Przejście do następnego rekordu - Click ( Menu )
+        /// Przejście do następnego rekordu - Click ( Menu ).
         /// </summary>
-        /// <param name="sender">object eventu</param>
-        /// <param name="e">argument eventu</param>
+        /// <param name="sender">Obiekt eventu.</param>
+        /// <param name="e">Argument eventu.</param>
         private void rekordToolStripMenuItem_Click(object sender, EventArgs e)
         {
             btNext_Click(sender, e);
         }
 
         /// <summary>
-        /// Przejście do poprzedniego rekordu - Click ( Menu )
+        /// Przejście do poprzedniego rekordu - Click ( Menu ).
         /// </summary>
-        /// <param name="sender">object eventu</param>
-        /// <param name="e">argument eventu</param>
+        /// <param name="sender">Obiekt eventu.</param>
+        /// <param name="e">Argument eventu.</param>
         private void poprzedniToolStripMenuItem_Click(object sender, EventArgs e)
         {
             btPrevious_Click(sender, e);
         }
 
         /// <summary>
-        /// Zapisz jako ... wybranie nowego pliku XML jako doceolowy zapisu ( aktualizacja metody this.path ) - Click
+        /// Zapisz jako ... wybranie nowego pliku XML jako doceolowy zapisu ( aktualizacja metody this.path ) - Click.
         /// </summary>
-        /// <param name="sender">object eventu</param>
-        /// <param name="e">argument eventu</param>
+        /// <param name="sender">Obiekt eventu.</param>
+        /// <param name="e">Argument eventu.</param>
         private void zapiszJakoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (xmlRecords.RecordsCount > 0)

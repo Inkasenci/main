@@ -14,24 +14,24 @@ using System.IO;
 namespace SZI
 {
     /// <summary>
-    /// Statyczna klasa odpowiedzialna za zapis i odczyt z pliku XML
+    /// Statyczna klasa odpowiedzialna za zapis i odczyt z pliku XML.
     /// </summary>
     static class StaticXML
     {
         /// <summary>
-        /// Wczytywanie rekordów z pliku XML
+        /// Wczytywanie rekordów z pliku XML.
         /// </summary>
-        /// <param name="path">Adres plku do odczytu</param>
-        /// <param name="cCollection">Argument wyjœciowy zawieraj¹cy kolekcjê odczytów</param>
-        static public void ReadFromXml(string path, out CounersCollection cCollection)
+        /// <param name="path">Adres plku do odczytu.</param>
+        /// <param name="cCollection">Argument wyjœciowy zawieraj¹cy kolekcjê odczytów.</param>
+        static public void ReadFromXml(string path, out CountersCollection cCollection)
         {
             cCollection = null;
             try
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(CounersCollection));
+                XmlSerializer serializer = new XmlSerializer(typeof(CountersCollection));
 
                 StreamReader reader = new StreamReader(path);
-                cCollection = (CounersCollection)serializer.Deserialize(reader);
+                cCollection = (CountersCollection)serializer.Deserialize(reader);
                 reader.Close();
                 if (cCollection != null)
                     cCollection.AddNewElementsToDataBase();
@@ -43,17 +43,17 @@ namespace SZI
         }
 
         /// <summary>
-        /// Zapis danych do pliku XML
+        /// Zapis danych do pliku XML.
         /// </summary>
-        /// <param name="path">Adres plku do odczytu</param>
-        /// <param name="cCollection">Argument zawieraj¹cy kolekcjê odczytów</param>
-        /// <param name="SaveFile">Zwracaj informacjê o zapisie danych do pliku ( true w przypadku nieudanej próby, true w przypadku udanej )</param>
-        static public void WriteToXml(string path, CounersCollection cCollection, out bool SaveFile)
+        /// <param name="path">Adres plku do odczytu.</param>
+        /// <param name="cCollection">Argument zawieraj¹cy kolekcjê odczytów.</param>
+        /// <param name="SaveFile">Zwracaj informacjê o zapisie danych do pliku ( true w przypadku nieudanej próby, true w przypadku udanej ).</param>
+        static public void WriteToXml(string path, CountersCollection cCollection, out bool SaveFile)
         {
             try
             {
                 System.Xml.Serialization.XmlSerializer writer =
-                        new System.Xml.Serialization.XmlSerializer(typeof(CounersCollection));
+                        new System.Xml.Serialization.XmlSerializer(typeof(CountersCollection));
 
                 System.IO.StreamWriter file = new System.IO.StreamWriter(path);
                 writer.Serialize(file, cCollection);

@@ -12,28 +12,28 @@ using System.Windows.Forms;
 namespace SZI
 {
     /// <summary>
-    /// Klasa obsługująca Liczniki
+    /// Klasa obsługująca Liczniki.
     /// </summary>
     public partial class CountersForm : Form
     {
         /// <summary>
-        /// ListView wyświetlające inkasentów i odpowiadające im liczniki
+        /// ListView wyświetlające inkasentów i odpowiadające im liczniki.
         /// </summary>
         private ListView listView;
         /// <summary>
-        /// Lista elementów wyswietalnych w listView
+        /// Lista elementów wyswietalnych w listView.
         /// </summary>
         private List<CountersFormClass> ccList;
         /// <summary>
-        /// Wybrany indeks z listy
+        /// Wybrany indeks z listy.
         /// </summary>
-        private string selectedid;
+        private string selectedid = "0";
         /// <summary>
-        /// Zaznaczone elementy na liście
+        /// Zaznaczone elementy na liście.
         /// </summary>
         private ListView.SelectedIndexCollection index;
         /// <summary>
-        /// Lista kolumn w listView
+        /// Lista kolumn w listView.
         /// </summary>
         string[] columnList = new string[]
         {
@@ -44,7 +44,7 @@ namespace SZI
         };
 
         /// <summary>
-        /// Konstruktor formy
+        /// Konstruktor formy.
         /// </summary>
         public CountersForm()
         {
@@ -53,7 +53,7 @@ namespace SZI
         }
 
         /// <summary>
-        /// Inicjacja listy - pobranie rekordów i umieszczenie ich na ListView
+        /// Inicjacja listy - pobranie rekordów i umieszczenie ich na ListView.
         /// </summary>
         public void InitializeForm()
         {
@@ -92,13 +92,15 @@ namespace SZI
             listView = ListViewConfig.ListViewInit(columnList, this.GetType().Name, ConvertToListOfStrings(ccList));
             listView.SelectedIndexChanged += lv_SelectedIndexChanged;
             listView.MultiSelect = false;
+            btCheck.Enabled = false;
             this.Controls.Add(listView);
         }
 
         /// <summary>
-        /// Konwersja listy elementów do stringów ( formy pozwalającej wyświetlić rekordy ) 
+        /// Konwersja listy elementów do stringów.
         /// </summary>
-        /// <param name="list">lista dostępnych elementów</param>
+        /// <param name="list">Lista dostępnych elementów.</param>
+        /// <returns>Lista tablic stringów ( format pozwalającej wyświetlić rekordy ).</returns>
         List<string[]> ConvertToListOfStrings(List<CountersFormClass> list)
         {
             List<string[]> output = new List<string[]>();
@@ -110,10 +112,10 @@ namespace SZI
         }
 
         /// <summary>
-        /// Zmiana wybranego indeksu
+        /// Zmiana wybranego indeksu.
         /// </summary>
-        /// <param name="sender">object eventu</param>
-        /// <param name="e">argument eventu</param>
+        /// <param name="sender">Obiekt eventu.</param>
+        /// <param name="e">Argument eventu.</param>
         void lv_SelectedIndexChanged(object sender, EventArgs e)
         {
             ListView activeListView = (ListView)sender;
@@ -123,13 +125,23 @@ namespace SZI
 
             foreach (ListViewItem item in selectedItem)
                 selectedid = item.SubItems[0].Text;
+
+            switch (activeListView.SelectedItems.Count)
+            {
+                case 1:
+                    btCheck.Enabled = true;
+                    break;
+                default:
+                    btCheck.Enabled = false;
+                    break;
+            }
         }
 
         /// <summary>
-        /// Uruchomienie okna dla danego inkasenta zależnie od argumentu
+        /// Uruchomienie okna dla danego inkasenta zależnie od argumentu.
         /// </summary>
-        /// <param name="sender">object eventu</param>
-        /// <param name="e">argument eventu</param>
+        /// <param name="sender">Obiekt eventu.</param>
+        /// <param name="e">Argument eventu.</param>
         private void btCheck_Click(object sender, EventArgs e)
         {
             var checkForm = new CheckCounters(selectedid);
@@ -137,10 +149,10 @@ namespace SZI
         }
 
         /// <summary>
-        /// Import ( wczytanie ) danych z pliku - odczytów
+        /// Import ( wczytanie ) danych z pliku - odczytów.
         /// </summary>
-        /// <param name="sender">object eventu</param>
-        /// <param name="e">argument eventu</param>
+        /// <param name="sender">Obiekt eventu.</param>
+        /// <param name="e">Argument eventu.</param>
         private void btImport_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -155,7 +167,7 @@ namespace SZI
                 MessageBox.Show("Błąd! Brak pliku!");
             else if (check == DialogResult.OK)
             {
-                CounersCollection cCollection;
+                CountersCollection cCollection;
                 StaticXML.ReadFromXml(openFileDialog.FileName, out cCollection);
                 if (cCollection != null)
                     cCollection.AddNewElementsToDataBase();
