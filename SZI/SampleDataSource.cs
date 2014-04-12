@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace SZI
 {
-    /**
-     * Przechowuje dane, z których losowane są odpowiednie pola w SampleDataConfig.
-     */
+    /// <summary>
+    /// Przechowuje dane, z których losowane są odpowiednie pola w SampleDataConfig.
+    /// </summary>
     static class SampleDataSource
     {
         #region maleNames

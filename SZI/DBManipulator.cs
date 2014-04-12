@@ -148,10 +148,12 @@ namespace SZI
             }
         }
 
-        //! Sprawdza, czy dla danego rekordu nie ma odniesienia w tabelach, które są w związku z tabelą, z której pochodzi rekord.
-        //! \param tableName Nazwa tabeli, z której pochodzi rekord.
-        //! \param id Klucz rekordu.
-        //! \return true - odniesienie do rekordu znalezione. false - odniesienie do rekordu nieznalezione.
+        /// <summary>
+        /// Sprawdza, czy dla danego rekordu nie ma odniesienia w tabelach, które są w związku z tabelą, z której pochodzi rekord.
+        /// </summary>
+        /// <param name="tableName">Nazwa tabeli, z której pochodzi rekord.</param>
+        /// <param name="id">Klucz rekordu.</param>
+        /// <returns>true - odniesienie do rekordu znalezione. false - odniesienie do rekordu nieznalezione.</returns>
         static public bool IdExistsInOtherTable(string tableName, string id)
         {
             int count;
