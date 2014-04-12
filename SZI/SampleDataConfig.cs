@@ -6,15 +6,34 @@ using System.Threading.Tasks;
 
 namespace SZI
 {
+    /**
+     * Generuje losowo rekordy w bazie danych. Używana do testów.
+     */
     static class SampleDataConfig
     {
+        /// <summary>
+        /// Liczba generowanych inkasentów.
+        /// </summary>
         static int numberOfCollectors = 5;
+        /// <summary>
+        /// Liczba generowanych klientów.
+        /// </summary>
         static int numberOfCustomers = 10;
-        static int numberOfAreas = 5; //aczkolwiek nie moze byc ich wiecej niz ulic w SampleDataSource
+        /// <summary>
+        /// Liczba generowanych terenów. Nie może być większa niż liczba elementów tablicy streets w SampleDataSource
+        /// </summary>
+        static int numberOfAreas = 5;
+        /// <summary>
+        /// Liczba generowanych liczników.
+        /// </summary>
         static int numberOfCounters = 10;
+        /// <summary>
+        /// Liczba generowanych adresów.
+        /// </summary>
         static int numberOfAddresses = 10;
 
-        static void GenerateCollectors() //generuje losowo inkasentow
+        //! Generuje inkasentów losowo dobierając wartości pól i dodaje ich do bazy.
+        static void GenerateCollectors()
         {
             Random rnd=new Random();
             string[] nameAndLastName;
@@ -39,7 +58,8 @@ namespace SZI
             }
         }
 
-        static void GenerateCustomers() //generuje losowo klientow
+        //! Generuje klientów losowo dobierając wartości pól i dodaje ich do bazy.
+        static void GenerateCustomers()
         {
             Random rnd = new Random();
             string[] nameAndLastName;
@@ -64,7 +84,8 @@ namespace SZI
             }
         }
 
-        static void GenerateAreas() //generuje losowo tereny
+        //! Generuje tereny losowo dobierając wartości pól. Losuje inkasenta przypisanego do danego terenu.
+        static void GenerateAreas()
         {
             Random rnd = new Random();
             Area area;
@@ -81,7 +102,8 @@ namespace SZI
             }
         }
 
-        static void GenerateAddresses() //generuje losowo adresy
+        //! Generuje adresy losowo dobierając wartości pól. Losuje teren przypisany do danego adresu.
+        static void GenerateAddresses()
         {
             Random rnd = new Random();
             Address address;
@@ -99,7 +121,8 @@ namespace SZI
             }
         }
 
-        static void GenerateCounters() //generuje losowo liczniki
+        //! Generuje liczniki losowo dobierając wartości pól. Losuje adres przypisany do danego licznika.
+        static void GenerateCounters()
         {
             Random rnd = new Random();
             Counter counter;
@@ -120,7 +143,8 @@ namespace SZI
             }
         }
 
-        static public void GenerateDataBase() //generuje wszystko za jednym zamachem
+        //! Generuje losowo całą bazę danych.
+        static public void GenerateDataBase()
         {
             ClearDataBase();
             GenerateCollectors();
@@ -130,7 +154,8 @@ namespace SZI
             GenerateCounters();
         }
 
-        static public void ClearDataBase() //czysci baze do cna
+        //! Usuwa wszystkie rekordy z wszystkich tabel.
+        static public void ClearDataBase()
         {
             using (var dataBase = new CollectorsManagementSystemEntities())
             {
@@ -144,9 +169,11 @@ namespace SZI
             }
         }
 
+        //! Losuje jedenastocyfrową liczbę z odpowiedniego zakresu i sprawdza, czy ta liczba może być peselem.
+        //! Jeśli jest to pesel, sprawdza, czy taki pesel nie istnieje już w tabeli, do której ma być wstawiony rekord z danym peselem.
+        //! \param tableName Nazwa tabeli, do której będzie wstawiony rekord z wylosowanym peselem.
+        //! \return Prawidłowy i unikalny w ramach odpowiedniej tabeli numer pesel.
         static string GenerateRandomPesel(string tableName)
-        /* przyjmuje nazwe tabeli, do ktorej ma wygenerowac pesel, jest to wazne, zeby pesel byl unikalny
-         * zwraca prawidlowy pesel*/
         {
             Random rnd = new Random();
             IDataBase dataBase;
@@ -179,7 +206,9 @@ namespace SZI
             return possiblePesel;
         }
 
-        static string[] GenerateNameAndLastName() //generuje imie i nazwisko zgodne z wylosowana plcia
+        //! Losuje płeć, a następnie imię i nazwisko z dostępnej puli.
+        //! \return Dwuelementowa tablica zawierająca imię i nazwisko.
+        static string[] GenerateNameAndLastName()
         {
             Random rnd = new Random();
             int gender = rnd.Next(0, 2);
@@ -198,7 +227,9 @@ namespace SZI
             return nameAndLastName;
         }
 
-        static string[] GeneratePostalCodeAndCity() //generuje pare kod pocztowy + miasto
+        //! Losuje kod pocztowy z dostępnej puli.
+        //! \return Dwuelementowa tablica zawierająca kod pocztowy i odpowiadające mu miasto.
+        static string[] GeneratePostalCodeAndCity()
         {
             Random rnd = new Random();
             string[] postalCodeAndCity = new string[2];
@@ -210,9 +241,10 @@ namespace SZI
             return postalCodeAndCity;
         }
 
+        //! Spośród identyfikatorów w podanej tabeli wybiera losowo jeden.
+        //! \param tableName Nazwa tabeli, z której ma być wylosowany klucz.
+        //! \return Wylosowany klucz.
         static string ChooseRandomId(string tableName)
-        /* przyjmuje nazwe tabeli, z ktorej ma pobrac klucz glowny
-         * zwraca losowo wybrany klucz glowny*/
         {
             Random rnd = new Random();
             IDataBase dataBase;

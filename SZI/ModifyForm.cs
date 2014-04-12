@@ -11,27 +11,58 @@ using System.Windows.Forms;
 
 namespace SZI
 {
+    /**
+     * Formularz pozwalający modyfikować rekord.
+     */
     public partial class ModifyForm : Form
     {
-        private List<string> ids; //identyfikatory zaznaczonych wierszy
-        private int selectedTab; //aktualnie otwarta karta
-        private string[] labelsTexts; //teksty etykiet
-        private string[] textBoxesNames; //nazwy pol tekstowych
-        private string[] textBoxesTexts; //teksty pol tekstowych
-        private string[] comboBoxesNames; //nazwy rozwijanych list
-        private string[] comboBoxesKeys; //klucze obce z danego rekordu, potrzebne do inicjalizacji ComboBoxConfigów
-        private string[] TableNames; //nazwy tabel z których wyciągane są klucze obce modyfikowanego rekordu
+        /// <summary>
+        /// Klucze zaznaczonych wierszy.
+        /// </summary>
+        private List<string> ids;
+        /// <summary>
+        /// Numer karty, z której otwarto formaularz modyfikacji
+        /// </summary>
+        private int selectedTab;
+        /// <summary>
+        /// Teksty etykiet formularza.
+        /// </summary>
+        private string[] labelsTexts;
+        /// <summary>
+        /// Nazwy pól tekstowych formularza.
+        /// </summary>
+        private string[] textBoxesNames;
+        /// <summary>
+        /// Teksty pól tekstowych formularza, czyli to, co jest wstawione w polach rekordu w momencie otwarcia formularza.
+        /// </summary>
+        private string[] textBoxesTexts;
+        /// <summary>
+        /// Nazwy rozwijanych list formularza.
+        /// </summary>
+        private string[] comboBoxesNames;
+        /// <summary>
+        /// Klucze rekordów wybranych w rozwijanych listach w momencie otwarcia formularza.
+        /// </summary>
+        private string[] comboBoxesKeys;
+        /// <summary>
+        /// Nazwy tabel, z których pochodzą klucze obce modyfikowanego rekordu.
+        /// </summary>
+        private string[] TableNames;
 
-        private CollectorsManagementSystemEntities dataBase; //odwolanie do bazy
+        /// <summary>
+        /// Odwołanie do bazy danych.
+        /// </summary>
+        private CollectorsManagementSystemEntities dataBase;
 
         private Dictionary<Control, ErrorProvider> ControlToEP_Dict;
         private Dictionary<string, ValidatingMethod> NameToMethod_Dict;
         private Dictionary<Control, bool> ControlToBool_Dict;
         private ComboBoxConfig[] CBConfigs;
 
+        //! Umieszcza kontrolki na formularzu i inicjalizuje je oraz wybiera dla nich metody walidujące.
+        //! \param ids Identyfikatory rekordów zaznaczonych w momencie tworzenia formularza.
+        //! \param selectedTab Karta, z której otwarto formularz.
         public ModifyForm(List<string> ids, int selectedTab)
-        /* przyjmuje id zaznaczonych rekordow i aktualnie otwarta karte
-         * wstawia kontrolki i inicjalizuje je*/
         {
             InitializeComponent();
             dataBase = new CollectorsManagementSystemEntities();
@@ -123,7 +154,9 @@ namespace SZI
                 }
         }
 
-        private Label[] InitializeLabels() //inicjalizuje etykiety
+        //! Inicjalizuje etykiety.
+        //! \return Zainicjalizowane etykiety.
+        private Label[] InitializeLabels()
         {
             Label[] labels = new Label[labelsTexts.Length];
             for (int i = 0; i < labelsTexts.Length; i++)
@@ -135,7 +168,9 @@ namespace SZI
             return labels;
         }
 
-        private TextBox[] InitializeTextAndCBConfigs() //inicjalizuje pola tekstowe i rozwijane listy
+        //! Inicjalizuje pola tekstowe i rozwijane listy. Pola tekstowe są zwracane, a rozwijane listy przypisane do pola obiektu
+        //! \return Zainicjalizowane pola tekstowe.
+        private TextBox[] InitializeTextAndCBConfigs()
         {
             TextBox[] textBoxes = new TextBox[textBoxesTexts.Length];            
             int i;
@@ -163,12 +198,18 @@ namespace SZI
             return textBoxes;
         }
 
-        private void btCancel_Click(object sender, EventArgs e) //po nacisnieciu przycisku Anuluj
+        //! Wywoływana po naciśnięciu przycisku "Anuluj". Zamyka formularz bez zapisywania zmian.
+        //! \param sender Przycisk "Anuluj".
+        //! \param e Argumenty zdarzenia.
+        private void btCancel_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void btSave_Click(object sender, EventArgs e) //po nacisnieciu przycisku Zapisz
+        //! Wywoływana po naciśnięciu przycisku "Zapisz". Zapisuje zmiany i zamyka formularz, jeśli wprowadzone zmiany są poprawnie.
+        //! \param sender Przycisk "Zapisz".
+        //! \param e Argumenty zdarzenia.
+        private void btSave_Click(object sender, EventArgs e)
         {
             int Parse;
             
