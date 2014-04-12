@@ -52,9 +52,9 @@ namespace SZI
             return listView;
         }
 
+        //! Dopasowywuje szerokość kolumn listy do najszerszego elementu.
+        //! \param listView Lista, której kolumny są dopasowywane.
         static private void AdjustColumnWidth(ListView listView)
-        /* przyjmuje listView
-         * dopasowywuje szerokosc kazdej kolumny listView do najszerszego elementu*/
         {
             foreach (ColumnHeader column in listView.Columns)
                 column.Width = -2;

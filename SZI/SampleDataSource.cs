@@ -6,9 +6,15 @@ using System.Threading.Tasks;
 
 namespace SZI
 {
+    /**
+     * Przechowuje dane, z których losowane są odpowiednie pola w SampleDataConfig.
+     */
     static class SampleDataSource
     {
         #region maleNames
+        /// <summary>
+        /// Tablica napisów zawierająca imiona męskie.
+        /// </summary>
         public static string[] maleNames = new string[] 
         { 
             "Jakub",
@@ -65,6 +71,9 @@ namespace SZI
         #endregion
 
         #region femaleNames
+        /// <summary>
+        /// Tablica napisów przechowująca imiona żeńskie.
+        /// </summary>
         public static string[] femaleNames = new string[]
         {
             "Julia",
@@ -121,6 +130,9 @@ namespace SZI
         #endregion
 
         #region lastNames
+        /// <summary>
+        /// Tablica napisów zawierająca nazwiska.
+        /// </summary>
         public static string[] lastNames = new string[]
         {
             "Kowalski",
@@ -188,13 +200,20 @@ namespace SZI
         #endregion
 
         #region postalCodes
-        public static string[] postalCodes = new string[] //liczba kodow pocztowych i miast powinna byc taka sama, kolejne kody odpowiadaja kolejnym miastom
+        /// <summary>
+        /// Tablica napisów przechowująca kody pocztowe.
+        /// </summary>
+        public static string[] postalCodes = new string[]
         {
             "87100"
         };
         #endregion
 
         #region cities
+        /// <summary>
+        /// Tablica napisów przechowująca nazwy miast. Miast powinno być tyle samo, ile kodów pocztowych.
+        /// Powinny być umieszczone w miejscach odpowiadających ich kodowi pocztowemu.
+        /// </summary>
         public static string[] cities = new string[]
         {
             "Toruń"
@@ -202,6 +221,9 @@ namespace SZI
         #endregion
 
         #region streets
+        /// <summary>
+        /// Tablica napisów przechowująca nazwy ulic.
+        /// </summary>
         public static string[] streets = new string[]
         {
             "Polna",
