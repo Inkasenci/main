@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace SZI
 {
-    /**
-     * Obiekty tej klasy są polami rozwijanej listy. Zawierają krótki i długi opis rekordu.
-     */
+    /// <summary>
+    /// Obiekty tej klasy są polami rozwijanej listy. Zawierają krótki i długi opis rekordu.
+    /// </summary>
     public sealed class ComboBoxItem
     {
         /// <summary>
@@ -20,9 +20,11 @@ namespace SZI
         /// </summary>
         public string shortItemDescription { get; private set; }
 
-        //! Inicjuje pola klasy.
-        //! \param longItemDescription Długi opis rekordu.
-        //! \param shortItemDescription Krótki opis rekordu.
+        /// <summary>
+        /// Inicjuje pola klasy.
+        /// </summary>
+        /// <param name="longItemDescription">Długi opis rekordu.</param>
+        /// <param name="shortItemDescription">Krótki opis rekordu.</param>
         public ComboBoxItem(string longItemDescription, string shortItemDescription)
         {
             this.longItemDescription = longItemDescription;

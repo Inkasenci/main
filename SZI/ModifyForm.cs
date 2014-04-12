@@ -11,9 +11,9 @@ using System.Windows.Forms;
 
 namespace SZI
 {
-    /**
-     * Formularz pozwalający modyfikować rekord.
-     */
+    /// <summary>
+    /// Formularz pozwalający modyfikować rekord.
+    /// </summary>
     public partial class ModifyForm : Form
     {
         /// <summary>
@@ -59,9 +59,11 @@ namespace SZI
         private Dictionary<Control, bool> ControlToBool_Dict;
         private ComboBoxConfig[] CBConfigs;
 
-        //! Umieszcza kontrolki na formularzu i inicjalizuje je oraz wybiera dla nich metody walidujące.
-        //! \param ids Identyfikatory rekordów zaznaczonych w momencie tworzenia formularza.
-        //! \param selectedTab Karta, z której otwarto formularz.
+        /// <summary>
+        /// Umieszcza kontrolki na formularzu i inicjalizuje je oraz wybiera dla nich metody walidujące.
+        /// </summary>
+        /// <param name="ids">Identyfikatory rekordów zaznaczonych w momencie tworzenia formularza.</param>
+        /// <param name="selectedTab">Karta, z której otwarto formularz.</param>
         public ModifyForm(List<string> ids, int selectedTab)
         {
             InitializeComponent();
@@ -157,8 +159,10 @@ namespace SZI
                 }
         }
 
-        //! Inicjalizuje etykiety.
-        //! \return Zainicjalizowane etykiety.
+        /// <summary>
+        /// Inicjalizuje etykiety.
+        /// </summary>
+        /// <returns>Zainicjalizowane etykiety.</returns>
         private Label[] InitializeLabels()
         {
             Label[] labels = new Label[labelsTexts.Length];
@@ -171,8 +175,10 @@ namespace SZI
             return labels;
         }
 
-        //! Inicjalizuje pola tekstowe i rozwijane listy. Pola tekstowe są zwracane, a rozwijane listy przypisane do pola obiektu
-        //! \return Zainicjalizowane pola tekstowe.
+        /// <summary>
+        /// Inicjalizuje pola tekstowe i rozwijane listy. Pola tekstowe są zwracane, a rozwijane listy przypisane do pola obiektu
+        /// </summary>
+        /// <returns>Zainicjalizowane pola tekstowe.</returns>
         private TextBox[] InitializeTextAndCBConfigs()
         {
             TextBox[] textBoxes = new TextBox[textBoxesTexts.Length];            
@@ -201,17 +207,21 @@ namespace SZI
             return textBoxes;
         }
 
-        //! Wywoływana po naciśnięciu przycisku "Anuluj". Zamyka formularz bez zapisywania zmian.
-        //! \param sender Przycisk "Anuluj".
-        //! \param e Argumenty zdarzenia.
+        /// <summary>
+        /// Wywoływana po naciśnięciu przycisku "Anuluj". Zamyka formularz bez zapisywania zmian.
+        /// </summary>
+        /// <param name="sender">Przycisk "Anuluj".</param>
+        /// <param name="e">Argumenty zdarzenia.</param>
         private void btCancel_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        //! Wywoływana po naciśnięciu przycisku "Zapisz". Zapisuje zmiany i zamyka formularz, jeśli wprowadzone zmiany są poprawnie.
-        //! \param sender Przycisk "Zapisz".
-        //! \param e Argumenty zdarzenia.
+        /// <summary>
+        /// Wywoływana po naciśnięciu przycisku "Zapisz". Zapisuje zmiany i zamyka formularz, jeśli wprowadzone zmiany są poprawnie.
+        /// </summary>
+        /// <param name="sender">Przycisk "Zapisz".</param>
+        /// <param name="e">Argumenty zdarzenia.</param>
         private void btSave_Click(object sender, EventArgs e)
         {
             int Parse;
