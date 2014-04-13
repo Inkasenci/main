@@ -36,7 +36,7 @@
             // 
             this.rtbHelp.Location = new System.Drawing.Point(261, 13);
             this.rtbHelp.Name = "rtbHelp";
-            this.rtbHelp.Size = new System.Drawing.Size(333, 475);
+            this.rtbHelp.Size = new System.Drawing.Size(411, 487);
             this.rtbHelp.TabIndex = 7;
             this.rtbHelp.Text = "";
             // 
@@ -44,14 +44,14 @@
             // 
             this.tvFAQ.Location = new System.Drawing.Point(22, 12);
             this.tvFAQ.Name = "tvFAQ";
-            this.tvFAQ.Size = new System.Drawing.Size(217, 476);
+            this.tvFAQ.Size = new System.Drawing.Size(217, 488);
             this.tvFAQ.TabIndex = 5;
             // 
             // HelpForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(616, 500);
+            this.ClientSize = new System.Drawing.Size(684, 512);
             this.Controls.Add(this.rtbHelp);
             this.Controls.Add(this.tvFAQ);
             this.Name = "HelpForm";
