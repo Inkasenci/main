@@ -24,7 +24,7 @@ namespace SZI
             InitTextBox();
         }
 
-        private void AddEmoticons(string text)
+        private void AddImages(string text)
         {
             HelpTextBox.ReadOnly = false;
             string strRegex = @"HelpImg/([a-zA-Z0-9]*)\.png";
@@ -63,7 +63,7 @@ namespace SZI
         {
             HelpTextBox = rtbHelp;
             HelpTextBox.Text = LangPL.FaqAnswers["aboutHelp"];
-            AddEmoticons(HelpTextBox.Text);
+            AddImages(HelpTextBox.Text);
         }
 
         // Tree HELP
@@ -76,13 +76,34 @@ namespace SZI
             // Main Node
             dataBaseTables.Add(TreeNode(i++.ToString() + ". " + LangPL.FaqQuestion["aboutHelp"]));
             dataBaseTables.Add(TreeNode(i++.ToString() + ". " + LangPL.FaqQuestion["dataBaseTables"]));
+            dataBaseTables.Add(TreeNode(i++.ToString() + ". " + LangPL.FaqQuestion["dataBaseReading"]));
+            dataBaseTables.Add(TreeNode(i++.ToString() + ". " + LangPL.FaqQuestion["dataBaseXML"]));
+            dataBaseTables.Add(TreeNode(i++.ToString() + ". " + LangPL.FaqQuestion["XMLTextEditor"]));
 
-            // Child Node
+            // Child Node 1
             dataBaseTables[1].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseTableAdress"]));
             dataBaseTables[1].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseTableArea"]));
             dataBaseTables[1].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseTableCollector"]));
             dataBaseTables[1].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseTableCounter"]));
             dataBaseTables[1].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseTableCustomer"]));
+
+            // Child Node 2
+            dataBaseTables[2].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseReadingEmptyDataBase"]));
+            dataBaseTables[2].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseReadingZeroReading"]));
+            dataBaseTables[2].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseReadingExport"]));
+            dataBaseTables[2].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseReadingImport"]));
+            dataBaseTables[2].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseReadingImportError"]));
+
+            // Child Node 3
+            dataBaseTables[3].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseXMLFormat"]));
+            dataBaseTables[3].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseXMLEmptyElement"]));
+            dataBaseTables[3].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseXMLPriority"]));
+
+            // Child Node 4
+            dataBaseTables[4].Nodes.Add(TreeNode(LangPL.FaqQuestion["XMLTextEditorReadOnly"]));
+            dataBaseTables[4].Nodes.Add(TreeNode(LangPL.FaqQuestion["XMLTextEditorNextPrevError"]));
+            dataBaseTables[4].Nodes.Add(TreeNode(LangPL.FaqQuestion["XMLTextEditorImportError"]));
+            dataBaseTables[4].Nodes.Add(TreeNode(LangPL.FaqQuestion["XMLTextEditorSaveError"]));
         }
 
         private TreeNode TreeNode(string textNode)
@@ -109,11 +130,21 @@ namespace SZI
                             case 1:
                                 rtbHelp.Text = LangPL.FaqAnswers["dataBaseTables"];
                                 break;
+                            case 2:
+                                rtbHelp.Text = LangPL.FaqAnswers["dataBaseReading"];
+                                break;
+                            case 3:
+                                rtbHelp.Text = LangPL.FaqAnswers["dataBaseXML"];
+                                break;
+                            case 4:
+                                rtbHelp.Text = LangPL.FaqAnswers["XMLTextEditor"];
+                                break;
                             default:
                                 MessageBox.Show(LangPL.FaqErrors["indexOutOfRange"]);
                                 break;
                         }
                         break;
+
                     case 1:
                         switch (e.Node.Parent.Index)
                         {
@@ -143,17 +174,75 @@ namespace SZI
                                         break;
                                 }
                                 break;
-                            default:
-                                MessageBox.Show(LangPL.FaqErrors["indexOutOfRange"]);
+                            case 2:
+                                switch (e.Node.Index)
+                                {
+                                    case 0:
+                                        rtbHelp.Text = LangPL.FaqAnswers["dataBaseReadingEmptyDataBase"];
+                                        break;
+                                    case 1:
+                                        rtbHelp.Text = LangPL.FaqAnswers["dataBaseReadingZeroReading"];
+                                        break;
+                                    case 2:
+                                        rtbHelp.Text = LangPL.FaqAnswers["dataBaseReadingExport"];
+                                        break;
+                                    case 3:
+                                        rtbHelp.Text = LangPL.FaqAnswers["dataBaseReadingImport"];
+                                        break;
+                                    case 4:
+                                        rtbHelp.Text = LangPL.FaqAnswers["dataBaseReadingImportError"];
+                                        break;
+                                    default:
+                                        MessageBox.Show(LangPL.FaqErrors["indexOutOfRange"]);
+                                        break;
+                                }
+                                break;
+
+                            case 3:
+                                switch (e.Node.Index)
+                                {
+                                    case 0:
+                                        rtbHelp.Text = LangPL.FaqAnswers["dataBaseXMLFormat"];
+                                        break;
+                                    case 1:
+                                        rtbHelp.Text = LangPL.FaqAnswers["dataBaseXMLEmptyElement"];
+                                        break;
+                                    case 2:
+                                        rtbHelp.Text = LangPL.FaqAnswers["dataBaseXMLPriority"];
+                                        break;
+                                    default:
+                                        MessageBox.Show(LangPL.FaqErrors["indexOutOfRange"]);
+                                        break;
+                                }
+                                break;
+
+                            case 4:
+                                switch (e.Node.Index)
+                                {
+                                    case 0:
+                                        rtbHelp.Text = LangPL.FaqAnswers["XMLTextEditorReadOnly"];
+                                        break;
+                                    case 1:
+                                        rtbHelp.Text = LangPL.FaqAnswers["XMLTextEditorNextPrevError"];
+                                        break;
+                                    case 2:
+                                        rtbHelp.Text = LangPL.FaqAnswers["XMLTextEditorImportError"];
+                                        break;
+                                    case 3:
+                                        rtbHelp.Text = LangPL.FaqAnswers["XMLTextEditorSaveError"];
+                                        break;
+                                    default:
+                                        MessageBox.Show(LangPL.FaqErrors["indexOutOfRange"]);
+                                        break;
+                                }
                                 break;
                         }
                         break;
-
                     default:
                         MessageBox.Show(LangPL.FaqErrors["indexOutOfRange"]);
                         break;
                 }
-                AddEmoticons(HelpTextBox.Text);
+                AddImages(HelpTextBox.Text);
             }
         }
     }

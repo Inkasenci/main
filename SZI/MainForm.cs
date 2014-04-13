@@ -57,7 +57,7 @@ namespace SZI
         }
 
         /// <summary>
-        /// Okno zarządzania danym ( Inkasenci, Tereny, Adresy, Klienci, Liczniki )
+        /// Okno zarządzania danymi ( Inkasenci, Tereny, Adresy, Klienci, Liczniki ).
         /// </summary>
         /// <param name="sender">Obiekt eventu.</param>
         /// <param name="e">Argument eventu.</param>
