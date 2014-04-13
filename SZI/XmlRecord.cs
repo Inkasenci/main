@@ -137,6 +137,7 @@ namespace SZI
         /// <summary>
         /// Dodanie nowego elementu do listy elementów XML.
         /// </summary>
+        /// <param name="item">Element, który ma być dodany do listy.</param>
         public void AddNewElement(CounterXML item)
         {
             if (counter == null)
