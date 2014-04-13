@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace SZI
 {
+    /// <summary>
+    /// Klasa obslugująca język w aplikacji ( błędy, treści, nazwy ).
+    /// </summary>
     static class LangPL
     {
+        /// <summary>
+        /// Treści używane podczas dodawania rekordów do bazy danych - błędy / walidacja.
+        /// </summary>
         static public Dictionary<string, string> InsertFormLang = new Dictionary<string, string>()
         {
             {"textBoxCCID", "Pole \"Id\": Zły numer PESEL.\n"},
@@ -27,6 +33,9 @@ namespace SZI
             {"Fill in all fields", "Wypełnij poprawnie wszystkie pola"}
         };
 
+        /// <summary>
+        /// Treści używane podczas generowania pomocy ( HELP ) programu - [ytania.
+        /// </summary>
         static public Dictionary<string, string> FaqQuestion = new Dictionary<string, string>()
         {
             {"aboutHelp","O tym dokumencie."},
@@ -53,6 +62,9 @@ namespace SZI
             {"XMLTextEditorSaveError", "Czemu po kliknięciu \"Następny\"/\"Poprzedni\" tracę wcześniej wpisane dane?"}
         };
 
+        /// <summary>
+        /// Treści używane podczas generowania pomocy ( HELP ) programu - odpowiedzi.
+        /// </summary>
         static public Dictionary<string, string> FaqAnswers = new Dictionary<string, string>()
         {
             {"aboutHelp","Dokument ten ma służyć pomocą w podstawowych kwestiach dotyczących obsługi aplikacji pozwalającej zarządzać danymi dostarczanymi przez inkasentów jak i również nimi samymi. \r\n\r\n Autoram aplikacji SZI ( System Zarządzania Inkasentami ) są: \r\n Patryk Zawadzki [ 254155 ], \r\n Rafał Burzyński [ 254068 ], \r\n Marcin Nowak [ 254118 ]"},
@@ -79,12 +91,18 @@ namespace SZI
             {"XMLTextEditorSaveError", "Sprawdź czy na pewno został wciśnięty przycisk \"Zapisz zmiany\" znadujący się w dolnej części okna ( Rys. 1 ) HelpImg/xmlTextEditorSaveError.png"}
         };
 
+        /// <summary>
+        /// Treści używane podczas generowania pomocy ( HELP ) programu - błędy.
+        /// </summary>
         static public Dictionary<string, string> FaqErrors = new Dictionary<string, string>()
         {
             {"indexOutOfRange","Nie istnieje pomoc dla wskazanego elementu!"},
             {"loadHelp","Problem z ładowanie danych!"}
         };
 
+        /// <summary>
+        /// Treści używane podczas działań na polach posiadających odniesienie do innych tabel - ostrzeżenia.
+        /// </summary>
         static public Dictionary<string, string> IntegrityWarnings = new Dictionary<string, string>()
         {
             { "collectorRemoval", "Jeden lub więcej wybranych inkasentów ma przydzielony teren. Czy chcesz kontynuować? "},
@@ -93,6 +111,9 @@ namespace SZI
             { "addressRemoval", "Pod jednym lub więcej adresów zamontowane są liczniki. Czy chcesz kontynuować? "}
         };
 
+        /// <summary>
+        /// Treści używane podczas obsługi odczytów - błędy.
+        /// </summary>
         static public Dictionary<string, string> CountersWarnings = new Dictionary<string, string>()
         {
             { "noRecord", "----"},

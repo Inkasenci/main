@@ -12,11 +12,23 @@ using System.Text.RegularExpressions;
 
 namespace SZI
 {
+    /// <summary>
+    /// Klasa obsługująca pomoc do aplikacji.
+    /// </summary>
     public partial class HelpForm : Form
     {
+        /// <summary>
+        /// TreeView - lista pytań.
+        /// </summary>
         private TreeView HelpTreeView;
+        /// <summary>
+        /// Box wyświetlający odpowiedzi na pytania.
+        /// </summary>
         private RichTextBox HelpTextBox;
 
+        /// <summary>
+        /// Konstruktor klasy.
+        /// </summary>
         public HelpForm()
         {
             InitializeComponent();
@@ -24,6 +36,10 @@ namespace SZI
             InitTextBox();
         }
 
+        /// <summary>
+        /// Funkcja zmieniająca adresy obrazów na obrazy.
+        /// </summary>
+        /// <param name="text">Walidowany text.</param>
         private void AddImages(string text)
         {
             HelpTextBox.ReadOnly = false;
@@ -58,7 +74,9 @@ namespace SZI
             HelpTextBox.ReadOnly = true;
         }
 
-        // TextBox ( Print HELP )
+        /// <summary>
+        /// Inicjalizacja Boxu - wyświetlającego odpowiedzi.
+        /// </summary>
         private void InitTextBox()
         {
             HelpTextBox = rtbHelp;
@@ -66,7 +84,9 @@ namespace SZI
             AddImages(HelpTextBox.Text);
         }
 
-        // Tree HELP
+        /// <summary>
+        /// Inicjalizacja TreeView - wyświtlający pytania.
+        /// </summary>
         private void InitTreeView()
         {
             HelpTreeView = tvFAQ;
@@ -106,6 +126,10 @@ namespace SZI
             dataBaseTables[4].Nodes.Add(TreeNode(LangPL.FaqQuestion["XMLTextEditorSaveError"]));
         }
 
+        /// <summary>
+        /// Tworzene elementu drzewa
+        /// </summary>
+        /// <param name="textNode">Text wyświetlany na liście.</param>
         private TreeNode TreeNode(string textNode)
         {
             TreeNode node = new TreeNode();
@@ -115,6 +139,11 @@ namespace SZI
             return node;
         }
 
+        /// <summary>
+        /// Generowanie obsługi drzewa - kolejny elementy odpowiadają wybranym odpowiedzią ( wyswietlanych w RichTextBox ).
+        /// </summary>
+        /// <param name="sender">Obiekt eventu.</param>
+        /// <param name="e">Argument eventu.</param>
         private void treeViewFAQ_AfterSelect(object sender, TreeViewEventArgs e)
         {
             if (e.Action == TreeViewAction.ByMouse)
