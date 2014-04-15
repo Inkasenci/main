@@ -15,7 +15,7 @@ namespace SZI
     class ComboBoxConfig
     {
         /// <summary>
-        ///  Nazwa tabeli, której rekordy będą wyświetlanie w rozwijanej liście.
+        ///  Nazwa tabeli, której rekordy będą wyświetlane w rozwijanej liście.
         /// </summary>
         string tableName;
         /// <summary>
@@ -109,7 +109,7 @@ namespace SZI
         }
 
         /// <summary>
-        /// Wydobywa z długiego opisu rekordu słowa będące jego krótki opisem.
+        /// Wydobywa z długiego opisu rekordu słowa będące jego krótkim opisem.
         /// </summary>
         /// <param name="item">Długi opis rekordu.</param>
         /// <returns>Napis będący krótkim opisem rekordu.</returns>

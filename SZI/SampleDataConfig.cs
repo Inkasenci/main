@@ -130,7 +130,7 @@ namespace SZI
         }
 
         /// <summary>
-        /// Generuje liczniki losowo dobierając wartości pól. Losuje adres przypisany do danego licznika.
+        /// Generuje liczniki losowo dobierając wartości pól. Losuje adres i klienta przypisanego do danego licznika.
         /// </summary>
         static void GenerateCounters()
         {
