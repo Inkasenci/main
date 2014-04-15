@@ -313,7 +313,7 @@ namespace SZI
                 switch (tableName)
                 {
                     case "Collector":
-                        count = (from a in dataBase.Areas where a.CollectorId == id select a).Count();
+                        count = (from a in dataBase.Areas where a.CollectorId == id select a).Count() + (from r in dataBase.Readings where r.CollectorId == id select r).Count();
                         break;
                     case "Customer":
                         count = (from c in dataBase.Counters where c.CustomerId == id select c).Count();
