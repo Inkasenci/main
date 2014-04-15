@@ -63,7 +63,8 @@ namespace SZI
             { "collectorRemoval", "Jeden lub więcej wybranych inkasentów ma przydzielony teren. Czy chcesz kontynuować? "},
             { "customerRemoval", "Jeden lub więcej wybranych klientów jest właścicielem licznika. Czy chcesz kontynuować? "},
             { "areaRemoval", "Do jednego lub więcej wybranych terenów należą ADRESY LICZNIKÓW, które również ZOSTANĄ SKASOWANE. Czy chcesz kontynuować? " },
-            { "addressRemoval", "Pod jednym lub więcej adresów zamontowane są liczniki. Czy chcesz kontynuować? "}
+            { "addressRemoval", "Pod jednym lub więcej adresów zamontowane są liczniki. Czy chcesz kontynuować? "},
+            { "counterRemoval", "Jeden lub więcej liczników posiada ODCZYTY, które również ZOSTANĄ SKASOWANE. Czy chcesz kontynuować? "}
         };
     }
 }
