@@ -21,7 +21,7 @@ namespace SZI
         /// </summary>
         private List<string> ids;
         /// <summary>
-        /// Numer karty, z której otwarto formaularz modyfikacji
+        /// Numer karty, z której otwarto formularz modyfikacji.
         /// </summary>
         private int selectedTab;
         /// <summary>

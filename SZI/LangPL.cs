@@ -105,7 +105,7 @@ namespace SZI
         /// </summary>
         static public Dictionary<string, string> IntegrityWarnings = new Dictionary<string, string>()
         {
-            { "collectorRemoval", "Jeden lub więcej wybranych inkasentów ma przydzielony teren. Czy chcesz kontynuować? "},
+            { "collectorRemoval", "Jeden lub więcej wybranych inkasentów ma przydzielony teren lub dokonał odczytu. ODCZYTY kasowanych inkasentów również ZOSTANĄ SKASOWANE. Czy chcesz kontynuować? "},
             { "customerRemoval", "Jeden lub więcej wybranych klientów jest właścicielem licznika. Czy chcesz kontynuować? "},
             { "areaRemoval", "Do jednego lub więcej wybranych terenów należą ADRESY LICZNIKÓW, które również ZOSTANĄ SKASOWANE. Czy chcesz kontynuować? " },
             { "addressRemoval", "Pod jednym lub więcej adresów zamontowane są liczniki. Czy chcesz kontynuować? "},
