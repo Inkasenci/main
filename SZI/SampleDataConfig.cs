@@ -14,23 +14,23 @@ namespace SZI
         /// <summary>
         /// Liczba generowanych inkasentów.
         /// </summary>
-        static int numberOfCollectors = 5;
+        static int numberOfCollectors = 2;
         /// <summary>
         /// Liczba generowanych klientów.
         /// </summary>
-        static int numberOfCustomers = 10;
+        static int numberOfCustomers = 2;
         /// <summary>
         /// Liczba generowanych terenów. Nie może być większa niż liczba elementów tablicy streets w SampleDataSource
         /// </summary>
-        static int numberOfAreas = 5;
+        static int numberOfAreas = 0;
         /// <summary>
         /// Liczba generowanych liczników.
         /// </summary>
-        static int numberOfCounters = 10;
+        static int numberOfCounters = 0;
         /// <summary>
         /// Liczba generowanych adresów.
         /// </summary>
-        static int numberOfAddresses = 10;
+        static int numberOfAddresses = 0;
 
         /// <summary>
         /// Generuje inkasentów losowo dobierając wartości pól i dodaje ich do bazy.
