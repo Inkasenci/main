@@ -7,30 +7,39 @@ using System.Data.Entity.Infrastructure;
 
 namespace SZI
 {
+    /// <summary>
+    /// Zawiera metody usuwania rekordów bazy danych i metody pomocnicze.
+    /// </summary>
     public static class DBManipulator
     {
-        public static void DeleteFromDB(List<string> IDs, int TableNumber)
+        /// <summary>
+        /// Usuwa rekordy z bazy danych.
+        /// </summary>
+        /// <param name="IDs">Lista identyfikatorów rekordów do usunięcia.</param>
+        /// <param name="TableNumber">Numer identyfikujący tabelę, z której mają zostać usunięte rekordy.</param>
+        /// <param name="idIsForeignKey">true - do kasowanych rekordów istnieją odniesienia w innych tabelach.</param>
+        public static void DeleteFromDB(List<string> IDs, int TableNumber, bool idIsForeignKey)
         {
             switch (TableNumber)
             {
                 case 0:
-                    DeleteFromCollectors(IDs);
+                    DeleteFromCollectors(IDs, idIsForeignKey);
                     break;
 
                 case 1:
-                    DeleteFromCustomers(IDs);
+                    DeleteFromCustomers(IDs, idIsForeignKey);
                     break;
 
                 case 2:
-                    DeleteFromAreas(IDs);
+                    DeleteFromAreas(IDs, idIsForeignKey);
                     break;
 
                 case 3:
-                    DeleteFromCounters(IDs);
+                    DeleteFromCounters(IDs, idIsForeignKey);
                     break;
 
                 case 4:
-                    DeleteFromAddresses(IDs);
+                    DeleteFromAddresses(IDs, idIsForeignKey);
                     break;
 
                 default: 
@@ -43,7 +52,8 @@ namespace SZI
         /// Usuwa rekordy z tabeli Odczyt powiązane z usuwanymi rekordami tabeli Inkasent.
         /// </summary>
         /// <param name="IDs">Lista identyfikatorów inkasentów do skasowania.</param>
-        private static void DeleteFromCollectors(List<string> IDs)
+        /// <param name="idIsForeignKey">true - do kasowanych rekordów istnieją odniesienia w innych tabelach.</param>
+        private static void DeleteFromCollectors(List<string> IDs, bool idIsForeignKey)
         {
             using (var database = new CollectorsManagementSystemEntities())
             {
@@ -57,24 +67,27 @@ namespace SZI
                             database.Collectors.Remove(c);
                     }
 
-                    var foreignResult = from f in database.Areas where f.CollectorId == id select f;
-
-                    if (foreignResult.Count() > 0)
+                    if (idIsForeignKey)
                     {
-                        foreach (Area a in foreignResult)
-                            a.CollectorId = null;
-                    }
+                        var foreignResult = from f in database.Areas where f.CollectorId == id select f;
 
-                    var foreignResult2 = from f in database.Readings where f.CollectorId == id select f;
+                        if (foreignResult.Count() > 0)
+                        {
+                            foreach (Area a in foreignResult)
+                                a.CollectorId = null;
+                        }
 
-                    if (foreignResult2.Count() > 0)
-                    {
-                        List<string> foreignList = new List<string>();
+                        var foreignResult2 = from f in database.Readings where f.CollectorId == id select f;
 
-                        foreach (Reading r in foreignResult2)
-                            foreignList.Add(r.ReadingId.ToString());
+                        if (foreignResult2.Count() > 0)
+                        {
+                            List<string> foreignList = new List<string>();
 
-                        DeleteFromReadings(foreignList);
+                            foreach (Reading r in foreignResult2)
+                                foreignList.Add(r.ReadingId.ToString());
+
+                            DeleteFromReadings(foreignList);
+                        }
                     }
 
                     database.SaveChanges();
@@ -87,7 +100,8 @@ namespace SZI
         /// Zasady nałożone na bazę danych wymagają również ustawienia na wartość null odpowiednich kluczy obcych adresów w tabeli Licznik.
         /// </summary>
         /// <param name="IDs">Lista identyfikatorów rekordów przeznaczonych do usunięcia.</param>
-        private static void DeleteFromCustomers(List<string> IDs)
+        /// <param name="idIsForeignKey">true - do kasowanych rekordów istnieją odniesienia w innych tabelach.</param>
+        private static void DeleteFromCustomers(List<string> IDs, bool idIsForeignKey)
         {
             using (var database = new CollectorsManagementSystemEntities())
             {
@@ -101,14 +115,17 @@ namespace SZI
                             database.Customers.Remove(c);
                     }
 
-                    var foreginResult = from f in database.Counters where f.CustomerId == id select f;
-
-                    if (result.Count() > 0)
+                    if (idIsForeignKey)
                     {
-                        foreach (Counter c in foreginResult)
+                        var foreginResult = from f in database.Counters where f.CustomerId == id select f;
+
+                        if (result.Count() > 0)
                         {
-                            c.CustomerId = null;
-                            c.AddressId = null;
+                            foreach (Counter c in foreginResult)
+                            {
+                                c.CustomerId = null;
+                                c.AddressId = null;
+                            }
                         }
                     }
                         
@@ -122,7 +139,8 @@ namespace SZI
         /// Jeśli z usuwanymi rekordami są powiązanie rekordy w tabeli Adres, również są usuwane z wszystkim konsekwencjami związanymi z usuwaniem rekordów tabeli Adres.
         /// </summary>
         /// <param name="IDs">Lista identyfikatorów rekordów, które mają zostać skasowane.</param>
-        private static void DeleteFromAreas(List<string> IDs)
+        /// <param name="idIsForeignKey">true - do kasowanych rekordów istnieją odniesienia w innych tabelach.</param>
+        private static void DeleteFromAreas(List<string> IDs, bool idIsForeignKey)
         {
             List<Guid> guidIDs = new List<Guid>(IDs.Count);
 
@@ -141,16 +159,19 @@ namespace SZI
                             database.Areas.Remove(a);
                     }
 
-                    var foreignResult = from f in database.Addresses where f.AreaId == id select f;
-
-                    if (foreignResult.Count() > 0)
+                    if (idIsForeignKey)
                     {
-                        List<string> foreignList = new List<string>();
+                        var foreignResult = from f in database.Addresses where f.AreaId == id select f;
 
-                        foreach (Address a in foreignResult)
-                            foreignList.Add(a.AddressId.ToString());
+                        if (foreignResult.Count() > 0)
+                        {
+                            List<string> foreignList = new List<string>();
 
-                        DeleteFromAddresses(foreignList);
+                            foreach (Address a in foreignResult)
+                                foreignList.Add(a.AddressId.ToString());
+
+                            DeleteFromAddresses(foreignList, true);
+                        }
                     }
                     
                     database.SaveChanges();
@@ -162,7 +183,8 @@ namespace SZI
         /// Usuwa wybrane rekordy z tabeli Licznik. Rekordy z tabeli Odczyt powiązane z usuwanymi rekordami tabeli Licznik również są usuwane.
         /// </summary>
         /// <param name="IDs">Lista identyfikatorów rekordów tabeli Licznik przeznaczonych do usunięcia.</param>
-        private static void DeleteFromCounters(List<string> IDs)
+        /// <param name="idIsForeignKey">true - do kasowanych rekordów istnieją odniesienia w innych tabelach.</param>
+        private static void DeleteFromCounters(List<string> IDs, bool idIsForeignKey)
         {
             List<Int32> guidIDs = new List<Int32>(IDs.Count);
 
@@ -183,16 +205,19 @@ namespace SZI
                             database.Counters.Remove(c);
                     }
 
-                    var foreignResult = from f in database.Readings where f.CounterNo == Id select f;
-
-                    if (foreignResult.Count() > 0)
+                    if (idIsForeignKey)
                     {
-                        List<string> foreignList = new List<string>();
+                        var foreignResult = from f in database.Readings where f.CounterNo == Id select f;
 
-                        foreach (Reading r in foreignResult)
-                            foreignList.Add(r.ReadingId.ToString());
+                        if (foreignResult.Count() > 0)
+                        {
+                            List<string> foreignList = new List<string>();
 
-                        DeleteFromReadings(foreignList);
+                            foreach (Reading r in foreignResult)
+                                foreignList.Add(r.ReadingId.ToString());
+
+                            DeleteFromReadings(foreignList);
+                        }
                     }
 
                     database.SaveChanges();
@@ -205,7 +230,8 @@ namespace SZI
         /// Zgodnie z zasadami nałożonymi na bazę danych, również odpowiednie identyfikatory klienta w tabeli Licznik są ustawiane na wartość null.
         /// </summary>
         /// <param name="IDs">Lista identyfikatorów rekordów z tabeli Adres przeznaczonych do usunięcia.</param>
-        private static void DeleteFromAddresses(List<string> IDs)
+        /// <param name="idIsForeignKey">true - do kasowanych rekordów istnieją odniesienia w innych tabelach.</param>
+        private static void DeleteFromAddresses(List<string> IDs, bool idIsForeignKey)
         {
             List<Guid> guidIDs = new List<Guid>(IDs.Count);
 
@@ -224,14 +250,17 @@ namespace SZI
                             database.Addresses.Remove(a);
                     }
 
-                    var foreignResult = from f in database.Counters where f.AddressId == Id select f;
-
-                    if (foreignResult.Count() > 0)
+                    if (idIsForeignKey)
                     {
-                        foreach (Counter c in foreignResult)
+                        var foreignResult = from f in database.Counters where f.AddressId == Id select f;
+
+                        if (foreignResult.Count() > 0)
                         {
-                            c.AddressId = null;
-                            c.CustomerId = null;
+                            foreach (Counter c in foreignResult)
+                            {
+                                c.AddressId = null;
+                                c.CustomerId = null;
+                            }
                         }
                     }
 
@@ -296,6 +325,10 @@ namespace SZI
                     case "Address":
                         guidId = new Guid(id);
                         count = (from c in dataBase.Counters where c.AddressId == guidId select c).Count();
+                        break;
+                    case "Counter":
+                        int numberId = Convert.ToInt32(id);
+                        count = (from r in dataBase.Readings where r.CounterNo == numberId select r).Count();
                         break;
                     default:
                         count = 0;

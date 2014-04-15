@@ -130,7 +130,7 @@ namespace SZI
             ComboBox cbCollector = (ComboBox)this.Controls.Find("cbCollector", true)[0];
             cbCollector.Validating += ComboBoxValidation;
             ControltoEP_Area_Dict.Add(cbCollector, Auxiliary.InitializeErrorProvider(cbCollector));
-            ControlToBool_Area_Dict.Add(cbCollector, false);
+            ControlToBool_Area_Dict.Add(cbCollector, true);
         }
 
         private void InitializeCounterDictAndTB()
