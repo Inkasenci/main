@@ -61,7 +61,7 @@ namespace SZI
             return FullName;
         }
 
-        private string FetchFullAddress(Guid AddressID) //zwraca imię i nazwisko klienta na podstawie jego ID
+        private string FetchFullAddress(Guid AddressID) //zwraca pełny adres (ulica, numer domu i mieszkania) na podstawie AddressID
         {
             string FullAddressString = "";
 
@@ -77,7 +77,7 @@ namespace SZI
                     foreach (var fa in FullAddress)
                     {
                         FullAddressString = fa.Area.Street + " " + fa.Address.HouseNo.ToString();
-                        if (fa.Address.FlatNo != 0)
+                        if (fa.Address.FlatNo != null)
                             FullAddressString += "/" + fa.Address.FlatNo.ToString();
                     }
                 }
@@ -96,7 +96,7 @@ namespace SZI
                 convertedItem = new List<string>();
                 convertedItem.Add(item.CounterNo.ToString());
                 convertedItem.Add(item.CircuitNo.ToString());
-                convertedItem.Add(FetchFullAddress(item.AddressId.Value));
+                convertedItem.Add((item.AddressId.HasValue) ? FetchFullAddress(item.AddressId.Value) : String.Empty);
                 convertedItem.Add(FetchCustomer(item.CustomerId));
                 itemList.Add(convertedItem.ToArray());
             }

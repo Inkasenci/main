@@ -4,11 +4,33 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace SZI
 {
     static class MainValidation
     {
+        //pomocnicza funkcja do walidacji dwóch comboboxów        
+        static public void XNOR_ComboBoxValidation(ComboBox cb1, ComboBox cb2, Dictionary<Control, ErrorProvider> CBtoEP, Dictionary<Control, bool> CBtoBool)
+        {
+            //jeśli nie został wybrany ani klient, ani adres, lub w drugim przypadku został wybrany i klient, i adres, to walidacja pomyślna
+            if ((cb1.SelectedIndex == 0 && cb2.SelectedIndex == 0) ||
+                (cb1.SelectedIndex > 0 && cb2.SelectedIndex > 0))
+            {
+                CBtoEP[cb1].SetError(cb1, String.Empty);
+                CBtoBool[cb1] = true;
+                CBtoEP[cb2].SetError(cb2, String.Empty);
+                CBtoBool[cb2] = true;
+            }
+            else
+            {
+                CBtoEP[cb1].SetError(cb1, "Nieprawidłowo wypełnione pole.");
+                CBtoBool[cb1] = false;
+                CBtoEP[cb2].SetError(cb2, "Nieprawidłowo wypełnione pole.");
+                CBtoBool[cb2] = false;
+            }
+        }
+
         static public bool OptionalChoice_ComboBox(string index) //z Comboboxa nie musi być wybrany żaden item
         {
             int i = Convert.ToInt32(index);

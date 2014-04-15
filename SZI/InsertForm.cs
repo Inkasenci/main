@@ -147,14 +147,14 @@ namespace SZI
             ControlToBool_Counter_Dict.Add(tbCircuitNo, false);
 
             ComboBox cbAddress = (ComboBox)this.Controls.Find("cbAddress", true)[0];
-            cbAddress.Validating += ComboBoxValidation;
+            cbAddress.Validating += CountersValidation;
             ControltoEP_Counter_Dict.Add(cbAddress, Auxiliary.InitializeErrorProvider(cbAddress));
-            ControlToBool_Counter_Dict.Add(cbAddress, false);
+            ControlToBool_Counter_Dict.Add(cbAddress, true);
 
             ComboBox cbCustomer = (ComboBox)this.Controls.Find("cbCustomer", true)[0];
-            cbCustomer.Validating += ComboBoxValidation;
+            cbCustomer.Validating += CountersValidation;
             ControltoEP_Counter_Dict.Add(cbCustomer, Auxiliary.InitializeErrorProvider(cbCustomer));
-            ControlToBool_Counter_Dict.Add(cbCustomer, false);
+            ControlToBool_Counter_Dict.Add(cbCustomer, true);
         }
 
         private void InitializeAddressDictAndTB()
@@ -333,12 +333,16 @@ namespace SZI
             Int32.TryParse(tbCounterNo.Text, out Parse);
             c.CounterNo = Parse;
             Int32.TryParse(tbCircuitNo.Text, out Parse);
-            c.CircuitNo = Parse;
-            c.CustomerId = cbcCustomer.ReturnForeignKey();
+            c.CircuitNo = Parse;            
 
             if (Auxiliary.IsCurrentValueOK(Current_ControlToBool_Dict))
             {
-                c.AddressId = new Guid(cbcAddress.ReturnForeignKey());
+                if (cbcAddress.comboBox.SelectedIndex != 0) //jeśli w jednym comboboxie index jest różny od 0, to w drugim też
+                {
+                    c.AddressId = new Guid(cbcAddress.ReturnForeignKey());
+                    c.CustomerId = cbcCustomer.ReturnForeignKey();
+
+                }
                 c.InsertIntoDB();
                 return true;
             }
@@ -358,8 +362,8 @@ namespace SZI
             Int32.TryParse(tbHouseNo.Text, out Parse);
             a.HouseNo = Parse;
             Int32.TryParse(tbFlatNo.Text, out Parse);
-            a.FlatNo = Parse;
-
+            if (Parse > 0)
+                a.FlatNo = Parse;
 
             if (Auxiliary.IsCurrentValueOK(Current_ControlToBool_Dict))
             {
@@ -390,6 +394,16 @@ namespace SZI
                 Current_ControltoEP_Dict[cb].SetError(cb, "Nieprawidłowo wypełnione pole.");
                 Current_ControlToBool_Dict[cb] = false;
             }
+        }
+
+        private void CountersValidation(object sender, CancelEventArgs e)
+        {
+            ComboBox cb = (ComboBox)sender;
+            if (cb == cbcAddress.comboBox)           
+                MainValidation.XNOR_ComboBoxValidation(cb, cbcCustomer.comboBox, Current_ControltoEP_Dict, Current_ControlToBool_Dict);
+           
+            else
+                MainValidation.XNOR_ComboBoxValidation(cb, cbcAddress.comboBox, Current_ControltoEP_Dict, Current_ControlToBool_Dict);
         }
 
         private void Validation(object sender, CancelEventArgs e)
