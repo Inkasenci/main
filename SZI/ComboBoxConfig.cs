@@ -14,6 +14,7 @@ namespace SZI
         public ComboBox comboBox; //zwracany comboBox
         int[] shortDescriptionWords; //numery slow rekordu, ktore maja byc uzyte jako skrocony opis rekordu (liczone od zera)
         List<ComboBoxItem> itemList; //rekordy, ich krotkie i dlugie opisy
+        string filter = string.Empty;
 
         private string ConvertRecordToString(string[] recordFields)
         /*przyjmuje tablice stringow (pol rekordu)
@@ -144,6 +145,7 @@ namespace SZI
             comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox.DropDown += comboBox_DropDown;
             comboBox.DropDownClosed += comboBox_DropDownClosed;
+            comboBox.KeyDown += comboBox_KeyDown;
             comboBox.SelectedIndex = 0;
 
             if (foreignKey != String.Empty)
@@ -160,9 +162,23 @@ namespace SZI
             }
         }
 
+        void lastFilterUse_Tick(object sender, EventArgs e)
+        {
+            filter = string.Empty;
+        }
+
+        void comboBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Back)
+                filter = filter.Remove(filter.Length - 1);
+            else
+                filter += Convert.ToChar(e.KeyValue);
+        }
+
         private void comboBox_DropDownClosed(object sender, EventArgs e)
         //kiedy comboBox jest zwijany
         {
+            filter = String.Empty;
             if (comboBox.SelectedIndex >= 0)
                 comboBox.Items[comboBox.SelectedIndex] = itemList.ElementAt(comboBox.SelectedIndex).shortItemDescription;
         }
