@@ -189,6 +189,7 @@ namespace SZI
             comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox.DropDown += comboBox_DropDown;
             comboBox.DropDownClosed += comboBox_DropDownClosed;
+            comboBox.KeyDown += comboBox_KeyDown;
             comboBox.SelectedIndex = 0;
 
             if (foreignKey != String.Empty)
@@ -210,8 +211,17 @@ namespace SZI
         /// </summary>
         /// <param name="sender">Rozwijana lista, której dotyczy zdarzenie.</param>
         /// <param name="e">Argumenty zdarzenia.</param>
+        void comboBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Back)
+                filter = filter.Remove(filter.Length - 1);
+            else
+                filter += Convert.ToChar(e.KeyValue);
+        }
+
         private void comboBox_DropDownClosed(object sender, EventArgs e)
         {
+            filter = String.Empty;
             if (comboBox.SelectedIndex >= 0)
                 comboBox.Items[comboBox.SelectedIndex] = itemList.ElementAt(comboBox.SelectedIndex).shortItemDescription;
         }
