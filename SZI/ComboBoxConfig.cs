@@ -162,11 +162,6 @@ namespace SZI
             }
         }
 
-        void lastFilterUse_Tick(object sender, EventArgs e)
-        {
-            filter = string.Empty;
-        }
-
         void comboBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Back)
