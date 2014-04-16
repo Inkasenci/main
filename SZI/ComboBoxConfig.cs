@@ -247,6 +247,7 @@ namespace SZI
             comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox.DropDown += comboBox_DropDown;
             comboBox.DropDownClosed += comboBox_DropDownClosed;
+            comboBox.KeyDown += comboBox_KeyDown;
             comboBox.SelectedIndex = 0;
 
             if (foreignKey != String.Empty)
