@@ -1,6 +1,6 @@
 ﻿namespace SZI
 {
-    partial class HelpForm
+    partial class CheckCounters
     {
         /// <summary>
         /// Required designer variable.
@@ -28,41 +28,33 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.rtbHelp = new System.Windows.Forms.RichTextBox();
-            this.tvFAQ = new System.Windows.Forms.TreeView();
+            this.btExport = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // rtbHelp
+            // btExport
             // 
-            this.rtbHelp.Location = new System.Drawing.Point(261, 13);
-            this.rtbHelp.Name = "rtbHelp";
-            this.rtbHelp.Size = new System.Drawing.Size(411, 487);
-            this.rtbHelp.TabIndex = 7;
-            this.rtbHelp.Text = "";
+            this.btExport.Location = new System.Drawing.Point(12, 497);
+            this.btExport.Name = "btExport";
+            this.btExport.Size = new System.Drawing.Size(157, 29);
+            this.btExport.TabIndex = 3;
+            this.btExport.Text = "Export";
+            this.btExport.UseVisualStyleBackColor = true;
+            this.btExport.Click += new System.EventHandler(this.btExport_Click);
             // 
-            // tvFAQ
-            // 
-            this.tvFAQ.Location = new System.Drawing.Point(22, 12);
-            this.tvFAQ.Name = "tvFAQ";
-            this.tvFAQ.Size = new System.Drawing.Size(217, 488);
-            this.tvFAQ.TabIndex = 5;
-            // 
-            // HelpForm
+            // CheckCounters
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(684, 512);
-            this.Controls.Add(this.rtbHelp);
-            this.Controls.Add(this.tvFAQ);
-            this.Name = "HelpForm";
-            this.Text = "HelpForm";
+            this.ClientSize = new System.Drawing.Size(834, 537);
+            this.Controls.Add(this.btExport);
+            this.Name = "CheckCounters";
+            this.Text = "CheckCounters";
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.RichTextBox rtbHelp;
-        private System.Windows.Forms.TreeView tvFAQ;
+        private System.Windows.Forms.Button btExport;
     }
 }

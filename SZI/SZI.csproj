@@ -79,6 +79,12 @@
     </Compile>
     <Compile Include="Areas.cs" />
     <Compile Include="Auxiliary.cs" />
+    <Compile Include="CheckCounters.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CheckCounters.Designer.cs">
+      <DependentUpon>CheckCounters.cs</DependentUpon>
+    </Compile>
     <Compile Include="Collector.cs">
       <DependentUpon>Model.tt</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -86,11 +92,24 @@
     <Compile Include="Collectors.cs" />
     <Compile Include="ComboBoxConfig.cs" />
     <Compile Include="ComboBoxItem.cs" />
+    <Compile Include="ConfigurationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfigurationForm.Designer.cs">
+      <DependentUpon>ConfigurationForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Counter.cs">
       <DependentUpon>Model.tt</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Counters.cs" />
+    <Compile Include="CountersForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CountersForm.Designer.cs">
+      <DependentUpon>CountersForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CountersFormClass.cs" />
     <Compile Include="Customer.cs">
       <DependentUpon>Model.tt</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -160,8 +179,25 @@
     </Compile>
     <Compile Include="SampleDataConfig.cs" />
     <Compile Include="SampleDataSource.cs" />
+    <Compile Include="StaticXML.cs" />
+    <Compile Include="XmlRecord.cs" />
+    <Compile Include="XMLTextEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="XMLTextEditor.Designer.cs">
+      <DependentUpon>XMLTextEditor.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="CheckCounters.resx">
+      <DependentUpon>CheckCounters.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ConfigManagementForm.resx">
       <DependentUpon>ConfigManagementForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigurationForm.resx">
+      <DependentUpon>ConfigurationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CountersForm.resx">
+      <DependentUpon>CountersForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HelpForm.resx">
       <DependentUpon>HelpForm.cs</DependentUpon>
@@ -184,6 +220,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="XMLTextEditor.resx">
+      <DependentUpon>XMLTextEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EntityDeploy Include="Model.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model.Designer.cs</LastGenOutput>
@@ -227,6 +266,9 @@
       <DependentUpon>CollectorsManagementSystem.mdf</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="HelpImg\emptyCounterForm.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="HelpImg\errorIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -246,6 +288,18 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="HelpImg\trueFormCustomer.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="HelpImg\xmlBySZIFileFormat.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="HelpImg\xmlTextEditorReadOnly.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="HelpImg\xmlTextEditorSaveError.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="HelpImg\zeroCounterForm.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="icons\cross.ico">

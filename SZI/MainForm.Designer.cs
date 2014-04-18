@@ -33,11 +33,12 @@
             this.btConfig = new System.Windows.Forms.Button();
             this.btClose = new System.Windows.Forms.Button();
             this.btHelp = new System.Windows.Forms.Button();
+            this.btXMLTextEditor = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btDataManagement
             // 
-            this.btDataManagement.Location = new System.Drawing.Point(205, 95);
+            this.btDataManagement.Location = new System.Drawing.Point(212, 70);
             this.btDataManagement.Name = "btDataManagement";
             this.btDataManagement.Size = new System.Drawing.Size(268, 53);
             this.btDataManagement.TabIndex = 0;
@@ -47,7 +48,7 @@
             // 
             // btCounters
             // 
-            this.btCounters.Location = new System.Drawing.Point(205, 154);
+            this.btCounters.Location = new System.Drawing.Point(212, 129);
             this.btCounters.Name = "btCounters";
             this.btCounters.Size = new System.Drawing.Size(268, 53);
             this.btCounters.TabIndex = 1;
@@ -57,7 +58,7 @@
             // 
             // btConfig
             // 
-            this.btConfig.Location = new System.Drawing.Point(205, 213);
+            this.btConfig.Location = new System.Drawing.Point(212, 188);
             this.btConfig.Name = "btConfig";
             this.btConfig.Size = new System.Drawing.Size(268, 53);
             this.btConfig.TabIndex = 2;
@@ -67,7 +68,7 @@
             // 
             // btClose
             // 
-            this.btClose.Location = new System.Drawing.Point(205, 331);
+            this.btClose.Location = new System.Drawing.Point(212, 365);
             this.btClose.Name = "btClose";
             this.btClose.Size = new System.Drawing.Size(268, 53);
             this.btClose.TabIndex = 3;
@@ -77,7 +78,7 @@
             // 
             // btHelp
             // 
-            this.btHelp.Location = new System.Drawing.Point(205, 272);
+            this.btHelp.Location = new System.Drawing.Point(212, 306);
             this.btHelp.Name = "btHelp";
             this.btHelp.Size = new System.Drawing.Size(268, 53);
             this.btHelp.TabIndex = 4;
@@ -85,11 +86,22 @@
             this.btHelp.UseVisualStyleBackColor = true;
             this.btHelp.Click += new System.EventHandler(this.btHelp_Click);
             // 
+            // btXMLTextEditor
+            // 
+            this.btXMLTextEditor.Location = new System.Drawing.Point(212, 247);
+            this.btXMLTextEditor.Name = "btXMLTextEditor";
+            this.btXMLTextEditor.Size = new System.Drawing.Size(268, 53);
+            this.btXMLTextEditor.TabIndex = 5;
+            this.btXMLTextEditor.Text = "Edytor XML";
+            this.btXMLTextEditor.UseVisualStyleBackColor = true;
+            this.btXMLTextEditor.Click += new System.EventHandler(this.btXMLTextEditor_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(690, 489);
+            this.Controls.Add(this.btXMLTextEditor);
             this.Controls.Add(this.btHelp);
             this.Controls.Add(this.btClose);
             this.Controls.Add(this.btConfig);
@@ -108,5 +120,6 @@
         private System.Windows.Forms.Button btConfig;
         private System.Windows.Forms.Button btClose;
         private System.Windows.Forms.Button btHelp;
+        private System.Windows.Forms.Button btXMLTextEditor;
     }
 }
