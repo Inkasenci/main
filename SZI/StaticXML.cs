@@ -23,7 +23,7 @@ namespace SZI
         /// </summary>
         /// <param name="path">Adres plku do odczytu.</param>
         /// <param name="cCollection">Argument wyjœciowy zawieraj¹cy kolekcjê odczytów.</param>
-        static public void ReadFromXml(string path, out CountersCollection cCollection)
+        static public void ReadFromXml(string path, bool toDataBase, out CountersCollection cCollection)
         {
             cCollection = null;
             try
@@ -33,7 +33,7 @@ namespace SZI
                 StreamReader reader = new StreamReader(path);
                 cCollection = (CountersCollection)serializer.Deserialize(reader);
                 reader.Close();
-                if (cCollection != null)
+                if (cCollection != null && toDataBase)
                     cCollection.AddNewElementsToDataBase();
             }
             catch (Exception ex)

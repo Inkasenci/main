@@ -168,7 +168,7 @@ namespace SZI
             else if (check == DialogResult.OK)
             {
                 CountersCollection cCollection;
-                StaticXML.ReadFromXml(openFileDialog.FileName, out cCollection);
+                StaticXML.ReadFromXml(openFileDialog.FileName, true, out cCollection);
                 if (cCollection != null)
                     cCollection.AddNewElementsToDataBase();
             }

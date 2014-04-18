@@ -174,7 +174,7 @@ namespace SZI
             else if (check == DialogResult.OK)
             {
                 this.path = openFileDialog.FileName;
-                StaticXML.ReadFromXml(this.path, out xmlRecords);
+                StaticXML.ReadFromXml(this.path, false, out xmlRecords);
                 nrRecord = 0;
                 ReadElement(nrRecord);
             }
