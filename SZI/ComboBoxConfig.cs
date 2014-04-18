@@ -7,17 +7,40 @@ using System.Windows.Forms;
 
 namespace SZI
 {
+    /// <summary>
+    /// Obiekt tej klasy pozwala stworzyć i umieścić w formularzu rozwijaną listę, wcześniej ją inicjując i definiując.
+    /// Każdy rekord posiada długi i krótki opis. Długi opis jest wykorzystywany, kiedy lista jest rozwinięta.
+    /// Krótki opis jest wyświetlany, kiedy lista jest zwinięta i posiada wybrany element.
+    /// </summary>
     class ComboBoxConfig
     {
-        string tableName; //nazwa tabeli, ktorej rekordy beda wyswietlanie w comboBox
-        string foreignKey; //klucz elementu, ktory ma byc wybrany po otwarciu formularza z comboBox (potrzebne przy modyfikacji)
-        public ComboBox comboBox; //zwracany comboBox
-        int[] shortDescriptionWords; //numery slow rekordu, ktore maja byc uzyte jako skrocony opis rekordu (liczone od zera)
-        List<ComboBoxItem> itemList; //rekordy, ich krotkie i dlugie opisy
+        /// <summary>
+        ///  Nazwa tabeli, której rekordy będą wyświetlanie w rozwijanej liście.
+        /// </summary>
+        string tableName;
+        /// <summary>
+        /// Klucz elementu, który ma być ustawiony jako wybrany, kiedy lista jest tworzona. 
+        /// </summary>
+        string foreignKey;
+        /// <summary>
+        /// Rozwijana lista, która jest tworzona w ramach obiektu.
+        /// </summary>
+        public ComboBox comboBox;
+        /// <summary>
+        /// Numery słów rekordu, które mają być użyte jako skrócony opis rekordu (jest on używany, gdy lista jest zwinięta).
+        /// </summary>
+        int[] shortDescriptionWords;
+        /// <summary>
+        /// Rekordy, ich krótkie i długie opisy.
+        /// </summary>
+        List<ComboBoxItem> itemList;
 
+        /// <summary>
+        /// Konwertuje tablicę napisów na jeden napis.
+        /// </summary>
+        /// <param name="recordFields">Tablica napisów. Każdy z napisów jest polem rekordu.</param>
+        /// <returns>Napis będący połączonymi polami rekordu.</returns>
         private string ConvertRecordToString(string[] recordFields)
-        /*przyjmuje tablice stringow (pol rekordu)
-         * zwraca pola polaczone w jeden string*/
         {
             string convertedRecord = String.Empty;
 
@@ -27,8 +50,11 @@ namespace SZI
             return convertedRecord;
         }
 
+        /// <summary>
+        /// Inicjalizuje pola rozwijanej listy.
+        /// </summary>
+        /// <returns>Lista zainicjowanych pól. Elementy listy zawierają długi i krótki opis danego pola.</returns>
         private List<ComboBoxItem> InitializeItems()
-        //inicjalizuje rekordy comboBoxa, ich krotki i dlugi opis
         {
             List<ComboBoxItem> initializedItems = new List<ComboBoxItem>();
             IDataBase dataBase;
@@ -72,16 +98,22 @@ namespace SZI
             return initializedItems;
         }
 
+        /// <summary>
+        /// Wydobywa pierwsze pole rekordu z napisu będącego jego długim opisem.
+        /// </summary>
+        /// <param name="item">Długi opis rekordu.</param>
+        /// <returns>Napis będący kluczem rekordu.</returns>
         private string MineForeignKey(string item)
-        /*przyjmuje dlugi opis rekordu
-         * zwraca klucz rekordu*/
         {
             return item.Substring(0, item.IndexOf(' '));
         }
 
+        /// <summary>
+        /// Wydobywa z długiego opisu rekordu słowa będące jego krótki opisem.
+        /// </summary>
+        /// <param name="item">Długi opis rekordu.</param>
+        /// <returns>Napis będący krótkim opisem rekordu.</returns>
         private string MineDescriptionWords(string item)
-        /*przyjmuje dlugi opis rekordu
-         * zwraca krotki opis*/
         {
             string minedDescription = String.Empty;
 
@@ -96,8 +128,11 @@ namespace SZI
             return minedDescription;
         }
 
+        /// <summary>
+        /// Dopasowywuje szerokość rozwijanej listy po rozwinięciu do najszerszego jej elementu.
+        /// </summary>
+        /// <returns>Szerokość rozwijanej listy.</returns>
         private int AdjustComboBoxWidth()
-        //dopasowywuje szerokosc comboBox po rozwinieciu do najszerszego elementu
         {
             System.Drawing.Graphics g = comboBox.CreateGraphics();
             System.Drawing.Font f = comboBox.Font;
@@ -114,22 +149,32 @@ namespace SZI
             return maxWidth;
         }
 
+        /// <summary>
+        /// Zwraca klucz aktualnie wybranego rekordu.
+        /// </summary>
+        /// <returns>Klucz wybranego rekordu</returns>
         public string ReturnForeignKey()
-        //zwraca klucz rekordu, mozna wykorzystac ta metode, aby zapisac klucz w tabeli na koniec modyfikacji lub dodawania
         {
             return MineForeignKey(itemList.ElementAt(comboBox.SelectedIndex).longItemDescription);
         }
 
+        /// <summary>
+        /// Zwraca konfigurowaną w ramach obiektu rozwijaną listę.
+        /// </summary>
+        /// <returns>Rozwijana lista.</returns>
         public ComboBox InitializeComboBox()
-        //zwraca zainicjalizowany comboBox
         {
             return this.comboBox;
         }
 
+        /// <summary>
+        /// Konstruktor obiektu. Inicjalizuje pola klasy i właściwości rozwijanej listy konfigurowanej w ramach obiektu.
+        /// </summary>
+        /// <param name="tableName">Nazwa tabeli, której rekordy mają zasilić rozwijaną listę.</param>
+        /// <param name="comboBoxName">Nazwa, która zostanie nadana tworzonej rozwijanej liście.</param>
+        /// <param name="location">Położenie tworzonej rozwijanej listy na formularzu.</param>
+        /// <param name="foreignKey">Jeśli lista ma mieć od razu wybrany element, będzie to właśnie ten, który posiada taki klucz.</param>
         public ComboBoxConfig(string tableName, string comboBoxName, System.Drawing.Point location, string foreignKey = "")
-        /*przyjmuje nazwe tabeli, ktorej rekordy beda w comboBox, nazwe comboBoxa, jego polozenie
-         * ewentualnie przyjmuje tez klucz glowny rekordu, jesli comboBox powinien miec od razu cos ustawione*
-         * inicjalizuje odpowiednie pola klasy i wykonuje podstawowe czynnosci*/
         {
             this.tableName = tableName;
             this.foreignKey = foreignKey;
@@ -160,15 +205,23 @@ namespace SZI
             }
         }
 
+        /// <summary>
+        /// Wywoływana, gdy rozwijana lista jest zwijana. Przełącza aktualnie wybrany element z wyświetlania długiego opisu na opis krótki.
+        /// </summary>
+        /// <param name="sender">Rozwijana lista, której dotyczy zdarzenie.</param>
+        /// <param name="e">Argumenty zdarzenia.</param>
         private void comboBox_DropDownClosed(object sender, EventArgs e)
-        //kiedy comboBox jest zwijany
         {
             if (comboBox.SelectedIndex >= 0)
                 comboBox.Items[comboBox.SelectedIndex] = itemList.ElementAt(comboBox.SelectedIndex).shortItemDescription;
         }
 
+        /// <summary>
+        /// Wywoływana, gdy rozwijana lista jest rozwijana. Przełącza aktualnie wybrany element z wyświetlania krótkiego opisu na opis długi, a także ustawia prawidłową szerokość listy.
+        /// </summary>
+        /// <param name="sender">Rozwijana lista, której dotyczy zdarzenie.</param>
+        /// <param name="e">Argumenty zdarzenia.</param>
         private void comboBox_DropDown(object sender, EventArgs e)
-        //kiedy comboBox jest rozwijany
         {
             comboBox.DropDownWidth = AdjustComboBoxWidth();
             if (comboBox.SelectedIndex >= 0)
