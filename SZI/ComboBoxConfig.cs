@@ -214,10 +214,7 @@ namespace SZI
         private void AddAllItems()
         {
             foreach (ComboBoxItem item in itemList)
-            {
                 comboBox.Items.Add(item.longItemDescription);
-
-            }
         }
 
         /// <summary>
@@ -233,22 +230,11 @@ namespace SZI
                 return false;
         }
 
-            }
-        }
-
-        /// <summary>
-        /// Znajduje na liście elementów obiektu obiekt będący odpowiednikiem zaznaczonego na rozwijanej liście rekordu.
-        /// </summary>
-        /// <param name="item">"Aktualnie badany element listy.</param>
-        /// <returns>true - badany obiekt jest poszukiwanym obiektem.</returns>
-        private bool FindItem(ComboBoxItem item)
-        {
-            if (item.longItemDescription == comboBox.Items[comboBox.SelectedIndex].ToString())
-                return true;
-            else
-                return false;
-        }
-
+        /// Konstruktor obiektu. Inicjalizuje pola klasy i właściwości rozwijanej listy konfigurowanej w ramach obiektu.
+        /// <param name="tableName">Nazwa tabeli, której rekordy mają zasilić rozwijaną listę.</param>
+        /// <param name="comboBoxName">Nazwa, która zostanie nadana tworzonej rozwijanej liście.</param>
+        /// <param name="location">Położenie tworzonej rozwijanej listy na formularzu.</param>
+        /// <param name="foreignKey">Jeśli lista ma mieć od razu wybrany element, będzie to właśnie ten, który posiada taki klucz.</param>
         public ComboBoxConfig(string tableName, string comboBoxName, System.Drawing.Point location, string foreignKey = "")
         {
             this.tableName = tableName;
@@ -309,6 +295,8 @@ namespace SZI
         }
 
 	/// <summary>
+        /// Wywoływana, gdy rozwijana lista jest zwijana. Przełącza aktualnie wybrany element z wyświetlania długiego opisu na opis krótki.
+        /// <param name="sender">Rozwijana lista konfigurowana w ramach obiektu.</param>
         private void comboBox_DropDownClosed(object sender, EventArgs e)
         {
             if (filter != String.Empty)
