@@ -173,6 +173,9 @@ namespace SZI
             return this.comboBox;
         }
 
+        /// <summary>
+        /// Filtruje rekordy według aktualnej zawartości tekstu filtra. Ignoruje polskie znaki i wielkość liter.
+        /// </summary>
         private void FilterItems()
         {
             comboBox.Items.Clear();
@@ -183,6 +186,11 @@ namespace SZI
             }
         }
 
+        /// <summary>
+        /// Zamienia polskie znaki na wersje bez "ogonków".
+        /// </summary>
+        /// <param name="currentString">Napis, w którym ma zostąc dokonana zamiana.</param>
+        /// <returns>Napis po zamianie.</returns>
         private string ReplacePolishCharacters(string currentString)
         {
             string result = currentString;
@@ -200,6 +208,9 @@ namespace SZI
             return result;
         }
 
+        /// <summary>
+        /// Dodaje do rozwijanej listy wszystkie elementy przechowywane na liście elementów obiektu.
+        /// </summary>
         private void AddAllItems()
         {
             foreach (ComboBoxItem item in itemList)
@@ -209,6 +220,11 @@ namespace SZI
             }
         }
 
+        /// <summary>
+        /// Znajduje na liście elementów obiektu obiekt będący odpowiednikiem zaznaczonego na rozwijanej liście rekordu.
+        /// </summary>
+        /// <param name="item">"Aktualnie badany element listy.</param>
+        /// <returns>true - badany obiekt jest poszukiwanym obiektem.</returns>
         private bool FindItem(ComboBoxItem item)
         {
             if (item.longItemDescription == comboBox.Items[comboBox.SelectedIndex].ToString())
@@ -292,6 +308,7 @@ namespace SZI
             FilterItems();
         }
 
+	/// <summary>
         private void comboBox_DropDownClosed(object sender, EventArgs e)
         {
             if (filter != String.Empty)
