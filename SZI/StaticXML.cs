@@ -22,7 +22,8 @@ namespace SZI
         /// Wczytywanie rekordów z pliku XML.
         /// </summary>
         /// <param name="path">Adres plku do odczytu.</param>
-        /// <param name="cCollection">Argument wyjœciowy zawieraj¹cy kolekcjê odczytów.</param>
+        /// <param name="cCollection">Argument wejœciowo/wyjœciowy zawieraj¹cy kolekcjê odczytów.</param>
+        /// <param name="toDataBase">Argument informuj¹cy o koniecznoœci ( b¹dŸ nie ) zapisu danych do bazy.</param>
         static public void ReadFromXml(string path, bool toDataBase, out CountersCollection cCollection)
         {
             cCollection = null;
