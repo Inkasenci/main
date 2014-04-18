@@ -15,6 +15,7 @@ namespace SZI
         int[] shortDescriptionWords; //numery slow rekordu, ktore maja byc uzyte jako skrocony opis rekordu (liczone od zera)
         List<ComboBoxItem> itemList; //rekordy, ich krotkie i dlugie opisy
         string filter = string.Empty;
+        ToolTip filterTip;
 
         private string ConvertRecordToString(string[] recordFields)
         /*przyjmuje tablice stringow (pol rekordu)
@@ -127,6 +128,50 @@ namespace SZI
             return this.comboBox;
         }
 
+        private void FilterItems()
+        {
+            comboBox.Items.Clear();
+            foreach (ComboBoxItem item in itemList)
+            {
+                if (ReplacePolishCharacters(item.longItemDescription.ToLower()).IndexOf(filter) != -1)
+                    comboBox.Items.Add(item.longItemDescription);
+            }
+        }
+
+        private string ReplacePolishCharacters(string currentString)
+        {
+            string result = currentString;
+
+            result = result.Replace("ą", "a");
+            result = result.Replace("ć", "c");
+            result = result.Replace("ę", "e");
+            result = result.Replace("ł", "l");
+            result = result.Replace("ń", "n");
+            result = result.Replace("ó", "o");
+            result = result.Replace("ś", "s");
+            result = result.Replace("ź", "z");
+            result = result.Replace("ż", "z");
+
+            return result;
+        }
+
+        private void AddAllItems()
+        {
+            foreach (ComboBoxItem item in itemList)
+            {
+                comboBox.Items.Add(item.longItemDescription);
+
+            }
+        }
+
+        private bool FindItem(ComboBoxItem item)
+        {
+            if (item.longItemDescription == comboBox.Items[comboBox.SelectedIndex].ToString())
+                return true;
+            else
+                return false;
+        }
+
         public ComboBoxConfig(string tableName, string comboBoxName, System.Drawing.Point location, string foreignKey = "")
         /*przyjmuje nazwe tabeli, ktorej rekordy beda w comboBox, nazwe comboBoxa, jego polozenie
          * ewentualnie przyjmuje tez klucz glowny rekordu, jesli comboBox powinien miec od razu cos ustawione*
@@ -137,15 +182,13 @@ namespace SZI
             comboBox = new ComboBox();
 
             itemList = InitializeItems();
-            foreach (ComboBoxItem item in itemList)
-                comboBox.Items.Add(item.longItemDescription);
+            AddAllItems();
 
             comboBox.Name = comboBoxName;
             comboBox.Location = location;
             comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox.DropDown += comboBox_DropDown;
             comboBox.DropDownClosed += comboBox_DropDownClosed;
-            comboBox.KeyDown += comboBox_KeyDown;
             comboBox.SelectedIndex = 0;
 
             if (foreignKey != String.Empty)
@@ -164,18 +207,45 @@ namespace SZI
 
         void comboBox_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Back)
-                filter = filter.Remove(filter.Length - 1);
+            int keyValue = e.KeyValue;
+            Keys keyCode = e.KeyCode;
+
+            if (keyValue == 32 || (keyValue >= 65 && keyValue <= 90) || (keyValue >= 48 && keyValue <= 57))
+                filter += Char.ToLower(Convert.ToChar(keyValue));
             else
-                filter += Convert.ToChar(e.KeyValue);
+                if (keyCode == Keys.Back)
+                {
+                    if (filter != String.Empty)
+                        filter = filter.Remove(filter.Length - 1);
+                }
+
+            if (filter != String.Empty)
+            {
+                filterTip.Show("Filtr: " + filter, comboBox, new System.Drawing.Point(0, 0));
+            }
+            else
+                filterTip.Hide(comboBox);
+
+            FilterItems();
         }
 
         private void comboBox_DropDownClosed(object sender, EventArgs e)
         //kiedy comboBox jest zwijany
         {
-            filter = String.Empty;
+            if (filter != String.Empty)
+            {
+                int correctSelectedIndex = itemList.FindIndex(FindItem);
+                comboBox.Items.Clear();
+                AddAllItems();
+                comboBox.SelectedIndex = correctSelectedIndex;
+            }
+            
             if (comboBox.SelectedIndex >= 0)
                 comboBox.Items[comboBox.SelectedIndex] = itemList.ElementAt(comboBox.SelectedIndex).shortItemDescription;
+
+            comboBox.KeyDown -= comboBox_KeyDown;
+            filter = String.Empty;
+            filterTip.Active = false;
         }
 
         private void comboBox_DropDown(object sender, EventArgs e)
@@ -184,6 +254,9 @@ namespace SZI
             comboBox.DropDownWidth = AdjustComboBoxWidth();
             if (comboBox.SelectedIndex >= 0)
                 comboBox.Items[comboBox.SelectedIndex] = itemList.ElementAt(comboBox.SelectedIndex).longItemDescription;
+
+            comboBox.KeyDown += comboBox_KeyDown;
+            filterTip = new ToolTip();
         }
     }
 }

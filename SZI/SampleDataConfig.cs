@@ -9,7 +9,7 @@ namespace SZI
     static class SampleDataConfig
     {
         static int numberOfCollectors = 5;
-        static int numberOfCustomers = 10;
+        static int numberOfCustomers = 1000;
         static int numberOfAreas = 5; //aczkolwiek nie moze byc ich wiecej niz ulic w SampleDataSource
         static int numberOfCounters = 10;
         static int numberOfAddresses = 10;
