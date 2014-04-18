@@ -55,6 +55,9 @@ namespace SZI
             {"loadHelp","Problem z ładowanie danych!"}
         };
 
+        /// <summary>
+        /// Zawiera ostrzeżenia wyświetlane jako teksty okienek, w których potwierdzane jest usunięcie rekordu.
+        /// </summary>
         static public Dictionary<string, string> IntegrityWarnings = new Dictionary<string, string>()
         {
             { "collectorRemoval", "Jeden lub więcej wybranych inkasentów ma przydzielony teren. Czy chcesz kontynuować? "},

@@ -148,9 +148,13 @@ namespace SZI
             }
         }
 
+        /// <summary>
+        /// Sprawdza, czy dla danego rekordu nie ma odniesienia w tabelach, które są w związku z tabelą, z której pochodzi rekord.
+        /// </summary>
+        /// <param name="tableName">Nazwa tabeli, z której pochodzi rekord.</param>
+        /// <param name="id">Klucz rekordu.</param>
+        /// <returns>true - odniesienie do rekordu znalezione. false - odniesienie do rekordu nieznalezione.</returns>
         static public bool IdExistsInOtherTable(string tableName, string id)
-        /* przyjmuje nazwe tabeli, z ktorej pochodzi id, samo id
-         * zwraca true, jesli id jest kluczem obcym w innej tabeli*/
         {
             int count;
             Guid guidId;

@@ -59,9 +59,12 @@ namespace SZI
             tabControl.SelectedIndexChanged += tabControl_SelectedIndexChanged;
         }
 
+        /// <summary>
+        /// Ustawia właściwość "Enabled" dla przycisków "Usuń" i "Modyfikuj".
+        /// </summary>
+        /// <param name="btDeleteEnabledProperty">Pożądany stan właściwości "Enabled" dla przycisku "Usuń".</param>
+        /// <param name="btDeleteModifyProperty">Pożądany stan właściwości "Enabled" dla przycisku "Modyfikuj".</param>
         private void SetButtonEnabledProperty(bool btDeleteEnabledProperty, bool btModifyEnabledProperty)
-        /* przyjmuje wartosci boolowskie
-         * podstawia je pod wlasciwosc Enabled przyciskow usuwania i modyfikacji*/
         {
             btDelete.Enabled = btDeleteEnabledProperty;
             btModify.Enabled = btModifyEnabledProperty;
@@ -116,7 +119,12 @@ namespace SZI
             MainTabControlInit();
         }
 
-        // Delete event click
+        /// <summary>
+        /// Wywoływana po naciścnięciu przycisku "Usuń".
+        /// Usuwa zaznaczone rekordy, wcześniej sprawdzając, czy nie ma do nich odniesienia w innych tabelach.
+        /// </summary>
+        /// <param name="sender">Przycisk "Usuń".</param>
+        /// <param name="e">Argumenty zdarzenia.</param>
         private void btDelete_Click(object sender, EventArgs e)
         {
             bool idExists;
@@ -158,7 +166,11 @@ namespace SZI
             SetButtonEnabledProperty(false, false);
         }
 
-        // Insert event click
+        /// <summary>
+        /// Wywoływana po naciśnięciu przycisku "Dodaj". Otwiera formularz umożliwiający dodawanie rekordów.
+        /// </summary>
+        /// <param name="sender">Przycisk "Dodaj".</param>
+        /// <param name="e">Argumenty zdarzenia.</param>
         private void btInsert_Click(object sender, EventArgs e)
         {
             var insertForm = new InsertForm(selectedTab);
@@ -167,7 +179,11 @@ namespace SZI
             SetButtonEnabledProperty(false, false);
         }
 
-        // Modify event click
+        /// <summary>
+        /// Wywoływana po naciśnięciu przycisku "Modyfikuj". Otwiera formularz umożliwiający modyfikację zaznaczonego rekordu.
+        /// </summary>
+        /// <param name="sender">Przycisk "Modyfikuj".</param>
+        /// <param name="e">Argumenty zdarzenia.</param>
         private void btModify_Click(object sender, EventArgs e)
         {
             var modifyForm = new ModifyForm(ids, selectedTab);
