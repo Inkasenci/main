@@ -173,9 +173,6 @@ namespace SZI
             return this.comboBox;
         }
 
-        /// <summary>
-        /// Filtruje rekordy według aktualnej zawartości tekstu filtra. Ignoruje polskie znaki i wielkość liter.
-        /// </summary>
         private void FilterItems()
         {
             comboBox.Items.Clear();
@@ -186,11 +183,6 @@ namespace SZI
             }
         }
 
-        /// <summary>
-        /// Zamienia polskie znaki na wersje bez "ogonków".
-        /// </summary>
-        /// <param name="currentString">Napis, w którym ma zostąc dokonana zamiana.</param>
-        /// <returns>Napis po zamianie.</returns>
         private string ReplacePolishCharacters(string currentString)
         {
             string result = currentString;
@@ -208,14 +200,22 @@ namespace SZI
             return result;
         }
 
-        /// <summary>
-        /// Dodaje do rozwijanej listy wszystkie elementy przechowywane na liście elementów obiektu.
-        /// </summary>
         private void AddAllItems()
         {
             foreach (ComboBoxItem item in itemList)
             {
                 comboBox.Items.Add(item.longItemDescription);
+
+            }
+        }
+
+        private bool FindItem(ComboBoxItem item)
+        {
+            if (item.longItemDescription == comboBox.Items[comboBox.SelectedIndex].ToString())
+                return true;
+            else
+                return false;
+        }
 
             }
         }
@@ -247,7 +247,6 @@ namespace SZI
             comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox.DropDown += comboBox_DropDown;
             comboBox.DropDownClosed += comboBox_DropDownClosed;
-            comboBox.KeyDown += comboBox_KeyDown;
             comboBox.SelectedIndex = 0;
 
             if (foreignKey != String.Empty)
