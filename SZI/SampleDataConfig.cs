@@ -15,7 +15,10 @@ namespace SZI
         /// Liczba generowanych inkasentów.
         /// </summary>
         static int numberOfCollectors = 5;
-        /// <summary>
+	/// <summary>
+        /// Liczba generowanych klientów.
+        /// </summary>
+        static int numberOfCustomers = 1000;
         /// Liczba generowanych klientów.
         /// </summary>
         /// <summary>

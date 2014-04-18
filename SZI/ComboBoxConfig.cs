@@ -37,10 +37,12 @@ namespace SZI
         /// <summary>
         /// Napis przechowując tekst filtrujący rekordy rozwijanej listy.
         /// </summary>
+        string filter = string.Empty;
         /// <summary>
         /// Podpowiedź wyświetlając aktualny tekst filtra.
         /// </summary>
-
+        ToolTip filterTip;
+        
         /// <summary>
         /// Konwertuje tablicę napisów na jeden napis.
         /// </summary>
@@ -233,6 +235,65 @@ namespace SZI
                 return false;
         }
 
+        /// <summary>
+        /// </summary>
+        private void FilterItems()
+        {
+            comboBox.Items.Clear();
+            foreach (ComboBoxItem item in itemList)
+            {
+                if (ReplacePolishCharacters(item.longItemDescription.ToLower()).IndexOf(filter) != -1)
+                    comboBox.Items.Add(item.longItemDescription);
+            }
+        }
+
+        /// <summary>
+        /// Zamienia polskie znaki na wersje bez "ogonków".
+        /// </summary>
+        /// <param name="currentString">Napis, w którym ma zostąc dokonana zamiana.</param>
+        /// <returns>Napis po zamianie.</returns>
+        private string ReplacePolishCharacters(string currentString)
+        {
+            string result = currentString;
+
+            result = result.Replace("ą", "a");
+            result = result.Replace("ć", "c");
+            result = result.Replace("ę", "e");
+            result = result.Replace("ł", "l");
+            result = result.Replace("ń", "n");
+            result = result.Replace("ó", "o");
+            result = result.Replace("ś", "s");
+            result = result.Replace("ź", "z");
+            result = result.Replace("ż", "z");
+
+            return result;
+        }
+
+        /// <summary>
+        /// Dodaje do rozwijanej listy wszystkie elementy przechowywane na liście elementów obiektu.
+        /// </summary>
+        private void AddAllItems()
+        {
+            foreach (ComboBoxItem item in itemList)
+            {
+                comboBox.Items.Add(item.longItemDescription);
+
+            }
+        }
+
+        /// <summary>
+        /// Znajduje na liście elementów obiektu obiekt będący odpowiednikiem zaznaczonego na rozwijanej liście rekordu.
+        /// </summary>
+        /// <param name="item">"Aktualnie badany element listy.</param>
+        /// <returns>true - badany obiekt jest poszukiwanym obiektem.</returns>
+        private bool FindItem(ComboBoxItem item)
+        {
+            if (item.longItemDescription == comboBox.Items[comboBox.SelectedIndex].ToString())
+                return true;
+            else
+                return false;
+        }
+
         public ComboBoxConfig(string tableName, string comboBoxName, System.Drawing.Point location, string foreignKey = "")
         {
             this.tableName = tableName;
@@ -265,6 +326,34 @@ namespace SZI
 
         /// <summary>
         /// Wywoływana, gdy podczas przeglądania rozwijanej listy zostanie naciśnięty klawisz.
+        /// </summary>
+        /// <param name="sender">Rozwijana lista konfigurowana w ramach obiektu.</param>
+        /// <param name="e">Argumenty zdarzenia.</param>
+        void comboBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            int keyValue = e.KeyValue;
+            Keys keyCode = e.KeyCode;
+
+            if (keyValue == 32 || (keyValue >= 65 && keyValue <= 90) || (keyValue >= 48 && keyValue <= 57))
+                filter += Char.ToLower(Convert.ToChar(keyValue));
+            else
+                if (keyCode == Keys.Back)
+                {
+                    if (filter != String.Empty)
+                        filter = filter.Remove(filter.Length - 1);
+                }
+
+            if (filter != String.Empty)
+            {
+                filterTip.Show("Filtr: " + filter, comboBox, new System.Drawing.Point(0, 0));
+            }
+            else
+                filterTip.Hide(comboBox);
+
+            FilterItems();
+        }
+
+	    /// <summary>
         /// </summary>
         /// <param name="sender">Rozwijana lista konfigurowana w ramach obiektu.</param>
         /// <param name="e">Argumenty zdarzenia.</param>
