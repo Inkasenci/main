@@ -20,7 +20,8 @@ namespace SZI
         private IDataBase[] dataBase;
         private List<string> ids;
         private ListView[] listView;
-        private ToolStripItemCollection Items_SelectedIndices;
+        private ToolStripItemCollection Items_SingleSelection;
+        private ToolStripItemCollection Items_MultipleSelection;
         private ToolStripItemCollection Items_NoSelection;
 
         // Initialize DB form
@@ -46,8 +47,9 @@ namespace SZI
             dataBase = new IDataBase[5] { new Collectors(), new Customers(), new Areas(), new Counters(), new Addresses() };
             listView = new ListView[dataBase.Length];
             contextMenu = CreateContextMenu();
-            Items_SelectedIndices = CreateContextMenuItems_SelectedItems(contextMenu);
+            Items_SingleSelection = CreateContextMenuItems_SingleSelection(contextMenu);
             Items_NoSelection = CreateContextMenuItems_NoSelection(contextMenu);
+            Items_MultipleSelection = CreateContextMenuItems_MultipleSelection(contextMenu);
             timerRefresh.Start();
 
             // Tworzenie tabControl
@@ -88,11 +90,11 @@ namespace SZI
         }
 
         /// <summary>
-        /// Tworzy kolekcję itemów dla ContextMenuStrip gdy zaznaczony jest w ListView co najmniej jeden item
+        /// Tworzy kolekcję itemów dla ContextMenuStrip gdy zaznaczony jest w ListView jeden item
         /// </summary>
         /// <param name="Owner">ContextMenuStrip do którego kolekcja zostanie przypisana</param>
         /// <returns>Kolekcja itemów</returns>
-        private ToolStripItemCollection CreateContextMenuItems_SelectedItems(object Owner)
+        private ToolStripItemCollection CreateContextMenuItems_SingleSelection(object Owner)
         {
             ToolStripItemCollection items = new ToolStripItemCollection(Owner as ContextMenuStrip, new ToolStripItem[]
             {
@@ -102,6 +104,24 @@ namespace SZI
                 new ToolStripMenuItem("Zaznacz wszystko", null, SelectAllItems, Keys.Control | Keys.A),
                 new ToolStripSeparator(),
                 new ToolStripMenuItem("Wyświetl powiązane rekordy", null, ShowAssociatedRecords, null)
+            });
+
+            return items;
+        }
+
+        /// <summary>
+        /// Tworzy kolekcję itemów dla ContextMenuStrip gdy zaznaczony jest w ListView więcej niż jeden item
+        /// </summary>
+        /// <param name="Owner">ContextMenuStrip do którego kolekcja zostanie przypisana</param>
+        /// <returns>Kolekcja itemów</returns>
+        private ToolStripItemCollection CreateContextMenuItems_MultipleSelection(object Owner)
+        {
+            ToolStripItemCollection items = new ToolStripItemCollection(Owner as ContextMenuStrip, new ToolStripItem[]
+            {
+                new ToolStripMenuItem("Kopiuj", null, CopyItemstoClipboard, Keys.Control | Keys.C),
+                new ToolStripMenuItem("Usuń", null, btDelete_Click, Keys.Delete),
+                new ToolStripSeparator(),
+                new ToolStripMenuItem("Zaznacz wszystko", null, SelectAllItems, Keys.Control | Keys.A)
             });
 
             return items;
@@ -237,7 +257,6 @@ namespace SZI
                                        c.CircuitNo.ToString() + " " +
                                        Counters.FetchFullAddress(AddressID) + " " +
                                        Counters.FetchCustomer(c.CustomerId) + "\n";
-
             }
 
             return AssociatedRecords;
@@ -283,8 +302,6 @@ namespace SZI
                 MessageBox.Show(AssociatedRecords, "Powiązane rekordy");
             }
         }
-
-
 
         /// <summary>
         /// Tworzy kolekcję itemów dla ContextMenuStrip gdy nie jest zaznaczony w ListView żaden item
@@ -357,7 +374,7 @@ namespace SZI
         #region EventHandlery
 
         /// <summary>
-        /// Metoda wywoływana przy otwieraniu ContextToolStripMenu. Przypisuje odpowiednią kolekcję itemów w zależności od tego, czy w aktywnej ListView były zaznaczone itemy.
+        /// Metoda wywoływana przy otwieraniu ContextToolStripMenu. Przypisuje odpowiednią kolekcję itemów w zależności od liczby zaznaczonych itemów.
         /// </summary>
         /// <param name="sender">ContextToolStripMenu do którego zostanie przypisana kolekcja itemów</param>
         /// <param name="e">Parametry zdarzenia</param>
@@ -367,10 +384,12 @@ namespace SZI
             ListView SourceListView = (ListView)cms.SourceControl;
 
             cms.Items.Clear();
-            if (SourceListView.SelectedItems.Count > 0)
+            if (SourceListView.SelectedItems.Count == 1)
             {
-                cms.Items.AddRange(Items_SelectedIndices);
+                cms.Items.AddRange(Items_SingleSelection);
             }
+            else if (SourceListView.SelectedItems.Count > 1)
+                cms.Items.AddRange(Items_MultipleSelection);
             else
             {
                 cms.Items.AddRange(Items_NoSelection);
