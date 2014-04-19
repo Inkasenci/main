@@ -40,7 +40,7 @@ namespace SZI
             }
         }
 
-        private string FetchCollector(string CollectorID) //zwraca imię i nazwisko inkasenta na podstawie jego ID
+        static public string FetchCollector(string CollectorID) //zwraca imię i nazwisko inkasenta na podstawie jego ID
         {
             string FullName = "";
 
