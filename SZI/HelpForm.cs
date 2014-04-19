@@ -101,11 +101,19 @@ namespace SZI
             dataBaseTables.Add(TreeNode(i++.ToString() + ". " + LangPL.FaqQuestion["XMLTextEditor"]));
 
             // Child Node 1
-            dataBaseTables[1].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseTableAdress"]));
-            dataBaseTables[1].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseTableArea"]));
-            dataBaseTables[1].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseTableCollector"]));
-            dataBaseTables[1].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseTableCounter"]));
-            dataBaseTables[1].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseTableCustomer"]));
+            dataBaseTables[1].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseRecordAddition"]));
+            dataBaseTables[1].Nodes[0].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseTableAddress"]));
+            dataBaseTables[1].Nodes[0].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseTableArea"]));
+            dataBaseTables[1].Nodes[0].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseTableCollector"]));
+            dataBaseTables[1].Nodes[0].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseTableCounter"]));
+            dataBaseTables[1].Nodes[0].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseTableCustomer"]));
+
+            dataBaseTables[1].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseRecordRemoval"]));
+            dataBaseTables[1].Nodes[1].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseTableAddressRemoval"]));
+            dataBaseTables[1].Nodes[1].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseTableAreaRemoval"]));
+            dataBaseTables[1].Nodes[1].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseTableCollectorRemoval"]));
+            dataBaseTables[1].Nodes[1].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseTableCounterRemoval"]));
+            dataBaseTables[1].Nodes[1].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseTableCustomerRemoval"]));
 
             // Child Node 2
             dataBaseTables[2].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseReadingEmptyDataBase"]));
@@ -184,19 +192,10 @@ namespace SZI
                                 switch (e.Node.Index)
                                 {
                                     case 0:
-                                        rtbHelp.Text = LangPL.FaqAnswers["dataBaseTableAdress"];
+                                        rtbHelp.Text = LangPL.FaqAnswers["dataBaseRecordAddition"];
                                         break;
                                     case 1:
-                                        rtbHelp.Text = LangPL.FaqAnswers["dataBaseTableArea"];
-                                        break;
-                                    case 2:
-                                        rtbHelp.Text = LangPL.FaqAnswers["dataBaseTableCollector"];
-                                        break;
-                                    case 3:
-                                        rtbHelp.Text = LangPL.FaqAnswers["dataBaseTableCounter"];
-                                        break;
-                                    case 4:
-                                        rtbHelp.Text = LangPL.FaqAnswers["dataBaseTableCustomer"];
+                                        rtbHelp.Text = LangPL.FaqAnswers["dataBaseRecordRemoval"];
                                         break;
                                     default:
                                         MessageBox.Show(LangPL.FaqErrors["indexOutOfRange"]);
@@ -267,6 +266,64 @@ namespace SZI
                                 break;
                         }
                         break;
+
+                    case 2:
+                        switch (e.Node.Parent.Parent.Index)
+                        {
+                            case 1:
+                                switch (e.Node.Parent.Index)
+                                {
+                                    case 0:
+                                        switch(e.Node.Index)
+                                        {
+                                            case 0:
+                                                rtbHelp.Text=LangPL.FaqAnswers["dataBaseTableAddress"];
+                                                break;
+                                            case 1:
+                                                rtbHelp.Text=LangPL.FaqAnswers["dataBaseTableArea"];
+                                                break;
+                                            case 2:
+                                                rtbHelp.Text=LangPL.FaqAnswers["dataBaseTableCollector"];
+                                                break;
+                                            case 3:
+                                                rtbHelp.Text=LangPL.FaqAnswers["dataBaseTableCounter"];
+                                                break;
+                                            case 4:
+                                                rtbHelp.Text=LangPL.FaqAnswers["dataBaseTableCustomer"];
+                                                break;
+                                            default:
+                                                MessageBox.Show(LangPL.FaqErrors["indexOutOfRange"]);
+                                                break;  
+                                        }
+                                        break;
+                                    case 1:
+                                        switch (e.Node.Index)
+                                        {
+                                            case 0:
+                                                rtbHelp.Text = LangPL.FaqAnswers["dataBaseTableAddressRemoval"];
+                                                break;
+                                            case 1:
+                                                rtbHelp.Text = LangPL.FaqAnswers["dataBaseTableAreaRemoval"];
+                                                break;
+                                            case 2:
+                                                rtbHelp.Text = LangPL.FaqAnswers["dataBaseTableCollectorRemoval"];
+                                                break;
+                                            case 3:
+                                                rtbHelp.Text = LangPL.FaqAnswers["dataBaseTableCounterRemoval"];
+                                                break;
+                                            case 4:
+                                                rtbHelp.Text = LangPL.FaqAnswers["dataBaseTableCustomerRemoval"];
+                                                break;
+                                            default:
+                                                MessageBox.Show(LangPL.FaqErrors["indexOutOfRange"]);
+                                                break;
+                                        }
+                                        break;
+                                }
+                                break;
+                        }
+                        break;
+
                     default:
                         MessageBox.Show(LangPL.FaqErrors["indexOutOfRange"]);
                         break;
