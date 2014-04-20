@@ -409,6 +409,7 @@ namespace SZI
             {
                 cms.Items.AddRange(Items_NoSelection);
             }
+            e.Cancel = false; //nie mam pojęcia dlaczego, ale dzięki temu menu otworzy się po pierwszym kliknięciu
 
         }
 
