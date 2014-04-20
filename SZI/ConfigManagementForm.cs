@@ -425,12 +425,12 @@ namespace SZI
             
             if (form.Modified) //jeśli dokonano modyfikacji lub dodania rekordu, to odśwież listę
             {
-                if (form.GetType() == typeof(InsertForm)) //jeśli tylko wprowadzono rekord
+                if (form.GetType() == typeof(InsertForm) || form.GetType() == typeof(ConfigManagementForm)) //jeśli wprowadzono rekord, lub usunięto, lub odświeżenie
                 {
                     dataBase[selectedTab].RefreshList();
                     ListViewConfig.ListViewRefresh(listView[selectedTab], dataBase[selectedTab].itemList);
                 }
-                else //zmodyfikowano jakiś rekord, lub zwykłe odświeżenie formy
+                else //zmodyfikowano jakiś rekord
                 {
                     int i = 0;
                     foreach (var data in dataBase)
@@ -563,7 +563,7 @@ namespace SZI
             if (choiceFromMessageBox == DialogResult.Yes)
             {
                 DBManipulator.DeleteFromDB(ids, selectedTab, idExists);
-                closeForm_Click(sender, e);
+                closeForm_Click(this, e);
                 SetButtonEnabledProperty(false, false);
             }
             listView[selectedTab].HideSelection = false;
