@@ -81,12 +81,8 @@ namespace SZI
 
                         if (foreignResult2.Count() > 0)
                         {
-                            List<string> foreignList = new List<string>();
-
                             foreach (Reading r in foreignResult2)
-                                foreignList.Add(r.ReadingId.ToString());
-
-                            DeleteFromReadings(foreignList);
+                                r.CollectorId = "00000000000";
                         }
                     }
 
