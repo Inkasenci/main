@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace SZI
 {
+
     /// <summary>
     /// Interfejs który musi być implementowany przez ModifyForm i InsertForm. Potrzebny do tego, by wiedzieć czy cokolwiek w bazie zostało zmienione.
     /// </summary>
