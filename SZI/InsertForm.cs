@@ -286,6 +286,7 @@ namespace SZI
             if (Auxiliary.IsCurrentValueOK(Current_ControlToBool_Dict))
             {
                 c.InsertIntoDB();
+		modified = true;
                 return true;
             }
             else
