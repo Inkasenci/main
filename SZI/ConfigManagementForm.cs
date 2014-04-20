@@ -12,7 +12,7 @@ using System.IO;
 
 namespace SZI
 {
-    public partial class ConfigManagementForm : Form
+    public partial class ConfigManagementForm : Form, IForm
     {
         private int selectedTab = 0;
         private TabControl tabControl;
@@ -23,6 +23,21 @@ namespace SZI
         private ToolStripItemCollection Items_SingleSelection;
         private ToolStripItemCollection Items_MultipleSelection;
         private ToolStripItemCollection Items_NoSelection;
+        /// <summary>
+        /// Pole potrzebne do poprawnego działania metody closeForm_Click. Wartość jest zawsze prawdziwa.
+        /// </summary>
+        private bool modified = true;
+
+        /// <summary>
+        /// Właściwość potrzebna do poprawnego działania metody closeForm_Click.
+        /// </summary>
+        public bool Modified
+        {
+            get
+            {
+                return this.modified;
+            }
+        }
 
         // Initialize DB form
         public ConfigManagementForm()
@@ -407,6 +422,7 @@ namespace SZI
         private void closeForm_Click(object sender, EventArgs e)
         {
             IForm form = (IForm)sender;
+            
             if (form.Modified) //jeśli dokonano modyfikacji lub dodania rekordu, to odśwież listę
             {
                 if (form.GetType() == typeof(InsertForm)) //jeśli tylko wprowadzono rekord
@@ -414,7 +430,7 @@ namespace SZI
                     dataBase[selectedTab].RefreshList();
                     ListViewConfig.ListViewRefresh(listView[selectedTab], dataBase[selectedTab].itemList);
                 }
-                else //zmodyfikowano jakiś rekord
+                else //zmodyfikowano jakiś rekord, lub zwykłe odświeżenie formy
                 {
                     int i = 0;
                     foreach (var data in dataBase)
@@ -582,7 +598,7 @@ namespace SZI
         // Refresh data button
         private void btRefresh_Click(object sender, EventArgs e)
         {
-            closeForm_Click(sender, e);
+            closeForm_Click(this, e);
         }
 
         #endregion
