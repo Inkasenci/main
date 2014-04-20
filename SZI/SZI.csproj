@@ -131,6 +131,7 @@
     </Compile>
     <Compile Include="IDataBase.cs" />
     <Compile Include="IdentityValidation.cs" />
+    <Compile Include="IForm.cs" />
     <Compile Include="IItem.cs" />
     <Compile Include="InsertForm.cs">
       <SubType>Form</SubType>
