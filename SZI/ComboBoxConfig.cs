@@ -232,18 +232,6 @@ namespace SZI
                 return false;
         }
 
-        /// <summary>
-        /// </summary>
-        /// <param name="item">"Aktualnie badany element listy.</param>
-        /// <returns>true - badany obiekt jest poszukiwanym obiektem.</returns>
-        private bool FindItem(ComboBoxItem item)
-        {
-            if (item.longItemDescription == comboBox.Items[comboBox.SelectedIndex].ToString())
-                return true;
-            else
-                return false;
-        }
-
         /// Konstruktor obiektu. Inicjalizuje pola klasy i właściwości rozwijanej listy konfigurowanej w ramach obiektu.
         /// <param name="tableName">Nazwa tabeli, której rekordy mają zasilić rozwijaną listę.</param>
         /// <param name="comboBoxName">Nazwa, która zostanie nadana tworzonej rozwijanej liście.</param>
@@ -308,35 +296,7 @@ namespace SZI
             FilterItems();
         }
 
-        /// <summary>
-        /// </summary>
-        /// <param name="sender">Rozwijana lista konfigurowana w ramach obiektu.</param>
-        /// <param name="e">Argumenty zdarzenia.</param>
-        void comboBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            int keyValue = e.KeyValue;
-            Keys keyCode = e.KeyCode;
-
-            if (keyValue == 32 || (keyValue >= 65 && keyValue <= 90) || (keyValue >= 48 && keyValue <= 57))
-                filter += Char.ToLower(Convert.ToChar(keyValue));
-            else
-                if (keyCode == Keys.Back)
-                {
-                    if (filter != String.Empty)
-                        filter = filter.Remove(filter.Length - 1);
-                }
-
-            if (filter != String.Empty)
-            {
-                filterTip.Show("Filtr: " + filter, comboBox, new System.Drawing.Point(0, 0));
-            }
-            else
-                filterTip.Hide(comboBox);
-
-            FilterItems();
-        }
-
-	/// <summary>
+	    /// <summary>
         /// Wywoływana, gdy rozwijana lista jest zwijana. Przełącza aktualnie wybrany element z wyświetlania długiego opisu na opis krótki.
         /// <param name="sender">Rozwijana lista konfigurowana w ramach obiektu.</param>
         private void comboBox_DropDownClosed(object sender, EventArgs e)
