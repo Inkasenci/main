@@ -232,7 +232,9 @@ namespace SZI
                 return false;
         }
 
+        /// <summary>
         /// Konstruktor obiektu. Inicjalizuje pola klasy i właściwości rozwijanej listy konfigurowanej w ramach obiektu.
+        /// </summary>
         /// <param name="tableName">Nazwa tabeli, której rekordy mają zasilić rozwijaną listę.</param>
         /// <param name="comboBoxName">Nazwa, która zostanie nadana tworzonej rozwijanej liście.</param>
         /// <param name="location">Położenie tworzonej rozwijanej listy na formularzu.</param>
@@ -298,7 +300,9 @@ namespace SZI
 
 	    /// <summary>
         /// Wywoływana, gdy rozwijana lista jest zwijana. Przełącza aktualnie wybrany element z wyświetlania długiego opisu na opis krótki.
+        /// </summary>
         /// <param name="sender">Rozwijana lista konfigurowana w ramach obiektu.</param>
+        /// <param name="e">Argumenty zdarzenia.</param>
         private void comboBox_DropDownClosed(object sender, EventArgs e)
         {
             if (filter != String.Empty)
