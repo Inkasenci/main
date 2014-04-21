@@ -117,13 +117,13 @@ namespace SZI
 
         /// <summary>
         /// Wywoływana po naciścnięciu przycisku "Usuń".
-        /// Usuwa zaznaczone rekordy, wcześniej sprawdzając, czy nie ma do nich odniesienia w innych tabelach.
+        /// Usuwa zaznaczone rekordy, wcześniej sprawdzając, czy nie ma do nich odniesień w innych tabelach.
         /// </summary>
         /// <param name="sender">Przycisk "Usuń".</param>
         /// <param name="e">Argumenty zdarzenia.</param>
         private void btDelete_Click(object sender, EventArgs e)
         {
-            bool idExists;
+            bool idExists = false;
             string tableName = string.Empty;
             DialogResult choiceFromMessageBox = DialogResult.Yes;
 
@@ -141,6 +141,9 @@ namespace SZI
                 case 4:
                     tableName = "Address";
                     break;
+                case 5:
+                    tableName = "Counter";
+                    break;
             }
 
             for (int i = 0; i < ids.Count; i++)
@@ -156,7 +159,7 @@ namespace SZI
 
             if (choiceFromMessageBox == DialogResult.Yes)
             {
-                DBManipulator.DeleteFromDB(ids, selectedTab);
+                DBManipulator.DeleteFromDB(ids, selectedTab, idExists);
                 closeForm_Click(sender, e);
             }
             SetButtonEnabledProperty(false, false);

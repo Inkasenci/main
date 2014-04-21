@@ -18,19 +18,19 @@ namespace SZI
         /// <summary>
         /// Liczba generowanych klientów.
         /// </summary>
-        static int numberOfCustomers = 10;
+        static int numberOfCustomers = 20;
         /// <summary>
         /// Liczba generowanych terenów. Nie może być większa niż liczba elementów tablicy streets w SampleDataSource
         /// </summary>
-        static int numberOfAreas = 5;
+        static int numberOfAreas = 10;
         /// <summary>
         /// Liczba generowanych liczników.
         /// </summary>
-        static int numberOfCounters = 10;
+        static int numberOfCounters = 20;
         /// <summary>
         /// Liczba generowanych adresów.
         /// </summary>
-        static int numberOfAddresses = 10;
+        static int numberOfAddresses = 20;
 
         /// <summary>
         /// Generuje inkasentów losowo dobierając wartości pól i dodaje ich do bazy.
@@ -130,7 +130,7 @@ namespace SZI
         }
 
         /// <summary>
-        /// Generuje liczniki losowo dobierając wartości pól. Losuje adres przypisany do danego licznika.
+        /// Generuje liczniki losowo dobierając wartości pól. Losuje adres i klienta przypisanego do danego licznika.
         /// </summary>
         static void GenerateCounters()
         {
@@ -142,7 +142,7 @@ namespace SZI
             {
                 counter = new Counter();
 
-                counter.CounterNo = rnd.Next(1, 10000);
+                counter.CounterNo = rnd.Next(1000, 10000);
                 while (MainValidation.CounterExists(counter.CounterNo))
                     counter.CounterNo = rnd.Next(1000, 10000);
                 counter.CircuitNo = rnd.Next(1000, 10000);
