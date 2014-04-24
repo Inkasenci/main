@@ -41,7 +41,7 @@ namespace SZI
             }
         }
 
-        private string FetchCustomer(string CustomerID) //zwraca imię i nazwisko klienta na podstawie jego ID
+        static public string FetchCustomer(string CustomerID) //zwraca imię i nazwisko klienta na podstawie jego ID
         {
             string FullName = "";
 
@@ -61,7 +61,7 @@ namespace SZI
             return FullName;
         }
 
-        private string FetchFullAddress(Guid AddressID) //zwraca pełny adres (ulica, numer domu i mieszkania) na podstawie AddressID
+        static public string FetchFullAddress(Guid AddressID) //zwraca pełny adres (ulica, numer domu i mieszkania) na podstawie AddressID
         {
             string FullAddressString = "";
 

@@ -10,15 +10,27 @@ using System.Windows.Forms;
 
 namespace SZI
 {
-    public partial class InsertForm : Form
+    public partial class InsertForm : Form, IForm
     {
-        private int selectedTab = 0;
+        private int selectedTab;
 
         private bool CollectorEPInitialized = false, CustomerEPInitialized = false, AreaEPInitialized = false, CounterEPInitialized = false, AddressEPInitialized = false;
         private Dictionary<string, ValidatingMethod> NameToMethod_Dict;
         private Dictionary<Control, ErrorProvider> ControltoEP_Collector_Dict, ControltoEP_Customer_Dict, ControltoEP_Area_Dict, ControltoEP_Counter_Dict, ControltoEP_Address_Dict, Current_ControltoEP_Dict;
         private Dictionary<Control, bool> ControlToBool_Collector_Dict, ControlToBool_Customer_Dict, ControlToBool_Area_Dict, ControlToBool_Counter_Dict, ControlToBool_Address_Dict, Current_ControlToBool_Dict;
         private ComboBoxConfig cbcCustomer, cbcCollector, cbcArea, cbcAddress;
+        private bool modified = false;
+
+        /// <summary>
+        /// Zwraca wartość logiczną, która określa czy baza została zmieniona.
+        /// </summary>
+        public bool Modified
+        {
+            get
+            {
+                return this.modified;
+            }
+        }
 
         public InsertForm(int MainFormSelectedTab)
         {
@@ -274,6 +286,7 @@ namespace SZI
             if (Auxiliary.IsCurrentValueOK(Current_ControlToBool_Dict))
             {
                 c.InsertIntoDB();
+		modified = true;
                 return true;
             }
             else
@@ -297,6 +310,7 @@ namespace SZI
             if (Auxiliary.IsCurrentValueOK(Current_ControlToBool_Dict))
             {
                 c.InsertIntoDB();
+                modified = true;
                 return true;
             }
             else
@@ -316,6 +330,7 @@ namespace SZI
             if (Auxiliary.IsCurrentValueOK(Current_ControlToBool_Dict))
             {
                 a.InsertIntoDB();
+                modified = true;
                 return true;
             }
             else
@@ -344,6 +359,7 @@ namespace SZI
 
                 }
                 c.InsertIntoDB();
+                modified = true;
                 return true;
             }
             else
@@ -369,6 +385,7 @@ namespace SZI
             {
                 a.AreaId = new Guid(cbcArea.ReturnForeignKey());
                 a.InsertIntoDB();
+                modified = true;
                 return true;
             }
             else

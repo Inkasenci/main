@@ -40,7 +40,7 @@ namespace SZI
             }
         }
 
-        private string FetchAreaAndCollector(Guid AreaID) //zwraca przypisany do adresu teren i przypisanego do niego inkasenta
+        static public string FetchAreaAndCollector(Guid AreaID) //zwraca przypisany do adresu teren i przypisanego do niego inkasenta
         {
             string AreaAndCollector = "";
 
