@@ -78,12 +78,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Areas.cs" />
-    <Compile Include="AssociatedRecordsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AssociatedRecordsForm.Designer.cs">
-      <DependentUpon>AssociatedRecordsForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Auxiliary.cs" />
     <Compile Include="CheckCounters.cs">
       <SubType>Form</SubType>
