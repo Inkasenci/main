@@ -105,7 +105,7 @@ namespace SZI
             "Marta",
             "Nina",
             "Katarzyna",
-            "Domminika",
+            "Dominika",
             "Helena",
             "Joanna",
             "Laura",
