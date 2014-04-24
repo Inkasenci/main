@@ -8,6 +8,9 @@ using System.Windows.Forms;
 namespace SZI
 {
     public delegate bool ValidatingMethod(string S);
+
+    public enum Tables { Collectors, Customers, Areas, Counters, Addresses};
+
     public static class Auxiliary
     {
         public static bool IsCurrentValueOK(Dictionary<Control, bool> Dict)

@@ -146,53 +146,52 @@ namespace SZI
         /// Zwraca rekordy powiązane z zaznaczonym w ListView Inkasentem
         /// </summary>
         /// <returns>Rekordy powiązane z zaznaczonym w ListView Inkasentem</returns>
-        private string ReturnRecordsAssociatedWithCollector()
+        private List<List<string>> ReturnRecordsAssociatedWithCollector()
         {
             string CollectorID = ids[0];
-            string associatedRecords = String.Empty;
+            List<List<string>> AssociatedRecords = new List<List<string>>();
 
             using (var database = new CollectorsManagementSystemEntities())
             {
-                var foreignResult = from f in database.Areas 
+                var foreignResult = (from f in database.Areas 
                                     where f.CollectorId == CollectorID 
-                                    select f;
+                                    select f).ToList();
 
-                associatedRecords += "Liczba powiązanych Terenów: " + foreignResult.Count().ToString() + "\n";
-                foreach (Area a in foreignResult)
-                     associatedRecords += a.AreaId + " " + a.Street + "\n";           
-
-                var foreignResult2 = from f in database.Readings where f.CollectorId == CollectorID select f;
-
-                associatedRecords += "\nLiczba powiązanych Odczytów: " + foreignResult2.Count().ToString() + "\n";
-                foreach (Reading r in foreignResult2)
-                    associatedRecords += r.ReadingId.ToString() + " " + r.CounterNo.ToString() + r.Date.ToShortDateString() + r.Value.ToString() + "\n";                  
+                for (int i = 0; i < foreignResult.Count(); i++)
+                {
+                    AssociatedRecords.Add(new List<string>());
+                    AssociatedRecords[i].Add(foreignResult[i].AreaId.ToString());
+                    AssociatedRecords[i].Add(foreignResult[i].Street);
+                }                                         
              }
 
-            return associatedRecords;
+            return AssociatedRecords;
         }
 
         /// <summary>
         /// Zwraca rekordy powiązane z zaznaczonym w ListView Klientem
         /// </summary>
         /// <returns>Rekordy powiązane z zaznaczonym w ListView Klientem</returns>
-        private string ReturnRecordsAssociatedWithCustomer()
+        private List<List<string>> ReturnRecordsAssociatedWithCustomer()
         {
             string CustomerID = ids[0];
-            string AssociatedRecords = String.Empty;
+            List<List<string>> AssociatedRecords = new List<List<string>>();
 
             using (var database = new CollectorsManagementSystemEntities())
             {
 
-                var foreignResult = from f in database.Counters
+                var foreignResult = (from f in database.Counters
                                     where f.CustomerId == CustomerID 
-                                    select f;
+                                    select f).ToList();
 
-                AssociatedRecords += "Liczba powiązanych Liczników: " + foreignResult.Count() + "\n";
-                foreach (Counter c in foreignResult)
-                    AssociatedRecords += c.CircuitNo.ToString() + " " +
-                                        c.CounterNo.ToString() + " " + 
-                                        (c.AddressId.HasValue ? Counters.FetchFullAddress(c.AddressId.Value) : string.Empty) + "\n";
-                                         
+                for (int i = 0; i < foreignResult.Count(); i++)
+                {
+                    AssociatedRecords.Add(new List<string>());
+                    AssociatedRecords[i].Add(foreignResult[i].CircuitNo.ToString());
+                    AssociatedRecords[i].Add(foreignResult[i].CounterNo.ToString());
+                    AssociatedRecords[i].Add(foreignResult[i].AddressId.HasValue ? Counters.FetchFullAddress(foreignResult[i].AddressId.Value) : String.Empty);
+
+                }                      
             }
 
             return AssociatedRecords;
@@ -202,24 +201,24 @@ namespace SZI
         /// Zwraca rekordy powiązane z zaznaczonym w ListView Terenem
         /// </summary>
         /// <returns>Rekordy powiązane z zaznaczonym w ListView Terenem</returns>
-        private string ReturnRecordsAssociatedWithArea()
+        private List<List<string>> ReturnRecordsAssociatedWithArea()
         {
             Guid AreaID = new Guid(ids[0]);
-            string AssociatedRecords = String.Empty;
+            List<List<string>> AssociatedRecords = new List<List<string>>();
 
             using (var database = new CollectorsManagementSystemEntities())
             {
-                var foreignResult = from f in database.Addresses 
+                var foreignResult = (from f in database.Addresses 
                                     where f.AreaId == AreaID 
-                                    select f;
+                                    select f).ToList();
 
-                AssociatedRecords += "Liczba powiązanych Adresów: " + foreignResult.Count() + "\n";
-                foreach (Address a in foreignResult)
-                    AssociatedRecords += a.AddressId.ToString() + " " +
-                                        a.HouseNo.ToString() +
-                                        (a.FlatNo != null ? "/" + a.FlatNo.ToString() : String.Empty) + "\n";
-            
-
+                for (int i = 0; i < foreignResult.Count(); i++)
+                {
+                    AssociatedRecords.Add(new List<string>());
+                    AssociatedRecords[i].Add(foreignResult[i].AddressId.ToString());
+                    AssociatedRecords[i].Add(foreignResult[i].HouseNo.ToString());
+                    AssociatedRecords[i].Add(foreignResult[i].FlatNo.ToString());    
+                } 
             }
             return AssociatedRecords;
         }
@@ -228,26 +227,25 @@ namespace SZI
         /// Zwraca rekordy powiązane z zaznaczonym w ListView Licznikiem
         /// </summary>
         /// <returns>Rekordy powiązane z zaznaczonym w ListView Licznikiem</returns>
-        private string ReturnRecordsAssociatedWithCounter()
+        private List<List<string>> ReturnRecordsAssociatedWithCounter()
         {
             int CounterID = Convert.ToInt32(ids[0]);
-            string AssociatedRecords = String.Empty;
+            List<List<string>> AssociatedRecords = new List<List<string>>();
 
             using (var database = new CollectorsManagementSystemEntities())
             {
-                var foreignResult = from f in database.Readings 
-                                    where f.CounterNo == CounterID 
-                                    select f;
+                var foreignResult = (from f in database.Readings
+                                     where f.CounterNo == CounterID
+                                     select f).ToList();
 
-                AssociatedRecords+="Liczba powiązanych odczytów: " + foreignResult.Count().ToString() + "\n";
-                foreach (Reading r in foreignResult)
-                    AssociatedRecords += r.ReadingId.ToString() + " " +
-                                         Areas.FetchCollector(r.CollectorId) + " " +
-                                         r.CounterNo.ToString() + " " +
-                                         r.Date.ToShortDateString() + " " + 
-                                         r.Value.ToString() + "\n";
-                }            
-
+                for (int i = 0; i < foreignResult.Count(); i++)
+                {
+                    AssociatedRecords.Add(new List<string>());
+                    AssociatedRecords[i].Add(foreignResult[i].ReadingId.ToString());
+                    AssociatedRecords[i].Add(foreignResult[i].Date.ToShortDateString());
+                    AssociatedRecords[i].Add(foreignResult[i].Value.ToString());
+                }
+            }
             return AssociatedRecords;
         }
 
@@ -255,23 +253,26 @@ namespace SZI
         /// Zwraca rekordy powiązane z zaznaczonym w ListView Adresem
         /// </summary>
         /// <returns>Rekordy powiązane z zaznaczonym w ListView Adresem</returns>
-        private string ReturnRecordsAssociatedWithAddress()
+        private List<List<string>> ReturnRecordsAssociatedWithAddress()
         {
             Guid AddressID = new Guid(ids[0]);
-            string AssociatedRecords = String.Empty;
+            List<List<string>> AssociatedRecords = new List<List<string>>();
 
             using (var database = new CollectorsManagementSystemEntities())
             {
-                var foreignResult = from f in database.Counters
+                var foreignResult = (from f in database.Counters
                                     where f.AddressId == AddressID 
-                                    select f;
+                                    select f).ToList();
 
-                AssociatedRecords += "Liczba powiązanych Liczników: " + foreignResult.Count().ToString() + "\n";
-                foreach (Counter c in foreignResult)
-                    AssociatedRecords += c.CounterNo.ToString() + " " +
-                                       c.CircuitNo.ToString() + " " +
-                                       Counters.FetchFullAddress(AddressID) + " " +
-                                       Counters.FetchCustomer(c.CustomerId) + "\n";
+                for (int i = 0; i < foreignResult.Count(); i++)
+                {
+                    AssociatedRecords.Add(new List<string>());
+                    AssociatedRecords[i].Add(foreignResult[i].CounterNo.ToString());
+                    AssociatedRecords[i].Add(foreignResult[i].CircuitNo.ToString());
+                    AssociatedRecords[i].Add(Counters.FetchFullAddress(foreignResult[i].AddressId.Value));
+                    AssociatedRecords[i].Add(Counters.FetchCustomer(foreignResult[i].CustomerId));
+
+                }
             }
 
             return AssociatedRecords;
@@ -284,38 +285,36 @@ namespace SZI
         /// <param name="e">Nieistotny parametr, niezbędny do przypisania metody do EventHandlera ToolStripItemu</param>
         private void ShowAssociatedRecords(object sender, EventArgs e)
         {
-            string AssociatedRecords = String.Empty;
+            List<List<string>> AssociatedRecords;
 
-            if (listView[selectedTab].SelectedIndices.Count == 1)
+            switch ((Tables)selectedTab)
             {
-                switch (selectedTab)
-                {
-                    case 0:
-                        AssociatedRecords = ReturnRecordsAssociatedWithCollector();
-                        break;
+                case Tables.Collectors:
+                    AssociatedRecords = ReturnRecordsAssociatedWithCollector();
+                    break;
 
-                    case 1:
-                        AssociatedRecords = ReturnRecordsAssociatedWithCustomer();
-                        break;
+                case Tables.Customers:
+                    AssociatedRecords = ReturnRecordsAssociatedWithCustomer();
+                    break;
 
-                    case 2:
-                        AssociatedRecords = ReturnRecordsAssociatedWithArea();
-                        break;
+                case Tables.Areas:
+                    AssociatedRecords = ReturnRecordsAssociatedWithArea();
+                    break;
 
-                    case 3:
-                        AssociatedRecords = ReturnRecordsAssociatedWithCounter();
-                        break;
-                        
-                    case 4:
-                        AssociatedRecords = ReturnRecordsAssociatedWithAddress();
-                        break;
+                case Tables.Counters:
+                    AssociatedRecords = ReturnRecordsAssociatedWithCounter();
+                    break;
 
-                    default:
-                        break;
-                }
+                case Tables.Addresses:
+                    AssociatedRecords = ReturnRecordsAssociatedWithAddress();
+                    break;
 
-                MessageBox.Show(AssociatedRecords, "Powiązane rekordy");
+                default:
+                    AssociatedRecords = new List<List<string>>();
+                    break;
             }
+            AssociatedRecordsForm asr = new AssociatedRecordsForm(AssociatedRecords, (Tables)selectedTab);
+            asr.ShowDialog();            
         }
 
         /// <summary>
@@ -353,7 +352,8 @@ namespace SZI
                         if (j != lv.SelectedItems[i].SubItems.Count - 1)
                             clipboard += '\t';
                     }
-                    clipboard += "\n";
+                    if (i != lv.SelectedItems.Count - 1)
+                        clipboard += "\n";
                 }
                 Clipboard.SetText(clipboard);
             }
@@ -419,6 +419,59 @@ namespace SZI
             closeForm_Click(sender, e);
         }
 
+        /// <summary>
+        /// Odświeża ListView odpowiadające zmodyfikowanej tabeli, a także powiązane z nią ListView, które zawierają klucze obce.
+        /// </summary>
+        /// <param name="ModifiedTable">Zmodyfikowana tabela.</param>
+        private void RefreshNecessaryTables(Tables ModifiedTable)
+        {
+            switch (ModifiedTable)
+            {
+                case Tables.Collectors: //jeśli zmieniono coś w inkasentach, to odświez inkasentów, tereny i adresy
+                    dataBase[(int)Tables.Collectors].RefreshList();
+                    ListViewConfig.ListViewRefresh(listView[(int)Tables.Collectors], dataBase[(int)Tables.Collectors].itemList);
+
+                    dataBase[(int)Tables.Areas].RefreshList();
+                    ListViewConfig.ListViewRefresh(listView[(int)Tables.Areas], dataBase[(int)Tables.Areas].itemList);
+
+                    dataBase[(int)Tables.Addresses].RefreshList();
+                    ListViewConfig.ListViewRefresh(listView[(int)Tables.Addresses], dataBase[(int)Tables.Addresses].itemList);
+                    break;
+
+                case Tables.Customers: //jeśli zmieniono coś w klientach, to odświez klientów i liczniki
+                    dataBase[(int)Tables.Customers].RefreshList();
+                    ListViewConfig.ListViewRefresh(listView[(int)Tables.Customers], dataBase[(int)Tables.Customers].itemList);
+
+                    dataBase[(int)Tables.Counters].RefreshList();
+                    ListViewConfig.ListViewRefresh(listView[(int)Tables.Counters], dataBase[(int)Tables.Counters].itemList);
+                    break;
+
+                case Tables.Areas: //jeśli zmieniono coś w terenach, to odświez tereny, liczniki i adresy
+                    dataBase[(int)Tables.Areas].RefreshList();
+                    ListViewConfig.ListViewRefresh(listView[(int)Tables.Areas], dataBase[(int)Tables.Areas].itemList);
+
+                    dataBase[(int)Tables.Counters].RefreshList();
+                    ListViewConfig.ListViewRefresh(listView[(int)Tables.Counters], dataBase[(int)Tables.Counters].itemList);
+
+                    dataBase[(int)Tables.Addresses].RefreshList();
+                    ListViewConfig.ListViewRefresh(listView[(int)Tables.Addresses], dataBase[(int)Tables.Addresses].itemList);
+                    break;
+
+                case Tables.Counters:
+                    dataBase[(int)Tables.Counters].RefreshList();
+                    ListViewConfig.ListViewRefresh(listView[(int)Tables.Counters], dataBase[(int)Tables.Counters].itemList);
+                    break;
+
+                case Tables.Addresses:
+                    dataBase[(int)Tables.Addresses].RefreshList();
+                    ListViewConfig.ListViewRefresh(listView[(int)Tables.Addresses], dataBase[(int)Tables.Addresses].itemList);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
         // Data refresh
         private void closeForm_Click(object sender, EventArgs e)
         {
@@ -426,12 +479,7 @@ namespace SZI
             
             if (form.Modified) //jeśli dokonano modyfikacji lub dodania rekordu, to odśwież listę
             {
-                if (form.GetType() == typeof(InsertForm) || form.GetType() == typeof(ConfigManagementForm)) //jeśli wprowadzono rekord, lub usunięto, lub odświeżenie
-                {
-                    dataBase[selectedTab].RefreshList();
-                    ListViewConfig.ListViewRefresh(listView[selectedTab], dataBase[selectedTab].itemList);
-                }
-                else //zmodyfikowano jakiś rekord
+                if (form.GetType() == typeof(ConfigManagementForm)) //jeśli naciśnięto przycisk odśwież na formie
                 {
                     int i = 0;
                     foreach (var data in dataBase)
@@ -439,6 +487,15 @@ namespace SZI
                         data.RefreshList();
                         ListViewConfig.ListViewRefresh(listView[i++], data.itemList);
                     }
+                }
+                else if (form.Modified && form.GetType() == typeof(InsertForm)) //jeśli wprowadzono rekord
+                {
+                    dataBase[selectedTab].RefreshList();
+                    ListViewConfig.ListViewRefresh(listView[selectedTab], dataBase[selectedTab].itemList);
+                }
+                else if (form.Modified)//zmodyfikowano/usunięto rekord
+                {
+                    RefreshNecessaryTables((Tables)selectedTab);
                 }
             }
         }
