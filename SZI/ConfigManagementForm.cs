@@ -313,8 +313,8 @@ namespace SZI
                     AssociatedRecords = new List<List<string>>();
                     break;
             }
-            AssociatedRecordsForm asr = new AssociatedRecordsForm(AssociatedRecords, (Tables)selectedTab);
-            asr.ShowDialog();            
+            //AssociatedRecordsForm asr = new AssociatedRecordsForm(AssociatedRecords, (Tables)selectedTab);
+            //asr.ShowDialog();            
         }
 
         /// <summary>
