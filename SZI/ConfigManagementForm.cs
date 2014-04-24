@@ -49,7 +49,7 @@ namespace SZI
         // Data tabControl init
         private void MainTabControlInit()
         {
-            // Deklaracja            
+            // Deklaracja
             TabPage[] tabPages;
             string[] tabNames;
             ContextMenuStrip contextMenu;
@@ -153,17 +153,17 @@ namespace SZI
 
             using (var database = new CollectorsManagementSystemEntities())
             {
-                var foreignResult = (from f in database.Areas 
-                                    where f.CollectorId == CollectorID 
-                                    select f).ToList();
+                var foreignResult = (from f in database.Areas
+                                     where f.CollectorId == CollectorID
+                                     select f).ToList();
 
                 for (int i = 0; i < foreignResult.Count(); i++)
                 {
                     AssociatedRecords.Add(new List<string>());
                     AssociatedRecords[i].Add(foreignResult[i].AreaId.ToString());
                     AssociatedRecords[i].Add(foreignResult[i].Street);
-                }                                         
-             }
+                }
+            }
 
             return AssociatedRecords;
         }
@@ -181,8 +181,8 @@ namespace SZI
             {
 
                 var foreignResult = (from f in database.Counters
-                                    where f.CustomerId == CustomerID 
-                                    select f).ToList();
+                                     where f.CustomerId == CustomerID
+                                     select f).ToList();
 
                 for (int i = 0; i < foreignResult.Count(); i++)
                 {
@@ -191,7 +191,7 @@ namespace SZI
                     AssociatedRecords[i].Add(foreignResult[i].CounterNo.ToString());
                     AssociatedRecords[i].Add(foreignResult[i].AddressId.HasValue ? Counters.FetchFullAddress(foreignResult[i].AddressId.Value) : String.Empty);
 
-                }                      
+                }
             }
 
             return AssociatedRecords;
@@ -208,17 +208,17 @@ namespace SZI
 
             using (var database = new CollectorsManagementSystemEntities())
             {
-                var foreignResult = (from f in database.Addresses 
-                                    where f.AreaId == AreaID 
-                                    select f).ToList();
+                var foreignResult = (from f in database.Addresses
+                                     where f.AreaId == AreaID
+                                     select f).ToList();
 
                 for (int i = 0; i < foreignResult.Count(); i++)
                 {
                     AssociatedRecords.Add(new List<string>());
                     AssociatedRecords[i].Add(foreignResult[i].AddressId.ToString());
                     AssociatedRecords[i].Add(foreignResult[i].HouseNo.ToString());
-                    AssociatedRecords[i].Add(foreignResult[i].FlatNo.ToString());    
-                } 
+                    AssociatedRecords[i].Add(foreignResult[i].FlatNo.ToString());
+                }
             }
             return AssociatedRecords;
         }
@@ -261,8 +261,8 @@ namespace SZI
             using (var database = new CollectorsManagementSystemEntities())
             {
                 var foreignResult = (from f in database.Counters
-                                    where f.AddressId == AddressID 
-                                    select f).ToList();
+                                     where f.AddressId == AddressID
+                                     select f).ToList();
 
                 for (int i = 0; i < foreignResult.Count(); i++)
                 {
@@ -313,8 +313,8 @@ namespace SZI
                     AssociatedRecords = new List<List<string>>();
                     break;
             }
-            //AssociatedRecordsForm asr = new AssociatedRecordsForm(AssociatedRecords, (Tables)selectedTab);
-            //asr.ShowDialog();            
+            AssociatedRecordsForm asr = new AssociatedRecordsForm(AssociatedRecords, (Tables)selectedTab);
+            asr.ShowDialog();
         }
 
         /// <summary>
@@ -332,32 +332,7 @@ namespace SZI
             return items;
         }
 
-        /// <summary>
-        /// Kopiuje zaznaczone elementy listy do schowka
-        /// </summary>
-        /// <param name="sender">Nieistotny parametr, niezbędny do przypisania metody do EventHandlera ToolStripItemu</param>
-        /// <param name="e">Nieistotny parametr, niezbędny do przypisania metody do EventHandlera ToolStripItemu</param>
-        private void CopyItemstoClipboard(object sender, EventArgs e)
-        {
-            string clipboard = string.Empty;
-            ListView lv = listView[selectedTab];
 
-            if (lv.SelectedItems.Count > 0)
-            {
-                for (int i = 0; i < lv.SelectedItems.Count; i++)
-                {
-                    for (int j = 0; j < lv.SelectedItems[i].SubItems.Count; j++)
-                    {
-                        clipboard += lv.SelectedItems[i].SubItems[j].Text;
-                        if (j != lv.SelectedItems[i].SubItems.Count - 1)
-                            clipboard += '\t';
-                    }
-                    if (i != lv.SelectedItems.Count - 1)
-                        clipboard += "\n";
-                }
-                Clipboard.SetText(clipboard);
-            }
-        }
 
         /// <summary>
         /// Ustawia właściwość "Enabled" dla przycisków "Usuń" i "Modyfikuj".
@@ -368,7 +343,7 @@ namespace SZI
         {
             btDelete.Enabled = btDeleteEnabledProperty;
             btModify.Enabled = btModifyEnabledProperty;
-        }        
+        }
 
         /// <summary>
         /// Zaznacza wszystkie itemy w aktywnej ListView
@@ -385,8 +360,18 @@ namespace SZI
             }
 
         }
-        
+
         #region EventHandlery
+
+        /// <summary>
+        /// Metoda wywołująca właściwą metodę kopiującą itemy aktywnego ListView do schowka. Przekazuje do niej jako parametr aktywne ListView.
+        /// </summary>
+        /// <param name="sender">Element ContextMenuToolStrip który został naciśnięty.</param>
+        /// <param name="e">Parametry zdarzenia.</param>
+        private void CopyItemstoClipboard(object sender, EventArgs e)
+        {
+            Auxiliary.CopyItemstoClipboard(listView[selectedTab], e);
+        }
 
         /// <summary>
         /// Metoda wywoływana przy otwieraniu ContextToolStripMenu. Przypisuje odpowiednią kolekcję itemów w zależności od liczby zaznaczonych itemów.
@@ -402,21 +387,6 @@ namespace SZI
             if (SourceListView.SelectedItems.Count == 1)
             {
                 cms.Items.AddRange(Items_SingleSelection);
-            }
-            else if (SourceListView.SelectedItems.Count > 1)
-                cms.Items.AddRange(Items_MultipleSelection);
-            else
-            {
-                cms.Items.AddRange(Items_NoSelection);
-            }
-            e.Cancel = false; //nie mam pojęcia dlaczego, ale dzięki temu menu otworzy się po pierwszym kliknięciu
-
-        }
-
-        // List wiew refresh ( every tick = 15 min [ 900000 ms ] )
-        private void timerRefresh_Tick(object sender, EventArgs e)
-        {
-            closeForm_Click(sender, e);
             }
             else if (SourceListView.SelectedItems.Count > 1)
                 cms.Items.AddRange(Items_MultipleSelection);
@@ -491,7 +461,7 @@ namespace SZI
         private void closeForm_Click(object sender, EventArgs e)
         {
             IForm form = (IForm)sender;
-            
+
             if (form.Modified) //jeśli dokonano modyfikacji lub dodania rekordu, to odśwież listę
             {
                 if (form.GetType() == typeof(ConfigManagementForm)) //jeśli naciśnięto przycisk odśwież na formie
@@ -508,18 +478,6 @@ namespace SZI
                     dataBase[selectedTab].RefreshList();
                     ListViewConfig.ListViewRefresh(listView[selectedTab], dataBase[selectedTab].itemList);
                 }
-                else if (form.Modified)//zmodyfikowano/usunięto rekord
-                {
-                    RefreshNecessaryTables((Tables)selectedTab);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Ustawia zmienną selectedTab na liczbę odpowiadającą wybranej zakładce
-        /// </summary>
-        /// <param name="sender">TabControl w ConfigManagementFormie</param>
-        /// <param name="e">Parametry zdarzenia</param>
                 else if (form.Modified)//zmodyfikowano/usunięto rekord
                 {
                     RefreshNecessaryTables((Tables)selectedTab);
@@ -555,7 +513,7 @@ namespace SZI
             }
             else if (e.KeyCode == Keys.C && e.Control)// Ctrl + c - skopiowanie zaznaczonych itemów do schowka
             {
-                CopyItemstoClipboard(null, null);
+                Auxiliary.CopyItemstoClipboard(listView[selectedTab], null);
             }
             else if (e.KeyCode == Keys.Delete) //Delete - równoznaczne z kliknięciem przycisku
             {
@@ -682,7 +640,7 @@ namespace SZI
             listView[selectedTab].Items[selectedIndex].Selected = true;
             SetButtonEnabledProperty(true, true);
         }
-        
+
         // Refresh data button
         private void btRefresh_Click(object sender, EventArgs e)
         {
@@ -692,5 +650,5 @@ namespace SZI
         #endregion
 
         #endregion
-    }        
+    }
 }

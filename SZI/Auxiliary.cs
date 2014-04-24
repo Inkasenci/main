@@ -13,6 +13,33 @@ namespace SZI
 
     public static class Auxiliary
     {
+        /// <summary>
+        /// Kopiuje zaznaczone elementy listy do schowka.
+        /// </summary>
+        /// <param name="sender">ListView, której elementy zostaną skopiowane.</param>
+        /// <param name="e">Nieistotny parametr, niezbędny do przypisania metody do EventHandlera ToolStripItemu.</param>
+        public static void CopyItemstoClipboard(object sender, EventArgs e)
+        {
+            string clipboard = string.Empty;
+            ListView lv = (ListView)sender;
+
+            if (lv.SelectedItems.Count > 0)
+            {
+                for (int i = 0; i < lv.SelectedItems.Count; i++)
+                {
+                    for (int j = 0; j < lv.SelectedItems[i].SubItems.Count; j++)
+                    {
+                        clipboard += lv.SelectedItems[i].SubItems[j].Text;
+                        if (j != lv.SelectedItems[i].SubItems.Count - 1)
+                            clipboard += '\t';                            
+                    }
+
+                    clipboard += "\n";
+                }
+                Clipboard.SetText(clipboard);
+            }
+        }
+
         public static bool IsCurrentValueOK(Dictionary<Control, bool> Dict)
         {
             Dictionary<Control, bool>.ValueCollection valueColl = Dict.Values;
