@@ -12,7 +12,7 @@ namespace SZI
 {
     public partial class InsertForm : Form, IForm
     {
-        private int selectedTab = 0;
+        private int selectedTab;
 
         private bool CollectorEPInitialized = false, CustomerEPInitialized = false, AreaEPInitialized = false, CounterEPInitialized = false, AddressEPInitialized = false;
         private Dictionary<string, ValidatingMethod> NameToMethod_Dict;
