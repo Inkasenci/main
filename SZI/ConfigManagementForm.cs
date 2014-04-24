@@ -417,6 +417,21 @@ namespace SZI
         private void timerRefresh_Tick(object sender, EventArgs e)
         {
             closeForm_Click(sender, e);
+            }
+            else if (SourceListView.SelectedItems.Count > 1)
+                cms.Items.AddRange(Items_MultipleSelection);
+            else
+            {
+                cms.Items.AddRange(Items_NoSelection);
+            }
+            e.Cancel = false; //nie mam pojęcia dlaczego, ale dzięki temu menu otworzy się po pierwszym kliknięciu
+
+        }
+
+        // List wiew refresh ( every tick = 15 min [ 900000 ms ] )
+        private void timerRefresh_Tick(object sender, EventArgs e)
+        {
+            closeForm_Click(sender, e);
         }
 
         /// <summary>
@@ -493,6 +508,18 @@ namespace SZI
                     dataBase[selectedTab].RefreshList();
                     ListViewConfig.ListViewRefresh(listView[selectedTab], dataBase[selectedTab].itemList);
                 }
+                else if (form.Modified)//zmodyfikowano/usunięto rekord
+                {
+                    RefreshNecessaryTables((Tables)selectedTab);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Ustawia zmienną selectedTab na liczbę odpowiadającą wybranej zakładce
+        /// </summary>
+        /// <param name="sender">TabControl w ConfigManagementFormie</param>
+        /// <param name="e">Parametry zdarzenia</param>
                 else if (form.Modified)//zmodyfikowano/usunięto rekord
                 {
                     RefreshNecessaryTables((Tables)selectedTab);
