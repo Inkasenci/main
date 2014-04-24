@@ -226,7 +226,7 @@ namespace SZI
         /// <returns>true - badany obiekt jest poszukiwanym obiektem.</returns>
         private bool FindItem(ComboBoxItem item)
         {
-            if (comboBox.SelectedIndex >= 0)
+            if (comboBox.SelectedIndex >= 0 && comboBox.Items.Count > 0)
                 if (item.longItemDescription == comboBox.Items[comboBox.SelectedIndex].ToString())
                     return true;
             return false;
