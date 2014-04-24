@@ -226,10 +226,10 @@ namespace SZI
         /// <returns>true - badany obiekt jest poszukiwanym obiektem.</returns>
         private bool FindItem(ComboBoxItem item)
         {
-            if (item.longItemDescription == comboBox.Items[comboBox.SelectedIndex].ToString())
-                return true;
-            else
-                return false;
+            if (comboBox.SelectedIndex >= 0)
+                if (item.longItemDescription == comboBox.Items[comboBox.SelectedIndex].ToString())
+                    return true;
+            return false;
         }
 
         /// <summary>
@@ -253,6 +253,7 @@ namespace SZI
             comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox.DropDown += comboBox_DropDown;
             comboBox.DropDownClosed += comboBox_DropDownClosed;
+            comboBox.LostFocus += comboBox_DropDownClosed;
             comboBox.SelectedIndex = 0;
 
             if (foreignKey != String.Empty)
