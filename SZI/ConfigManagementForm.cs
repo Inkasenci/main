@@ -12,21 +12,48 @@ using System.IO;
 
 namespace SZI
 {
-    public partial class ConfigManagementForm : Form
+    public partial class ConfigManagementForm : Form, IForm
     {
         private int selectedTab = 0;
         private TabControl tabControl;
         private ListView.SelectedIndexCollection indexes; //indeksy zaznaczonych w danym momencie elementów listView w aktywnej zakładce
         private IDataBase[] dataBase;
-        List<string> ids;
-        ListView[] listView;
+        private List<string> ids;
+        private ListView[] listView;
+        private ToolStripItemCollection Items_SingleSelection;
+        private ToolStripItemCollection Items_MultipleSelection;
+        private ToolStripItemCollection Items_NoSelection;
+        /// <summary>
+        /// Pole potrzebne do poprawnego działania metody closeForm_Click. Wartość jest zawsze prawdziwa.
+        /// </summary>
+        private bool modified = true;
+
+        /// <summary>
+        /// Właściwość potrzebna do poprawnego działania metody closeForm_Click.
+        /// </summary>
+        public bool Modified
+        {
+            get
+            {
+                return this.modified;
+            }
+        }
+
+        // Initialize DB form
+        public ConfigManagementForm()
+        {
+            InitializeComponent();
+            MainTabControlInit();
+        }
 
         // Data tabControl init
         private void MainTabControlInit()
         {
-            // Deklaracja            
+            // Deklaracja
             TabPage[] tabPages;
             string[] tabNames;
+            ContextMenuStrip contextMenu;
+
 
             // Inicjalizacja
             tabNames = new string[5] { "Inkasenci", "Klienci", "Tereny", "Liczniki", "Adresy" };
@@ -34,6 +61,10 @@ namespace SZI
             tabPages = new TabPage[5];
             dataBase = new IDataBase[5] { new Collectors(), new Customers(), new Areas(), new Counters(), new Addresses() };
             listView = new ListView[dataBase.Length];
+            contextMenu = CreateContextMenu();
+            Items_SingleSelection = CreateContextMenuItems_SingleSelection(contextMenu);
+            Items_NoSelection = CreateContextMenuItems_NoSelection(contextMenu);
+            Items_MultipleSelection = CreateContextMenuItems_MultipleSelection(contextMenu);
             timerRefresh.Start();
 
             // Tworzenie tabControl
@@ -48,6 +79,8 @@ namespace SZI
                 tabPages[i].Name = tabPages[i].Text = tabNames[i];
                 listView[i] = ListViewConfig.ListViewInit(dataBase[i].columnList, dataBase[i].className, dataBase[i].itemList);
                 listView[i].SelectedIndexChanged += lv_SelectedIndexChanged;
+                listView[i].KeyDown += ListView_KeyDown;
+                listView[i].ContextMenuStrip = contextMenu;
                 tabPages[i].Controls.Add(listView[i]);
             }
 
@@ -58,6 +91,248 @@ namespace SZI
 
             tabControl.SelectedIndexChanged += tabControl_SelectedIndexChanged;
         }
+
+
+        /// <summary>
+        /// Tworzy ContextMenuStrip, które jest później przypisywane do wszystkich ListView
+        /// </summary>
+        /// <returns>Stworzone ContextMenuStrip</returns>
+        private ContextMenuStrip CreateContextMenu()
+        {
+            ContextMenuStrip contextMenu = new ContextMenuStrip();
+            contextMenu.Opening += contextMenu_Opening;
+            return contextMenu;
+        }
+
+        /// <summary>
+        /// Tworzy kolekcję itemów dla ContextMenuStrip gdy zaznaczony jest w ListView jeden item
+        /// </summary>
+        /// <param name="Owner">ContextMenuStrip do którego kolekcja zostanie przypisana</param>
+        /// <returns>Kolekcja itemów</returns>
+        private ToolStripItemCollection CreateContextMenuItems_SingleSelection(object Owner)
+        {
+            ToolStripItemCollection items = new ToolStripItemCollection(Owner as ContextMenuStrip, new ToolStripItem[]
+            {
+                new ToolStripMenuItem("Kopiuj", null, CopyItemstoClipboard, Keys.Control | Keys.C),
+                new ToolStripMenuItem("Usuń", null, btDelete_Click, Keys.Delete),
+                new ToolStripSeparator(),
+                new ToolStripMenuItem("Zaznacz wszystko", null, SelectAllItems, Keys.Control | Keys.A),
+                new ToolStripSeparator(),
+                new ToolStripMenuItem("Wyświetl powiązane rekordy", null, ShowAssociatedRecords, null)
+            });
+
+            return items;
+        }
+
+        /// <summary>
+        /// Tworzy kolekcję itemów dla ContextMenuStrip gdy zaznaczony jest w ListView więcej niż jeden item
+        /// </summary>
+        /// <param name="Owner">ContextMenuStrip do którego kolekcja zostanie przypisana</param>
+        /// <returns>Kolekcja itemów</returns>
+        private ToolStripItemCollection CreateContextMenuItems_MultipleSelection(object Owner)
+        {
+            ToolStripItemCollection items = new ToolStripItemCollection(Owner as ContextMenuStrip, new ToolStripItem[]
+            {
+                new ToolStripMenuItem("Kopiuj", null, CopyItemstoClipboard, Keys.Control | Keys.C),
+                new ToolStripMenuItem("Usuń", null, btDelete_Click, Keys.Delete),
+                new ToolStripSeparator(),
+                new ToolStripMenuItem("Zaznacz wszystko", null, SelectAllItems, Keys.Control | Keys.A)
+            });
+
+            return items;
+        }
+
+        /// <summary>
+        /// Zwraca rekordy powiązane z zaznaczonym w ListView Inkasentem
+        /// </summary>
+        /// <returns>Rekordy powiązane z zaznaczonym w ListView Inkasentem</returns>
+        private List<List<string>> ReturnRecordsAssociatedWithCollector()
+        {
+            string CollectorID = ids[0];
+            List<List<string>> AssociatedRecords = new List<List<string>>();
+
+            using (var database = new CollectorsManagementSystemEntities())
+            {
+                var foreignResult = (from f in database.Areas
+                                     where f.CollectorId == CollectorID
+                                     select f).ToList();
+
+                for (int i = 0; i < foreignResult.Count(); i++)
+                {
+                    AssociatedRecords.Add(new List<string>());
+                    AssociatedRecords[i].Add(foreignResult[i].AreaId.ToString());
+                    AssociatedRecords[i].Add(foreignResult[i].Street);
+                }
+            }
+
+            return AssociatedRecords;
+        }
+
+        /// <summary>
+        /// Zwraca rekordy powiązane z zaznaczonym w ListView Klientem
+        /// </summary>
+        /// <returns>Rekordy powiązane z zaznaczonym w ListView Klientem</returns>
+        private List<List<string>> ReturnRecordsAssociatedWithCustomer()
+        {
+            string CustomerID = ids[0];
+            List<List<string>> AssociatedRecords = new List<List<string>>();
+
+            using (var database = new CollectorsManagementSystemEntities())
+            {
+
+                var foreignResult = (from f in database.Counters
+                                     where f.CustomerId == CustomerID
+                                     select f).ToList();
+
+                for (int i = 0; i < foreignResult.Count(); i++)
+                {
+                    AssociatedRecords.Add(new List<string>());
+                    AssociatedRecords[i].Add(foreignResult[i].CircuitNo.ToString());
+                    AssociatedRecords[i].Add(foreignResult[i].CounterNo.ToString());
+                    AssociatedRecords[i].Add(foreignResult[i].AddressId.HasValue ? Counters.FetchFullAddress(foreignResult[i].AddressId.Value) : String.Empty);
+
+                }
+            }
+
+            return AssociatedRecords;
+        }
+
+        /// <summary>
+        /// Zwraca rekordy powiązane z zaznaczonym w ListView Terenem
+        /// </summary>
+        /// <returns>Rekordy powiązane z zaznaczonym w ListView Terenem</returns>
+        private List<List<string>> ReturnRecordsAssociatedWithArea()
+        {
+            Guid AreaID = new Guid(ids[0]);
+            List<List<string>> AssociatedRecords = new List<List<string>>();
+
+            using (var database = new CollectorsManagementSystemEntities())
+            {
+                var foreignResult = (from f in database.Addresses
+                                     where f.AreaId == AreaID
+                                     select f).ToList();
+
+                for (int i = 0; i < foreignResult.Count(); i++)
+                {
+                    AssociatedRecords.Add(new List<string>());
+                    AssociatedRecords[i].Add(foreignResult[i].AddressId.ToString());
+                    AssociatedRecords[i].Add(foreignResult[i].HouseNo.ToString());
+                    AssociatedRecords[i].Add(foreignResult[i].FlatNo.ToString());
+                }
+            }
+            return AssociatedRecords;
+        }
+
+        /// <summary>
+        /// Zwraca rekordy powiązane z zaznaczonym w ListView Licznikiem
+        /// </summary>
+        /// <returns>Rekordy powiązane z zaznaczonym w ListView Licznikiem</returns>
+        private List<List<string>> ReturnRecordsAssociatedWithCounter()
+        {
+            int CounterID = Convert.ToInt32(ids[0]);
+            List<List<string>> AssociatedRecords = new List<List<string>>();
+
+            using (var database = new CollectorsManagementSystemEntities())
+            {
+                var foreignResult = (from f in database.Readings
+                                     where f.CounterNo == CounterID
+                                     select f).ToList();
+
+                for (int i = 0; i < foreignResult.Count(); i++)
+                {
+                    AssociatedRecords.Add(new List<string>());
+                    AssociatedRecords[i].Add(foreignResult[i].ReadingId.ToString());
+                    AssociatedRecords[i].Add(foreignResult[i].Date.ToShortDateString());
+                    AssociatedRecords[i].Add(foreignResult[i].Value.ToString());
+                }
+            }
+            return AssociatedRecords;
+        }
+
+        /// <summary>
+        /// Zwraca rekordy powiązane z zaznaczonym w ListView Adresem
+        /// </summary>
+        /// <returns>Rekordy powiązane z zaznaczonym w ListView Adresem</returns>
+        private List<List<string>> ReturnRecordsAssociatedWithAddress()
+        {
+            Guid AddressID = new Guid(ids[0]);
+            List<List<string>> AssociatedRecords = new List<List<string>>();
+
+            using (var database = new CollectorsManagementSystemEntities())
+            {
+                var foreignResult = (from f in database.Counters
+                                     where f.AddressId == AddressID
+                                     select f).ToList();
+
+                for (int i = 0; i < foreignResult.Count(); i++)
+                {
+                    AssociatedRecords.Add(new List<string>());
+                    AssociatedRecords[i].Add(foreignResult[i].CounterNo.ToString());
+                    AssociatedRecords[i].Add(foreignResult[i].CircuitNo.ToString());
+                    AssociatedRecords[i].Add(Counters.FetchFullAddress(foreignResult[i].AddressId.Value));
+                    AssociatedRecords[i].Add(Counters.FetchCustomer(foreignResult[i].CustomerId));
+
+                }
+            }
+
+            return AssociatedRecords;
+        }
+
+        /// <summary>
+        /// Wyświetla rekordy powiązane z zaznaczonym w ListView rekordem
+        /// </summary>
+        /// <param name="sender">Nieistotny parametr, niezbędny do przypisania metody do EventHandlera ToolStripItemu</param>
+        /// <param name="e">Nieistotny parametr, niezbędny do przypisania metody do EventHandlera ToolStripItemu</param>
+        private void ShowAssociatedRecords(object sender, EventArgs e)
+        {
+            List<List<string>> AssociatedRecords;
+
+            switch ((Tables)selectedTab)
+            {
+                case Tables.Collectors:
+                    AssociatedRecords = ReturnRecordsAssociatedWithCollector();
+                    break;
+
+                case Tables.Customers:
+                    AssociatedRecords = ReturnRecordsAssociatedWithCustomer();
+                    break;
+
+                case Tables.Areas:
+                    AssociatedRecords = ReturnRecordsAssociatedWithArea();
+                    break;
+
+                case Tables.Counters:
+                    AssociatedRecords = ReturnRecordsAssociatedWithCounter();
+                    break;
+
+                case Tables.Addresses:
+                    AssociatedRecords = ReturnRecordsAssociatedWithAddress();
+                    break;
+
+                default:
+                    AssociatedRecords = new List<List<string>>();
+                    break;
+            }
+            AssociatedRecordsForm asr = new AssociatedRecordsForm(AssociatedRecords, (Tables)selectedTab);
+            asr.ShowDialog();
+        }
+
+        /// <summary>
+        /// Tworzy kolekcję itemów dla ContextMenuStrip gdy nie jest zaznaczony w ListView żaden item
+        /// </summary>
+        /// <param name="Owner">ContextMenuStrip do którego kolekcja zostanie przypisana</param>
+        /// <returns>Kolekcja itemów</returns>
+        private ToolStripItemCollection CreateContextMenuItems_NoSelection(object Owner)
+        {
+            ToolStripItemCollection items = new ToolStripItemCollection(Owner as ContextMenuStrip, new ToolStripItem[]
+            {
+                new ToolStripMenuItem("Zaznacz wszystko", null, SelectAllItems, Keys.Control | Keys.A)
+            });
+
+            return items;
+        }
+
+
 
         /// <summary>
         /// Ustawia właściwość "Enabled" dla przycisków "Usuń" i "Modyfikuj".
@@ -70,15 +345,190 @@ namespace SZI
             btModify.Enabled = btModifyEnabledProperty;
         }
 
-        void listView_DataChanged(object sender, EventArgs e)
+        /// <summary>
+        /// Zaznacza wszystkie itemy w aktywnej ListView
+        /// </summary>
+        /// <param name="sender">Nieistotny parametr, niezbędny do przypisania metody do EventHandlera ToolStripItemu</param>
+        /// <param name="e">Nieistotny parametr, niezbędny do przypisania metody do EventHandlera ToolStripItemu</param>
+        private void SelectAllItems(object sender, EventArgs e)
         {
-            selectedTab = tabControl.SelectedIndex;
+            ListView lv = listView[selectedTab];
+            lv.MultiSelect = true;
+            foreach (ListViewItem item in lv.Items)
+            {
+                item.Selected = true;
+            }
+
         }
 
+        #region EventHandlery
+
+        /// <summary>
+        /// Metoda wywołująca właściwą metodę kopiującą itemy aktywnego ListView do schowka. Przekazuje do niej jako parametr aktywne ListView.
+        /// </summary>
+        /// <param name="sender">Element ContextMenuToolStrip który został naciśnięty.</param>
+        /// <param name="e">Parametry zdarzenia.</param>
+        private void CopyItemstoClipboard(object sender, EventArgs e)
+        {
+            Auxiliary.CopyItemstoClipboard(listView[selectedTab], e);
+        }
+
+        /// <summary>
+        /// Metoda wywoływana przy otwieraniu ContextToolStripMenu. Przypisuje odpowiednią kolekcję itemów w zależności od liczby zaznaczonych itemów.
+        /// </summary>
+        /// <param name="sender">ContextToolStripMenu do którego zostanie przypisana kolekcja itemów</param>
+        /// <param name="e">Parametry zdarzenia</param>
+        private void contextMenu_Opening(object sender, CancelEventArgs e)
+        {
+            ContextMenuStrip cms = (ContextMenuStrip)sender;
+            ListView SourceListView = (ListView)cms.SourceControl;
+
+            cms.Items.Clear();
+            if (SourceListView.SelectedItems.Count == 1)
+            {
+                cms.Items.AddRange(Items_SingleSelection);
+            }
+            else if (SourceListView.SelectedItems.Count > 1)
+                cms.Items.AddRange(Items_MultipleSelection);
+            else
+            {
+                cms.Items.AddRange(Items_NoSelection);
+            }
+            e.Cancel = false; //nie mam pojęcia dlaczego, ale dzięki temu menu otworzy się po pierwszym kliknięciu
+
+        }
+
+        // List wiew refresh ( every tick = 15 min [ 900000 ms ] )
+        private void timerRefresh_Tick(object sender, EventArgs e)
+        {
+            closeForm_Click(sender, e);
+        }
+
+        /// <summary>
+        /// Odświeża ListView odpowiadające zmodyfikowanej tabeli, a także powiązane z nią ListView, które zawierają klucze obce.
+        /// </summary>
+        /// <param name="ModifiedTable">Zmodyfikowana tabela.</param>
+        private void RefreshNecessaryTables(Tables ModifiedTable)
+        {
+            switch (ModifiedTable)
+            {
+                case Tables.Collectors: //jeśli zmieniono coś w inkasentach, to odświez inkasentów, tereny i adresy
+                    dataBase[(int)Tables.Collectors].RefreshList();
+                    ListViewConfig.ListViewRefresh(listView[(int)Tables.Collectors], dataBase[(int)Tables.Collectors].itemList);
+
+                    dataBase[(int)Tables.Areas].RefreshList();
+                    ListViewConfig.ListViewRefresh(listView[(int)Tables.Areas], dataBase[(int)Tables.Areas].itemList);
+
+                    dataBase[(int)Tables.Addresses].RefreshList();
+                    ListViewConfig.ListViewRefresh(listView[(int)Tables.Addresses], dataBase[(int)Tables.Addresses].itemList);
+                    break;
+
+                case Tables.Customers: //jeśli zmieniono coś w klientach, to odświez klientów i liczniki
+                    dataBase[(int)Tables.Customers].RefreshList();
+                    ListViewConfig.ListViewRefresh(listView[(int)Tables.Customers], dataBase[(int)Tables.Customers].itemList);
+
+                    dataBase[(int)Tables.Counters].RefreshList();
+                    ListViewConfig.ListViewRefresh(listView[(int)Tables.Counters], dataBase[(int)Tables.Counters].itemList);
+                    break;
+
+                case Tables.Areas: //jeśli zmieniono coś w terenach, to odświez tereny, liczniki i adresy
+                    dataBase[(int)Tables.Areas].RefreshList();
+                    ListViewConfig.ListViewRefresh(listView[(int)Tables.Areas], dataBase[(int)Tables.Areas].itemList);
+
+                    dataBase[(int)Tables.Counters].RefreshList();
+                    ListViewConfig.ListViewRefresh(listView[(int)Tables.Counters], dataBase[(int)Tables.Counters].itemList);
+
+                    dataBase[(int)Tables.Addresses].RefreshList();
+                    ListViewConfig.ListViewRefresh(listView[(int)Tables.Addresses], dataBase[(int)Tables.Addresses].itemList);
+                    break;
+
+                case Tables.Counters:
+                    dataBase[(int)Tables.Counters].RefreshList();
+                    ListViewConfig.ListViewRefresh(listView[(int)Tables.Counters], dataBase[(int)Tables.Counters].itemList);
+                    break;
+
+                case Tables.Addresses:
+                    dataBase[(int)Tables.Addresses].RefreshList();
+                    ListViewConfig.ListViewRefresh(listView[(int)Tables.Addresses], dataBase[(int)Tables.Addresses].itemList);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        // Data refresh
+        private void closeForm_Click(object sender, EventArgs e)
+        {
+            IForm form = (IForm)sender;
+
+            if (form.Modified) //jeśli dokonano modyfikacji lub dodania rekordu, to odśwież listę
+            {
+                if (form.GetType() == typeof(ConfigManagementForm)) //jeśli naciśnięto przycisk odśwież na formie
+                {
+                    int i = 0;
+                    foreach (var data in dataBase)
+                    {
+                        data.RefreshList();
+                        ListViewConfig.ListViewRefresh(listView[i++], data.itemList);
+                    }
+                }
+                else if (form.Modified && form.GetType() == typeof(InsertForm)) //jeśli wprowadzono rekord
+                {
+                    dataBase[selectedTab].RefreshList();
+                    ListViewConfig.ListViewRefresh(listView[selectedTab], dataBase[selectedTab].itemList);
+                }
+                else if (form.Modified)//zmodyfikowano/usunięto rekord
+                {
+                    RefreshNecessaryTables((Tables)selectedTab);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Ustawia zmienną selectedTab na liczbę odpowiadającą wybranej zakładce
+        /// </summary>
+        /// <param name="sender">TabControl w ConfigManagementFormie</param>
+        /// <param name="e">Parametry zdarzenia</param>
         void tabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             selectedTab = tabControl.SelectedIndex;
             SetButtonEnabledProperty(false, false);
+        }
+
+        #region ListView
+
+        /// <summary>
+        /// Metoda zajmująca się skrótami klawiszowymi dla ListView
+        /// </summary>
+        /// <param name="sender">ListView które wywołuje zdarzenie</param>
+        /// <param name="e">Parametry zdarzenia</param>
+        void ListView_KeyDown(object sender, KeyEventArgs e)
+        {
+            ListView lv = (ListView)sender;
+
+            if (e.KeyCode == Keys.A && e.Control) //Ctrl + a - zaznaczanie wszystkich itemów listy
+            {
+                SelectAllItems(null, null);
+            }
+            else if (e.KeyCode == Keys.C && e.Control)// Ctrl + c - skopiowanie zaznaczonych itemów do schowka
+            {
+                Auxiliary.CopyItemstoClipboard(listView[selectedTab], null);
+            }
+            else if (e.KeyCode == Keys.Delete) //Delete - równoznaczne z kliknięciem przycisku
+            {
+                if (lv.SelectedIndices.Count > 0)
+                    btDelete_Click(btDelete, new MouseEventArgs(System.Windows.Forms.MouseButtons.Left, 1, 0, 0, 0));
+            }
+            else if ((e.KeyCode == Keys.F5) || (e.KeyCode == Keys.R && e.Control)) //wciśnięcie F5 lub Ctrl + r - odświeżenie ListView
+            {
+                btRefresh_Click(btRefresh, new MouseEventArgs(System.Windows.Forms.MouseButtons.Left, 1, 0, 0, 0));
+            }
+        }
+
+        void listView_DataChanged(object sender, EventArgs e)
+        {
+            selectedTab = tabControl.SelectedIndex;
         }
 
         void lv_SelectedIndexChanged(object sender, EventArgs e)
@@ -108,12 +558,9 @@ namespace SZI
             }
         }
 
-        // Initialize DB form
-        public ConfigManagementForm()
-        {
-            InitializeComponent();
-            MainTabControlInit();
-        }
+        #endregion
+
+        #region Buttony
 
         /// <summary>
         /// Wywoływana po naciścnięciu przycisku "Usuń".
@@ -126,7 +573,6 @@ namespace SZI
             bool idExists = false;
             string tableName = string.Empty;
             DialogResult choiceFromMessageBox = DialogResult.Yes;
-
             switch (selectedTab)
             {
                 case 0:
@@ -160,9 +606,10 @@ namespace SZI
             if (choiceFromMessageBox == DialogResult.Yes)
             {
                 DBManipulator.DeleteFromDB(ids, selectedTab, idExists);
-                closeForm_Click(sender, e);
+                closeForm_Click(this, e);
+                SetButtonEnabledProperty(false, false);
             }
-            SetButtonEnabledProperty(false, false);
+            listView[selectedTab].HideSelection = false;
         }
 
         /// <summary>
@@ -185,33 +632,23 @@ namespace SZI
         /// <param name="e">Argumenty zdarzenia.</param>
         private void btModify_Click(object sender, EventArgs e)
         {
+            int selectedIndex = listView[selectedTab].SelectedIndices[0]; //index modyfikowanego itemu
             var modifyForm = new ModifyForm(ids, selectedTab);
             modifyForm.FormClosing += closeForm_Click;
             modifyForm.ShowDialog();
-            SetButtonEnabledProperty(false, false);
+            listView[selectedTab].HideSelection = false;
+            listView[selectedTab].Items[selectedIndex].Selected = true;
+            SetButtonEnabledProperty(true, true);
         }
 
-        // List wiew refresh ( every tick = 15 min [ 900000 ms ] )
-        private void timerRefresh_Tick(object sender, EventArgs e)
-        {
-            closeForm_Click(sender,e);
-        }
-
-        // Data refresh
-        private void closeForm_Click(object sender, EventArgs e)
-        {
-            int i = 0;
-            foreach (var data in dataBase)
-            {
-                data.RefreshList();
-                ListViewConfig.ListViewRefresh(listView[i++], data.itemList);
-            }
-        }
-        
         // Refresh data button
         private void btRefresh_Click(object sender, EventArgs e)
         {
-            closeForm_Click(sender, e);
+            closeForm_Click(this, e);
         }
+
+        #endregion
+
+        #endregion
     }
 }

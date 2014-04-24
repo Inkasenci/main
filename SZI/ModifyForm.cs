@@ -14,7 +14,7 @@ namespace SZI
     /// <summary>
     /// Formularz pozwalający modyfikować rekord.
     /// </summary>
-    public partial class ModifyForm : Form
+    public partial class ModifyForm : Form, IForm
     {
         /// <summary>
         /// Klucze zaznaczonych wierszy.
@@ -50,6 +50,11 @@ namespace SZI
         private string[] TableNames;
 
         /// <summary>
+        /// Dokonano modyfikacji modyfikowanego rekordu, lub nie
+        /// </summary>
+        private bool modified = false;
+
+        /// <summary>
         /// Odwołanie do bazy danych.
         /// </summary>
         private CollectorsManagementSystemEntities dataBase;
@@ -58,6 +63,17 @@ namespace SZI
         private Dictionary<string, ValidatingMethod> NameToMethod_Dict;
         private Dictionary<Control, bool> ControlToBool_Dict;
         private ComboBoxConfig[] CBConfigs;
+
+        /// <summary>
+        /// Zwraca wartość pola modified
+        /// </summary>
+        public bool Modified
+        {
+            get
+            {
+                return this.modified;
+            }
+        }
 
         /// <summary>
         /// Umieszcza kontrolki na formularzu i inicjalizuje je oraz wybiera dla nich metody walidujące.
@@ -240,6 +256,7 @@ namespace SZI
                         modifiedCollector.Address = this.Controls.Find("Address", true)[0].Text;
                         modifiedCollector.PhoneNumber = this.Controls.Find("PhoneNumber", true)[0].Text;
                         modifiedCollector.ModifyRecord(ids.ElementAt(0));
+                        modified = true;
                         this.Close();
                     }
                     else
@@ -258,6 +275,7 @@ namespace SZI
                         modifiedCustomer.Address = this.Controls.Find("Address", true)[0].Text;
                         modifiedCustomer.PhoneNumber = this.Controls.Find("PhoneNumber", true)[0].Text;
                         modifiedCustomer.ModifyRecord(ids.ElementAt(0));
+                        modified = true;
                         this.Close();
                     }
                     else
@@ -275,6 +293,7 @@ namespace SZI
                         else
                             modifiedArea.CollectorId = CBConfigs[0].ReturnForeignKey();
                         modifiedArea.ModifyRecord(ids.ElementAt(0));
+                        modified = true;
                         this.Close();
                     }
                     else
@@ -302,6 +321,7 @@ namespace SZI
                         }
 
                         modifiedCounter.ModifyRecord(ids.ElementAt(0));
+                        modified = true;
                         this.Close();
                     }
                     else
@@ -322,6 +342,7 @@ namespace SZI
                             modifiedAddress.FlatNo = null;
                         modifiedAddress.AreaId = new Guid(CBConfigs[0].ReturnForeignKey());
                         modifiedAddress.ModifyRecord(ids.ElementAt(0));
+                        modified = true;
                         this.Close();
                     }
                     else

@@ -78,6 +78,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Areas.cs" />
+    <Compile Include="AssociatedRecordsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AssociatedRecordsForm.Designer.cs">
+      <DependentUpon>AssociatedRecordsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Auxiliary.cs" />
     <Compile Include="CheckCounters.cs">
       <SubType>Form</SubType>
@@ -131,6 +137,7 @@
     </Compile>
     <Compile Include="IDataBase.cs" />
     <Compile Include="IdentityValidation.cs" />
+    <Compile Include="IForm.cs" />
     <Compile Include="IItem.cs" />
     <Compile Include="InsertForm.cs">
       <SubType>Form</SubType>
