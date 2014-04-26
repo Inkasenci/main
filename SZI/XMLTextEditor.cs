@@ -239,12 +239,25 @@ namespace SZI
         /// <param name="e">Argument eventu.</param>
         private void btSaveChanges_Click(object sender, EventArgs e)
         {
-            double ret;
+            double lastVal = 0, newVal;
+            Double.TryParse(textBox.ElementAt(textBox.Count - 2).Text, out lastVal);
             if (xmlRecords.RecordsCount > 0)
-                if (Double.TryParse(textBox.ElementAt(textBox.Count - 1).Text, out ret))
+                if (Double.TryParse(textBox.ElementAt(textBox.Count - 1).Text, out newVal))
                 {
-                    this.xmlRecords.counter[nrRecord].NewValue = textBox.ElementAt(textBox.Count - 1).Text;
-                    SaveData = true;
+                    if (lastVal < newVal)
+                    {
+                        this.xmlRecords.counter[nrRecord].NewValue = textBox.ElementAt(textBox.Count - 1).Text;
+                        SaveData = true;
+                    }
+                    else
+                    {
+                         DialogResult choiceFromMessageBox = MessageBox.Show("Nowy odczyt jest mniejszy niż poprzedni, czy chcesz zapisać dane?", "Ostrzeżenie", MessageBoxButtons.YesNo);
+                         if (choiceFromMessageBox == DialogResult.Yes)
+                         {
+                             this.xmlRecords.counter[nrRecord].NewValue = textBox.ElementAt(textBox.Count - 1).Text;
+                             SaveData = true;
+                         }
+                    }
                 }
         }
 

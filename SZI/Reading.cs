@@ -15,15 +15,38 @@ namespace SZI
     using System;
     using System.Collections.Generic;
     using System.Data.Entity.Infrastructure;
-    
+    using System.Data.Entity.Validation;
+    using System.Windows.Forms;
+
+    /// <summary>
+    /// Klasa pozwalaj¹ce na obs³ugê tabeli odczyty.
+    /// </summary>
     public partial class Reading
     {
+        /// <summary>
+        /// Klucz g³ówny tabeli odczyty - unikatowe wartoœci.
+        /// </summary>
         public System.Guid ReadingId { get; set; }
+        /// <summary>
+        /// Data dodania odczytu do bazy danych.
+        /// </summary>
         public System.DateTime Date { get; set; }
+        /// <summary>
+        /// Wartoœæ odczytu.
+        /// </summary>
         public double Value { get; set; }
+        /// <summary>
+        /// Inkasent, który wykona³ dany odczyt.
+        /// </summary>
         public string CollectorId { get; set; }
+        /// <summary>
+        /// Numer licznika,dl aktórego zosta³ wykonany odczyt.
+        /// </summary>
         public int CounterNo { get; set; }
 
+        /// <summary>
+        /// Funkcja pozwalaj¹ca dodaæ nowy rekord do bazy danych.
+        /// </summary>
         public void InsertIntoDB()
         {
             try
@@ -33,6 +56,20 @@ namespace SZI
                     database.Readings.Add(this);
                     database.SaveChanges();
                 }
+            }
+            catch (DbEntityValidationException ex)
+            {
+                var errorMessages = String.Empty;
+
+                foreach (var validationResult in ex.EntityValidationErrors)
+                {
+                    string entityName = validationResult.Entry.Entity.GetType().Name;
+                    foreach (DbValidationError error in validationResult.ValidationErrors)
+                    {
+                        errorMessages += entityName + "." + error.PropertyName + ": " + error.ErrorMessage + "\n";
+                    }
+                }
+                MessageBox.Show(errorMessages);
             }
             catch (DbUpdateException ex)
             {
