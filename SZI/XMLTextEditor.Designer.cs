@@ -84,7 +84,7 @@
             // zapiszJakoToolStripMenuItem
             // 
             this.zapiszJakoToolStripMenuItem.Name = "zapiszJakoToolStripMenuItem";
-            this.zapiszJakoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.zapiszJakoToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.zapiszJakoToolStripMenuItem.Text = "Zapisz jako...";
             this.zapiszJakoToolStripMenuItem.Click += new System.EventHandler(this.zapiszJakoToolStripMenuItem_Click);
             // 
@@ -107,14 +107,14 @@
             // rekordToolStripMenuItem
             // 
             this.rekordToolStripMenuItem.Name = "rekordToolStripMenuItem";
-            this.rekordToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.rekordToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.rekordToolStripMenuItem.Text = "Następny";
             this.rekordToolStripMenuItem.Click += new System.EventHandler(this.rekordToolStripMenuItem_Click);
             // 
             // poprzedniToolStripMenuItem
             // 
             this.poprzedniToolStripMenuItem.Name = "poprzedniToolStripMenuItem";
-            this.poprzedniToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.poprzedniToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.poprzedniToolStripMenuItem.Text = "Poprzedni";
             this.poprzedniToolStripMenuItem.Click += new System.EventHandler(this.poprzedniToolStripMenuItem_Click);
             // 
@@ -155,7 +155,7 @@
             this.btSaveChanges.UseVisualStyleBackColor = true;
             this.btSaveChanges.Click += new System.EventHandler(this.btSaveChanges_Click);
             // 
-            // EdytorXML
+            // XMLTextEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -165,7 +165,7 @@
             this.Controls.Add(this.btNext);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "EdytorXML";
+            this.Name = "XMLTextEditor";
             this.Text = "Form1";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
