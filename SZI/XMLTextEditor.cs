@@ -114,6 +114,7 @@ namespace SZI
                 tmpL.Size = new System.Drawing.Size(200, 50);
                 this.Controls.Add(tmpL);
             }
+            this.FormClosed += Event_FormClosing;
         }
 
         /// <summary>
@@ -141,16 +142,28 @@ namespace SZI
         }
 
         /// <summary>
+        /// Kończenie działania aplikacji - sprawdza czy zapisać dane.
+        /// </summary>
+        /// <param name="sender">Obiekt eventu.</param>
+        /// <param name="e">Argument eventu.</param>
+        private void Event_FormClosing(object sender, EventArgs e)
+        {
+            DialogResult choiceFromMessageBox = DialogResult.No;
+            if (SaveData)
+                choiceFromMessageBox = MessageBox.Show("Czy zapisać dane przed wyjściem z edytora?", "Ostrzeżenie", MessageBoxButtons.YesNo);
+            if (choiceFromMessageBox == DialogResult.Yes)
+            {
+                zapiszToolStripMenuItem_Click(sender, e);
+            }
+        }
+
+        /// <summary>
         /// Kończenie działania aplikacji - Click.
         /// </summary>
         /// <param name="sender">Obiekt eventu.</param>
         /// <param name="e">Argument eventu.</param>
         private void zakończProgramToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DialogResult choiceFromMessageBox = DialogResult.Yes;
-            if ( SaveData )
-                choiceFromMessageBox = MessageBox.Show("Czy chcesz zakończyć edycję danych bez zapisu?", "Ostrzeżenie", MessageBoxButtons.YesNo);
-            if ( choiceFromMessageBox == DialogResult.Yes )
                 this.Close();
         }
 
