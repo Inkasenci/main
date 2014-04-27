@@ -239,7 +239,7 @@ namespace SZI
         /// <param name="e">Argument eventu.</param>
         private void btSaveChanges_Click(object sender, EventArgs e)
         {
-            double lastVal = 0, newVal;
+            double lastVal, newVal;
             Double.TryParse(textBox.ElementAt(textBox.Count - 2).Text, out lastVal);
             if (xmlRecords.RecordsCount > 0)
                 if (Double.TryParse(textBox.ElementAt(textBox.Count - 1).Text, out newVal))

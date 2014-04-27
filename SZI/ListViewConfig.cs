@@ -13,6 +13,11 @@ namespace SZI
     static class ListViewConfig
     {
         /// <summary>
+        /// Pozwala na określenie kolejności sortowania.
+        /// </summary>
+        static public bool orderBy = false;
+
+        /// <summary>
         /// Funkcja pozwalająca na tworzenie elementu listView z tablicy string.
         /// </summary>
         /// <param name="item">Tablica danych tworzących element listView.</param>
@@ -41,9 +46,15 @@ namespace SZI
             lv.Location = new System.Drawing.Point(10, 10);
             lv.Size = new System.Drawing.Size(600, 450);
             lv.Name = className;
+            lv.Sorting = SortOrder.Ascending;
             if ( itemList != null )
                 foreach (var item in itemList)
                     lv.Items.Add(ConvertToItem(item));
+
+            lv.ColumnClick += (object sender, ColumnClickEventArgs e)=>{
+                lv.ListViewItemSorter = new ListViewSorter(e.Column, orderBy);
+                orderBy = !orderBy;
+            };
 
             return lv;
         }
