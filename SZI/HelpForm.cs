@@ -115,6 +115,10 @@ namespace SZI
             dataBaseTables[1].Nodes[1].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseTableCounterRemoval"]));
             dataBaseTables[1].Nodes[1].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseTableCustomerRemoval"]));
 
+            dataBaseTables[1].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseComboBox"]));
+            dataBaseTables[1].Nodes[2].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseComboBoxUse"]));
+            dataBaseTables[1].Nodes[2].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseComboBoxFindItem"]));
+
             // Child Node 2
             dataBaseTables[2].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseReadingEmptyDataBase"]));
             dataBaseTables[2].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseReadingZeroReading"]));
@@ -196,6 +200,9 @@ namespace SZI
                                         break;
                                     case 1:
                                         rtbHelp.Text = LangPL.FaqAnswers["dataBaseRecordRemoval"];
+                                        break;
+                                    case 2:
+                                        rtbHelp.Text = LangPL.FaqAnswers["dataBaseComboBox"];
                                         break;
                                     default:
                                         MessageBox.Show(LangPL.FaqErrors["indexOutOfRange"]);
@@ -319,7 +326,27 @@ namespace SZI
                                                 break;
                                         }
                                         break;
+                                    case 2:
+                                        switch (e.Node.Index)
+                                        {
+                                            case 0:
+                                                rtbHelp.Text = LangPL.FaqAnswers["dataBaseComboBoxUse"];
+                                                break;
+                                            case 1:
+                                                rtbHelp.Text = LangPL.FaqAnswers["dataBaseComboBoxFindItem"];
+                                                break;
+                                            default:
+                                                MessageBox.Show(LangPL.FaqErrors["indexOutOfRange"]);
+                                                break;
+                                        }
+                                        break;
+                                    default:
+                                        MessageBox.Show(LangPL.FaqErrors["indexOutOfRange"]);
+                                        break;
                                 }
+                                break;
+                            default:
+                                MessageBox.Show(LangPL.FaqErrors["indexOutOfRange"]);
                                 break;
                         }
                         break;

@@ -14,7 +14,7 @@ namespace SZI
         /// <summary>
         /// Liczba generowanych inkasentów.
         /// </summary>
-        static int numberOfCollectors = 5;
+        static int numberOfCollectors = 2;
         /// <summary>
         /// Liczba generowanych klientów.
         /// </summary>
@@ -26,11 +26,11 @@ namespace SZI
         /// <summary>
         /// Liczba generowanych liczników.
         /// </summary>
-        static int numberOfCounters = 10;
+        static int numberOfCounters = 15;
         /// <summary>
         /// Liczba generowanych adresów.
         /// </summary>
-        static int numberOfAddresses = 10;
+        static int numberOfAddresses = 20;
 
         /// <summary>
         /// Generuje inkasentów losowo dobierając wartości pól i dodaje ich do bazy.
