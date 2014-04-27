@@ -244,7 +244,7 @@ namespace SZI
             if (xmlRecords.RecordsCount > 0)
                 if (Double.TryParse(textBox.ElementAt(textBox.Count - 1).Text, out newVal))
                 {
-                    if (lastVal < newVal)
+                    if (lastVal <= newVal)
                     {
                         this.xmlRecords.counter[nrRecord].NewValue = textBox.ElementAt(textBox.Count - 1).Text;
                         SaveData = true;
