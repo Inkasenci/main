@@ -53,11 +53,11 @@ namespace SZI
         }
 
         /// <summary>
-        /// Inicjacja listy - pobranie rekordów i umieszczenie ich na ListView.
+        /// Zwracanie aktualnych danych dotyczących odczytów.
         /// </summary>
-        public void InitializeForm()
+        /// <returns>Lista tablic stringów zawierająca dane.</returns>
+        public List<string[]> ReturnListViewData()
         {
-            listView = new ListView();
             ccList = new List<CountersFormClass>();
 
             using (var dataBase = new CollectorsManagementSystemEntities())
@@ -72,7 +72,7 @@ namespace SZI
                                  where collector.CollectorId == value.CollectorId
                                  select counter);
 
-                    foreach( var element in items)
+                    foreach (var element in items)
                     {
                         var date = DateTime.Now.Subtract(new TimeSpan(30, 0, 0, 0));
                         var firstMethod = from read in dataBase.Readings
@@ -89,10 +89,21 @@ namespace SZI
                 }
             }
 
-            listView = ListViewConfig.ListViewInit(columnList, this.GetType().Name, ConvertToListOfStrings(ccList));
+            return ConvertToListOfStrings(ccList);
+        }
+
+        /// <summary>
+        /// Inicjacja listy - pobranie rekordów i umieszczenie ich na ListView.
+        /// </summary>
+        public void InitializeForm()
+        {
+            listView = new ListView();
+
+            listView = ListViewConfig.ListViewInit(columnList, this.GetType().Name, ReturnListViewData());
             listView.SelectedIndexChanged += lv_SelectedIndexChanged;
             listView.MultiSelect = false;
             btCheck.Enabled = false;
+
             this.Controls.Add(listView);
         }
 
@@ -170,7 +181,10 @@ namespace SZI
                 CountersCollection cCollection;
                 StaticXML.ReadFromXml(openFileDialog.FileName, true, out cCollection);
                 if (cCollection != null)
+                {
                     cCollection.AddNewElementsToDataBase();
+                    ListViewConfig.ListViewRefresh(listView, ReturnListViewData());
+                }
             }
         }
     }

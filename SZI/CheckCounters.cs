@@ -106,11 +106,18 @@ namespace SZI
                             value = lastRead.Value.ToString() ?? String.Empty;
                             collectorId = lastRead.CollectorId ?? String.Empty;
 
-                            var collectorRead = (from collector in dataBase.Collectors
-                                                 where collector.CollectorId == collectorId
-                                                 select new { collector.Name, collector.LastName }).FirstOrDefault();
+                            try
+                            {
+                                var collectorRead = (from collector in dataBase.Collectors
+                                                     where collector.CollectorId == collectorId
+                                                     select new { collector.Name, collector.LastName }).FirstOrDefault();
 
-                            collectorName = collectorId + " " + collectorRead.Name + " " + collectorRead.LastName;
+                                collectorName = collectorId + " " + collectorRead.Name + " " + collectorRead.LastName;
+                            }
+                            catch
+                            {
+                                collectorName = "---";
+                            }
                         }
                         else
                             date = value = collectorName = String.Empty;
