@@ -55,32 +55,50 @@ namespace SZI
                 case "Collector":
                     dataBase = new Collectors();
                     shortDescriptionWords = new int[] { 1, 2 };
+                    widthsOfColumns = new int[7];
                     break;
                 case "Customer":
                     dataBase = new Customers();
                     shortDescriptionWords = new int[] { 1, 2 };
+                    widthsOfColumns = new int[7];
                     break;
                 case "Area":
                     dataBase = new Areas();
                     shortDescriptionWords = new int[] { 1 };
+                    widthsOfColumns = new int[3];
                     break;
                 case "Address":
                     dataBase = new Addresses();
                     shortDescriptionWords = new int[] { 1, 2 };
+                    widthsOfColumns = new int[4];
                     break;
             }
 
             List<string[]> itemList = dataBase.itemList;
+            System.Drawing.Graphics g = comboBox.CreateGraphics();
+            System.Drawing.Font f = comboBox.Font;
 
             string[] nullList = new string[itemList.ElementAt(0).Length];
             for (int i = 0; i < nullList.Length; i++)
+            {
                 nullList[i] = String.Empty;
+                widthsOfColumns[i] = 0;
+            }
 
             initializedItems.Add(new ComboBoxItem(nullList, new int[] { 0 }));
+            initializedItems.ElementAt(0).formattedLongItemDescription = String.Empty;
 
             foreach (string[] item in itemList)
             {
                 ComboBoxItem comboBoxItem = new ComboBoxItem(item, shortDescriptionWords);
+
+                for (int j = 0; j < widthsOfColumns.Length; j++)
+                {
+                    int newWidth = Convert.ToInt32(g.MeasureString(comboBoxItem.fields.ElementAt(j), f).Width);
+                    if (newWidth > widthsOfColumns[j])
+                        widthsOfColumns[j] = newWidth;
+                }
+
                 initializedItems.Add(comboBoxItem);
             }
 
@@ -100,7 +118,7 @@ namespace SZI
             int newWidth = 0;
             foreach (ComboBoxItem item in itemList)
             {
-                newWidth = Convert.ToInt32(g.MeasureString(item.longItemDescription, f).Width);
+                newWidth = Convert.ToInt32(g.MeasureString(item.formattedLongItemDescription, f).Width);
                 if (newWidth > maxWidth)
                     maxWidth = newWidth;
             }
@@ -167,29 +185,7 @@ namespace SZI
         private void AddAllItems()
         {
             foreach (ComboBoxItem item in itemList)
-                comboBox.Items.Add(item.longItemDescription);
-        }
-
-        int[] FindWidthsOfColumns()
-        {
-            int[] maximumWidths = new int[itemList.ElementAt(1).fields.Count()];
-            int newWidth;
-            System.Drawing.Graphics g = comboBox.CreateGraphics();
-            System.Drawing.Font f = comboBox.Font;
-
-            for (int i = 0; i < maximumWidths.Length; i++)
-            {
-                maximumWidths[i] = 0;
-
-                for (int j = 1; j < itemList.Count; j++)
-                {
-                    newWidth = Convert.ToInt32(g.MeasureString(itemList.ElementAt(j).fields.ElementAt(i), f).Width);
-                    if (newWidth > maximumWidths[i])
-                        maximumWidths[i] = newWidth;
-                }
-            }
-
-            return maximumWidths;
+                comboBox.Items.Add(item.formattedLongItemDescription);
         }
 
         /// <summary>
@@ -205,30 +201,34 @@ namespace SZI
             return false;
         }
 
-        private string FormatDescriptions()
+        private void FormatDescriptions()
         {
-            string result = String.Empty;
-
-            System.Drawing.Graphics g = comboBox.CreateGraphics();
-            System.Drawing.Font f = comboBox.Font;
-
-            int tabWidth = Convert.ToInt32(g.MeasureString("\t", f).Width);
-
-            for (int i = 0; i < widthsOfColumns.Length; i++)
+            foreach (ComboBoxItem item in itemList)
             {
-                string field=itemList.ElementAt(indexOfItem).fields.ElementAt(i);
-                int fieldWidth = Convert.ToInt32(g.MeasureString(field, f).Width);
-                result += field;
+                string result = String.Empty;
 
-                while (fieldWidth <= widthsOfColumns[i])
+                System.Drawing.Graphics g = comboBox.CreateGraphics();
+                System.Drawing.Font f = comboBox.Font;
+
+                int tabWidth = Convert.ToInt32(g.MeasureString("\t", f).Width);
+
+                for (int i = 0; i < widthsOfColumns.Length; i++)
                 {
-                    result += "\t";
-                    field += "\t";
-                    fieldWidth = Convert.ToInt32(g.MeasureString(field, f).Width);
-                }
-            }
+                    string field = item.fields.ElementAt(i);
+                    int fieldWidth = Convert.ToInt32(g.MeasureString(field, f).Width);
+                    result += field;
 
-            return result;
+                    while (fieldWidth <= widthsOfColumns[i])
+                    {
+                        result += "\t";
+                        field += "\t";
+                        fieldWidth = Convert.ToInt32(g.MeasureString(field, f).Width);
+                    }
+                }
+
+                //result = result.Substring(0, result.Length - 1);
+                item.formattedLongItemDescription = result;
+            }
         }
 
         /// <summary>
@@ -244,7 +244,7 @@ namespace SZI
             this.foreignKey = foreignKey;
             comboBox = new ComboBox();
             itemList = InitializeItems();
-            widthsOfColumns = FindWidthsOfColumns();
+            FormatDescriptions();
 
             AddAllItems();
 
@@ -285,7 +285,7 @@ namespace SZI
                 if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
                     brush = System.Drawing.SystemBrushes.HighlightText;
 
-                e.Graphics.DrawString(FormatString(e.Index), comboBox.Font, brush, e.Bounds);
+                e.Graphics.DrawString(itemList.ElementAt(e.Index).formattedLongItemDescription, comboBox.Font, brush, e.Bounds);
             }
         }
 
