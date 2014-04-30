@@ -31,7 +31,6 @@ namespace SZI
         /// <summary>
         /// Konwertuje tablicę napisów na jeden napis.
         /// </summary>
-        /// <param name="recordFields">Tablica napisów. Każdy z napisów jest polem rekordu.</param>
         /// <returns>Napis będący połączonymi polami rekordu.</returns>
         private string ConvertRecordToString()
         {
@@ -46,7 +45,7 @@ namespace SZI
         /// <summary>
         /// Wydobywa z długiego opisu rekordu słowa będące jego krótkim opisem.
         /// </summary>
-        /// <param name="item">Długi opis rekordu.</param>
+        /// <param name="shortDescriptionWords">Numery pól składających się na krótki opis rekordu.</param>
         /// <returns>Napis będący krótkim opisem rekordu.</returns>
         private string MineDescriptionWords(int[] shortDescriptionWords)
         {
@@ -61,8 +60,8 @@ namespace SZI
         /// <summary>
         /// Inicjuje pola klasy.
         /// </summary>
-        /// <param name="longItemDescription">Długi opis rekordu.</param>
-        /// <param name="shortItemDescription">Krótki opis rekordu.</param>
+        /// <param name="fields">Tablica zawierająca pola rekordu.</param>
+        /// <param name="shortDescriptionWords">Numery pól składających się na krótki opis rekordu.</param>
         public ComboBoxItem(string[] fields, int[] shortDescriptionWords)
         {
             this.fields = fields;
