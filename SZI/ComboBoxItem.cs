@@ -7,19 +7,25 @@ using System.Threading.Tasks;
 namespace SZI
 {
     /// <summary>
-    /// Obiekty tej klasy są polami rozwijanej listy. Zawierają krótki i długi opis rekordu.
+    /// Obiekty tej klasy są polami rozwijanej listy
     /// </summary>
     public class ComboBoxItem
     {
         /// <summary>
-        /// Długi opis rekordu. Wykorzystywany, gdy lista jest rozwinięta.
+        /// Długi opis rekordu. Wykorzystywany do filtrowania rozwijanej listy.
         /// </summary>
         public string longItemDescription;
         /// <summary>
         /// Krótki opis rekordu. Najważniejsze pola wybranego rekordu. Wyświetlane, gdy lista jest zwinięta i posiada wybrany element.
         /// </summary>
         public string shortItemDescription;
+        /// <summary>
+        /// Sformatowany długi opis rekordu. Formwatowanie polega na wyświetlaniu rekordów z podziałem na kolumny.
+        /// </summary>
         public string formattedLongItemDescription;
+        /// <summary>
+        /// Tablica zawierająca pola rekordu.
+        /// </summary>
         public string[] fields;
 
         /// <summary>
