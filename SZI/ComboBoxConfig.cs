@@ -27,11 +27,7 @@ namespace SZI
         /// </summary>
         public ComboBox comboBox;
         /// <summary>
-        /// Numery słów rekordu, które mają być użyte jako skrócony opis rekordu (jest on używany, gdy lista jest zwinięta).
-        /// </summary>
-        int[] shortDescriptionWords;
-        /// <summary>
-        /// Rekordy, ich krótkie i długie opisy.
+        /// Lista obiektów reprezentujących elementy rozwijanej listy.
         /// </summary>
         List<ComboBoxItem> itemList;
         /// <summary>
@@ -42,98 +38,75 @@ namespace SZI
         /// Podpowiedź wyświetlająca aktualny tekst filtra.
         /// </summary>
         ToolTip filterTip;
-        
         /// <summary>
-        /// Konwertuje tablicę napisów na jeden napis.
+        /// Szerokości kolumn rozwijanej listy.
         /// </summary>
-        /// <param name="recordFields">Tablica napisów. Każdy z napisów jest polem rekordu.</param>
-        /// <returns>Napis będący połączonymi polami rekordu.</returns>
-        private string ConvertRecordToString(string[] recordFields)
-        {
-            string convertedRecord = String.Empty;
-
-            foreach (string recordField in recordFields)
-                convertedRecord += recordField + " ";
-
-            return convertedRecord;
-        }
+        int[] widthsOfColumns;
 
         /// <summary>
-        /// Inicjalizuje pola rozwijanej listy.
+        /// Inicjalizuje pola rozwijanej listy. Ustawia odpowiednie szerokości kolumn.
         /// </summary>
         /// <returns>Lista zainicjowanych pól. Elementy listy zawierają długi i krótki opis danego pola.</returns>
         private List<ComboBoxItem> InitializeItems()
         {
             List<ComboBoxItem> initializedItems = new List<ComboBoxItem>();
-            IDataBase dataBase;
+            IDataBase dataBase = null;
+            int[] shortDescriptionWords = null;
 
             switch (tableName)
             {
                 case "Collector":
                     dataBase = new Collectors();
                     shortDescriptionWords = new int[] { 1, 2 };
+                    widthsOfColumns = new int[7];
                     break;
                 case "Customer":
                     dataBase = new Customers();
                     shortDescriptionWords = new int[] { 1, 2 };
+                    widthsOfColumns = new int[7];
                     break;
                 case "Area":
                     dataBase = new Areas();
                     shortDescriptionWords = new int[] { 1 };
+                    widthsOfColumns = new int[3];
                     break;
                 case "Address":
                     dataBase = new Addresses();
-                    shortDescriptionWords = new int[] { 1, 2 };
-                    break;
-                default:
-                    dataBase = new Collectors();
+                    shortDescriptionWords = new int[] { 1, 2, 3 };
+                    widthsOfColumns = new int[4];
                     break;
             }
 
             List<string[]> itemList = dataBase.itemList;
-            string convertedRecord, descriptionWords;
+            System.Drawing.Graphics g = comboBox.CreateGraphics();
+            System.Drawing.Font f = comboBox.Font;
 
-            initializedItems.Add(new ComboBoxItem(" ", "")); //dodanie pustego rekordu, przydatne gdy wybór rekordu jest opcjonalny
+            string[] nullList = new string[widthsOfColumns.Length];
+            for (int i = 0; i < nullList.Length; i++)
+            {
+                nullList[i] = String.Empty;
+                widthsOfColumns[i] = 0;
+            }
+
+            initializedItems.Add(new ComboBoxItem(nullList, new int[] { 0 }));
+            initializedItems.ElementAt(0).formattedLongItemDescription = String.Empty;
 
             foreach (string[] item in itemList)
             {
-                convertedRecord = ConvertRecordToString(item);
-                descriptionWords = MineDescriptionWords(convertedRecord);
-                ComboBoxItem comboBoxItem = new ComboBoxItem(convertedRecord, descriptionWords);
+
+                ComboBoxItem comboBoxItem = new ComboBoxItem(item, shortDescriptionWords);
+
+                for (int j = 0; j < widthsOfColumns.Length; j++)
+                {
+                    int newWidth = Convert.ToInt32(g.MeasureString(comboBoxItem.fields.ElementAt(j), f).Width);
+                    if (newWidth > widthsOfColumns[j])
+                        widthsOfColumns[j] = newWidth;
+                }
+
                 initializedItems.Add(comboBoxItem);
             }
 
             return initializedItems;
-        }
-
-        /// <summary>
-        /// Wydobywa pierwsze pole rekordu z napisu będącego jego długim opisem.
-        /// </summary>
-        /// <param name="item">Długi opis rekordu.</param>
-        /// <returns>Napis będący kluczem rekordu.</returns>
-        private string MineForeignKey(string item)
-        {
-            return item.Substring(0, item.IndexOf(' '));
-        }
-
-        /// <summary>
-        /// Wydobywa z długiego opisu rekordu słowa będące jego krótkim opisem.
-        /// </summary>
-        /// <param name="item">Długi opis rekordu.</param>
-        /// <returns>Napis będący krótkim opisem rekordu.</returns>
-        private string MineDescriptionWords(string item)
-        {
-            string minedDescription = String.Empty;
-
-            List<int> newWord = new List<int>();
-            newWord.Add(0);
-            for (int i = 0; i < item.Length; i++)
-                if (item[i] == ' ')
-                    newWord.Add(i + 1);
-            foreach (int descriptionWord in shortDescriptionWords)
-                minedDescription += item.Substring(newWord.ElementAt(descriptionWord), newWord.ElementAt(descriptionWord + 1) - newWord.ElementAt(descriptionWord));
-
-            return minedDescription;
         }
 
         /// <summary>
@@ -149,7 +122,7 @@ namespace SZI
             int newWidth = 0;
             foreach (ComboBoxItem item in itemList)
             {
-                newWidth = Convert.ToInt32(g.MeasureString(item.longItemDescription, f).Width);
+                newWidth = Convert.ToInt32(g.MeasureString(item.formattedLongItemDescription, f).Width);
                 if (newWidth > maxWidth)
                     maxWidth = newWidth;
             }
@@ -163,7 +136,7 @@ namespace SZI
         /// <returns>Klucz wybranego rekordu</returns>
         public string ReturnForeignKey()
         {
-            return MineForeignKey(itemList.ElementAt(comboBox.SelectedIndex).longItemDescription);
+            return itemList.ElementAt(comboBox.SelectedIndex).fields.ElementAt(0);
         }
 
         /// <summary>
@@ -181,10 +154,11 @@ namespace SZI
         private void FilterItems()
         {
             comboBox.Items.Clear();
+
             foreach (ComboBoxItem item in itemList)
             {
                 if (ReplacePolishCharacters(item.longItemDescription.ToLower()).IndexOf(filter) != -1)
-                    comboBox.Items.Add(item.longItemDescription);
+                    comboBox.Items.Add(item.formattedLongItemDescription);
             }
         }
 
@@ -211,15 +185,6 @@ namespace SZI
         }
 
         /// <summary>
-        /// Dodaje do rozwijanej listy wszystkie elementy przechowywane na liście elementów obiektu.
-        /// </summary>
-        private void AddAllItems()
-        {
-            foreach (ComboBoxItem item in itemList)
-                comboBox.Items.Add(item.longItemDescription);
-        }
-
-        /// <summary>
         /// Znajduje na liście elementów obiektu obiekt będący odpowiednikiem zaznaczonego na rozwijanej liście rekordu.
         /// </summary>
         /// <param name="item">"Aktualnie badany element listy.</param>
@@ -227,9 +192,40 @@ namespace SZI
         private bool FindItem(ComboBoxItem item)
         {
             if (comboBox.SelectedIndex >= 0 && comboBox.Items.Count > 0)
-                if (item.longItemDescription == comboBox.Items[comboBox.SelectedIndex].ToString())
+                if (item.formattedLongItemDescription == comboBox.Items[comboBox.SelectedIndex].ToString())
                     return true;
             return false;
+        }
+
+        /// <summary>
+        /// Za pomocą tabulatorów formatuje długi opis rekordu rozwijanej listy tak, aby były wyświetlanie w kolumnach.
+        /// </summary>
+        /// <param name="fields">Tablica pól rekordu.</param>
+        /// <returns>Sformatowany długi opis rekordu.</returns>
+        private string FormatDescription(string[] fields)
+        {
+            string result = String.Empty;
+
+            System.Drawing.Graphics g = comboBox.CreateGraphics();
+            System.Drawing.Font f = comboBox.Font;
+
+            int tabWidth = Convert.ToInt32(g.MeasureString("\t", f).Width);
+
+            for (int i = 0; i < widthsOfColumns.Length; i++)
+            {
+                string field = fields[i];
+                int fieldWidth = Convert.ToInt32(g.MeasureString(field, f).Width);
+                result += field;
+
+                while (fieldWidth <= widthsOfColumns[i])
+                {
+                    result += "\t";
+                    field += "\t";
+                    fieldWidth = Convert.ToInt32(g.MeasureString(field, f).Width);
+                }
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -244,13 +240,19 @@ namespace SZI
             this.tableName = tableName;
             this.foreignKey = foreignKey;
             comboBox = new ComboBox();
-
             itemList = InitializeItems();
-            AddAllItems();
+
+            foreach (ComboBoxItem item in itemList)
+            {
+                item.formattedLongItemDescription = FormatDescription(item.fields);
+                comboBox.Items.Add(item.formattedLongItemDescription);
+            }
 
             comboBox.Name = comboBoxName;
             comboBox.Location = location;
             comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox.DrawMode = DrawMode.OwnerDrawFixed;
+            comboBox.DrawItem += comboBox_DrawItem;
             comboBox.DropDown += comboBox_DropDown;
             comboBox.DropDownClosed += comboBox_DropDownClosed;
             comboBox.LostFocus += comboBox_DropDownClosed;
@@ -260,13 +262,45 @@ namespace SZI
             {
                 for (int i = 0; i < itemList.Count; i++)
                 {
-                    if (MineForeignKey(itemList.ElementAt(i).longItemDescription) == foreignKey)
+                    if (itemList.ElementAt(i).fields.ElementAt(0) == foreignKey)
                     {
                         comboBox.SelectedIndex = i;
-                        comboBox.Items[comboBox.SelectedIndex] = itemList.ElementAt(i).shortItemDescription;
                         break;
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Wywoływana, aby narysować element rozwijanej listy.
+        /// </summary>
+        /// <param name="sender">Rozwijana lista konfigurowana w ramach obiektu.</param>
+        /// <param name="e">Argumenty zdarzenia.</param>
+        void comboBox_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            ComboBox comboBox = (ComboBox)sender;
+
+            e.DrawBackground();
+
+            if (e.Index >= 0)
+            {
+                System.Drawing.Brush brush = new System.Drawing.SolidBrush(comboBox.ForeColor);
+                string s;
+
+                if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
+                    brush = System.Drawing.SystemBrushes.HighlightText;
+
+                if (comboBox.DroppedDown)
+                {
+                    if (filter == String.Empty)
+                        s = itemList.ElementAt(e.Index).formattedLongItemDescription;
+                    else
+                        s = comboBox.Items[e.Index].ToString();
+                }
+                else
+                    s = itemList.ElementAt(e.Index).shortItemDescription;
+
+                e.Graphics.DrawString(s, comboBox.Font, brush, e.Bounds);
             }
         }
 
@@ -300,7 +334,7 @@ namespace SZI
         }
 
 	    /// <summary>
-        /// Wywoływana, gdy rozwijana lista jest zwijana. Przełącza aktualnie wybrany element z wyświetlania długiego opisu na opis krótki.
+        /// Wywoływana, gdy rozwijana lista jest zwijana.
         /// </summary>
         /// <param name="sender">Rozwijana lista konfigurowana w ramach obiektu.</param>
         /// <param name="e">Argumenty zdarzenia.</param>
@@ -310,12 +344,12 @@ namespace SZI
             {
                 int correctSelectedIndex = itemList.FindIndex(FindItem);
                 comboBox.Items.Clear();
-                AddAllItems();
+
+                foreach (ComboBoxItem item in itemList)
+                    comboBox.Items.Add(item.formattedLongItemDescription);
+
                 comboBox.SelectedIndex = correctSelectedIndex;
             }
-            
-            if (comboBox.SelectedIndex >= 0)
-                comboBox.Items[comboBox.SelectedIndex] = itemList.ElementAt(comboBox.SelectedIndex).shortItemDescription;
 
             comboBox.KeyDown -= comboBox_KeyDown;
             filter = String.Empty;
@@ -323,18 +357,26 @@ namespace SZI
         }
 
         /// <summary>
-        /// Wywoływana, gdy rozwijana lista jest rozwijana. Przełącza aktualnie wybrany element z wyświetlania krótkiego opisu na opis długi, a także ustawia prawidłową szerokość listy.
+        /// Wywoływana, gdy rozwijana lista jest rozwijana. 
         /// </summary>
         /// <param name="sender">Rozwijana lista, której dotyczy zdarzenie.</param>
         /// <param name="e">Argumenty zdarzenia.</param>
         private void comboBox_DropDown(object sender, EventArgs e)
         {
             comboBox.DropDownWidth = AdjustComboBoxWidth();
-            if (comboBox.SelectedIndex >= 0)
-                comboBox.Items[comboBox.SelectedIndex] = itemList.ElementAt(comboBox.SelectedIndex).longItemDescription;
-
             comboBox.KeyDown += comboBox_KeyDown;
             filterTip = new ToolTip();
+            filterTip.Popup += filterTip_Popup;
+        }
+
+        /// <summary>
+        /// Wywoływana, gdy pojawia się podpowiedź zawierająca tekst filtra. Dostosowywuje rozmiar podpowiedzi.
+        /// </summary>
+        /// <param name="sender">Podpowiedź wyświetlająca tekst filtra.</param>
+        /// <param name="e">Argumenty zdarzenia.</param>
+        void filterTip_Popup(object sender, PopupEventArgs e)
+        {
+            e.ToolTipSize = comboBox.Size;
         }
     }
 }
