@@ -182,7 +182,6 @@ namespace SZI
                 StaticXML.ReadFromXml(openFileDialog.FileName, true, out cCollection);
                 if (cCollection != null)
                 {
-                    cCollection.AddNewElementsToDataBase();
                     ListViewConfig.ListViewRefresh(listView, ReturnListViewData());
                 }
             }

@@ -104,6 +104,7 @@
     <Compile Include="ConfigurationForm.Designer.cs">
       <DependentUpon>ConfigurationForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ConnectionRecordsQuery.cs" />
     <Compile Include="Counter.cs">
       <DependentUpon>Model.tt</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -184,6 +185,12 @@
     <Compile Include="Reading.cs">
       <DependentUpon>Model.tt</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ReadingModifyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReadingModifyForm.Designer.cs">
+      <DependentUpon>ReadingModifyForm.cs</DependentUpon>
     </Compile>
     <Compile Include="SampleDataConfig.cs" />
     <Compile Include="SampleDataSource.cs" />
