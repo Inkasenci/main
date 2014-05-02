@@ -135,5 +135,18 @@ namespace SZI
             { "wrongFileName", "Błąd! Niepoprawna nazwa pliku!" },
             { "xmlError", "Błąd podczas przetwarzania piku XML!" }
         };
+
+        /// <summary>
+        /// Treści używane podczas generowania raportów.
+        /// </summary>
+        static public Dictionary<string, string> Reports = new Dictionary<string, string>()
+        {
+            {"CollectorsReportDocumentName", "Raport  - inkasenci"},
+            {"CollectorsHead", "RAPORT DOT. INKASENTÓW"},
+            {"TotalCollectorsNumber", "\n\nCałkowita liczba inkasentów: "},
+            {"CollectorsWithArea", "\nInkasenci z przydzielonym terenem: "},
+            {"CollectorsWithoutArea", "\nInkasenci bez przydzielonego terenu: "},            
+            {"CollectorsList", "\nLista inkasentów"}
+        };
     }
 }

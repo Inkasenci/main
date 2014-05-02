@@ -96,6 +96,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Collectors.cs" />
+    <Compile Include="CollectorsManagementSystemDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CollectorsManagementSystemDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="ComboBoxConfig.cs" />
     <Compile Include="ComboBoxItem.cs" />
     <Compile Include="ConfigurationForm.cs">
@@ -185,6 +190,7 @@
       <DependentUpon>Model.tt</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="ReportCreator.cs" />
     <Compile Include="SampleDataConfig.cs" />
     <Compile Include="SampleDataSource.cs" />
     <Compile Include="StaticXML.cs" />
@@ -236,6 +242,17 @@
       <LastGenOutput>Model.Designer.cs</LastGenOutput>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EntityDeploy>
+    <None Include="CollectorsManagementSystemDataSet.xsc">
+      <DependentUpon>CollectorsManagementSystemDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="CollectorsManagementSystemDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>CollectorsManagementSystemDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="CollectorsManagementSystemDataSet.xss">
+      <DependentUpon>CollectorsManagementSystemDataSet.xsd</DependentUpon>
+    </None>
     <None Include="Model.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model.edmx</DependentUpon>
