@@ -30,7 +30,6 @@
         {
             this.btClearDataBase = new System.Windows.Forms.Button();
             this.btSampleData = new System.Windows.Forms.Button();
-            this.btBasicRaport = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btClearDataBase
@@ -53,22 +52,11 @@
             this.btSampleData.UseVisualStyleBackColor = true;
             this.btSampleData.Click += new System.EventHandler(this.btSampleData_Click);
             // 
-            // btBasicRaport
-            // 
-            this.btBasicRaport.Location = new System.Drawing.Point(164, 169);
-            this.btBasicRaport.Name = "btBasicRaport";
-            this.btBasicRaport.Size = new System.Drawing.Size(156, 29);
-            this.btBasicRaport.TabIndex = 6;
-            this.btBasicRaport.Text = "generuj ogólny raport";
-            this.btBasicRaport.UseVisualStyleBackColor = true;
-            this.btBasicRaport.Click += new System.EventHandler(this.btBasicRaport_Click);
-            // 
             // ConfigurationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(484, 462);
-            this.Controls.Add(this.btBasicRaport);
             this.Controls.Add(this.btSampleData);
             this.Controls.Add(this.btClearDataBase);
             this.Name = "ConfigurationForm";
@@ -81,6 +69,5 @@
 
         private System.Windows.Forms.Button btClearDataBase;
         private System.Windows.Forms.Button btSampleData;
-        private System.Windows.Forms.Button btBasicRaport;
     }
 }
