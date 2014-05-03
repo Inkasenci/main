@@ -33,12 +33,16 @@ namespace SZI
         /// <param name="columnList">Tablica określająca kolumny listView.</param>
         /// <param name="className">Nazwa listy.</param>
         /// <param name="itemList">Lista elementów dodawanych do listView, domyślne null pozwala na generowanie pustej kontrolki.</param>
+        /// <param name="columnSort">Określa względem której kolumny sortujemy.</param>
+        /// <param name="orderby">Określa sposób sortowania danej tabeli - ASC / DESC.</param>
         /// <returns>Zwracanie utworzonej ListView.</returns> 
-        static public ListView ListViewInit(string[] columnList, string className, List<string[]> itemList = null)
+        static public ListView ListViewInit(string[] columnList, string className, List<string[]> itemList = null, bool orderby = false, int columnSort = 0)
         {
             ListView lv = new ListView();
             lv.View = View.Details;
             lv.FullRowSelect = true;
+            orderBy = orderby;
+            lv.ListViewItemSorter = new ListViewSorter(columnSort, orderby);
 
             foreach (var column in columnList)
                 lv.Columns.Add(column, -2);
