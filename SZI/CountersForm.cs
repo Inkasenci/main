@@ -79,6 +79,7 @@ namespace SZI
                                            where read.Date > date
                                            where read.CounterNo == element.CounterNo
                                            select read;
+
                         if (firstMethod.Count() == 0)
                             i++;
                     }
