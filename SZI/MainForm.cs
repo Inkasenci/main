@@ -16,6 +16,11 @@ namespace SZI
     public partial class MainForm : Form
     {
         /// <summary>
+        /// PrintPreviewDialog związany z generowanymi raportami.
+        /// </summary>
+        private PrintPreviewDialog printPreviewDialog;
+
+        /// <summary>
         /// Konstruktor formy.
         /// </summary>
         public MainForm()
@@ -86,6 +91,18 @@ namespace SZI
         {
             var XMLTextEditorForm = new XMLTextEditor();
             XMLTextEditorForm.ShowDialog();
+        }
+
+        private void inkasenciToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            printPreviewDialog = Reports.Collectors.CreateReport();
+            printPreviewDialog.Show();
+        }
+
+        private void klienciToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            printPreviewDialog = Reports.Customers.CreateReport();
+            printPreviewDialog.Show();
         }
     }
 }

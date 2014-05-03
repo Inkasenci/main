@@ -145,8 +145,19 @@ namespace SZI
             {"CollectorsHead", "RAPORT DOT. INKASENTÓW"},
             {"TotalCollectorsNumber", "\n\nCałkowita liczba inkasentów: "},
             {"CollectorsWithArea", "\nInkasenci z przydzielonym terenem: "},
-            {"CollectorsWithoutArea", "\nInkasenci bez przydzielonego terenu: "},            
-            {"CollectorsList", "\nLista inkasentów"}
+            {"CollectorsWithoutArea", "\nInkasenci bez przydzielonego terenu: "},              
+            {"AverageAreaPerCollector", "\nŚrednia liczba terenów na inkasenta: "},
+            {"CollectorsList", "\nLista inkasentów"},
+            {"CollectorsAttributesList", "(Id, Imię, Nazwisko, Liczba terenów(liczba adresów))"},
+
+            {"CustomersReportDocumentName", "Raport  - klienci"},
+            {"CustomersHead", "RAPORT DOT. KLIENTÓW"},
+            {"TotalCustomersNumber", "\n\nCałkowita liczba klientów: "},
+            {"CustomersWithCounters", "\nKlienci z co najmniej jednym licznikiem: "},
+            {"CustomersWithoutCounters", "\nKlienci bez żadnego licznika: "},
+            {"AverageCounterPerCustomer", "\nŚrednia liczba liczników na klienta: "},
+            {"CustomersList", "\nLista klientów"},
+            {"CustomersAttributesList", "(Id, Imię, Nazwisko, Liczba liczników)"}
         };
     }
 }

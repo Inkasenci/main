@@ -191,6 +191,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="ReportCreator.cs" />
+    <Compile Include="ReportsFormcs.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReportsFormcs.Designer.cs">
+      <DependentUpon>ReportsFormcs.cs</DependentUpon>
+    </Compile>
     <Compile Include="SampleDataConfig.cs" />
     <Compile Include="SampleDataSource.cs" />
     <Compile Include="StaticXML.cs" />
@@ -234,6 +240,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ReportsFormcs.resx">
+      <DependentUpon>ReportsFormcs.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="XMLTextEditor.resx">
       <DependentUpon>XMLTextEditor.cs</DependentUpon>
     </EmbeddedResource>
