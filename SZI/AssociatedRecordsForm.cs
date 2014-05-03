@@ -21,6 +21,21 @@ namespace SZI
         private ListView lvRecords;
 
         /// <summary>
+        /// Lista kolumn w listView.
+        /// </summary>
+        string[] ColumnList;
+
+        /// <summary>
+        /// Id wybranego rekordu.
+        /// </summary>
+        private string selectedId = "0";
+
+        /// <summary>
+        /// Id rekordu - dla których wybieramy powiązane pola.
+        /// </summary>
+        private string choosenId = "0";
+
+        /// <summary>
         /// Kolekcja itemów ContextMenuStrip dla przypadku, gdy zaznaczony jest w ListView co najmniej jeden rekord.
         /// </summary>
         private ToolStripItemCollection Items_ItemsSelected;
@@ -34,24 +49,24 @@ namespace SZI
         /// </summary>
         /// <param name="AssociatedRecords">Rekordy powiązane z wybranym w ConfigManagementForm rekordzie.</param>
         /// <param name="Table">Tabela z której pochodzi wybrany rekord</param>
-        public AssociatedRecordsForm(List<List<string>> AssociatedRecords, Tables Table)
+        public AssociatedRecordsForm(List<List<string>> AssociatedRecords, Tables Table, string choosenId)
         {
             InitializeComponent();
 
             ContextMenuStrip ContextMenu;
 
+            this.choosenId = choosenId;
             this.SetDisplayRectLocation(500, 500);
-            this.Size = new Size(500, 350);
+            this.Size = new Size(500, 400);
             this.Text = "Powiązane rekordy";
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
 
-            string [] ColumnList;
             List<string[]> ItemList = new List<string[]>(AssociatedRecords.Count);
 
             for (int i = 0; i < AssociatedRecords.Count; i++)
-                ItemList.Add(AssociatedRecords[i].ToArray());         
+                ItemList.Add(AssociatedRecords[i].ToArray());
 
             switch (Table)
             {
@@ -60,7 +75,7 @@ namespace SZI
                     {
                         "Id terenu",
                         "Ulica"
-                    };                           
+                    };
                     break;
 
                 case Tables.Customers:
@@ -82,12 +97,34 @@ namespace SZI
                     break;
 
                 case Tables.Counters:
-                    ColumnList = new string[3] 
                     {
-                        "Id odczytu",
-                        "Data odczytu",
-                        "Wartość"
-                    };
+                        ColumnList = new string[3] 
+                        {
+                            "Id odczytu",
+                            "Data odczytu",
+                            "Wartość"
+                        };
+                        {
+                            this.Text = "Podgląd licznika";
+                            Button editButton = new Button();
+                            editButton.Size = new Size(157, 29);
+                            editButton.Text = "Edycja";
+                            editButton.Name = "EditRecord";
+                            editButton.Enabled = false;
+                            editButton.Location = new Point(10, this.Size.Height - 75);
+                            editButton.Click += Event_EditButtonOnClick;
+                            this.Controls.Add(editButton);
+
+                            Button removeButton = new Button();
+                            removeButton.Size = new Size(157, 29);
+                            removeButton.Text = "Usuń";
+                            removeButton.Name = "RemoveRecord";
+                            removeButton.Enabled = false;
+                            removeButton.Location = new Point(177, this.Size.Height - 75);
+                            removeButton.Click += Event_RemoveButtonOnClick;
+                            this.Controls.Add(removeButton);
+                        }
+                    }
                     break;
 
                 case Tables.Addresses:
@@ -105,15 +142,82 @@ namespace SZI
             }
 
             ContextMenu = CreateContextMenu();
-            lvRecords = ListViewConfig.ListViewInit(ColumnList, "Collectors", ItemList);
+            lvRecords = ListViewConfig.ListViewInit(ColumnList, "Collectors", ItemList, false, (Table == Tables.Counters) ? 1 : 0);
             Items_ItemsSelected = CreateContextMenuItems_ItemsSelected(ContextMenu);
             Items_NoSelection = CreateContextMenuItems_NoSelection(ContextMenu);
             lvRecords.ContextMenuStrip = ContextMenu;
-            
+            if (Table == Tables.Counters)
+                lvRecords.SelectedIndexChanged += lv_SelectedIndexChanged;
             lvRecords.Location = new Point(this.Location.X + 15, this.Location.Y + 10);
-            lvRecords.Size = new Size(this.Size.Width - 50, this.Size.Height - 50);
+            lvRecords.Size = new Size(this.Size.Width - 50, this.Size.Height - 100);
             ListViewConfig.AdjustColumnWidth(lvRecords);
             this.Controls.Add(lvRecords);
+        }
+
+        /// <summary>
+        /// Otworzenie okna do edycji rekordu.
+        /// </summary>
+        /// <param name="sender">Obiekt eventu.</param>
+        /// <param name="e">Argument eventu.</param>
+        void Event_EditButtonOnClick(object sender, EventArgs e)
+        {
+            var readingModifyForm = new ReadingModifyForm(selectedId);
+            readingModifyForm.ShowDialog();
+
+            List<List<string>> AssociatedRecords = ConnectionRecordsQuery.ReturnRecordsAssociatedWithCounter(choosenId);
+
+            List<string[]> ItemList = new List<string[]>(AssociatedRecords.Count);
+
+            for (int i = 0; i < AssociatedRecords.Count; i++)
+                ItemList.Add(AssociatedRecords[i].ToArray());
+            ListViewConfig.ListViewRefresh(lvRecords, ItemList);
+        }
+
+        /// <summary>
+        /// Usunięcie rekordu.
+        /// </summary>
+        /// <param name="sender">Obiekt eventu.</param>
+        /// <param name="e">Argument eventu.</param>
+        void Event_RemoveButtonOnClick(object sender, EventArgs e)
+        {
+            System.Guid editId;
+            if (System.Guid.TryParse(selectedId, out editId))
+                DBManipulator.DeleteReadFromDB(editId);
+
+            List<List<string>> AssociatedRecords = ConnectionRecordsQuery.ReturnRecordsAssociatedWithCounter(choosenId);
+
+            List<string[]> ItemList = new List<string[]>(AssociatedRecords.Count);
+
+            for (int i = 0; i < AssociatedRecords.Count; i++)
+                ItemList.Add(AssociatedRecords[i].ToArray());
+            ListViewConfig.ListViewRefresh(lvRecords, ItemList);
+        }
+
+        /// <summary>
+        /// Zmiana wybranego indeksu i dostępności buttonów.
+        /// </summary>
+        /// <param name="sender">Obiekt eventu.</param>
+        /// <param name="e">Argument eventu.</param>
+        void lv_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ListView activeListView = (ListView)sender;
+
+            ListView.SelectedListViewItemCollection selectedItem = activeListView.SelectedItems;
+
+            foreach (ListViewItem item in selectedItem)
+                selectedId = item.SubItems[0].Text;
+
+            switch (activeListView.SelectedItems.Count)
+            {
+                case 1:
+                    this.Controls.Find("EditRecord", true)[0].Enabled = true;
+                    this.Controls.Find("RemoveRecord", true)[0].Enabled = true;
+                    break;
+                default:
+                    this.Controls.Find("EditRecord", true)[0].Enabled = false;
+                    this.Controls.Find("RemoveRecord", true)[0].Enabled = false;
+                    break;
+            }
         }
 
         /// <summary>
@@ -141,7 +245,7 @@ namespace SZI
             {
                 cms.Items.AddRange(Items_ItemsSelected);
             }
-            else 
+            else
                 cms.Items.AddRange(Items_NoSelection);
 
             e.Cancel = false; //nie mam pojęcia dlaczego, ale dzięki temu menu otworzy się po pierwszym kliknięciu

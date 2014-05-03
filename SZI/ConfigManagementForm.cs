@@ -143,142 +143,6 @@ namespace SZI
         }
 
         /// <summary>
-        /// Zwraca rekordy powiązane z zaznaczonym w ListView Inkasentem
-        /// </summary>
-        /// <returns>Rekordy powiązane z zaznaczonym w ListView Inkasentem</returns>
-        private List<List<string>> ReturnRecordsAssociatedWithCollector()
-        {
-            string CollectorID = ids[0];
-            List<List<string>> AssociatedRecords = new List<List<string>>();
-
-            using (var database = new CollectorsManagementSystemEntities())
-            {
-                var foreignResult = (from f in database.Areas
-                                     where f.CollectorId == CollectorID
-                                     select f).ToList();
-
-                for (int i = 0; i < foreignResult.Count(); i++)
-                {
-                    AssociatedRecords.Add(new List<string>());
-                    AssociatedRecords[i].Add(foreignResult[i].AreaId.ToString());
-                    AssociatedRecords[i].Add(foreignResult[i].Street);
-                }
-            }
-
-            return AssociatedRecords;
-        }
-
-        /// <summary>
-        /// Zwraca rekordy powiązane z zaznaczonym w ListView Klientem
-        /// </summary>
-        /// <returns>Rekordy powiązane z zaznaczonym w ListView Klientem</returns>
-        private List<List<string>> ReturnRecordsAssociatedWithCustomer()
-        {
-            string CustomerID = ids[0];
-            List<List<string>> AssociatedRecords = new List<List<string>>();
-
-            using (var database = new CollectorsManagementSystemEntities())
-            {
-
-                var foreignResult = (from f in database.Counters
-                                     where f.CustomerId == CustomerID
-                                     select f).ToList();
-
-                for (int i = 0; i < foreignResult.Count(); i++)
-                {
-                    AssociatedRecords.Add(new List<string>());
-                    AssociatedRecords[i].Add(foreignResult[i].CircuitNo.ToString());
-                    AssociatedRecords[i].Add(foreignResult[i].CounterNo.ToString());
-                    AssociatedRecords[i].Add(foreignResult[i].AddressId.HasValue ? Counters.FetchFullAddress(foreignResult[i].AddressId.Value) : String.Empty);
-
-                }
-            }
-
-            return AssociatedRecords;
-        }
-
-        /// <summary>
-        /// Zwraca rekordy powiązane z zaznaczonym w ListView Terenem
-        /// </summary>
-        /// <returns>Rekordy powiązane z zaznaczonym w ListView Terenem</returns>
-        private List<List<string>> ReturnRecordsAssociatedWithArea()
-        {
-            Guid AreaID = new Guid(ids[0]);
-            List<List<string>> AssociatedRecords = new List<List<string>>();
-
-            using (var database = new CollectorsManagementSystemEntities())
-            {
-                var foreignResult = (from f in database.Addresses
-                                     where f.AreaId == AreaID
-                                     select f).ToList();
-
-                for (int i = 0; i < foreignResult.Count(); i++)
-                {
-                    AssociatedRecords.Add(new List<string>());
-                    AssociatedRecords[i].Add(foreignResult[i].AddressId.ToString());
-                    AssociatedRecords[i].Add(foreignResult[i].HouseNo.ToString());
-                    AssociatedRecords[i].Add(foreignResult[i].FlatNo.ToString());
-                }
-            }
-            return AssociatedRecords;
-        }
-
-        /// <summary>
-        /// Zwraca rekordy powiązane z zaznaczonym w ListView Licznikiem
-        /// </summary>
-        /// <returns>Rekordy powiązane z zaznaczonym w ListView Licznikiem</returns>
-        private List<List<string>> ReturnRecordsAssociatedWithCounter()
-        {
-            int CounterID = Convert.ToInt32(ids[0]);
-            List<List<string>> AssociatedRecords = new List<List<string>>();
-
-            using (var database = new CollectorsManagementSystemEntities())
-            {
-                var foreignResult = (from f in database.Readings
-                                     where f.CounterNo == CounterID
-                                     select f).ToList();
-
-                for (int i = 0; i < foreignResult.Count(); i++)
-                {
-                    AssociatedRecords.Add(new List<string>());
-                    AssociatedRecords[i].Add(foreignResult[i].ReadingId.ToString());
-                    AssociatedRecords[i].Add(foreignResult[i].Date.ToShortDateString());
-                    AssociatedRecords[i].Add(foreignResult[i].Value.ToString());
-                }
-            }
-            return AssociatedRecords;
-        }
-
-        /// <summary>
-        /// Zwraca rekordy powiązane z zaznaczonym w ListView Adresem
-        /// </summary>
-        /// <returns>Rekordy powiązane z zaznaczonym w ListView Adresem</returns>
-        private List<List<string>> ReturnRecordsAssociatedWithAddress()
-        {
-            Guid AddressID = new Guid(ids[0]);
-            List<List<string>> AssociatedRecords = new List<List<string>>();
-
-            using (var database = new CollectorsManagementSystemEntities())
-            {
-                var foreignResult = (from f in database.Counters
-                                     where f.AddressId == AddressID
-                                     select f).ToList();
-
-                for (int i = 0; i < foreignResult.Count(); i++)
-                {
-                    AssociatedRecords.Add(new List<string>());
-                    AssociatedRecords[i].Add(foreignResult[i].CounterNo.ToString());
-                    AssociatedRecords[i].Add(foreignResult[i].CircuitNo.ToString());
-                    AssociatedRecords[i].Add(Counters.FetchFullAddress(foreignResult[i].AddressId.Value));
-                    AssociatedRecords[i].Add(Counters.FetchCustomer(foreignResult[i].CustomerId));
-
-                }
-            }
-
-            return AssociatedRecords;
-        }
-
-        /// <summary>
         /// Wyświetla rekordy powiązane z zaznaczonym w ListView rekordem
         /// </summary>
         /// <param name="sender">Nieistotny parametr, niezbędny do przypisania metody do EventHandlera ToolStripItemu</param>
@@ -290,30 +154,30 @@ namespace SZI
             switch ((Tables)selectedTab)
             {
                 case Tables.Collectors:
-                    AssociatedRecords = ReturnRecordsAssociatedWithCollector();
+                    AssociatedRecords = ConnectionRecordsQuery.ReturnRecordsAssociatedWithCollector(ids[0]);
                     break;
 
                 case Tables.Customers:
-                    AssociatedRecords = ReturnRecordsAssociatedWithCustomer();
+                    AssociatedRecords = ConnectionRecordsQuery.ReturnRecordsAssociatedWithCustomer(ids[0]);
                     break;
 
                 case Tables.Areas:
-                    AssociatedRecords = ReturnRecordsAssociatedWithArea();
+                    AssociatedRecords = ConnectionRecordsQuery.ReturnRecordsAssociatedWithArea(ids[0]);
                     break;
 
                 case Tables.Counters:
-                    AssociatedRecords = ReturnRecordsAssociatedWithCounter();
+                    AssociatedRecords = ConnectionRecordsQuery.ReturnRecordsAssociatedWithCounter(ids[0]);
                     break;
 
                 case Tables.Addresses:
-                    AssociatedRecords = ReturnRecordsAssociatedWithAddress();
+                    AssociatedRecords = ConnectionRecordsQuery.ReturnRecordsAssociatedWithAddress(ids[0]);
                     break;
 
                 default:
                     AssociatedRecords = new List<List<string>>();
                     break;
             }
-            AssociatedRecordsForm asr = new AssociatedRecordsForm(AssociatedRecords, (Tables)selectedTab);
+            AssociatedRecordsForm asr = new AssociatedRecordsForm(AssociatedRecords, (Tables)selectedTab, ids[0]);
             asr.ShowDialog();
         }
 

@@ -87,13 +87,11 @@ namespace SZI
                     var dateSub = DateTime.Now.Subtract(new TimeSpan(30, 0, 0, 0));
 
                     var firstMethod = from read in dataBase.Readings
+                                      where read.Date > dateSub
                                       where read.CounterNo == element.CounterNo
                                       select read;
-                    var secondMethod = from read in dataBase.Readings
-                                       where read.Date > dateSub
-                                       select read;
 
-                    if (firstMethod.Count() == 0 || secondMethod.Count() == 0)
+                    if (firstMethod.Count() == 0)
                     {
 
                         string date, value, collectorId, collectorName, customerName;

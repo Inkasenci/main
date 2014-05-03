@@ -76,12 +76,11 @@ namespace SZI
                     {
                         var date = DateTime.Now.Subtract(new TimeSpan(30, 0, 0, 0));
                         var firstMethod = from read in dataBase.Readings
-                                          where read.CounterNo == element.CounterNo
-                                          select read;
-                        var secondMethod = from read in dataBase.Readings
                                            where read.Date > date
+                                           where read.CounterNo == element.CounterNo
                                            select read;
-                        if (firstMethod.Count() == 0 || secondMethod.Count() == 0)
+
+                        if (firstMethod.Count() == 0)
                             i++;
                     }
 
@@ -182,7 +181,6 @@ namespace SZI
                 StaticXML.ReadFromXml(openFileDialog.FileName, true, out cCollection);
                 if (cCollection != null)
                 {
-                    cCollection.AddNewElementsToDataBase();
                     ListViewConfig.ListViewRefresh(listView, ReturnListViewData());
                 }
             }

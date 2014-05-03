@@ -42,7 +42,7 @@ namespace SZI
                     DeleteFromAddresses(IDs, idIsForeignKey);
                     break;
 
-                default: 
+                default:
                     break;
             }
         }
@@ -124,7 +124,7 @@ namespace SZI
                             }
                         }
                     }
-                        
+
                     database.SaveChanges();
                 }
             }
@@ -169,7 +169,7 @@ namespace SZI
                             DeleteFromAddresses(foreignList, true);
                         }
                     }
-                    
+
                     database.SaveChanges();
                 }
             }
@@ -220,7 +220,7 @@ namespace SZI
                 }
             }
         }
-        
+
         /// <summary>
         /// Usuwa rekordy z tabeli Adres. Jeśli w tabeli Licznik istniały odniesienia do usuwanych rekordów, zostają one zastąpione wartościami null.
         /// Zgodnie z zasadami nałożonymi na bazę danych, również odpowiednie identyfikatory klienta w tabeli Licznik są ustawiane na wartość null.
@@ -291,7 +291,7 @@ namespace SZI
                     database.SaveChanges();
                 }
             }
-        }            
+        }
 
         /// <summary>
         /// Sprawdza, czy dla danego rekordu nie ma odniesienia w tabelach, które są w związku z tabelą, z której pochodzi rekord.
@@ -337,6 +337,34 @@ namespace SZI
                 return true;
             else
                 return false;
+        }
+
+        /// <summary>
+        /// Usuwanie odczytu z bazy danych.
+        /// </summary>
+        /// <param name="id">Id odczytu usuwanego.</param>
+        static public void DeleteReadFromDB(System.Guid id)
+        {
+            try
+            {
+                using (var dataBase = new CollectorsManagementSystemEntities())
+                {
+                    var items = from reading in dataBase.Readings
+                                where reading.ReadingId == id
+                                select reading;
+
+                    foreach (var item in items)
+                    {
+                        dataBase.Readings.Remove(item);
+                    }
+
+                    dataBase.SaveChanges();
+                }
+            }
+            catch (DbUpdateException ex)
+            {
+                ExceptionHandling.ShowException(ex);
+            }
         }
     }
 }
