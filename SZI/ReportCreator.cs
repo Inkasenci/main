@@ -487,20 +487,22 @@ namespace SZI
                 for (int i = 0; i < CustomersWithCounters.Count; i++)
                 {
                     s += (i + 1).ToString() + ".";
-                    for (int j = 0; j < CustomersWithCounters[0].Count; j++)
+                    for (int j = 0; j < CustomersWithCounters[0].Count - 1; j++)
                     {
                         s += " " + CustomersWithCounters[i][j].ToString();
                     }
+                    s += "   " + CustomersWithCounters[i][3].ToString();
                     s += "\n";
                 }
                 s += "\n";
                 for (int i = 0; i < CustomersWithoutCounters.Count; i++)
                 {
                     s += (i + 1).ToString() + ".";
-                    for (int j = 0; j < CustomersWithoutCounters[0].Count; j++)
+                    for (int j = 0; j < CustomersWithoutCounters[0].Count - 1; j++)
                     {
                         s += " " + CustomersWithoutCounters[i][j].ToString();
                     }
+                    s += "   " + CustomersWithoutCounters[i][3].ToString();
                     s += "\n";
                 }
 

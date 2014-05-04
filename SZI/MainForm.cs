@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing.Printing;
 
 namespace SZI
 {
@@ -93,16 +94,40 @@ namespace SZI
             XMLTextEditorForm.ShowDialog();
         }
 
+        /// <summary>
+        /// Event handler dla itemu z ToolStripMenu wywołujący metodę tworząca raport inkasentów.
+        /// </summary>
+        /// <param name="sender">Item z ToolStripMenu wywołujący metodę.</param>
+        /// <param name="e">Parametry zdarzenia.</param>
         private void inkasenciToolStripMenuItem_Click(object sender, EventArgs e)
         {
             printPreviewDialog = Reports.Collectors.CreateReport();
-            printPreviewDialog.Show();
+            try
+            {
+                printPreviewDialog.Show();
+            }
+            catch(InvalidPrinterException ex)
+            {
+                ExceptionHandling.ShowException(ex);
+            }
         }
 
+        /// <summary>
+        /// Event handler dla itemu z ToolStripMenu wywołujący metodę tworząca raport klientów.
+        /// </summary>
+        /// <param name="sender">Item z ToolStripMenu wywołujący metodę.</param>
+        /// <param name="e">Parametry zdarzenia.</param>
         private void klienciToolStripMenuItem_Click(object sender, EventArgs e)
         {
             printPreviewDialog = Reports.Customers.CreateReport();
-            printPreviewDialog.Show();
+            try
+            {
+                printPreviewDialog.Show();
+            }
+            catch(InvalidPrinterException ex)
+            {
+                ExceptionHandling.ShowException(ex);
+            }
         }
     }
 }

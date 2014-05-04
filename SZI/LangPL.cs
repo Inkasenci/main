@@ -163,7 +163,9 @@ namespace SZI
             {"CustomersWithoutCounters", "\nKlienci bez żadnego licznika: "},
             {"AverageCounterPerCustomer", "\nŚrednia liczba liczników na klienta: "},
             {"CustomersList", "\nLista klientów"},
-            {"CustomersAttributesList", "(Id, Imię, Nazwisko, Liczba liczników)"}
+            {"CustomersAttributesList", "(Id, Imię, Nazwisko, Liczba liczników)"},
+
+            {"PrintingExceptionTitle", "Błąd drukowania"}
         };
     }
 }
