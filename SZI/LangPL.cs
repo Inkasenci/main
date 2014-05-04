@@ -141,5 +141,31 @@ namespace SZI
             { "wrongFileName", "Błąd! Niepoprawna nazwa pliku!" },
             { "xmlError", "Błąd podczas przetwarzania piku XML!" }
         };
+
+        /// <summary>
+        /// Treści używane podczas generowania raportów.
+        /// </summary>
+        static public Dictionary<string, string> Reports = new Dictionary<string, string>()
+        {
+            {"CollectorsReportDocumentName", "Raport  - inkasenci"},
+            {"CollectorsHead", "RAPORT DOT. INKASENTÓW"},
+            {"TotalCollectorsNumber", "\n\nCałkowita liczba inkasentów: "},
+            {"CollectorsWithArea", "\nInkasenci z przydzielonym terenem: "},
+            {"CollectorsWithoutArea", "\nInkasenci bez przydzielonego terenu: "},              
+            {"AverageAreaPerCollector", "\nŚrednia liczba terenów na inkasenta: "},
+            {"CollectorsList", "\nLista inkasentów"},
+            {"CollectorsAttributesList", "(Id, Imię, Nazwisko, Liczba terenów(liczba adresów))"},
+
+            {"CustomersReportDocumentName", "Raport  - klienci"},
+            {"CustomersHead", "RAPORT DOT. KLIENTÓW"},
+            {"TotalCustomersNumber", "\n\nCałkowita liczba klientów: "},
+            {"CustomersWithCounters", "\nKlienci z co najmniej jednym licznikiem: "},
+            {"CustomersWithoutCounters", "\nKlienci bez żadnego licznika: "},
+            {"AverageCounterPerCustomer", "\nŚrednia liczba liczników na klienta: "},
+            {"CustomersList", "\nLista klientów"},
+            {"CustomersAttributesList", "(Id, Imię, Nazwisko, Liczba liczników)"},
+
+            {"PrintingExceptionTitle", "Błąd drukowania"}
+        };
     }
 }

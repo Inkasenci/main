@@ -34,6 +34,11 @@
             this.btClose = new System.Windows.Forms.Button();
             this.btHelp = new System.Windows.Forms.Button();
             this.btXMLTextEditor = new System.Windows.Forms.Button();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.raportyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.inkasenciToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.klienciToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btDataManagement
@@ -96,6 +101,39 @@
             this.btXMLTextEditor.UseVisualStyleBackColor = true;
             this.btXMLTextEditor.Click += new System.EventHandler(this.btXMLTextEditor_Click);
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.raportyToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(690, 24);
+            this.menuStrip1.TabIndex = 6;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // raportyToolStripMenuItem
+            // 
+            this.raportyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.inkasenciToolStripMenuItem,
+            this.klienciToolStripMenuItem});
+            this.raportyToolStripMenuItem.Name = "raportyToolStripMenuItem";
+            this.raportyToolStripMenuItem.Size = new System.Drawing.Size(60, 20);
+            this.raportyToolStripMenuItem.Text = "Raporty";
+            // 
+            // inkasenciToolStripMenuItem
+            // 
+            this.inkasenciToolStripMenuItem.Name = "inkasenciToolStripMenuItem";
+            this.inkasenciToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.inkasenciToolStripMenuItem.Text = "Inkasenci";
+            this.inkasenciToolStripMenuItem.Click += new System.EventHandler(this.inkasenciToolStripMenuItem_Click);
+            // 
+            // klienciToolStripMenuItem
+            // 
+            this.klienciToolStripMenuItem.Name = "klienciToolStripMenuItem";
+            this.klienciToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.klienciToolStripMenuItem.Text = "Klienci";
+            this.klienciToolStripMenuItem.Click += new System.EventHandler(this.klienciToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -107,9 +145,14 @@
             this.Controls.Add(this.btConfig);
             this.Controls.Add(this.btCounters);
             this.Controls.Add(this.btDataManagement);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "MainForm";
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -121,5 +164,9 @@
         private System.Windows.Forms.Button btClose;
         private System.Windows.Forms.Button btHelp;
         private System.Windows.Forms.Button btXMLTextEditor;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem raportyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem inkasenciToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem klienciToolStripMenuItem;
     }
 }

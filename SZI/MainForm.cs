@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing.Printing;
 
 namespace SZI
 {
@@ -15,6 +16,11 @@ namespace SZI
     /// </summary>
     public partial class MainForm : Form
     {
+        /// <summary>
+        /// PrintPreviewDialog związany z generowanymi raportami.
+        /// </summary>
+        private PrintPreviewDialog printPreviewDialog;
+
         /// <summary>
         /// Konstruktor formy.
         /// </summary>
@@ -86,6 +92,42 @@ namespace SZI
         {
             var XMLTextEditorForm = new XMLTextEditor();
             XMLTextEditorForm.ShowDialog();
+        }
+
+        /// <summary>
+        /// Event handler dla itemu z ToolStripMenu wywołujący metodę tworząca raport inkasentów.
+        /// </summary>
+        /// <param name="sender">Item z ToolStripMenu wywołujący metodę.</param>
+        /// <param name="e">Parametry zdarzenia.</param>
+        private void inkasenciToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            printPreviewDialog = Reports.Collectors.CreateReport();
+            try
+            {
+                printPreviewDialog.Show();
+            }
+            catch(InvalidPrinterException ex)
+            {
+                ExceptionHandling.ShowException(ex);
+            }
+        }
+
+        /// <summary>
+        /// Event handler dla itemu z ToolStripMenu wywołujący metodę tworząca raport klientów.
+        /// </summary>
+        /// <param name="sender">Item z ToolStripMenu wywołujący metodę.</param>
+        /// <param name="e">Parametry zdarzenia.</param>
+        private void klienciToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            printPreviewDialog = Reports.Customers.CreateReport();
+            try
+            {
+                printPreviewDialog.Show();
+            }
+            catch(InvalidPrinterException ex)
+            {
+                ExceptionHandling.ShowException(ex);
+            }
         }
     }
 }

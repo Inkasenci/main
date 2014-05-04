@@ -62,6 +62,23 @@ namespace SZI
 
             ExceptionHandling.SpecificException(ProjectedException.Number, ProjectedException.Message);
         }
+
+        /// <summary>
+        /// Metoda obsługująca wyjątek dotyczący drukowania.
+        /// </summary>
+        /// <param name="ex">Wyjątek dotyczący drukowania.</param>
+        public static void ShowException(System.Drawing.Printing.InvalidPrinterException ex)
+        {
+            
+            Exception innerEx = ex;
+            if (ex.InnerException != null)
+                innerEx = ex.InnerException;
+
+            while (innerEx.InnerException != null)
+                innerEx = innerEx.InnerException;
+
+            MessageBox.Show(innerEx.Message, LangPL.Reports["PrintingExceptionTitle"], MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
        
     }
 }
