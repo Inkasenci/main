@@ -31,6 +31,49 @@ namespace SZI
         /// Liczba generowanych adresów.
         /// </summary>
         static int numberOfAddresses = 10;
+        /// <summary>
+        /// Wczytane dane.
+        /// </summary>
+        static IDataBase[] DataBase = null;
+
+        /// <summary>
+        /// Wczytuje używane aktualnie dane.
+        /// </summary>
+        /// <param name="choose">Tablica tabel, które mają zostać wybrane z bazy danych.</param>
+        static void ReadDataFromDataBase(int[] choose)
+        {
+            DataBase = new IDataBase[choose.Length];
+            int i = 0;
+            foreach (var choosen in choose)
+            {
+                switch (choosen)
+                {
+                    case 0:
+                        DataBase[i++] = new Collectors();
+                        break;
+                    case 1:
+                        DataBase[i++] = new Customers();
+                        break;
+                    case 2:
+                        DataBase[i++] = new Areas();
+                        break;
+                    case 3:
+                        DataBase[i++] = new Addresses();
+                        break;
+                    default:
+                        DataBase[i++] = new Collectors();
+                        break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Czyści z pamięci wczytane wcześniej dane.
+        /// </summary>
+        static void RemoveDataFromStatic()
+        {
+            DataBase = null;
+        }
 
         /// <summary>
         /// Generuje inkasentów losowo dobierając wartości pól i dodaje ich do bazy.
@@ -82,7 +125,7 @@ namespace SZI
                 customer.PostalCode = postalCodeAndCity[0];
                 customer.City = postalCodeAndCity[1];
                 customer.Address = SampleDataSource.streets[rnd.Next(0, SampleDataSource.streets.Length - 1)] + ' ' + rnd.Next(1, 100).ToString();
-                customer.PhoneNumber = rnd.Next(500000000, 999999999).ToString();
+                customer.PhoneNumber = GeneratePhoneNumber();
 
                 customer.InsertIntoDB();
             }
@@ -102,7 +145,7 @@ namespace SZI
 
                 area.AreaId = Guid.NewGuid();
                 area.Street = SampleDataSource.streets[i];
-                area.CollectorId = ChooseRandomId("Collector");
+                area.CollectorId = ChooseRandomId(0);
 
                 area.InsertIntoDB();
             }
@@ -123,7 +166,7 @@ namespace SZI
                 address.AddressId = Guid.NewGuid();
                 address.HouseNo = rnd.Next(1, 100);
                 address.FlatNo = rnd.Next(1, 100);
-                address.AreaId = new Guid(ChooseRandomId("Area"));
+                address.AreaId = new Guid(ChooseRandomId(0));
 
                 address.InsertIntoDB();
             }
@@ -146,8 +189,8 @@ namespace SZI
                 while (MainValidation.CounterExists(counter.CounterNo))
                     counter.CounterNo = rnd.Next(1000, 10000);
                 counter.CircuitNo = rnd.Next(1000, 10000);
-                counter.AddressId = new Guid(ChooseRandomId("Address"));
-                counter.CustomerId = ChooseRandomId("Customer");
+                counter.AddressId = new Guid(ChooseRandomId(1));
+                counter.CustomerId = ChooseRandomId(0);
 
                 counter.InsertIntoDB();
             }
@@ -161,9 +204,13 @@ namespace SZI
             ClearDataBase();
             GenerateCollectors();
             GenerateCustomers();
+            ReadDataFromDataBase(new int[] { 0 });
             GenerateAreas();
+            ReadDataFromDataBase(new int[] { 2 });
             GenerateAddresses();
+            ReadDataFromDataBase(new int[] { 1, 3 });
             GenerateCounters();
+            RemoveDataFromStatic();
         }
 
         /// <summary>
@@ -194,10 +241,7 @@ namespace SZI
         {
             Random rnd = new Random();
             IDataBase dataBase;
-            int possiblePeselA;
-            int possiblePeselB;
             string possiblePesel = String.Empty;
-            bool correctPesel = false;
             bool uniquePesel = false;
 
             if (tableName == "Collector")
@@ -205,22 +249,36 @@ namespace SZI
             else
                 dataBase = new Customers();
 
-            while (!correctPesel || !uniquePesel)
+            while (!uniquePesel)
             {
-                possiblePeselA = rnd.Next(540000000, 949999999);
-                possiblePeselB = rnd.Next(10, 99);
-                possiblePesel = ((long)possiblePeselA * 100 + possiblePeselB).ToString();
-                correctPesel = !IdentityValidation.CheckId(possiblePesel);
-                if (correctPesel)
-                {
-                    if (tableName == "Collector")
-                        uniquePesel = !MainValidation.CollectorExists(possiblePesel);
-                    else
-                        uniquePesel = !MainValidation.CustomerExists(possiblePesel);
-                }
-            }
+                possiblePesel = String.Empty;
+                for (int i = 0; i < 10; ++i)
+                    possiblePesel += rnd.Next(0, 9).ToString();
 
+                possiblePesel += IdentityValidation.CheckSum(possiblePesel);
+
+                if (tableName == "Collector")
+                    uniquePesel = !MainValidation.CollectorExists(possiblePesel);
+                else
+                    uniquePesel = !MainValidation.CustomerExists(possiblePesel);
+            }
             return possiblePesel;
+        }
+
+        /// <summary>
+        /// Losuje numer telefonu.
+        /// </summary>
+        /// <returns>Ciąg cyfr przedstawiający wylosowany numer telefonu.</returns>
+        static string GeneratePhoneNumber()
+        {
+            Random rnd = new Random();
+
+            string outputNumber = String.Empty;
+
+            for (int i = 0; i < 9; ++i)
+                outputNumber += rnd.Next(0, 9).ToString();
+
+            return outputNumber;
         }
 
         /// <summary>
@@ -265,35 +323,13 @@ namespace SZI
         /// <summary>
         /// Spośród identyfikatorów w podanej tabeli wybiera losowo jeden.
         /// </summary>
-        /// <param name="tableName">Nazwa tabeli, z której ma być wylosowany klucz.</param>
+        /// <param name="choosen">Wybrana tabela,  z której ma być wylosowany klucz.</param>
         /// <returns>Wylosowany klucz.</returns>
-        static string ChooseRandomId(string tableName)
+        static string ChooseRandomId(int choosen)
         {
             Random rnd = new Random();
-            IDataBase dataBase;
 
-            switch (tableName)
-            {
-                case "Collector":
-                    dataBase=new Collectors();
-                    break;
-                case "Customer":
-                    dataBase=new Customers();
-                    break;
-                case "Area":
-                    dataBase=new Areas();
-                    break;
-                case "Address":
-                    dataBase=new Addresses();
-                    break;
-                default:
-                    dataBase=new Collectors();
-                    break;
-            }
-
-            List<string[]> itemList = dataBase.itemList;
-
-            return itemList.ElementAt(rnd.Next(0, itemList.Count))[0];
+            return DataBase[choosen].itemList.ElementAt(rnd.Next(0, DataBase[choosen].itemList.Count))[0];
         }
     }
 }

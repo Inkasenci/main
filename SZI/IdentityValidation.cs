@@ -43,6 +43,18 @@ namespace SZI
             return (CutId(nrId, 9, 1) % 2 == 0) ? 0 : 1;
         }
 
+        static public int IdSum(string nrId)
+        {
+            return (1 * CutId(nrId, 0, 1) + 3 * CutId(nrId, 1, 1) + 7 * CutId(nrId, 2, 1) + 9 * CutId(nrId, 3, 1) +
+                1 * CutId(nrId, 4, 1) + 3 * CutId(nrId, 5, 1) + 7 * CutId(nrId, 6, 1) + 9 * CutId(nrId, 7, 1) + 1 * CutId(nrId, 8, 1) +
+                3 * CutId(nrId, 9, 1)) % 10;
+        }
+
+        static public int CheckSum(string nrId)
+        {
+            return (10 - IdSum(nrId)) % 10;
+        }
+
         static public bool CheckId(string nrId) //zwraca true, gdy PESEL jest nieprawidłowy
         {
 
@@ -51,11 +63,7 @@ namespace SZI
             if(MonthId(nrId) == 0)
                 return true;
 
-            int baseDate = (1 * CutId(nrId, 0, 1) + 3 * CutId(nrId, 1, 1) + 7 * CutId(nrId, 2, 1) + 9 * CutId(nrId, 3, 1) +
-                1 * CutId(nrId, 4, 1) + 3 * CutId(nrId, 5, 1) + 7 * CutId(nrId, 6, 1) + 9 * CutId(nrId, 7, 1) + 1 * CutId(nrId, 8, 1) +
-                3 * CutId(nrId, 9, 1)) % 10;
-
-            return ((10 - baseDate) % 10 == CutId(nrId, 10, 1) && nrId.Length == 11) ? false : true;
+            return (CheckSum(nrId) == CutId(nrId, 10, 1) && nrId.Length == 11) ? false : true;
         }
     }
 }
