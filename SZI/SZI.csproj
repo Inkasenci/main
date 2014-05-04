@@ -192,6 +192,7 @@
     <Compile Include="ReadingModifyForm.Designer.cs">
       <DependentUpon>ReadingModifyForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ReportCreator.cs" />
     <Compile Include="SampleDataConfig.cs" />
     <Compile Include="SampleDataSource.cs" />
     <Compile Include="StaticXML.cs" />
