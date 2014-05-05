@@ -14,23 +14,27 @@ namespace SZI
         /// <summary>
         /// Liczba generowanych inkasentów.
         /// </summary>
-        static int numberOfCollectors = 10;
+        static int numberOfCollectors = 2;
         /// <summary>
         /// Liczba generowanych klientów.
         /// </summary>
-        static int numberOfCustomers = 10;
+        static int numberOfCustomers = 100;
         /// <summary>
         /// Liczba generowanych terenów. Nie może być większa niż liczba elementów tablicy streets w SampleDataSource
         /// </summary>
-        static int numberOfAreas = 10;
+        static int numberOfAreas = 4;
         /// <summary>
         /// Liczba generowanych liczników.
         /// </summary>
-        static int numberOfCounters = 10;
+        static int numberOfCounters = 100;
         /// <summary>
         /// Liczba generowanych adresów.
         /// </summary>
-        static int numberOfAddresses = 10;
+        static int numberOfAddresses = 100;
+        /// <summary>
+        /// Liczba generowanych odczytów.
+        /// </summary>
+        static int numberOfReadings = 300;
         /// <summary>
         /// Wczytane dane.
         /// </summary>
@@ -60,6 +64,9 @@ namespace SZI
                     case 3:
                         DataBase[i++] = new Addresses();
                         break;
+                    case 4:
+                        DataBase[i++] = new Counters();
+                        break;
                     default:
                         DataBase[i++] = new Collectors();
                         break;
@@ -80,7 +87,7 @@ namespace SZI
         /// </summary>
         static void GenerateCollectors()
         {
-            Random rnd=new Random();
+            Random rnd = new Random();
             string[] nameAndLastName;
             string[] postalCodeAndCity;
             Collector collector;
@@ -199,6 +206,47 @@ namespace SZI
         }
 
         /// <summary>
+        /// Generuje losowo odczyty.
+        /// </summary>
+        static void GenerateReadings()
+        {
+            Random rnd = new Random();
+            Reading reading;
+
+            for (int i = 0; i < numberOfReadings; i++)
+            {
+                reading = new Reading();
+
+                reading.ReadingId = Guid.NewGuid();
+                reading.CounterNo = Convert.ToInt32(ChooseRandomId(0));
+
+                using (var dataBase = new CollectorsManagementSystemEntities())
+                {
+                    var tmp = (from c in dataBase.Counters where c.CounterNo == reading.CounterNo select c.AddressId).FirstOrDefault();
+                    var tmp2 = (from a in dataBase.Addresses where a.AddressId == tmp select a.AreaId).FirstOrDefault();
+                    reading.CollectorId = (from a in dataBase.Areas where a.AreaId == tmp2 select a.CollectorId).FirstOrDefault().ToString();
+
+                    var friendsOfReading = from r in dataBase.Readings where r.CounterNo == reading.CounterNo orderby r.Date descending select r;
+                    if (friendsOfReading.Count() == 0)
+                        reading.Value = rnd.Next(0, 1000);
+                    else
+                    {
+                        reading.Value = friendsOfReading.FirstOrDefault().Value + rnd.Next(0, 1000);
+
+                        foreach (Reading friendOfReading in friendsOfReading)
+                            friendOfReading.Date = friendOfReading.Date.AddDays(-30);
+
+                        dataBase.SaveChanges();
+                    }
+
+                    reading.Date = DateTime.Now;
+                }
+
+                reading.InsertIntoDB();
+            }
+        }
+
+        /// <summary>
         /// Generuje losowo całą bazę danych.
         /// </summary>
         static public void GenerateDataBase()
@@ -212,6 +260,8 @@ namespace SZI
             GenerateAddresses();
             ReadDataFromDataBase(new int[] { 1, 3 });
             GenerateCounters();
+            ReadDataFromDataBase(new int[] { 4 });
+            GenerateReadings();
             RemoveDataFromStatic();
         }
 
@@ -222,11 +272,11 @@ namespace SZI
         {
             using (var dataBase = new CollectorsManagementSystemEntities())
             {
-                string query = @"DELETE FROM Collector;"+
-                                "DELETE FROM Customer;"+
-                                "DELETE FROM Area;"+
-                                "DELETE FROM Counter;"+
-                                "DELETE FROM Address;"+
+                string query = @"DELETE FROM Collector;" +
+                                "DELETE FROM Customer;" +
+                                "DELETE FROM Area;" +
+                                "DELETE FROM Counter;" +
+                                "DELETE FROM Address;" +
                                 "DELETE FROM Reading;";
 
                 dataBase.Database.ExecuteSqlCommand(query);
@@ -286,7 +336,7 @@ namespace SZI
                         possibleDay = (tmp + 1).ToString("00");
                 }
 
-                 // Łączenie
+                // Łączenie
                 possiblePesel = possibleYear + possibleMonth + possibleDay;
 
                 // Numery kontrolne
@@ -327,7 +377,7 @@ namespace SZI
         /// </summary>
         /// <param name="gender">Płeć wylosowanej osoby.</param>
         /// <returns>Dwuelementowa tablica zawierająca imię i nazwisko.</returns>
-        static string[] GenerateNameAndLastName( int gender )
+        static string[] GenerateNameAndLastName(int gender)
         {
             Random rnd = new Random();
             string[] nameAndLastName = new string[2];
