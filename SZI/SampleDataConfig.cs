@@ -84,20 +84,21 @@ namespace SZI
             string[] nameAndLastName;
             string[] postalCodeAndCity;
             Collector collector;
+            int tpmGender = 0;
 
             for (int i = 0; i < numberOfCollectors; i++)
             {
                 collector = new Collector();
-
-                collector.CollectorId = GenerateRandomPesel("Collector");
-                nameAndLastName = GenerateNameAndLastName();
+                tpmGender = rnd.Next(0, 9);
+                collector.CollectorId = GenerateRandomPesel("Collector", tpmGender);
+                nameAndLastName = GenerateNameAndLastName(tpmGender);
                 collector.Name = nameAndLastName[0];
                 collector.LastName = nameAndLastName[1];
                 postalCodeAndCity = GeneratePostalCodeAndCity();
                 collector.PostalCode = postalCodeAndCity[0];
                 collector.City = postalCodeAndCity[1];
                 collector.Address = SampleDataSource.streets[rnd.Next(0, SampleDataSource.streets.Length)] + ' ' + rnd.Next(1, 100).ToString();
-                collector.PhoneNumber = rnd.Next(500000000, 999999999).ToString();
+                collector.PhoneNumber = GeneratePhoneNumber();
 
                 collector.InsertIntoDB();
             }
@@ -111,14 +112,15 @@ namespace SZI
             Random rnd = new Random();
             string[] nameAndLastName;
             string[] postalCodeAndCity;
+            int tpmGender = 0;
             Customer customer;
 
             for (int i = 0; i < numberOfCustomers; i++)
             {
                 customer = new Customer();
-
-                customer.CustomerId = GenerateRandomPesel("Customer");
-                nameAndLastName = GenerateNameAndLastName();
+                tpmGender = rnd.Next(0, 9);
+                customer.CustomerId = GenerateRandomPesel("Customer", tpmGender);
+                nameAndLastName = GenerateNameAndLastName(tpmGender);
                 customer.Name = nameAndLastName[0];
                 customer.LastName = nameAndLastName[1];
                 postalCodeAndCity = GeneratePostalCodeAndCity();
@@ -236,12 +238,16 @@ namespace SZI
         /// Jeśli jest to pesel, sprawdza, czy taki pesel nie istnieje już w tabeli, do której ma być wstawiony rekord z danym peselem.
         /// </summary>
         /// <param name="tableName">Nazwa tabeli, do której będzie wstawiony rekord z wylosowanym peselem.</param>
+        /// <param name="gender">Płeć wylosowanej osoby.</param>
         /// <returns>Prawidłowy i unikalny w ramach odpowiedniej tabeli numer pesel.</returns>
-        static string GenerateRandomPesel(string tableName)
+        static string GenerateRandomPesel(string tableName, int gender)
         {
             Random rnd = new Random();
             IDataBase dataBase;
             string possiblePesel = String.Empty;
+            string possibleYear;
+            string possibleMonth;
+            string possibleDay;
             bool uniquePesel = false;
 
             if (tableName == "Collector")
@@ -251,9 +257,44 @@ namespace SZI
 
             while (!uniquePesel)
             {
+                // Czyszczenie
                 possiblePesel = String.Empty;
-                for (int i = 0; i < 10; ++i)
+                possibleYear = String.Empty;
+                possibleMonth = String.Empty;
+                possibleDay = String.Empty;
+
+                // Generowanie
+                for (int i = 0; i < 2; ++i)
+                    possibleYear += rnd.Next(0, 9).ToString();
+                for (int i = 0; i < 2; ++i)
+                    possibleMonth += rnd.Next(0, 9).ToString();
+                for (int i = 0; i < 2; ++i)
+                    possibleDay += rnd.Next(0, 9).ToString();
+
+                // Sprawdzanie
+                if (!IdentityValidation.CheckMonthId(possibleMonth))
+                {
+                    int tmp;
+                    if (int.TryParse(possibleMonth, out tmp))
+                        possibleMonth = (tmp + 1).ToString("00");
+                }
+
+                if (!IdentityValidation.CheckMonthId(possibleDay))
+                {
+                    int tmp;
+                    if (int.TryParse(possibleDay, out tmp))
+                        possibleDay = (tmp + 1).ToString("00");
+                }
+
+                 // Łączenie
+                possiblePesel = possibleYear + possibleMonth + possibleDay;
+
+                // Numery kontrolne
+                for (int i = 0; i < 3; ++i)
                     possiblePesel += rnd.Next(0, 9).ToString();
+
+                // Płeć
+                possiblePesel += gender.ToString();
 
                 possiblePesel += IdentityValidation.CheckSum(possiblePesel);
 
@@ -284,15 +325,15 @@ namespace SZI
         /// <summary>
         /// Losuje płeć, a następnie imię i nazwisko z dostępnej puli.
         /// </summary>
+        /// <param name="gender">Płeć wylosowanej osoby.</param>
         /// <returns>Dwuelementowa tablica zawierająca imię i nazwisko.</returns>
-        static string[] GenerateNameAndLastName()
+        static string[] GenerateNameAndLastName( int gender )
         {
             Random rnd = new Random();
-            int gender = rnd.Next(0, 2);
             string[] nameAndLastName = new string[2];
 
             nameAndLastName[1] = SampleDataSource.lastNames[rnd.Next(0, SampleDataSource.lastNames.Length)];
-            if (gender == 0)
+            if (gender % 2 == 0)
                 nameAndLastName[0] = SampleDataSource.maleNames[rnd.Next(0, SampleDataSource.maleNames.Length)];
             else
             {
