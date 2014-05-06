@@ -18,27 +18,27 @@ namespace SZI
         /// <param name="IDs">Lista identyfikatorów rekordów do usunięcia.</param>
         /// <param name="TableNumber">Numer identyfikujący tabelę, z której mają zostać usunięte rekordy.</param>
         /// <param name="idIsForeignKey">true - do kasowanych rekordów istnieją odniesienia w innych tabelach.</param>
-        public static void DeleteFromDB(List<string> IDs, int TableNumber, bool idIsForeignKey)
+        public static void DeleteFromDB(List<string> IDs, Tables Table, bool idIsForeignKey)
         {
-            switch (TableNumber)
+            switch (Table)
             {
-                case 0:
+                case Tables.Collectors:
                     DeleteFromCollectors(IDs, idIsForeignKey);
                     break;
 
-                case 1:
+                case Tables.Customers:
                     DeleteFromCustomers(IDs, idIsForeignKey);
                     break;
 
-                case 2:
+                case Tables.Areas:
                     DeleteFromAreas(IDs, idIsForeignKey);
                     break;
 
-                case 3:
+                case Tables.Counters:
                     DeleteFromCounters(IDs, idIsForeignKey);
                     break;
 
-                case 4:
+                case Tables.Addresses:
                     DeleteFromAddresses(IDs, idIsForeignKey);
                     break;
 

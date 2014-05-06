@@ -14,12 +14,12 @@ namespace SZI
 {
     public partial class ConfigManagementForm : Form, IForm
     {
-        private int selectedTab = 0;
+        private Tables selectedTab = Tables.Collectors;
         private TabControl tabControl;
         private ListView.SelectedIndexCollection indexes; //indeksy zaznaczonych w danym momencie elementów listView w aktywnej zakładce
-        private IDataBase[] dataBase;
+        public static IDataBase[] dataBase;
         private List<string> ids;
-        private ListView[] listView;
+        public static ListView[] listView;
         private ToolStripItemCollection Items_SingleSelection;
         private ToolStripItemCollection Items_MultipleSelection;
         private ToolStripItemCollection Items_NoSelection;
@@ -87,7 +87,7 @@ namespace SZI
             // Aktywacja
             this.Controls.Add(tabControl);
             tabControl.TabPages.AddRange(tabPages);
-            tabControl.SelectedTab = tabPages[selectedTab];
+            tabControl.SelectedTab = tabPages[(int)selectedTab];
 
             tabControl.SelectedIndexChanged += tabControl_SelectedIndexChanged;
         }
@@ -150,6 +150,7 @@ namespace SZI
         private void ShowAssociatedRecords(object sender, EventArgs e)
         {
             List<List<string>> AssociatedRecords;
+            List<string> ids = Auxiliary.CreateIdList(listView[(int)selectedTab]);
 
             switch ((Tables)selectedTab)
             {
@@ -197,7 +198,6 @@ namespace SZI
         }
 
 
-
         /// <summary>
         /// Ustawia właściwość "Enabled" dla przycisków "Usuń" i "Modyfikuj".
         /// </summary>
@@ -216,8 +216,7 @@ namespace SZI
         /// <param name="e">Nieistotny parametr, niezbędny do przypisania metody do EventHandlera ToolStripItemu</param>
         private void SelectAllItems(object sender, EventArgs e)
         {
-            ListView lv = listView[selectedTab];
-            lv.MultiSelect = true;
+            ListView lv = listView[(int)selectedTab];
             foreach (ListViewItem item in lv.Items)
             {
                 item.Selected = true;
@@ -234,7 +233,7 @@ namespace SZI
         /// <param name="e">Parametry zdarzenia.</param>
         private void CopyItemstoClipboard(object sender, EventArgs e)
         {
-            Auxiliary.CopyItemstoClipboard(listView[selectedTab], e);
+            Auxiliary.CopyItemstoClipboard(listView[(int)selectedTab], e);
         }
 
         /// <summary>
@@ -265,88 +264,14 @@ namespace SZI
         // List wiew refresh ( every tick = 15 min [ 900000 ms ] )
         private void timerRefresh_Tick(object sender, EventArgs e)
         {
-            closeForm_Click(sender, e);
+            ListViewDataManipulation.RefreshListView(this);
         }
 
-        /// <summary>
-        /// Odświeża ListView odpowiadające zmodyfikowanej tabeli, a także powiązane z nią ListView, które zawierają klucze obce.
-        /// </summary>
-        /// <param name="ModifiedTable">Zmodyfikowana tabela.</param>
-        private void RefreshNecessaryTables(Tables ModifiedTable)
-        {
-            switch (ModifiedTable)
-            {
-                case Tables.Collectors: //jeśli zmieniono coś w inkasentach, to odświez inkasentów, tereny i adresy
-                    dataBase[(int)Tables.Collectors].RefreshList();
-                    ListViewConfig.ListViewRefresh(listView[(int)Tables.Collectors], dataBase[(int)Tables.Collectors].itemList);
-
-                    dataBase[(int)Tables.Areas].RefreshList();
-                    ListViewConfig.ListViewRefresh(listView[(int)Tables.Areas], dataBase[(int)Tables.Areas].itemList);
-
-                    dataBase[(int)Tables.Addresses].RefreshList();
-                    ListViewConfig.ListViewRefresh(listView[(int)Tables.Addresses], dataBase[(int)Tables.Addresses].itemList);
-                    break;
-
-                case Tables.Customers: //jeśli zmieniono coś w klientach, to odświez klientów i liczniki
-                    dataBase[(int)Tables.Customers].RefreshList();
-                    ListViewConfig.ListViewRefresh(listView[(int)Tables.Customers], dataBase[(int)Tables.Customers].itemList);
-
-                    dataBase[(int)Tables.Counters].RefreshList();
-                    ListViewConfig.ListViewRefresh(listView[(int)Tables.Counters], dataBase[(int)Tables.Counters].itemList);
-                    break;
-
-                case Tables.Areas: //jeśli zmieniono coś w terenach, to odświez tereny, liczniki i adresy
-                    dataBase[(int)Tables.Areas].RefreshList();
-                    ListViewConfig.ListViewRefresh(listView[(int)Tables.Areas], dataBase[(int)Tables.Areas].itemList);
-
-                    dataBase[(int)Tables.Counters].RefreshList();
-                    ListViewConfig.ListViewRefresh(listView[(int)Tables.Counters], dataBase[(int)Tables.Counters].itemList);
-
-                    dataBase[(int)Tables.Addresses].RefreshList();
-                    ListViewConfig.ListViewRefresh(listView[(int)Tables.Addresses], dataBase[(int)Tables.Addresses].itemList);
-                    break;
-
-                case Tables.Counters:
-                    dataBase[(int)Tables.Counters].RefreshList();
-                    ListViewConfig.ListViewRefresh(listView[(int)Tables.Counters], dataBase[(int)Tables.Counters].itemList);
-                    break;
-
-                case Tables.Addresses:
-                    dataBase[(int)Tables.Addresses].RefreshList();
-                    ListViewConfig.ListViewRefresh(listView[(int)Tables.Addresses], dataBase[(int)Tables.Addresses].itemList);
-                    break;
-
-                default:
-                    break;
-            }
-        }
 
         // Data refresh
         private void closeForm_Click(object sender, EventArgs e)
         {
-            IForm form = (IForm)sender;
-
-            if (form.Modified) //jeśli dokonano modyfikacji lub dodania rekordu, to odśwież listę
-            {
-                if (form.GetType() == typeof(ConfigManagementForm)) //jeśli naciśnięto przycisk odśwież na formie
-                {
-                    int i = 0;
-                    foreach (var data in dataBase)
-                    {
-                        data.RefreshList();
-                        ListViewConfig.ListViewRefresh(listView[i++], data.itemList);
-                    }
-                }
-                else if (form.Modified && form.GetType() == typeof(InsertForm)) //jeśli wprowadzono rekord
-                {
-                    dataBase[selectedTab].RefreshList();
-                    ListViewConfig.ListViewRefresh(listView[selectedTab], dataBase[selectedTab].itemList);
-                }
-                else if (form.Modified)//zmodyfikowano/usunięto rekord
-                {
-                    RefreshNecessaryTables((Tables)selectedTab);
-                }
-            }
+            ListViewDataManipulation.RefreshListView(sender);
         }
 
         /// <summary>
@@ -356,7 +281,8 @@ namespace SZI
         /// <param name="e">Parametry zdarzenia</param>
         void tabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            selectedTab = tabControl.SelectedIndex;
+            selectedTab = (Tables)tabControl.SelectedIndex;
+            listView[(int)selectedTab].HideSelection = false;
             SetButtonEnabledProperty(false, false);
         }
 
@@ -377,7 +303,7 @@ namespace SZI
             }
             else if (e.KeyCode == Keys.C && e.Control)// Ctrl + c - skopiowanie zaznaczonych itemów do schowka
             {
-                Auxiliary.CopyItemstoClipboard(listView[selectedTab], null);
+                Auxiliary.CopyItemstoClipboard(listView[(int)selectedTab], null);
             }
             else if (e.KeyCode == Keys.Delete) //Delete - równoznaczne z kliknięciem przycisku
             {
@@ -390,25 +316,9 @@ namespace SZI
             }
         }
 
-        void listView_DataChanged(object sender, EventArgs e)
-        {
-            selectedTab = tabControl.SelectedIndex;
-        }
-
         void lv_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ids = new List<string>();
-            ListView activeListView = (ListView)sender;
-            indexes = activeListView.SelectedIndices;
-
-
-            ListView.SelectedListViewItemCollection selectedItems = activeListView.SelectedItems;
-            foreach (ListViewItem item in selectedItems)
-            {
-                ids.Add(item.SubItems[0].Text);
-            }
-
-            switch (listView[selectedTab].SelectedItems.Count)
+            switch (listView[(int)selectedTab].SelectedItems.Count)
             {
                 case 0:
                     SetButtonEnabledProperty(false, false);
@@ -434,46 +344,12 @@ namespace SZI
         /// <param name="e">Argumenty zdarzenia.</param>
         private void btDelete_Click(object sender, EventArgs e)
         {
-            bool idExists = false;
-            string tableName = string.Empty;
-            DialogResult choiceFromMessageBox = DialogResult.Yes;
-            switch (selectedTab)
+            if (ListViewDataManipulation.DeleteItems(listView[(int)selectedTab], selectedTab))
             {
-                case 0:
-                    tableName = "Collector";
-                    break;
-                case 1:
-                    tableName = "Customer";
-                    break;
-                case 2:
-                    tableName = "Area";
-                    break;
-                case 4:
-                    tableName = "Address";
-                    break;
-                case 5:
-                    tableName = "Counter";
-                    break;
-            }
-
-            for (int i = 0; i < ids.Count; i++)
-            {
-                idExists = DBManipulator.IdExistsInOtherTable(tableName, ids.ElementAt(i));
-                if (idExists)
-                {
-                    tableName = tableName.ToLower();
-                    choiceFromMessageBox = MessageBox.Show(LangPL.IntegrityWarnings[tableName + "Removal"], "Ostrzeżenie", MessageBoxButtons.YesNo);
-                    break;
-                }
-            }
-
-            if (choiceFromMessageBox == DialogResult.Yes)
-            {
-                DBManipulator.DeleteFromDB(ids, selectedTab, idExists);
-                closeForm_Click(this, e);
+                ListViewDataManipulation.RefreshListView(this, selectedTab);
                 SetButtonEnabledProperty(false, false);
             }
-            listView[selectedTab].HideSelection = false;
+            listView[(int)selectedTab].HideSelection = false;
         }
 
         /// <summary>
@@ -496,19 +372,14 @@ namespace SZI
         /// <param name="e">Argumenty zdarzenia.</param>
         private void btModify_Click(object sender, EventArgs e)
         {
-            int selectedIndex = listView[selectedTab].SelectedIndices[0]; //index modyfikowanego itemu
-            var modifyForm = new ModifyForm(ids, selectedTab);
-            modifyForm.FormClosing += closeForm_Click;
-            modifyForm.ShowDialog();
-            listView[selectedTab].HideSelection = false;
-            listView[selectedTab].Items[selectedIndex].Selected = true;
+            ListViewDataManipulation.ModifyRecord(listView[(int)selectedTab], selectedTab);
             SetButtonEnabledProperty(true, true);
         }
 
         // Refresh data button
         private void btRefresh_Click(object sender, EventArgs e)
         {
-            closeForm_Click(this, e);
+            ListViewDataManipulation.RefreshListView(this);
         }
 
         #endregion

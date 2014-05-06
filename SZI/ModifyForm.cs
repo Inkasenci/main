@@ -23,7 +23,7 @@ namespace SZI
         /// <summary>
         /// Numer karty, z której otwarto formularz modyfikacji.
         /// </summary>
-        private int selectedTab;
+        public Tables Table;
         /// <summary>
         /// Teksty etykiet formularza.
         /// </summary>
@@ -80,7 +80,7 @@ namespace SZI
         /// </summary>
         /// <param name="ids">Identyfikatory rekordów zaznaczonych w momencie tworzenia formularza.</param>
         /// <param name="selectedTab">Karta, z której otwarto formularz.</param>
-        public ModifyForm(List<string> ids, int selectedTab)
+        public ModifyForm(List<string> ids, Tables Table)
         {
             InitializeComponent();
             dataBase = new CollectorsManagementSystemEntities();
@@ -89,23 +89,23 @@ namespace SZI
 
             this.Text = "Modyfikacja rekordu";
             this.ids = ids;
-            this.selectedTab = selectedTab;
+            this.Table = Table;
 
-            switch (selectedTab)
+            switch (Table)
             {
-                case 0:
+                case Tables.Collectors:
                     labelsTexts = new string[] { "Id inkasenta: ", "Imię: ", "Nazwisko: ", "Kod pocztowy: ", "Miasto: ", "Ulica: ", "Telefon kontaktowy: " };
                     textBoxesNames = new string[] { "CollectorId", "Name", "LastName", "PostalCode", "City", "Address", "PhoneNumber" };
                     Collector modifiedCollector = dataBase.Collectors.SqlQuery("SELECT * FROM Collector WHERE CollectorId={0}", ids.ElementAt(0)).SingleOrDefault();
                     textBoxesTexts = new string[] { modifiedCollector.CollectorId, modifiedCollector.Name, modifiedCollector.LastName, Regex.Replace(modifiedCollector.PostalCode, "([0-9]{2})([0-9]{3})", "${1}-${2}"), modifiedCollector.City, modifiedCollector.Address, modifiedCollector.PhoneNumber };
                     break;
-                case 1:
+                case Tables.Customers:
                     labelsTexts = new string[] { "Id klienta: ", "Imię: ", "Nazwisko: ", "Kod pocztowy: ", "Miasto: ", "Ulica: ", "Telefon kontaktowy: " };
                     textBoxesNames = new string[] { "CustomerId", "Name", "LastName", "PostalCode", "City", "Address", "PhoneNumber" };
                     Customer modifiedCustomer = dataBase.Customers.SqlQuery("SELECT * FROM Customer WHERE CustomerId={0}", ids.ElementAt(0)).SingleOrDefault();
                     textBoxesTexts = new string[] { modifiedCustomer.CustomerId, modifiedCustomer.Name, modifiedCustomer.LastName, Regex.Replace(modifiedCustomer.PostalCode, "([0-9]{2})([0-9]{3})", "${1}-${2}"), modifiedCustomer.City, modifiedCustomer.Address, modifiedCustomer.PhoneNumber };
                     break;
-                case 2:
+                case Tables.Areas:
                     labelsTexts = new string[] { "Id terenu: ", "Ulica: ", "Id inkasenta: " };
                     textBoxesNames = new string[] { "AreaId", "Street"};
                     Area modifiedArea = dataBase.Areas.SqlQuery("SELECT * FROM Area WHERE AreaId={0}", ids.ElementAt(0)).SingleOrDefault();
@@ -115,7 +115,7 @@ namespace SZI
                     comboBoxesKeys = new string[] { modifiedArea.CollectorId };
                     TableNames = new string[] {"Collector"};
                     break;
-                case 3:
+                case Tables.Counters:
                     labelsTexts = new string[] { "Numer licznika: ", "Numer układu: ", "Id adresu: ", "Id klienta: " };
                     textBoxesNames = new string[] { "CounterNo", "CircuitNo" };
                     Counter modifiedCounter = dataBase.Counters.SqlQuery("SELECT * FROM Counter WHERE CounterNo={0}", ids.ElementAt(0)).SingleOrDefault();
@@ -126,7 +126,7 @@ namespace SZI
                     TableNames = new string[] {"Address", "Customer"};
                     
                     break;
-                case 4:
+                case Tables.Addresses:
                     labelsTexts = new string[] { "Id adresu: ", "Numer domu: ", "Numer mieszkania: ", "Id terenu: " };
                     textBoxesNames = new string[] { "AddressId", "HouseNo", "FlatNo" };
                     Address modifiedAddress = dataBase.Addresses.SqlQuery("SELECT * FROM Address WHERE AddressId={0}", ids.ElementAt(0)).SingleOrDefault();
@@ -168,7 +168,7 @@ namespace SZI
                     ep = Auxiliary.InitializeErrorProvider(CBConfigs[j].comboBox);
                     ControlToEP_Dict.Add(CBConfigs[j].comboBox, ep);
                     ControlToBool_Dict.Add(CBConfigs[j].comboBox, true);
-                    if (selectedTab != 3)
+                    if ((int)Table != 3)
                         CBConfigs[j].comboBox.Validating += ComboBoxValidation;
                     else //jeśli modyfikowany jest wpis w Counters
                         CBConfigs[j].comboBox.Validating += CountersValidation;
@@ -241,10 +241,10 @@ namespace SZI
         private void btSave_Click(object sender, EventArgs e)
         {
             int Parse;
-            
-            switch (selectedTab)
+
+            switch (Table)
             {
-                case 0:
+                case Tables.Collectors:
                     if (Auxiliary.IsCurrentValueOK(ControlToBool_Dict))
                     {
                         Collector modifiedCollector = new Collector();
@@ -263,7 +263,7 @@ namespace SZI
                         MessageBox.Show(LangPL.InsertFormLang["Fill in all fields"]);    
                     break;
 
-                case 1:
+                case Tables.Customers:
                     if (Auxiliary.IsCurrentValueOK(ControlToBool_Dict))
                     {
                         Customer modifiedCustomer = new Customer();
@@ -282,7 +282,7 @@ namespace SZI
                         MessageBox.Show(LangPL.InsertFormLang["Fill in all fields"]);  
                     break;
 
-                case 2:                    
+                case Tables.Areas:                    
                     if (Auxiliary.IsCurrentValueOK(ControlToBool_Dict))
                     {
                         Area modifiedArea = new Area();
@@ -300,7 +300,7 @@ namespace SZI
                         MessageBox.Show(LangPL.InsertFormLang["Fill in all fields"]);
                     break;
 
-                case 3:
+                case Tables.Counters:
                     if (Auxiliary.IsCurrentValueOK(ControlToBool_Dict))
                     {
                         Counter modifiedCounter = new Counter();
@@ -328,7 +328,7 @@ namespace SZI
                         MessageBox.Show(LangPL.InsertFormLang["Fill in all fields"]);  
                     break;
 
-                case 4:     
+                case Tables.Addresses:     
                     if (Auxiliary.IsCurrentValueOK(ControlToBool_Dict))
                     {
                         Address modifiedAddress = new Address();
