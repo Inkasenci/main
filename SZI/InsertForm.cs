@@ -12,7 +12,7 @@ namespace SZI
 {
     public partial class InsertForm : Form, IForm
     {
-        private int selectedTab;
+        private Tables selectedTab;
 
         private bool CollectorEPInitialized = false, CustomerEPInitialized = false, AreaEPInitialized = false, CounterEPInitialized = false, AddressEPInitialized = false;
         private Dictionary<string, ValidatingMethod> NameToMethod_Dict;
@@ -20,6 +20,11 @@ namespace SZI
         private Dictionary<Control, bool> ControlToBool_Collector_Dict, ControlToBool_Customer_Dict, ControlToBool_Area_Dict, ControlToBool_Counter_Dict, ControlToBool_Address_Dict, Current_ControlToBool_Dict;
         private ComboBoxConfig cbcCustomer, cbcCollector, cbcArea, cbcAddress;
         private bool modified = false;
+        
+        /// <summary>
+        /// Tabela do której wstawiono rekord.
+        /// </summary>
+        public Tables InsertedTo;
 
         /// <summary>
         /// Zwraca wartość logiczną, która określa czy baza została zmieniona.
@@ -32,12 +37,12 @@ namespace SZI
             }
         }
 
-        public InsertForm(int MainFormSelectedTab)
+        public InsertForm(Tables MainFormSelectedTab)
         {
             InitializeComponent();
             SetupControls();
             selectedTab = MainFormSelectedTab;
-            tcInsert.SelectTab(MainFormSelectedTab);
+            tcInsert.SelectTab((int)MainFormSelectedTab);
             InitializeEP(selectedTab);
         }
 
@@ -184,39 +189,39 @@ namespace SZI
             ControlToBool_Address_Dict.Add(cbArea, false);
         }
 
-        private void InitializeEP(int tabPage)
+        private void InitializeEP(Tables tabPage)
         {
             switch (tabPage)
             {
-                case 0:
+                case Tables.Collectors:
                     InitializeCollectorDictAndTB();
                     CollectorEPInitialized = true;
                     Current_ControltoEP_Dict = ControltoEP_Collector_Dict;
                     Current_ControlToBool_Dict = ControlToBool_Collector_Dict;
                     break;
 
-                case 1:
+                case Tables.Customers:
                     InitializeCustomerDictAndTB();
                     CustomerEPInitialized = true;
                     Current_ControltoEP_Dict = ControltoEP_Customer_Dict;
                     Current_ControlToBool_Dict = ControlToBool_Customer_Dict;
                     break;
 
-                case 2:
+                case Tables.Areas:
                     InitializeAreaDictAndTB();
                     AreaEPInitialized = true;
                     Current_ControltoEP_Dict = ControltoEP_Area_Dict;
                     Current_ControlToBool_Dict = ControlToBool_Area_Dict;
                     break;
 
-                case 3:
+                case Tables.Counters:
                     InitializeCounterDictAndTB();
                     CounterEPInitialized = true;
                     Current_ControltoEP_Dict = ControltoEP_Counter_Dict;
                     Current_ControlToBool_Dict = ControlToBool_Counter_Dict;
                     break;
 
-                case 4:
+                case Tables.Addresses:
                     InitializeAddressDictAndTB();
                     AddressEPInitialized = true;
                     Current_ControltoEP_Dict = ControltoEP_Address_Dict;
@@ -286,7 +291,8 @@ namespace SZI
             if (Auxiliary.IsCurrentValueOK(Current_ControlToBool_Dict))
             {
                 c.InsertIntoDB();
-		modified = true;
+		        modified = true;
+                InsertedTo = Tables.Collectors;
                 return true;
             }
             else
@@ -311,6 +317,7 @@ namespace SZI
             {
                 c.InsertIntoDB();
                 modified = true;
+                InsertedTo = Tables.Customers;
                 return true;
             }
             else
@@ -331,6 +338,7 @@ namespace SZI
             {
                 a.InsertIntoDB();
                 modified = true;
+                InsertedTo = Tables.Areas;
                 return true;
             }
             else
@@ -360,6 +368,7 @@ namespace SZI
                 }
                 c.InsertIntoDB();
                 modified = true;
+                InsertedTo = Tables.Counters;
                 return true;
             }
             else
@@ -386,6 +395,7 @@ namespace SZI
                 a.AreaId = new Guid(cbcArea.ReturnForeignKey());
                 a.InsertIntoDB();
                 modified = true;
+                InsertedTo = Tables.Addresses;
                 return true;
             }
             else
@@ -444,27 +454,27 @@ namespace SZI
         {
             switch (selectedTab)
             {
-                case 0:
+                case Tables.Collectors:
                     if (InsertCollector())
                         this.Close();
                     break;
 
-                case 1:
+                case Tables.Customers:
                     if (InsertCustomer())
                         this.Close();
                     break;
 
-                case 2:
+                case Tables.Areas:
                     if (InsertArea())
                         this.Close();
                     break;
 
-                case 3:
+                case Tables.Counters:
                     if (InsertCounter())
                         this.Close();
                     break;
 
-                case 4:
+                case Tables.Addresses:
                     if (InsertAddress())
                         this.Close();
                     break;
@@ -478,23 +488,23 @@ namespace SZI
         {
             switch (selectedTab)
             {
-                case 0:
+                case Tables.Collectors:
                     ClearTBCollector();
                     break;
 
-                case 1:
+                case Tables.Customers:
                     ClearTBCustomer();
                     break;
 
-                case 2:
+                case Tables.Areas:
                     ClearTBArea();
                     break;
 
-                case 3:
+                case Tables.Counters:
                     ClearTBCounter();
                     break;
 
-                case 4:
+                case Tables.Addresses:
                     ClearTBAddress();
                     break;
 
@@ -505,10 +515,10 @@ namespace SZI
 
         private void tcInsert_SelectedIndexChanged(object sender, EventArgs e)
         {
-            selectedTab = tcInsert.SelectedIndex;
+            selectedTab = (Tables)tcInsert.SelectedIndex;
             switch (selectedTab)
             {
-                case 0:
+                case Tables.Collectors:
                     if (!CollectorEPInitialized)
                     {
                         InitializeEP(selectedTab);
@@ -518,7 +528,7 @@ namespace SZI
                     Current_ControlToBool_Dict = ControlToBool_Collector_Dict;
                     break;
 
-                case 1:
+                case Tables.Customers:
                     if (!CustomerEPInitialized)
                     {
                         InitializeEP(selectedTab);
@@ -528,7 +538,7 @@ namespace SZI
                     Current_ControlToBool_Dict = ControlToBool_Customer_Dict;
                     break;
 
-                case 2:
+                case Tables.Areas:
                     if (!AreaEPInitialized)
                     {
                         InitializeEP(selectedTab);
@@ -538,7 +548,7 @@ namespace SZI
                     Current_ControlToBool_Dict = ControlToBool_Area_Dict;
                     break;
 
-                case 3:
+                case Tables.Counters:
                     if (!CounterEPInitialized)
                     {
                         InitializeEP(selectedTab);
@@ -548,7 +558,7 @@ namespace SZI
                     Current_ControlToBool_Dict = ControlToBool_Counter_Dict;
                     break;
 
-                case 4:
+                case Tables.Addresses:
                     if (!AddressEPInitialized)
                     {
                         InitializeEP(selectedTab);

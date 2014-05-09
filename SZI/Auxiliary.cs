@@ -14,6 +14,24 @@ namespace SZI
     public static class Auxiliary
     {
         /// <summary>
+        /// Zwraca listę identyfikatorów związanych z zaznaczonymi w przekazanej ListView itemami.
+        /// </summary>
+        /// <param name="listView">ListView którego identyfikatory zaznaczonych itemów zostaną stworzone.</param>
+        /// <returns>Lista identyfikatorów zaznaczonych itemów.</returns>
+        public static List<string> CreateIdList(ListView listView)
+        {
+            List<string> ids = new List<string>();
+
+            ListView.SelectedListViewItemCollection selectedItems = listView.SelectedItems;
+            foreach (ListViewItem item in selectedItems)
+            {
+                ids.Add(item.SubItems[0].Text);
+            }
+
+            return ids;
+        }
+
+        /// <summary>
         /// Kopiuje zaznaczone elementy listy do schowka.
         /// </summary>
         /// <param name="sender">ListView, której elementy zostaną skopiowane.</param>

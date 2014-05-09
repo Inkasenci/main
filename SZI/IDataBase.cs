@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace SZI
 {
-    interface IDataBase
+    public interface IDataBase
     {
         string[] columnList { get; set; }
         string className { get; set; }

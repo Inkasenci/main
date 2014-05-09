@@ -148,6 +148,7 @@
     </Compile>
     <Compile Include="LangPL.cs" />
     <Compile Include="ListViewConfig.cs" />
+    <Compile Include="ListViewDataManipulation.cs" />
     <Compile Include="ListViewSorter.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
