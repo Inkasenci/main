@@ -16,9 +16,7 @@ namespace SZI
     {
         private Tables selectedTab = Tables.Collectors;
         private TabControl tabControl;
-        private ListView.SelectedIndexCollection indexes; //indeksy zaznaczonych w danym momencie elementów listView w aktywnej zakładce
         public static IDataBase[] dataBase;
-        private List<string> ids;
         public static ListView[] listView;
         private ToolStripItemCollection Items_SingleSelection;
         private ToolStripItemCollection Items_MultipleSelection;
