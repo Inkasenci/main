@@ -26,6 +26,199 @@ namespace SZI
         private static StringFormat format = StringFormat.GenericTypographic;
 
         /// <summary>
+        /// Klasa generująca misje dla inkasentów.
+        /// </summary>
+        public static class Mission
+        {
+            private static List<List<string>> Missions;
+
+            private static string ToPrint = String.Empty;
+            private static string CollectorsName = String.Empty;
+
+            private static bool FirstPagePrinted = false;
+            private static int PlacesToVisit = 0;
+
+            /// <summary>
+            /// Tworzy obiekt PrintPreviewDialog, który jest podglądem wydruku wygenerowanej misji dla inkasenta o identyfikatorze id.
+            /// </summary>
+            /// <param name="id">Identyfikator inkasenta.</param>
+            /// <returns>PrintPreviewDialog, który jest podglądem wydruku wygenerowanej misji.</returns>
+            public static PrintPreviewDialog CreateMission(string id)
+            {
+                //id = "14868162082";
+                id = "42888805449";
+
+                PrintDocument pd = new PrintDocument();
+                PrintPreviewDialog ppd = new PrintPreviewDialog();
+
+                using (var database = new CollectorsManagementSystemEntities())
+                {
+                    //data 30 dni wcześniejsza od teraźniejszej
+                    var date = DateTime.Now.Subtract(new TimeSpan(30, 0, 0, 0));
+
+                    //imię i nazwisko inkasenta
+                    CollectorsName = (from collector in database.Collectors
+                                             where collector.CollectorId == id
+                                             select collector.Name + " " + collector.LastName).FirstOrDefault();
+
+                    //adresy pod którymi są liczniki, których trzeba zebrać odczyty (bo ostatni odczyt był wcześniej niż 30 dni temu, lub nigdy go nie było)
+                    //+ właściciel danego licznika
+                    //adresy te są tylko dla danego inkasenta (id)
+                    var query = (from collector in database.Collectors
+                                 where collector.CollectorId == id
+                                 join area in database.Areas on collector.CollectorId equals area.CollectorId
+                                 join address in database.Addresses on area.AreaId equals address.AreaId
+                                 join counter in database.Counters on address.AddressId equals counter.AddressId
+                                 join reading in database.Readings on counter.CounterNo equals reading.CounterNo into gj
+                                 where (gj.Max(a => (DateTime?)a.Date) == null ? new DateTime() : gj.Max(a => (DateTime?)a.Date)) < date
+                                 select new
+                                 {
+                                     counter.CounterNo,
+                                     counter.CircuitNo,
+                                     address = area.Street + "  " + address.HouseNo.ToString() + (address.FlatNo == null ? String.Empty : "/" + address.FlatNo.ToString()),
+                                     owner = (from customer in database.Customers
+                                              join subCounter in database.Counters
+                                              on customer.CustomerId equals subCounter.CustomerId
+                                              where subCounter.CounterNo == counter.CounterNo
+                                              select customer.Name + " " + customer.LastName + " " + customer.PhoneNumber).FirstOrDefault(),
+                                     max = gj.Max(a => (DateTime?)a.Date) == null ? new DateTime() : gj.Max(a => (DateTime?)a.Date)
+                                 }).ToList();
+
+                    PlacesToVisit = query.Count;
+                    Missions = new List<List<string>>();
+                    for (int i = 0; i < query.Count; i++)
+                    {
+                        Missions.Add(new List<string>());
+                        Missions[i].Add(query[i].address);
+                        Missions[i].Add(query[i].owner);
+                        Missions[i].Add(query[i].CounterNo.ToString());
+                        Missions[i].Add(query[i].CircuitNo.ToString());
+                        Missions[i].Add(query[i].max.ToString() == new DateTime().ToString() ? "nigdy" : query[i].max.ToString());
+                    }
+                }
+
+                pd.DefaultPageSettings.Margins.Right = 2 * pd.DefaultPageSettings.Margins.Left;
+                pd.OriginAtMargins = true;
+                pd.PrintPage += PrintMission;
+                pd.DocumentName = LangPL.Missions["MissionDocumentName"];
+                ppd.Document = pd;
+
+                return ppd;
+            }
+
+            /// <summary>
+            /// Event handler drukujący raport misję.
+            /// </summary>
+            /// <param name="sender">Obiekt PrintDocument wywołujący metodę.</param>
+            /// <param name="e">Argumenty zdarzenia.</param>
+            private static void PrintMission(object sender, PrintPageEventArgs e)
+            {
+                if (!FirstPagePrinted)
+                {
+                    float TotalHeight;
+                    string Head = LangPL.Missions["MissionHead"] + CollectorsName + " (" + Date + ")\n\n\n";
+                    string NumberOfPlacesToVisitString = LangPL.Missions["NumberOfPlacesToVisit"] + PlacesToVisit.ToString() + "\n\n\n";
+                    string PlacesToVisitString = LangPL.Missions["PlacesToVisit"];
+                    string MissionAttributesListString = LangPL.Missions["MissionAttributesList"];
+
+                   
+                    SizeF HeadSize = e.Graphics.MeasureString(Head, HeadFont);
+                    SizeF NumberOfPlacesToVisit = e.Graphics.MeasureString(NumberOfPlacesToVisitString, MediumFont);
+                    SizeF PlacesToVisitSize = e.Graphics.MeasureString(PlacesToVisitString, MediumFont);
+                    SizeF MissionAttributesList = e.Graphics.MeasureString(MissionAttributesListString, MediumFont);
+
+                    Reports.Printing.PrintIntheMiddle(Head, 0, e, HeadFont);
+
+                    Printing.DrawString(NumberOfPlacesToVisitString, MediumFont,
+                        new Point(e.PageBounds.Location.X, e.PageBounds.Location.Y + (int)HeadSize.Height), e);
+
+                    //wysokość dotychczas narysowanych elementów
+                    TotalHeight = HeadSize.Height + NumberOfPlacesToVisit.Height + PlacesToVisitSize.Height + MissionAttributesList.Height;
+
+                    Printing.PrintIntheMiddle(PlacesToVisitString, TotalHeight - MissionAttributesList.Height - PlacesToVisitSize.Height, e, MediumFont);
+                    Printing.PrintIntheMiddle(MissionAttributesListString, TotalHeight - MissionAttributesList.Height, e, MediumFont);
+
+                    Printing.DrawLine(e, TotalHeight);
+
+                    int charactersOnPage = 0;
+                    int linesPerPage = 0;
+
+                    ToPrint = ListToString();
+                    e.Graphics.MeasureString(ToPrint, TinyFont,
+                        new Size(e.PageBounds.Width, e.PageBounds.Height - (int)TotalHeight - e.PageSettings.Margins.Top - e.PageSettings.Margins.Bottom),
+                        StringFormat.GenericTypographic, out charactersOnPage, out linesPerPage);
+
+                    SizeF MissionStringSize = e.Graphics.MeasureString(ToPrint, TinyFont);
+
+                    string temp = ToPrint.Substring(0, charactersOnPage);
+                    Printing.DrawString(temp, TinyFont, new Point(e.PageBounds.Location.X, e.PageBounds.Location.Y + (int)TotalHeight), e);
+
+                    ToPrint = ToPrint.Substring(charactersOnPage);
+                    if (ToPrint.Length > 0)
+                    {
+                        e.HasMorePages = true;
+                        FirstPagePrinted = true;
+                    }
+                    else
+                    {
+                        TotalHeight += MissionStringSize.Height;
+                        Printing.DrawLine(e, TotalHeight);
+                    }
+                }
+                else
+                {
+                    int charactersOnPage = 0;
+                    int linesPerPage = 0;
+
+                    e.Graphics.MeasureString(ToPrint, TinyFont,
+                        new Size(e.PageBounds.Width, e.MarginBounds.Height),
+                        StringFormat.GenericTypographic, out charactersOnPage, out linesPerPage);
+
+                    SizeF CollectorsStringSize = e.Graphics.MeasureString(ToPrint, TinyFont);
+
+                    string temp = ToPrint.Substring(0, charactersOnPage);
+                    Printing.DrawString(temp, TinyFont, e.PageBounds, e);
+
+                    ToPrint = ToPrint.Substring(charactersOnPage);
+                    if (ToPrint.Length > 0)
+                    {
+                        e.HasMorePages = true;
+                    }
+                    else
+                    {
+                        float TotalHeight = CollectorsStringSize.Height;
+                        Printing.DrawLine(e, TotalHeight);
+                        FirstPagePrinted = false;
+                    }
+                }
+            }
+
+            /// <summary>
+            /// Zamienia listy misji na stringa przystosowanego do dodania do raportu.
+            /// </summary>
+            /// <param name="List">Lista misji.</param>
+            /// <returns>String przystosowany do wydruku jako część raportu.</returns>
+            private static string ListToString()
+            {
+                String s = String.Empty;
+                s += "\n";
+
+                for (int i = 0; i < Missions.Count; i++)
+                {
+                    s += (i + 1).ToString() + ".";
+                    for (int j = 0; j < Missions[0].Count; j++)
+                    {
+                        s += " " + Missions[i][j].ToString();
+                    }
+                    s += "\n";
+                }
+
+                return s;
+            }
+        }
+
+
+        /// <summary>
         /// Klasa generująca raport dotyczący inkasentów.
         /// </summary>
         public static class Collectors
@@ -40,7 +233,7 @@ namespace SZI
             private static double averageAreaPerCollector = 0;
 
             /// <summary>
-            /// Tworzy obiekty PrintPreviewDialog, który jest podglądem wydruku wygenerowanego raportu dotyczącego inkasentów.
+            /// Tworzy obiekt PrintPreviewDialog, który jest podglądem wydruku wygenerowanego raportu dotyczącego inkasentów.
             /// </summary>
             /// <returns>Raport dotyczący inkasentów.</returns>
             public static PrintPreviewDialog CreateReport()
@@ -52,65 +245,45 @@ namespace SZI
                 {
                     //inkasenci z przydzielonym terenem
                     var query = (from collector in database.Collectors
-                                join area in
-                                    (
-                                        from area in database.Areas
-                                        join address in database.Addresses
-                                        on area.AreaId equals address.AreaId
-                                        group area by new
-                                        {
-                                            area.AreaId,
-                                            collectorId = area.CollectorId
-                                        } into grpArea
-                                        select new
-                                        {
-                                            id = grpArea.Key.AreaId,
-                                            collectorId = grpArea.Key.collectorId,
-                                            addresscount = grpArea.Count()
-                                        }
-                                    )
-                                on collector.CollectorId equals area.collectorId
-                                group new { collector, area } by new
-                                {
-                                    collector.CollectorId,
-                                    collector.Name,
-                                    collector.LastName,
-                                    area.addresscount
-                                } into grpCollector
-                                select new
-                                {
-                                    id = grpCollector.Key.CollectorId,
-                                    name = grpCollector.Key.Name,
-                                    lastname = grpCollector.Key.LastName,
-                                    areacount = grpCollector.Count(),
-                                    addresscount = grpCollector.Sum(x => x.area.addresscount)
-                                }).ToList();          
-
-
-
-                    //inkasenci bez terenu
-                    var query1 = (from collector in
-                                     (
-                                         (from collector in database.Collectors
-                                          select collector).Except
-                                         (
-                                         (from collector in database.Collectors
-                                          join area in database.Areas
-                                          on collector.CollectorId equals area.CollectorId
-                                          select collector).Distinct()
-                                         ))
+                                 join area in database.Areas
+                                 on collector.CollectorId equals area.CollectorId into gj
+                                 where gj.Any()
                                  select new
                                  {
                                      id = collector.CollectorId,
                                      name = collector.Name,
                                      lastname = collector.LastName,
-                                     //areacount = 0,
-                                     //addresscount = 0
+                                     areacount = (from subArea in database.Areas
+                                                  where subArea.CollectorId == collector.CollectorId
+                                                  group subArea by subArea.AreaId into grp
+                                                  select grp.Count()).Count(),
+                                     addresscount = (from subArea in database.Areas
+                                                     where subArea.CollectorId == collector.CollectorId
+                                                     join address in database.Addresses
+                                                     on subArea.AreaId equals address.AreaId into gw
+                                                     select gw.Count()).Count()
                                  }).ToList();
 
-                    averageAreaPerCollector = (from area in database.Areas
-                                               select area).Count();
-                    averageAreaPerCollector/= (query.Count + query1.Count);
+
+
+                    //inkasenci bez terenu
+                    var query1 = (from collector in database.Collectors
+                                  join area in database.Areas
+                                  on collector.CollectorId equals area.CollectorId into gj
+                                  where !gj.Any()
+                                  select new
+                                  {
+                                      id = collector.CollectorId,
+                                      name = collector.Name,
+                                      lastname = collector.LastName
+                                  }).ToList();
+
+                    averageAreaPerCollector = (double)(from area in database.Areas
+                                                       join collector in database.Collectors
+                                                       on area.CollectorId equals collector.CollectorId into gj
+                                                       where gj.Any()
+                                                       select area).Count() /
+                                             (query.Count + query1.Count);
 
                     CollectorsWithArea = new List<List<string>>();
                     CollectorsWithoutArea = new List<List<string>>();
@@ -307,47 +480,38 @@ namespace SZI
                     //klienci (z >0 licznikami) i liczba liczników przypisanych do każdego z nich
                     var query = (from customer in database.Customers
                                  join counter in database.Counters
-                                 on customer.CustomerId equals counter.CustomerId
-                                 group customer by new
-                                 {
-                                     customer.CustomerId,
-                                     customer.Name,
-                                     customer.LastName
-                                 } into grpCustomer
+                                 on customer.CustomerId equals counter.CustomerId into gj
+                                 where gj.Any()
                                  select new
                                  {
-                                     id = grpCustomer.Key.CustomerId,
-                                     name = grpCustomer.Key.Name,
-                                     lastname = grpCustomer.Key.LastName,
-                                     countercount = grpCustomer.Count()
+                                     id = customer.CustomerId,
+                                     name = customer.Name,
+                                     lastname = customer.LastName,
+                                     countercount = gj.Count()
                                  }).ToList();
 
                     
                     //klienci bez przypisanych liczników
-                    var query1 =
-                        (from customer in
-                             (
-                                 (from customer in database.Customers
-                                  select customer).Except
-                                 (
-                             (from customer in database.Customers
-                              join counter in database.Counters
-                              on customer.CustomerId equals counter.CustomerId
-                              select customer).Distinct()
-                                 ))
-                         select new
-                         {
-                             id = customer.CustomerId,
-                             name = customer.Name,
-                             lastname = customer.LastName,
-                             countercount = 0
-                         }).ToList();
+                    var query1 = (from customer in database.Customers
+                                  join counter in database.Counters
+                                  on customer.CustomerId equals counter.CustomerId into gj
+                                  where !gj.Any()
+                                  select new
+                                  {
+                                      id = customer.CustomerId,
+                                      name = customer.Name,
+                                      lastname = customer.LastName,
+                                      countercount = 0
+                                  }).ToList();
 
                     averageCounterPerCustomerNumber = (from counter in database.Counters
+                                                       join customer in database.Customers
+                                                       on counter.CustomerId equals customer.CustomerId into gj
+                                                       where gj.Any()
                                                        select counter).Count() / (double)(query.Count + query1.Count);
 
                     CustomersWithCounters = new List<List<string>>();
-                    for (int i = 0; i < query.Count;i++)
+                    for (int i = 0; i < query.Count; i++)
                     {
                         CustomersWithCounters.Add(new List<string>());
                         CustomersWithCounters[i].Add(query[i].id);

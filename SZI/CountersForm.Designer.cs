@@ -30,6 +30,7 @@
         {
             this.btCheck = new System.Windows.Forms.Button();
             this.btImport = new System.Windows.Forms.Button();
+            this.btGenerateMission = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btCheck
@@ -52,11 +53,22 @@
             this.btImport.UseVisualStyleBackColor = true;
             this.btImport.Click += new System.EventHandler(this.btImport_Click);
             // 
+            // btGenerateMission
+            // 
+            this.btGenerateMission.Location = new System.Drawing.Point(12, 550);
+            this.btGenerateMission.Name = "btGenerateMission";
+            this.btGenerateMission.Size = new System.Drawing.Size(157, 29);
+            this.btGenerateMission.TabIndex = 6;
+            this.btGenerateMission.Text = "Generuj misję";
+            this.btGenerateMission.UseVisualStyleBackColor = true;
+            this.btGenerateMission.Click += new System.EventHandler(this.btGenerateMission_Click);
+            // 
             // CountersForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(684, 556);
+            this.ClientSize = new System.Drawing.Size(684, 591);
+            this.Controls.Add(this.btGenerateMission);
             this.Controls.Add(this.btImport);
             this.Controls.Add(this.btCheck);
             this.Name = "CountersForm";
@@ -69,5 +81,6 @@
 
         private System.Windows.Forms.Button btCheck;
         private System.Windows.Forms.Button btImport;
+        private System.Windows.Forms.Button btGenerateMission;
     }
 }
