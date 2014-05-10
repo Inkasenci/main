@@ -99,6 +99,7 @@ namespace SZI
                 pd.PrintPage += PrintMission;
                 pd.DocumentName = LangPL.Missions["MissionDocumentName"];
                 ppd.Document = pd;
+                ((Form)ppd).WindowState = FormWindowState.Maximized;
 
                 return ppd;
             }
@@ -237,6 +238,7 @@ namespace SZI
             {
                 PrintDocument pd = new PrintDocument();
                 PrintPreviewDialog ppd = new PrintPreviewDialog();
+                ((Form)ppd).WindowState = FormWindowState.Maximized;
 
                 using (var database = new CollectorsManagementSystemEntities())
                 {
@@ -471,6 +473,7 @@ namespace SZI
             {
                 PrintDocument pd = new PrintDocument();
                 PrintPreviewDialog ppd = new PrintPreviewDialog();
+                ((Form)ppd).WindowState = FormWindowState.Maximized;
 
                 using (var database = new CollectorsManagementSystemEntities())
                 {
