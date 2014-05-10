@@ -674,7 +674,7 @@ namespace SZI
         /// <summary>
         /// Klasa zawierająca metody ułatwiające rysowanie obiektów na stronie.
         /// </summary>
-        public static class Printing
+        private static class Printing
         {
             /// <summary>
             /// Metoda rysująca stringa s czcionką font w punkcie point na stronie z którą związany jest parametr e.
