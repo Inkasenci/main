@@ -11,8 +11,16 @@ namespace SZI
 
     public enum Tables { Collectors, Customers, Areas, Counters, Addresses};
 
+    
+
     public static class Auxiliary
     {
+        /// <summary>
+        /// Strona główna twórców programu.
+        /// </summary>
+        public static string MainPageURL = "https://github.com/Inkasenci/main/wiki";
+
+
         /// <summary>
         /// Zwraca listę identyfikatorów związanych z zaznaczonymi w przekazanej ListView itemami.
         /// </summary>

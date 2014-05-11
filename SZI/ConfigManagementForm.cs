@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
+using System.Drawing.Printing;
 
 namespace SZI
 {
@@ -52,13 +53,14 @@ namespace SZI
             string[] tabNames;
             ContextMenuStrip contextMenu;
 
+            string[][] columnLists = new string[][] { Collectors.columnList, Customers.columnList, Areas.columnList, Addresses.columnList, Counters.columnList };
+            string[] classNames = new string[] { Collectors.className, Customers.className, Areas.className, Addresses.className, Counters.className };
 
             // Inicjalizacja
             tabNames = new string[5] { "Inkasenci", "Klienci", "Tereny", "Liczniki", "Adresy" };
             tabControl = new TabControl();
             tabPages = new TabPage[5];
-            dataBase = new IDataBase[5] { new Collectors(), new Customers(), new Areas(), new Counters(), new Addresses() };
-            listView = new ListView[dataBase.Length];
+            listView = new ListView[tabPages.Length];
             contextMenu = CreateContextMenu();
             Items_SingleSelection = CreateContextMenuItems_SingleSelection(contextMenu);
             Items_NoSelection = CreateContextMenuItems_NoSelection(contextMenu);
@@ -67,7 +69,7 @@ namespace SZI
 
             // Tworzenie tabControl
             tabControl.Padding = new Point(10, 10);
-            tabControl.Location = new Point(10, 10);
+            tabControl.Location = new Point(10, 30);
             tabControl.Size = new Size(650, 500);
 
             // Dodawanie listView
@@ -75,7 +77,7 @@ namespace SZI
             {
                 tabPages[i] = new TabPage();
                 tabPages[i].Name = tabPages[i].Text = tabNames[i];
-                listView[i] = ListViewConfig.ListViewInit(dataBase[i].columnList, dataBase[i].className, dataBase[i].itemList);
+                listView[i] = ListViewConfig.ListViewInit(columnLists[i], classNames[i], null);//dataBase[i].itemList);
                 listView[i].SelectedIndexChanged += lv_SelectedIndexChanged;
                 listView[i].KeyDown += ListView_KeyDown;
                 listView[i].ContextMenuStrip = contextMenu;
@@ -382,6 +384,125 @@ namespace SZI
 
         #endregion
 
+        #region ToolStripMenu
+
+        /// <summary>
+        /// Event handler dla itemu z ToolStripMenu wywołujący metodę tworząca raport inkasentów.
+        /// </summary>
+        /// <param name="sender">Item z ToolStripMenu wywołujący metodę.</param>
+        /// <param name="e">Parametry zdarzenia.</param>
+        private void inkasenciToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PrintPreviewDialog printPreviewDialog = Reports.Collectors.CreateReport();
+            try
+            {
+                printPreviewDialog.Show();
+            }
+            catch (InvalidPrinterException ex)
+            {
+                ExceptionHandling.ShowException(ex);
+            }
+        }
+
+        /// <summary>
+        /// Event handler dla itemu z ToolStripMenu wywołujący metodę tworząca raport klientów.
+        /// </summary>
+        /// <param name="sender">Item z ToolStripMenu wywołujący metodę.</param>
+        /// <param name="e">Parametry zdarzenia.</param>
+        private void klienciToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PrintPreviewDialog printPreviewDialog = Reports.Customers.CreateReport();
+            try
+            {
+                printPreviewDialog.Show();
+            }
+            catch (InvalidPrinterException ex)
+            {
+                ExceptionHandling.ShowException(ex);
+            }
+        }
+
+        /// <summary>
+        /// Generuje przykładowe dane do bazy danych.
+        /// </summary>
+        /// <param name="sender">Item generateDataToolStripMenuItem ToolStripMenu.</param>
+        /// <param name="e">Parametry zdarzenia.</param>
+        private void generateDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SampleDataConfig.GenerateDataBase();
+        }
+
+        /// <summary>
+        /// Czyści bazę danych.
+        /// </summary>
+        /// <param name="sender">Item clearDataToolStripMenuItem ToolStripMenu.</param>
+        /// <param name="e">Parametry zdarzenia.</param>
+        private void clearDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SampleDataConfig.ClearDataBase();
+        }
+
+        /// <summary>
+        /// Otwiera edytor plików XML wygenerowanych przez aplikację.
+        /// </summary>
+        /// <param name="sender">Obiekt eventu.</param>
+        /// <param name="e">Argument eventu.</param>
+        private void XMLeditorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var XMLTextEditorForm = new XMLTextEditor();
+            XMLTextEditorForm.ShowDialog();
+        }
+
+        /// <summary>
+        /// Otwiera okno pozwalajace na obsługę odczytów.
+        /// </summary>
+        /// <param name="sender">Obiekt eventu.</param>
+        /// <param name="e">Argument eventu.</param>
+        private void readingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var countersForm = new CountersForm();
+            countersForm.ShowDialog();
+        }
+
+        /// <summary>
+        /// Metoda otwierająca okno z pomocą.
+        /// </summary>
+        /// <param name="sender">Item helpToolStripMenuItem ToolStripMenu.</param>
+        /// <param name="e">Parametry zdarzenia.</param>
+        private void helpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var helpForm = new HelpForm();
+            helpForm.ShowDialog();
+        }
+
+        /// <summary>
+        /// Metoda otwierająca witrynę twórców programu.
+        /// </summary>
+        /// <param name="sender">Item mainPagetripMenuItem ToolStripMenu.</param>
+        /// <param name="e">Parametry zdarzenia.</param>
+        private void mainPageToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ProcessStartInfo sInfo = new ProcessStartInfo(Auxiliary.MainPageURL);
+            Process.Start(sInfo);
+        }
+
         #endregion
+
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }

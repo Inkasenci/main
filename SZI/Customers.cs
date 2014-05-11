@@ -11,8 +11,16 @@ namespace SZI
     class Customers : IDataBase
     {
         public static List<Customer> customerList;
-        public string[] columnList { get; set; }
-        public string className { get; set; }
+        public static string[] columnList = new string[] {
+                "Id klienta",
+                "Imię",
+                "Nazwisko",
+                "Kod pocztowy",
+                "Miasto",
+                "Adres",
+                "Telefon kontaktowy"
+            };
+        public static string className = "Customers";
         public List<string[]> itemList { get; set; }
 
         public Customers()

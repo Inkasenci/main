@@ -10,8 +10,13 @@ namespace SZI
     public class Counters : IDataBase
     {
         public List<Counter> counterList;
-        public string[] columnList { get; set; }
-        public string className { get; set; }
+        public static string[] columnList = new string[] {
+                "Numer licznika",
+                "Numer układu",
+                "Id adresu",
+                "Id klienta"
+            };
+        public static string className = "Counters";
         public List<string[]> itemList { get; set; }
 
         public Counters()
