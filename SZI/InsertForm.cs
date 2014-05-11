@@ -57,9 +57,6 @@ namespace SZI
 
         private void InitializeCollectorDictAndTB()
         {
-            cbcCollector = new ComboBoxConfig("Collector", "cbCollector", new Point(86, 29));
-            tcInsert.TabPages[2].Controls.Add(cbcCollector.InitializeComboBox());
-
             ControltoEP_Collector_Dict = new Dictionary<Control, ErrorProvider>();
             ControlToBool_Collector_Dict = new Dictionary<Control, bool>();
 
@@ -128,8 +125,8 @@ namespace SZI
 
         private void InitializeAreaDictAndTB()
         {
-            cbcArea = new ComboBoxConfig("Area", "cbArea", new Point(117, 55));
-            tcInsert.TabPages[4].Controls.Add(cbcArea.InitializeComboBox());
+            cbcCollector = new ComboBoxConfig("Collector", "cbCollector", new Point(86, 29));
+            tcInsert.TabPages[2].Controls.Add(cbcCollector.InitializeComboBox());
 
             ControltoEP_Area_Dict = new Dictionary<Control, ErrorProvider>();
             ControlToBool_Area_Dict = new Dictionary<Control, bool>();
@@ -148,7 +145,6 @@ namespace SZI
         {
             cbcAddress = new ComboBoxConfig("Address", "cbAddress", new Point(89, 55));
             tcInsert.TabPages[3].Controls.Add(cbcAddress.InitializeComboBox());
-
 
             cbcCustomer = new ComboBoxConfig("Customer", "cbCustomer", new Point(89, 81));
             tcInsert.TabPages[3].Controls.Add(cbcCustomer.InitializeComboBox());
@@ -177,6 +173,9 @@ namespace SZI
 
         private void InitializeAddressDictAndTB()
         {
+            cbcArea = new ComboBoxConfig("Area", "cbArea", new Point(117, 55));
+            tcInsert.TabPages[4].Controls.Add(cbcArea.InitializeComboBox());
+
             ControltoEP_Address_Dict = new Dictionary<Control, ErrorProvider>();
             ControlToBool_Address_Dict = new Dictionary<Control, bool>();
 
