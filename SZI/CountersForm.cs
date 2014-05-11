@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing.Printing;
 
 namespace SZI
 {
@@ -140,8 +141,10 @@ namespace SZI
             {
                 case 1:
                     btCheck.Enabled = true;
+                    btGenerateMission.Enabled = true;
                     break;
                 default:
+                    btGenerateMission.Enabled = false;
                     btCheck.Enabled = false;
                     break;
             }
@@ -183,6 +186,26 @@ namespace SZI
                 {
                     ListViewConfig.ListViewRefresh(listView, ReturnListViewData());
                 }
+            }
+        }
+
+        /// <summary>
+        /// Event handlera buttona tworzącego misję dla zaznaczonego inkasenta.
+        /// </summary>
+        /// <param name="sender">Button btGenerateMission.</param>
+        /// <param name="e">Parametry zdarzenia.</param>
+        private void btGenerateMission_Click(object sender, EventArgs e)
+        {
+            String id = Auxiliary.CreateIdList(listView)[0];
+            PrintPreviewDialog printPreviewDialog = Reports.Mission.CreateMission(id);
+
+            try
+            {
+                printPreviewDialog.Show();
+            }
+            catch (InvalidPrinterException ex)
+            {
+                ExceptionHandling.ShowException(ex);
             }
         }
     }

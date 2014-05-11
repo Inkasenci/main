@@ -50,18 +50,6 @@ namespace SZI
         {
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             NameToMethod_Dict = Auxiliary.Insert_CreateNameToMethodDict();
-
-            cbcCollector = new ComboBoxConfig("Collector", "cbCollector", new Point(86, 29));
-            tcInsert.TabPages[2].Controls.Add(cbcCollector.InitializeComboBox());
-
-            cbcCustomer = new ComboBoxConfig("Customer", "cbCustomer", new Point(89, 81));
-            tcInsert.TabPages[3].Controls.Add(cbcCustomer.InitializeComboBox());
-
-            cbcAddress = new ComboBoxConfig("Address", "cbAddress", new Point(89, 55));
-            tcInsert.TabPages[3].Controls.Add(cbcAddress.InitializeComboBox());
-
-            cbcArea = new ComboBoxConfig("Area", "cbArea", new Point(117, 55));
-            tcInsert.TabPages[4].Controls.Add(cbcArea.InitializeComboBox());
         }
 
 
@@ -137,6 +125,9 @@ namespace SZI
 
         private void InitializeAreaDictAndTB()
         {
+            cbcCollector = new ComboBoxConfig("Collector", "cbCollector", new Point(86, 29));
+            tcInsert.TabPages[2].Controls.Add(cbcCollector.InitializeComboBox());
+
             ControltoEP_Area_Dict = new Dictionary<Control, ErrorProvider>();
             ControlToBool_Area_Dict = new Dictionary<Control, bool>();
 
@@ -152,6 +143,12 @@ namespace SZI
 
         private void InitializeCounterDictAndTB()
         {
+            cbcAddress = new ComboBoxConfig("Address", "cbAddress", new Point(89, 55));
+            tcInsert.TabPages[3].Controls.Add(cbcAddress.InitializeComboBox());
+
+            cbcCustomer = new ComboBoxConfig("Customer", "cbCustomer", new Point(89, 81));
+            tcInsert.TabPages[3].Controls.Add(cbcCustomer.InitializeComboBox());
+
             ControltoEP_Counter_Dict = new Dictionary<Control, ErrorProvider>();
             ControlToBool_Counter_Dict = new Dictionary<Control, bool>();
 
@@ -176,6 +173,9 @@ namespace SZI
 
         private void InitializeAddressDictAndTB()
         {
+            cbcArea = new ComboBoxConfig("Area", "cbArea", new Point(117, 55));
+            tcInsert.TabPages[4].Controls.Add(cbcArea.InitializeComboBox());
+
             ControltoEP_Address_Dict = new Dictionary<Control, ErrorProvider>();
             ControlToBool_Address_Dict = new Dictionary<Control, bool>();
 

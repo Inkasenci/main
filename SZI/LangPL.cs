@@ -167,5 +167,17 @@ namespace SZI
 
             {"PrintingExceptionTitle", "Błąd drukowania"}
         };
+
+        /// <summary>
+        /// Treści używane podczas generowania misji. 
+        /// </summary>
+        static public Dictionary<string, string> Missions = new Dictionary<string, string>()
+        {
+            {"MissionDocumentName", "Misja dla inkasenta"},
+            {"MissionHead", "MISJA DLA INKASENTA "},
+            {"NumberOfPlacesToVisit", "Liczba miejsc do odwiedzenia: "},
+            {"PlacesToVisit", "\nLista miejsc do odwiedzenia\n"},
+            {"MissionAttributesList", "(adres, imię, nazwisko, telefon, numer licznika, numer układu, data ostatniego odczytu)\n\n"}
+        };
     }
 }
