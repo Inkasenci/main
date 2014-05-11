@@ -9,8 +9,6 @@ namespace SZI
 {
     public interface IDataBase
     {
-        string[] columnList { get; set; }
-        string className { get; set; }
         int recordCount { get; }
         List<string[]> itemList { get; set; }
         void RefreshList();

@@ -9,8 +9,13 @@ namespace SZI
     class Addresses : IDataBase
     {
         static public List<Address> addressesList;
-        public string[] columnList { get; set; }
-        public string className { get; set; }
+        public static string[] columnList = new string[] {
+                "Id adresu",
+                "Numer domu",
+                "Numer mieszkania",
+                "Id terenu"
+            };
+        public static string className = "Addresses";
         public List<string[]> itemList { get; set; }
 
         public Addresses()

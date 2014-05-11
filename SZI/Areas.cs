@@ -10,8 +10,12 @@ namespace SZI
     class Areas : IDataBase
     {
         static public List<Area> areasList;
-        public string[] columnList { get; set; }
-        public string className { get; set; }
+        public static string[] columnList = new string[] {
+                "Id terenu",
+                "Ulica",
+                "Id inkasenta"
+            };
+        public static string className = "Areas";
         public List<string[]> itemList { get; set; }
 
         public Areas()

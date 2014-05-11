@@ -76,11 +76,15 @@ namespace SZI
                 if (form.GetType() == typeof(ConfigManagementForm)) //jeśli naciśnięto przycisk odśwież na formie
                 {
                     int i = 0;
-                    foreach (var data in ConfigManagementForm.dataBase)
-                    {
-                        data.RefreshList();
-                        ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[i++], data.itemList);
-                    }
+                    if (ConfigManagementForm.dataBase != null)
+                        foreach (var data in ConfigManagementForm.dataBase)
+                        {
+                            data.RefreshList();
+                            ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[i++], data.itemList);
+                        }
+                    else
+                        ConfigManagementForm.dataBase = new IDataBase[5] { new Collectors(), new Customers(), new Areas(), new Counters(), new Addresses() };
+
                 }
                 else if (form.GetType() == typeof(InsertForm)) //jeśli wprowadzono rekord
                 {

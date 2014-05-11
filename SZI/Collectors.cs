@@ -10,8 +10,16 @@ namespace SZI
     class Collectors : IDataBase
     {
         static public List<Collector> collectorList;
-        public string[] columnList { get; set; }
-        public string className { get; set; }
+        public static string[] columnList = new string[] {
+                "Id inkasenta", 
+                "Imię",
+                "Nazwisko",
+                "Kod pocztowy",
+                "Miasto",
+                "Adres", 
+                "Telefon kontaktowy"
+            };
+        public static string className = "Collectors";
         public List<string[]> itemList { get; set; }
 
         public Collectors()
