@@ -149,6 +149,7 @@
     <Compile Include="LangPL.cs" />
     <Compile Include="ListViewConfig.cs" />
     <Compile Include="ListViewDataManipulation.cs" />
+    <Compile Include="ListViewFilter.cs" />
     <Compile Include="ListViewSorter.cs" />
     <Compile Include="MainValidation.cs" />
     <Compile Include="Model.Context.cs">

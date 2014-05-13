@@ -179,5 +179,17 @@ namespace SZI
             {"PlacesToVisit", "\nLista miejsc do odwiedzenia\n"},
             {"MissionAttributesList", "(adres, imię, nazwisko, telefon, numer licznika, numer układu, data ostatniego odczytu)\n\n"}
         };
+
+        /// <summary>
+        /// Mapuje nazwy kontrolek typu listView na indeks karty, z której pochodzą.
+        /// </summary>
+        static public Dictionary<string, int> ListViewNameToPageNumber = new Dictionary<string, int>()
+        {
+            {"Collectors", 0},
+            {"Customers", 1},
+            {"Areas", 2},
+            {"Counters", 3},
+            {"Addresses", 4}
+        };
     }
 }
