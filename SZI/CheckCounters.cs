@@ -96,9 +96,15 @@ namespace SZI
 
                         string date, value, collectorId, collectorName, customerName;
 
-                        if (firstMethod.Count() > 0)
+                        date = value = collectorName = String.Empty;
+
+                        var lastReading = from read in dataBase.Readings
+                                          where read.CounterNo == element.CounterNo
+                                          select read;
+
+                        if (lastReading.Count() > 0)
                         {
-                            var lastRead = firstMethod.OrderByDescending(x => x.Date).FirstOrDefault();
+                            var lastRead = lastReading.OrderByDescending(x => x.Date).FirstOrDefault();
 
                             date = lastRead.Date.ToShortDateString() ?? String.Empty;
                             value = lastRead.Value.ToString() ?? String.Empty;
