@@ -14,27 +14,27 @@ namespace SZI
         /// <summary>
         /// Liczba generowanych inkasentów.
         /// </summary>
-        static int numberOfCollectors = 1;
+        static int numberOfCollectors = 2;
         /// <summary>
         /// Liczba generowanych klientów.
         /// </summary>
-        static int numberOfCustomers = 1000;
+        static int numberOfCustomers = 100;
         /// <summary>
         /// Liczba generowanych terenów. Nie może być większa niż liczba elementów tablicy streets w SampleDataSource
         /// </summary>
-        static int numberOfAreas = 1;
+        static int numberOfAreas = 5;
         /// <summary>
         /// Liczba generowanych liczników.
         /// </summary>
-        static int numberOfCounters = 1;
+        static int numberOfCounters = 100;
         /// <summary>
         /// Liczba generowanych adresów.
         /// </summary>
-        static int numberOfAddresses = 1;
+        static int numberOfAddresses = 100;
         /// <summary>
         /// Liczba generowanych odczytów.
         /// </summary>
-        static int numberOfReadings = 1;
+        static int numberOfReadings = 0;
         /// <summary>
         /// Wczytane dane.
         /// </summary>
