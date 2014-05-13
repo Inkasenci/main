@@ -45,12 +45,14 @@ namespace SZI
             }
         }
 
+        // Initialize DB form
         public ConfigManagementForm()
         {
             InitializeComponent();
             MainTabControlInit();
         }
 
+        // Data tabControl init
         private void MainTabControlInit()
         {
             // Deklaracja

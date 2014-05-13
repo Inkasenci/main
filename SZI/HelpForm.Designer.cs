@@ -36,7 +36,7 @@
             // 
             this.rtbHelp.Location = new System.Drawing.Point(261, 13);
             this.rtbHelp.Name = "rtbHelp";
-            this.rtbHelp.Size = new System.Drawing.Size(506, 487);
+            this.rtbHelp.Size = new System.Drawing.Size(911, 487);
             this.rtbHelp.TabIndex = 7;
             this.rtbHelp.Text = "";
             // 
@@ -51,7 +51,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(779, 512);
+            this.ClientSize = new System.Drawing.Size(1184, 512);
             this.Controls.Add(this.rtbHelp);
             this.Controls.Add(this.tvFAQ);
             this.Name = "HelpForm";
