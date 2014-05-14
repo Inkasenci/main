@@ -55,6 +55,7 @@ namespace SZI
             {"dataBaseComboBox", "Rozwijane listy. "},
             {"dataBaseComboBoxUse", "Jak korzystać z rozwijanych list? "},
             {"dataBaseComboBoxFindItem", "Jak znaleźć właściwy rekord na rozwijanej liście? "},
+            {"dataBaseFiltering", "Filtrowanie tabel bazy danych. "},
             {"dataBaseReading", "Zarządzanie odczytami inkasentów."},
             {"dataBaseReadingEmptyDataBase", "Dlaczego wyświetla mi się pusta lista?"},
             {"dataBaseReadingZeroReading", "Brak odczytów do wykonania, o co chodzi?"},
@@ -94,6 +95,7 @@ namespace SZI
             {"dataBaseComboBox", "Pola niektórych tabel są zasilane danymi z innych tabel. Zawartość tych pól jest wybierana przez użytkownika za pomocą rozwijanych list (rys. 1), które zawierają wszystkie rekordy z obcej tabeli. HelpImg/comboBox.png"},
             {"dataBaseComboBoxUse", "Aby móc przeglądać zawartość rozwijanej listy (rys. 1), należy ją rozwinąć poprzez kliknięcie. Po zdecydowaniu, który rekord jest właściwy w danym przypadku, należy go kliknąć, aby został wybrany. Lista zostanie zwinięta i zacznie wyświetlać skrócone informacje o wybranym rekordzie. \r\n W niektórych przypadkach wskazane jest wybranie pustego rekordu, jest on umieszczony na pierwszym miejscu w rozwijanych listach. \r\n Jeśli chcemy wycofać się z możliwości wyboru rekordu rozwijanej listy, należy kliknąć miejsce poza nią. HelpImg/comboBoxUse.png"},
             {"dataBaseComboBoxFindItem", "Niektóre rozwijane listy mogą zawierać dużą ilość rekordów, co utrudnia dokonanie wyboru. Kiedy lista jest rozwinięta (rys. 1), możemy filtrować jej zawartość. Wystarczy zacząć pisać poszukiwany tekst. \r\n Jeśli chcemy usunąć ostatni element filtra, należy nacisnąć klawisz Backspace. \r\n Filtr jest nieczuły na wielkość liter i polskie znaki. \r\n Z listy przefiltrowanej rekordy wybiera się w ten sam sposób co ze zwykłej listy. \r\n Aby zrozumieć, jak działa filtrowanie list, należy wyobrazić sobie, że każdy rekord jest pojedynczym napisem, a pola rekordu są oddzielone spacjami. HelpImg/comboBoxFindItem.png"},
+            {"dataBaseFiltering", "Duża ilość rekordów w tabeli może utrudnić znalezienie rekordu, który chcemy modyfikować, usunąć lub odczytać z niego jakieś informacje. Tabele mają opcję sortowania (poprzez kliknięcie na nagłówku kolumny), jednak może nie być to wystarczające ułatwienie. \r\n W tym celu po prawej stronie każdej tabeli umieszczone są pola tekstowe, które umożliwiają filtrowanie tabel. Aby nałożyć na tabelę filtr, wystarczy wpisać poszukiwany tekst do odpowiedniego pola tekstowego (rys. 1). Jednocześnie można używać dowolną ilość pól. HelpImg/dataBaseFiltering.png"},
             {"dataBaseReading", "W przypadku problemów związanych z zarządzaniem odczytami, sekcja ta powinna pozwolić na rozwiązanie pojawiających się trudności, wyjaśniając krok po kroku proces naprawczy."},
             {"dataBaseReadingEmptyDataBase", "Jeżeli wchodząc w okienko Zarządzania Odczytami widzimy pustą liste ( Rys. 1 ). HelpImg/emptyCounterForm.png należy sprawdzić czy w naszej firmie są zatrudnieni jacykolwiek inkasenci. \r\n Aby tego dokonać należy wybrać \"Zarządzanie bazą danych\" w Menu głównym, Zakładka \"Inkasenci\". "},
             {"dataBaseReadingZeroReading", "W przypadku gdy obserwujemy obok inkasenta wartość równą 0 w kolumnie \"Liczba odczytów\" ( Rys 1. ) HelpImg/zeroCounterForm.png możemy spodziewać się następujących sytuacji: \r\n Danemu inkasentowu nie zostały przypisane żadne Tereny ( Liczniki ) w bazie, może to się wiązać np. z nowo zatrudniony pracownikiem. \r\n Inkasent wykonał już wszystkie powierzone mu na dany okres czasu odczyty, tzn w przeciagu ostatnich 30 dni odwiedził wszystkie przypisane mu Tereny."},
@@ -178,6 +180,18 @@ namespace SZI
             {"NumberOfPlacesToVisit", "Liczba miejsc do odwiedzenia: "},
             {"PlacesToVisit", "\nLista miejsc do odwiedzenia\n"},
             {"MissionAttributesList", "(adres, imię, nazwisko, telefon, numer licznika, numer układu, data ostatniego odczytu)\n\n"}
+        };
+
+        /// <summary>
+        /// Mapuje nazwy kontrolek typu listView na indeks karty, z której pochodzą.
+        /// </summary>
+        static public Dictionary<string, int> ListViewNameToPageNumber = new Dictionary<string, int>()
+        {
+            {"Collectors", 0},
+            {"Customers", 1},
+            {"Areas", 2},
+            {"Counters", 3},
+            {"Addresses", 4}
         };
     }
 }

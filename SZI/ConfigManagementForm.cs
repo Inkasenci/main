@@ -13,12 +13,19 @@ using System.Drawing.Printing;
 
 namespace SZI
 {
+    /// <summary>
+    /// Główny formularz programu. Zawiera menu, a także tabele i obsługę zdarzeń z nimi związanych.
+    /// </summary>
     public partial class ConfigManagementForm : Form, IForm
     {
         private Tables selectedTab = Tables.Collectors;
         private TabControl tabControl;
         public static IDataBase[] dataBase;
         public static ListView[] listView;
+        /// <summary>
+        /// Filtry poszczególnych tabel.
+        /// </summary>
+        public static ListViewFilter[] listViewFilters;
         private ToolStripItemCollection Items_SingleSelection;
         private ToolStripItemCollection Items_MultipleSelection;
         private ToolStripItemCollection Items_NoSelection;
@@ -53,14 +60,15 @@ namespace SZI
             string[] tabNames;
             ContextMenuStrip contextMenu;
 
-            string[][] columnLists = new string[][] { Collectors.columnList, Customers.columnList, Areas.columnList, Addresses.columnList, Counters.columnList };
-            string[] classNames = new string[] { Collectors.className, Customers.className, Areas.className, Addresses.className, Counters.className };
+            string[][] columnLists = new string[][] { Collectors.columnList, Customers.columnList, Areas.columnList, Counters.columnList, Addresses.columnList };
+            string[] classNames = new string[] { Collectors.className, Customers.className, Areas.className, Counters.className, Addresses.className };
 
             // Inicjalizacja
             tabNames = new string[5] { "Inkasenci", "Klienci", "Tereny", "Liczniki", "Adresy" };
             tabControl = new TabControl();
             tabPages = new TabPage[5];
             listView = new ListView[tabPages.Length];
+            listViewFilters = new ListViewFilter[tabPages.Length];
             contextMenu = CreateContextMenu();
             Items_SingleSelection = CreateContextMenuItems_SingleSelection(contextMenu);
             Items_NoSelection = CreateContextMenuItems_NoSelection(contextMenu);
@@ -70,7 +78,7 @@ namespace SZI
             // Tworzenie tabControl
             tabControl.Padding = new Point(10, 10);
             tabControl.Location = new Point(10, 30);
-            tabControl.Size = new Size(650, 500);
+            tabControl.Size = new Size(900, 500);
 
             // Dodawanie listView
             for (int i = 0; i < tabPages.Length; i++)
@@ -81,7 +89,9 @@ namespace SZI
                 listView[i].SelectedIndexChanged += lv_SelectedIndexChanged;
                 listView[i].KeyDown += ListView_KeyDown;
                 listView[i].ContextMenuStrip = contextMenu;
+                listViewFilters[i] = new ListViewFilter(i, columnLists[i]);
                 tabPages[i].Controls.Add(listView[i]);
+                tabPages[i].Controls.Add(listViewFilters[i].InitializeFilter());
             }
 
             // Aktywacja

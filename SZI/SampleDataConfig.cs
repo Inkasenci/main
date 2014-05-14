@@ -22,7 +22,7 @@ namespace SZI
         /// <summary>
         /// Liczba generowanych terenów. Nie może być większa niż liczba elementów tablicy streets w SampleDataSource
         /// </summary>
-        static int numberOfAreas = 4;
+        static int numberOfAreas = 5;
         /// <summary>
         /// Liczba generowanych liczników.
         /// </summary>
@@ -34,7 +34,7 @@ namespace SZI
         /// <summary>
         /// Liczba generowanych odczytów.
         /// </summary>
-        static int numberOfReadings = 300;
+        static int numberOfReadings = 0;
         /// <summary>
         /// Wczytane dane.
         /// </summary>

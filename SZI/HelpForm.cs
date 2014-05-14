@@ -119,6 +119,8 @@ namespace SZI
             dataBaseTables[1].Nodes[2].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseComboBoxUse"]));
             dataBaseTables[1].Nodes[2].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseComboBoxFindItem"]));
 
+            dataBaseTables[1].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseFiltering"]));
+
             // Child Node 2
             dataBaseTables[2].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseReadingEmptyDataBase"]));
             dataBaseTables[2].Nodes.Add(TreeNode(LangPL.FaqQuestion["dataBaseReadingZeroReading"]));
@@ -203,6 +205,9 @@ namespace SZI
                                         break;
                                     case 2:
                                         rtbHelp.Text = LangPL.FaqAnswers["dataBaseComboBox"];
+                                        break;
+                                    case 3:
+                                        rtbHelp.Text = LangPL.FaqAnswers["dataBaseFiltering"];
                                         break;
                                     default:
                                         MessageBox.Show(LangPL.FaqErrors["indexOutOfRange"]);

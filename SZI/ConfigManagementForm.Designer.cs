@@ -109,7 +109,7 @@
             this.toolStripMenuItem1});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(684, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(934, 24);
             this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -125,14 +125,14 @@
             // collectorsToolStripMenuItem
             // 
             this.collectorsToolStripMenuItem.Name = "collectorsToolStripMenuItem";
-            this.collectorsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.collectorsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.collectorsToolStripMenuItem.Text = "Inkasenci";
             this.collectorsToolStripMenuItem.Click += new System.EventHandler(this.inkasenciToolStripMenuItem_Click);
             // 
             // customersToolStripMenuItem
             // 
             this.customersToolStripMenuItem.Name = "customersToolStripMenuItem";
-            this.customersToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.customersToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.customersToolStripMenuItem.Text = "Klienci";
             this.customersToolStripMenuItem.Click += new System.EventHandler(this.klienciToolStripMenuItem_Click);
             // 
@@ -206,7 +206,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(684, 683);
+            this.ClientSize = new System.Drawing.Size(934, 683);
             this.Controls.Add(this.btRefresh);
             this.Controls.Add(this.btModify);
             this.Controls.Add(this.btInsert);

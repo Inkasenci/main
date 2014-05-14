@@ -169,10 +169,12 @@ namespace SZI
             List<string> ids = Auxiliary.CreateIdList(listView);
             int selectedIndex = listView.SelectedIndices[0]; //index modyfikowanego itemu
             var modifyForm = new ModifyForm(ids, Table);
-            modifyForm.FormClosing += modifyForm_FormClosing;      
+            modifyForm.FormClosing += modifyForm_FormClosing;
             modifyForm.ShowDialog();
             listView.HideSelection = false;
-            listView.Items[selectedIndex].Selected = true;
+
+            if (selectedIndex < listView.Items.Count)
+                listView.Items[selectedIndex].Selected = true;
         }
 
         /// <summary>
