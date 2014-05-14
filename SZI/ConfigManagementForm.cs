@@ -389,6 +389,7 @@ namespace SZI
         // Refresh data button
         private void btRefresh_Click(object sender, EventArgs e)
         {
+            btRefresh.Text = LangPL.MainFormLang["Refresh"];
             ListViewDataManipulation.RefreshListView(this);
         }
 
@@ -499,20 +500,5 @@ namespace SZI
         #endregion
 
         #endregion
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }

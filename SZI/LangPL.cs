@@ -34,6 +34,14 @@ namespace SZI
         };
 
         /// <summary>
+        /// Treści używane w głównym oknie programu.
+        /// </summary>
+        static public Dictionary<string, string> MainFormLang = new Dictionary<string, string>()
+        {
+            {"Refresh", "Odśwież"}
+        };
+
+        /// <summary>
         /// Treści używane podczas generowania pomocy ( HELP ) programu - [ytania.
         /// </summary>
         static public Dictionary<string, string> FaqQuestion = new Dictionary<string, string>()

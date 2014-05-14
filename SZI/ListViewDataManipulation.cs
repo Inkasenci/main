@@ -83,7 +83,12 @@ namespace SZI
                             ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[i++], data.itemList);
                         }
                     else
+                    {
                         ConfigManagementForm.dataBase = new IDataBase[5] { new Collectors(), new Customers(), new Areas(), new Counters(), new Addresses() };
+                        foreach (var data in ConfigManagementForm.dataBase)                        
+                            ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[i++], data.itemList);
+                        
+                    }
 
                 }
                 else if (form.GetType() == typeof(InsertForm)) //jeśli wprowadzono rekord

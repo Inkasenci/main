@@ -95,7 +95,7 @@
             this.btRefresh.Name = "btRefresh";
             this.btRefresh.Size = new System.Drawing.Size(157, 29);
             this.btRefresh.TabIndex = 5;
-            this.btRefresh.Text = "Odśwież";
+            this.btRefresh.Text = "Wczytaj dane";
             this.btRefresh.UseVisualStyleBackColor = true;
             this.btRefresh.Click += new System.EventHandler(this.btRefresh_Click);
             // 
