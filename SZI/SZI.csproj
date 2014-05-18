@@ -85,6 +85,7 @@
       <DependentUpon>AssociatedRecordsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Auxiliary.cs" />
+    <Compile Include="BackUp.cs" />
     <Compile Include="CheckCounters.cs">
       <SubType>Form</SubType>
     </Compile>

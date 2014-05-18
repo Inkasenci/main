@@ -499,6 +499,20 @@ namespace SZI
 
         #endregion
 
+        private void backupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            BackUp backup = new BackUp();
+            if (backup.GenerateBackUp())
+                MessageBox.Show("Wykonano backup!");
+        }
+
         #endregion
+
+        private void restoreToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            BackUp backup = new BackUp();
+            if(backup.RestoreBackUp())
+                MessageBox.Show("Wczytana backup!");
+        }
     }
 }
