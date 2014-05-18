@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace SZI
 {
     /// <summary>
-    /// Klasa pozwaljąca na obsługę opcji "powiązane rekordy".
+    /// Klasa pozwalająca na obsługę opcji "powiązane rekordy".
     /// </summary>
     static public class ConnectionRecordsQuery
     {

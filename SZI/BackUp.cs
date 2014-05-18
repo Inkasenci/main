@@ -7,16 +7,30 @@ using System.Threading.Tasks;
 
 namespace SZI
 {
+    /// <summary>
+    /// Klasa pozwalająca na generowanie BackUp-u bazy danych.
+    /// </summary>
     class BackUp
     {
-
+        /// <summary>
+        /// Funkcja odpowiedzialna za generowanie zapytania SQL na podstawie rekordu z tabeli Address.
+        /// <param name="AddressId">Id adresu.</param>
+        /// <param name="AreaId">Id terenu.</param>
+        /// <param name="FlatNo">Numer mieszkania.</param>
+        /// <param name="HouseNo">Numer domu.</param>
+        /// <returns>Zwraca rekord w postaci zapytania SQL.</returns>
+        /// </summary>
         private String AddressBackUp(System.Guid AddressId, int HouseNo, Nullable<int> FlatNo, System.Guid AreaId)
         {
             return "INSERT INTO Address ( AddressId, HouseNo, FlatNo, AreaId ) VALUES ('" + AddressId.ToString() + "', '" +
                 HouseNo.ToString() + "', '" + FlatNo.ToString() + "', '" + AreaId.ToString() + "');";
         }
 
-        private String AdressTableBackUp()
+        /// <summary>
+        /// Funkcja odpowiedzialna za generowanie zapytania SQL tworzącego tabelę Address.
+        /// </summary>
+        /// <returns>Zapytanie SQL tworzące tabelę Address.</returns>
+        private String AddressTableBackUp()
         {
             return "-- CREATE TABLE Address" + System.Environment.NewLine + 
                 "-- (" + System.Environment.NewLine +
@@ -27,12 +41,23 @@ namespace SZI
                 "-- )" + System.Environment.NewLine;
         }
 
+        /// <summary>
+        /// Funkcja odpowiedzialna za generowanie zapytania SQL na podstawie rekordu z tabeli Area.
+        /// </summary>
+        /// <param name="AreaId">Id terenu.</param>
+        /// <param name="Street">Ulica.</param>
+        /// <param name="CollectorId">Id Inkasenta.</param>
+        /// <returns>Zwraca rekord w postaci zapytania SQL.</returns>
         private String AreaBackUp(System.Guid AreaId, string Street, string CollectorId)
         {
             return "INSERT INTO Area ( AreaId, Street, CollectorId ) VALUES ('" + AreaId.ToString() + "', '" +
                 Street + "', '" + CollectorId + "');";
         }
 
+        /// <summary>
+        /// Funkcja odpowiedzialna za generowanie zapytania SQL tworzącego tabelę Area.
+        /// </summary>
+        /// <returns>Zapytanie SQL tworzące tabelę Area.</returns>
         private String AreaTableBackUp()
         {
             return "-- CREATE TABLE Area" + System.Environment.NewLine +
@@ -43,12 +68,27 @@ namespace SZI
                 "-- )" + System.Environment.NewLine;
         }
 
+        /// <summary>
+        /// Funkcja odpowiedzialna za generowanie zapytania SQL na podstawie rekordu z tabeli Collector.
+        /// </summary>
+        /// <param name="CollectorId">Id Inkasenta.</param>
+        /// <param name="Name">Imię.</param>
+        /// <param name="LastName">Nazwisko.</param>
+        /// <param name="PostalCode">Kod pocztowy.</param>
+        /// <param name="City">Miasto.</param>
+        /// <param name="Address">Adres.</param>
+        /// <param name="PhoneNumber">Telefon kontaktowy.</param>
+        /// <returns>Zwraca rekord w postaci zapytania SQL.</returns>
         private String CollectorBackUp(string CollectorId, string Name, string LastName, string PostalCode, string City, string Address, string PhoneNumber)
         {
             return "INSERT INTO Collector ( CollectorId, Name, LastName, PostalCode, City, Address, PhoneNumber ) VALUES ('" + CollectorId + "', '" +
                 Name + "', '" + LastName + "', '" + PostalCode + "', '" + City + "', '" + Address + "', '" + PhoneNumber + "');";
         }
 
+        /// <summary>
+        /// Funkcja odpowiedzialna za generowanie zapytania SQL tworzącego tabelę Collector.
+        /// </summary>
+        /// <returns>Zapytanie SQL tworzące tabelę Collector.</returns>
         private String CollectorTableBackUp()
         {
             return "-- CREATE TABLE Collector" + System.Environment.NewLine +
@@ -63,12 +103,24 @@ namespace SZI
                 "-- )" + System.Environment.NewLine;
         }
 
+        /// <summary>
+        /// Funkcja odpowiedzialna za generowanie zapytania SQL na podstawie rekordu z tabeli Counter.
+        /// </summary>
+        /// <param name="CounterNo">Numer licznika.</param>
+        /// <param name="CircuitNo">Numer układu.</param>
+        /// <param name="AddressId">Id Adresu.</param>
+        /// <param name="CustomerId">Id Klienta.</param>
+        /// <returns>Zwraca rekord w postaci zapytania SQL.</returns>
         private String CounterBackUp(int CounterNo, int CircuitNo, Nullable<System.Guid> AddressId, string CustomerId)
         {
             return "INSERT INTO Counter ( CounterNo, CircuitNo, AddressId, CustomerId ) VALUES ('" + CounterNo.ToString() + "', '" +
                 CircuitNo.ToString() + "', '" + AddressId.ToString() + "', '" + CustomerId + "');";
         }
 
+        /// <summary>
+        /// Funkcja odpowiedzialna za generowanie zapytania SQL tworzącego tabelę Counter.
+        /// </summary>
+        /// <returns>Zapytanie SQL tworzące tabelę Counter.</returns>
         private String CounterTableBackUp()
         {
             return "-- CREATE TABLE Counter" + System.Environment.NewLine +
@@ -80,12 +132,27 @@ namespace SZI
                 "-- )" + System.Environment.NewLine;
         }
 
+        /// <summary>
+        /// Funkcja odpowiedzialna za generowanie zapytania SQL na podstawie rekordu z tabeli Customer.
+        /// </summary>
+        /// <param name="CustomerId">Id Inkasenta.</param>
+        /// <param name="Name">Imię.</param>
+        /// <param name="LastName">Nazwisko.</param>
+        /// <param name="PostalCode">Kod pocztowy.</param>
+        /// <param name="City">Miasto.</param>
+        /// <param name="Address">Adres.</param>
+        /// <param name="PhoneNumber">Telefon kontaktowy.</param>
+        /// <returns>Zwraca rekord w postaci zapytania SQL.</returns>
         private String CustomerBackUp(string CustomerId, string Name, string LastName, string PostalCode, string City, string Address, string PhoneNumber)
         {
             return "INSERT INTO Customer ( CustomerId, Name, LastName, PostalCode, City, Address, PhoneNumber ) VALUES ('" + CustomerId + "', '" +
                 Name + "', '" + LastName + "', '" + PostalCode + "', '" + City + "', '" + Address + "', '" + PhoneNumber + "');";
         }
 
+        /// <summary>
+        /// Funkcja odpowiedzialna za generowanie zapytania SQL tworzącego tabelę Customer.
+        /// </summary>
+        /// <returns>Zapytanie SQL tworzące tabelę Customer.</returns>
         private String CustomerTableBackUp()
         {
             return "-- CREATE TABLE Customer" + System.Environment.NewLine +
@@ -100,12 +167,25 @@ namespace SZI
                 "-- )" + System.Environment.NewLine;
         }
 
+        /// <summary>
+        /// Funkcja odpowiedzialna za generowanie zapytania SQL na podstawie rekordu z tabeli Reading.
+        /// </summary>
+        /// <param name="ReadingId">Id Odczytu.</param>
+        /// <param name="Date">Data.</param>
+        /// <param name="Value">Wartoć odczytu.</param>
+        /// <param name="CollectorId">Id Inkasenta.</param>
+        /// <param name="CounterNo">Numer licznika.</param>
+        /// <returns></returns>
         private String ReadingBackUp(System.Guid ReadingId, System.DateTime Date, double Value, string CollectorId, int CounterNo)
         {
             return "INSERT INTO Reading ( ReadingId, Date, Value, CollectorId, CounterNo ) VALUES ('" + ReadingId.ToString() + "', '" +
                 Date.ToString() + "', '" + Value.ToString() + "', '" + CollectorId + "', '" + CounterNo.ToString() + "');";
         }
 
+        /// <summary>
+        /// Funkcja odpowiedzialna za generowanie zapytania SQL tworzącego tabelę Reading.
+        /// </summary>
+        /// <returns>Zapytanie SQL tworzące tabelę Reading.</returns>
         private String ReadingTableBackUp()
         {
             return "-- CREATE TABLE Reading" + System.Environment.NewLine +
@@ -118,20 +198,29 @@ namespace SZI
                 "-- )" + System.Environment.NewLine;
         }
 
+        /// <summary>
+        /// Zwracany komentarz informujący o aktualnie generowanym BackUp-ie ( tabeli na której zostaje wykonany zapis ).
+        /// </summary>
+        /// <param name="tableName">Nazwa tabeli.</param>
+        /// <returns>Komentarz SQL.</returns>
         private String TableCommentBackUp(string tableName)
         {
             return  System.Environment.NewLine + "-- Dane zawarte w tabeli: " + tableName + System.Environment.NewLine;
         }
 
-        public bool GenerateBackUp()
+        /// <summary>
+        /// Generowanie pliku z BackUp-em bazy danych SZI.
+        /// </summary>
+        /// <returns>Informacje o poprawności utworzenia pliku.</returns>
+        public bool GenerateBackUp(string filePath)
         {
-            using (StreamWriter file = new StreamWriter(@"BackUp.txt"))
+            using (StreamWriter file = new StreamWriter(filePath))
             {
                 using (var dataBase = new CollectorsManagementSystemEntities())
                 {
                     {
                         file.WriteLine(TableCommentBackUp("Address"));
-                        file.WriteLine(AdressTableBackUp());
+                        file.WriteLine(AddressTableBackUp());
                         foreach (var element in dataBase.Addresses)
                             file.WriteLine(AddressBackUp(element.AddressId, element.HouseNo, element.FlatNo, element.AreaId));
                     }
@@ -169,12 +258,23 @@ namespace SZI
                     }
                 }
             }
-            return true;
+
+            if (File.Exists(filePath))
+                return true;
+            else
+                return false;
         }
 
-        public bool RestoreBackUp()
+        /// <summary>
+        /// Wczytywanie pliku z BackUp-em bazy danych SZI.
+        /// </summary>
+        /// <returns>Informacje o poprawności wczytania pliku.</returns>
+        public bool RestoreBackUp(string filePath)
         {
-            using (StreamReader file = new StreamReader(@"BackUp.txt"))
+            if (!File.Exists(filePath))
+                return false;
+
+            using (StreamReader file = new StreamReader(filePath))
             {
                 string fileRead = file.ReadToEnd();
                 using (var dataBase = new CollectorsManagementSystemEntities())
@@ -182,6 +282,7 @@ namespace SZI
                     dataBase.Database.ExecuteSqlCommand(fileRead);
                 }
             }
+
             return true;
         }
 
