@@ -199,6 +199,21 @@ namespace SZI
         }
 
         /// <summary>
+        /// Funkcja odpowiedzialna za generowanie zapytania SQL czyszczącego wszystkie tabele.
+        /// </summary>
+        /// <returns>Zapytanie SQL czyszczące tabele.</returns>
+        private String ClearTable()
+        {
+            return "-- Czyszczenie tabel" + System.Environment.NewLine + 
+                "DELETE FROM Address;" + System.Environment.NewLine +
+                "DELETE FROM Area;" + System.Environment.NewLine +
+                "DELETE FROM Collector;" + System.Environment.NewLine +
+                "DELETE FROM Counter;" + System.Environment.NewLine +
+                "DELETE FROM Customer;" + System.Environment.NewLine +
+                "DELETE FROM Reading;";
+        }
+
+        /// <summary>
         /// Zwracany komentarz informujący o aktualnie generowanym BackUp-ie ( tabeli na której zostaje wykonany zapis ).
         /// </summary>
         /// <param name="tableName">Nazwa tabeli.</param>
@@ -218,6 +233,9 @@ namespace SZI
             {
                 using (var dataBase = new CollectorsManagementSystemEntities())
                 {
+                    {
+                        file.WriteLine(ClearTable());
+                    }
                     {
                         file.WriteLine(TableCommentBackUp("Address"));
                         file.WriteLine(AddressTableBackUp());
