@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace SZI
 {
@@ -23,7 +24,7 @@ namespace SZI
         private String AddressBackUp(System.Guid AddressId, int HouseNo, Nullable<int> FlatNo, System.Guid AreaId)
         {
             return "INSERT INTO Address ( AddressId, HouseNo, FlatNo, AreaId ) VALUES ('" + AddressId.ToString() + "', '" +
-                HouseNo.ToString() + "', '" + FlatNo.ToString() + "', '" + AreaId.ToString() + "');";
+                HouseNo.ToString() + "', " + ((FlatNo != null) ? "'" + FlatNo.ToString() + "'" : "NULL") + ", '" + AreaId.ToString() + "');";
         }
 
         /// <summary>
@@ -51,7 +52,7 @@ namespace SZI
         private String AreaBackUp(System.Guid AreaId, string Street, string CollectorId)
         {
             return "INSERT INTO Area ( AreaId, Street, CollectorId ) VALUES ('" + AreaId.ToString() + "', '" +
-                Street + "', '" + CollectorId + "');";
+                Street + "', " + ((CollectorId != null) ? "'" + CollectorId + "'" : "NULL") + ");";
         }
 
         /// <summary>
@@ -114,7 +115,7 @@ namespace SZI
         private String CounterBackUp(int CounterNo, int CircuitNo, Nullable<System.Guid> AddressId, string CustomerId)
         {
             return "INSERT INTO Counter ( CounterNo, CircuitNo, AddressId, CustomerId ) VALUES ('" + CounterNo.ToString() + "', '" +
-                CircuitNo.ToString() + "', '" + AddressId.ToString() + "', '" + CustomerId + "');";
+                CircuitNo.ToString() + "', " + ((AddressId != null) ? "'" + AddressId.ToString() + "'" : "NULL") + ", " + ((CustomerId != null) ? "'" + CustomerId + "'" : "NULL") + ");";
         }
 
         /// <summary>
