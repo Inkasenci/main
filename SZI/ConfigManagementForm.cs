@@ -499,6 +499,46 @@ namespace SZI
 
         #endregion
 
+        private void backupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.InitialDirectory = @"C:\";
+            saveFileDialog.DefaultExt = "sql";
+            saveFileDialog.Filter = "SQL file|*.sql";
+            saveFileDialog.FilterIndex = 1;
+            saveFileDialog.Title = "Zapisz dane";
+            DialogResult check = saveFileDialog.ShowDialog();
+
+            if (saveFileDialog.FileName == String.Empty && check == DialogResult.OK)
+                MessageBox.Show(LangPL.CountersWarnings["wrongFileName"]);
+            else if (check == DialogResult.OK)
+            {
+                BackUp backup = new BackUp();
+                if (backup.GenerateBackUp(saveFileDialog.FileName))
+                    MessageBox.Show("Wykonano backup!");
+            }
+        }
+
         #endregion
+
+        private void restoreToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.InitialDirectory = @"C:\";
+            openFileDialog.DefaultExt = "sql";
+            openFileDialog.Filter = "SQL file|*.sql";
+            openFileDialog.FilterIndex = 1;
+            openFileDialog.Title = "Wczytaj dane";
+            DialogResult check = openFileDialog.ShowDialog();
+
+            if (openFileDialog.FileName == String.Empty && check == DialogResult.OK && File.Exists(openFileDialog.FileName))
+                MessageBox.Show("Błąd! Brak pliku!");
+            else if (check == DialogResult.OK)
+            {
+                BackUp backup = new BackUp();
+                if (backup.RestoreBackUp(openFileDialog.FileName))
+                    MessageBox.Show("Wczytano dane!");
+            }
+        }
     }
 }
