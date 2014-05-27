@@ -78,7 +78,7 @@ namespace SZI
             // Tworzenie tabControl
             tabControl.Padding = new Point(10, 10);
             tabControl.Location = new Point(10, 30);
-            tabControl.Size = new Size(900, 500);
+            tabControl.Size = new Size(915, 500);
 
             // Dodawanie listView
             for (int i = 0; i < tabPages.Length; i++)

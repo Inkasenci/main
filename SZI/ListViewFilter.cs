@@ -26,6 +26,10 @@ namespace SZI
         /// Tablica pól tekstowych, które pozwalają na ustawianie filtra. 
         /// </summary>
         TextBox[] filterTextBoxes;
+        /// <summary>
+        /// Pole pozwalające na wybór wyświetlania rekordów z pustym kluczem obcym.
+        /// </summary>
+        CheckBox emptyForeignKeyCheckBox;
 
         /// <summary>
         /// Inicjalizuje etykiety filtra.
@@ -65,7 +69,31 @@ namespace SZI
         }
 
         /// <summary>
-        /// Inicjalizuje cały panel filtra, jego etykiety, pola tekstowe oraz przycisk je czyszczący.
+        /// Inicjalizuje pole wyboru wyświetlania pustych kluczy obcych.
+        /// </summary>
+        /// <returns>Zainicjalizowane pole wyboru.</returns>
+        CheckBox InitializeCheckBox()
+        {
+            CheckBox checkBox = new CheckBox();
+            checkBox.Text = "Brak";
+            checkBox.AutoSize = true;
+            checkBox.CheckedChanged += checkBox_CheckedChanged;
+
+            switch (tabPageIndex)
+            {
+                case 2:
+                    checkBox.Location = new Point(filterTextBoxes[filterTextBoxes.Length - 1].Location.X + 105, filterTextBoxes[filterTextBoxes.Length - 1].Location.Y);
+                    break;
+                case 3:
+                    checkBox.Location = new Point(filterTextBoxes[filterTextBoxes.Length - 1].Location.X + 105, filterTextBoxes[filterTextBoxes.Length - 1].Location.Y - 15);
+                    break;
+            }
+
+            return checkBox;
+        }
+
+        /// <summary>
+        /// Inicjalizuje cały panel filtra, jego etykiety, pola tekstowe, pole wyboru (jeśli dotyczy) oraz przycisk je czyszczący.
         /// </summary>
         /// <returns>Panel filtra.</returns>
         public GroupBox InitializeFilter()
@@ -78,13 +106,16 @@ namespace SZI
             GroupBox groupBox = new GroupBox();
             groupBox.Text = "Filtr";
             groupBox.Location = new Point(625, 10);
-            groupBox.Size = new Size(250, (fieldsNames.Length + 2) * 30);
+            groupBox.Size = new Size(280, (fieldsNames.Length + 2) * 30);
 
             foreach (Label label in InitializeLabels())
                 groupBox.Controls.Add(label);
 
             foreach (TextBox textBox in filterTextBoxes)
                 groupBox.Controls.Add(textBox);
+
+            if (tabPageIndex == 2 || tabPageIndex == 3)
+                groupBox.Controls.Add(emptyForeignKeyCheckBox);
 
             groupBox.Controls.Add(clearTextBoxesButton);
 
@@ -117,11 +148,15 @@ namespace SZI
                     bool recordPassesThroughFilter = true;
 
                     for (int i = 0; i < filterTextBoxes.Length; i++)
-                        if (record[i].ToLower().IndexOf(filterTextBoxes[i].Text.ToLower()) == -1)
+                        if (filterTextBoxes[i].Enabled && record[i].ToLower().IndexOf(filterTextBoxes[i].Text.ToLower()) == -1)
                         {
                             recordPassesThroughFilter = false;
                             break;
                         }
+                        else
+                            if (!filterTextBoxes[i].Enabled)
+                                if (record[i] != String.Empty)
+                                    recordPassesThroughFilter = false;
 
                     if (recordPassesThroughFilter)
                         ListViewConfig.AddItem(filteredListView, record);
@@ -144,6 +179,7 @@ namespace SZI
             this.tabPageIndex = tabPageIndex;
             this.fieldsNames = fieldsNames;
             filterTextBoxes = InitializeTextBoxes();
+            emptyForeignKeyCheckBox = InitializeCheckBox();
         }
 
         /// <summary>
@@ -153,7 +189,45 @@ namespace SZI
         /// <param name="e">Argumenty zdarzenia.</param>
         void FilterTextBox_TextChanged(object sender, EventArgs e)
         {
-            FilterRecords();
+            if (ConfigManagementForm.dataBase != null)
+                FilterRecords();
+        }
+
+        /// <summary>
+        /// Wywoływana, gdy zmieni się stan zaznaczenia pola wyboru. Aktywuje lub dezaktywuje pola tekstowe dotyczące kluczy obcych.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void checkBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (emptyForeignKeyCheckBox.Checked)
+                switch (tabPageIndex)
+                {
+                    case 2:
+                        filterTextBoxes[2].Enabled = false;
+                        filterTextBoxes[2].Text = "brak";
+                        break;
+                    case 3:
+                        filterTextBoxes[2].Enabled = false;
+                        filterTextBoxes[2].Text = "brak";
+                        filterTextBoxes[3].Enabled = false;
+                        filterTextBoxes[3].Text = "brak";
+                        break;
+                }
+            else
+                switch (tabPageIndex)
+                {
+                    case 2:
+                        filterTextBoxes[2].Enabled = true;
+                        filterTextBoxes[2].Text = String.Empty;
+                        break;
+                    case 3:
+                        filterTextBoxes[2].Enabled = true;
+                        filterTextBoxes[2].Text = String.Empty;
+                        filterTextBoxes[3].Enabled = true;
+                        filterTextBoxes[3].Text = String.Empty;
+                        break;
+                }
         }
 
         /// <summary>
@@ -165,6 +239,9 @@ namespace SZI
         {
             foreach (TextBox filterTextBox in filterTextBoxes)
                 filterTextBox.Text = String.Empty;
+
+            if (emptyForeignKeyCheckBox != null)
+                emptyForeignKeyCheckBox.Checked = false;
         }
     }
 }
