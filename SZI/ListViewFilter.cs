@@ -71,7 +71,7 @@ namespace SZI
         /// <summary>
         /// Inicjalizuje pole wyboru wyświetlania pustych kluczy obcych.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Zainicjalizowane pole wyboru.</returns>
         CheckBox InitializeCheckBox()
         {
             CheckBox checkBox = new CheckBox();
