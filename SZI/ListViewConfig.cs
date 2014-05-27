@@ -93,8 +93,18 @@ namespace SZI
         /// <returns>Zwracanie odświeżonej ListView.</returns> 
         static public ListView ListViewRefresh(ListView listView, List<string[]> itemList)
         {
-            ConfigManagementForm.listViewFilters[LangPL.ListViewNameToPageNumber[listView.Name]].FilterRecords();
-           
+            if (listView.Name == "CountersForm")
+            {
+                listView = ClearListView(listView);
+
+                foreach (var item in itemList)
+                    listView.Items.Add(ConvertToItem(item));
+
+                AdjustColumnWidth(listView);
+            }
+            else
+                ConfigManagementForm.listViewFilters[LangPL.ListViewNameToPageNumber[listView.Name]].FilterRecords();
+
             return listView;
         }
 
