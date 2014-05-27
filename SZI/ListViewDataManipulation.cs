@@ -58,8 +58,98 @@ namespace SZI
                 DBManipulator.DeleteFromDB(ids, Table, idExists);
                 return true;
             }
-            
+
             return false;
+        }
+
+        /// <summary>
+        /// Wypełnia otwarty w danym momencie ListView i dopisuje go do tablicy IDataBase.
+        /// </summary>
+        public static void ComplementListView()
+        {
+            switch (ConfigManagementForm.selectedTab)
+            {
+                case Tables.Collectors:
+                    ConfigManagementForm.dataBase[(int)ConfigManagementForm.selectedTab] = new Collectors();
+                    ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[(int)ConfigManagementForm.selectedTab], ConfigManagementForm.dataBase[(int)ConfigManagementForm.selectedTab].itemList);
+                    break;
+
+                case Tables.Customers:
+                    ConfigManagementForm.dataBase[(int)ConfigManagementForm.selectedTab] = new Customers();
+                    ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[(int)ConfigManagementForm.selectedTab], ConfigManagementForm.dataBase[(int)ConfigManagementForm.selectedTab].itemList);
+                    break;
+
+                case Tables.Areas:
+                    ConfigManagementForm.dataBase[(int)ConfigManagementForm.selectedTab] = new Areas();
+                    ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[(int)ConfigManagementForm.selectedTab], ConfigManagementForm.dataBase[(int)ConfigManagementForm.selectedTab].itemList);
+                    break;
+
+                case Tables.Counters:
+                    ConfigManagementForm.dataBase[(int)ConfigManagementForm.selectedTab] = new Counters();
+                    ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[(int)ConfigManagementForm.selectedTab], ConfigManagementForm.dataBase[(int)ConfigManagementForm.selectedTab].itemList);
+                    break;
+
+                case Tables.Addresses:
+                   ConfigManagementForm.dataBase[(int)ConfigManagementForm.selectedTab] = new Addresses();
+                   ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[(int)ConfigManagementForm.selectedTab], ConfigManagementForm.dataBase[(int)ConfigManagementForm.selectedTab].itemList);
+                   break;
+
+                default:
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Wypełnia otwarty w danym momencie ListView i tworzy tablicę IDataBase.
+        /// </summary>
+        private static void FillListView()
+        {
+            switch (ConfigManagementForm.selectedTab)
+            {
+                case Tables.Collectors:
+                    ConfigManagementForm.dataBase = new IDataBase[5] { new Collectors(), null, null, null, null };
+                    ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[(int)ConfigManagementForm.selectedTab], ConfigManagementForm.dataBase[(int)ConfigManagementForm.selectedTab].itemList);
+                    break;
+
+                case Tables.Customers:
+                    ConfigManagementForm.dataBase = new IDataBase[5] { null, new Customers(), null, null, null };
+                    ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[(int)ConfigManagementForm.selectedTab], ConfigManagementForm.dataBase[(int)ConfigManagementForm.selectedTab].itemList);
+                    break;
+
+                case Tables.Areas:
+                    ConfigManagementForm.dataBase = new IDataBase[5] { null, null, new Areas(), null, null };
+                    ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[(int)ConfigManagementForm.selectedTab], ConfigManagementForm.dataBase[(int)ConfigManagementForm.selectedTab].itemList);
+                    break;
+
+                case Tables.Counters:
+                    ConfigManagementForm.dataBase = new IDataBase[5] { null, null, null, new Counters(), null };
+                    ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[(int)ConfigManagementForm.selectedTab], ConfigManagementForm.dataBase[(int)ConfigManagementForm.selectedTab].itemList);
+                    break;
+
+                case Tables.Addresses:
+                    ConfigManagementForm.dataBase = new IDataBase[5] { null, null, null, null, new Addresses() };
+                    ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[(int)ConfigManagementForm.selectedTab], ConfigManagementForm.dataBase[(int)ConfigManagementForm.selectedTab].itemList);
+                    break;
+
+                default:
+                    break;
+            }
+            ConfigManagementForm.ListViewFilled[(int)ConfigManagementForm.selectedTab] = true;
+        }
+
+        /// <summary>
+        /// Odświeża wszystkie ListView, które były wcześniej wypełnione.
+        /// </summary>
+        private static void RefreshFilledListViews()
+        {
+            for (int i = 0; i < ConfigManagementForm.ListViewFilled.Count(); i++)
+            {
+                if (ConfigManagementForm.ListViewFilled[i] == true)
+                {
+                    ConfigManagementForm.dataBase[i].RefreshList();
+                    ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[i], ConfigManagementForm.dataBase[i].itemList);
+                }
+            }
         }
 
         /// <summary>
@@ -75,21 +165,10 @@ namespace SZI
             {
                 if (form.GetType() == typeof(ConfigManagementForm)) //jeśli naciśnięto przycisk odśwież na formie
                 {
-                    int i = 0;
                     if (ConfigManagementForm.dataBase != null)
-                        foreach (var data in ConfigManagementForm.dataBase)
-                        {
-                            data.RefreshList();
-                            ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[i++], data.itemList);
-                        }
+                        RefreshFilledListViews();
                     else
-                    {
-                        ConfigManagementForm.dataBase = new IDataBase[5] { new Collectors(), new Customers(), new Areas(), new Counters(), new Addresses() };
-                        foreach (var data in ConfigManagementForm.dataBase)                        
-                            ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[i++], data.itemList);
-                        
-                    }
-
+                        FillListView();
                 }
                 else if (form.GetType() == typeof(InsertForm)) //jeśli wprowadzono rekord
                 {

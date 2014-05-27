@@ -18,7 +18,11 @@ namespace SZI
     /// </summary>
     public partial class ConfigManagementForm : Form, IForm
     {
-        private Tables selectedTab = Tables.Collectors;
+        /// <summary>
+        /// Tablica zawierająca wartości określające czy dane ListView zostało wypełnione.
+        /// </summary>
+        public static bool[] ListViewFilled;
+        public static Tables selectedTab = Tables.Collectors;
         private TabControl tabControl;
         public static IDataBase[] dataBase;
         public static ListView[] listView;
@@ -55,6 +59,7 @@ namespace SZI
         // Data tabControl init
         private void MainTabControlInit()
         {
+            ListViewFilled = new bool[5];
             // Deklaracja
             TabPage[] tabPages;
             string[] tabNames;
@@ -294,6 +299,11 @@ namespace SZI
             selectedTab = (Tables)tabControl.SelectedIndex;
             listView[(int)selectedTab].HideSelection = false;
             SetButtonEnabledProperty(false, false);
+            if (btRefresh.Text == LangPL.MainFormLang["Refresh"] && ListViewFilled[(int)selectedTab] == false)
+            {
+                ListViewDataManipulation.ComplementListView();
+                ListViewFilled[(int)selectedTab] = true;
+            }
         }
 
         #region ListView
@@ -497,8 +507,6 @@ namespace SZI
             Process.Start(sInfo);
         }
 
-        #endregion
-
         private void backupToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
@@ -519,8 +527,6 @@ namespace SZI
             }
         }
 
-        #endregion
-
         private void restoreToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -540,5 +546,10 @@ namespace SZI
                     MessageBox.Show("Wczytano dane!");
             }
         }
+
+        #endregion
+        #endregion
+
+
     }
 }
