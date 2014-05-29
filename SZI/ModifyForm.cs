@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace SZI
 {
@@ -392,6 +393,12 @@ namespace SZI
                 ControlToEP_Dict[ValidatedTextBox].SetError(ValidatedTextBox, "Nieprawidłowo wypełnione pole.");
                 ControlToBool_Dict[ValidatedTextBox] = false;
             }
+        }
+               
+        private void ModifyForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Thread t = new Thread(() => ListViewDataManipulation.RefreshListView(this));
+            t.Start();
         }
     }
 }

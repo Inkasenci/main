@@ -178,6 +178,9 @@
       <DependentUpon>ModifyForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
+    <Compile Include="ProgressStatusStrip.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reading.cs">
       <DependentUpon>Model.tt</DependentUpon>
