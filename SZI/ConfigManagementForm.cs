@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
 using System.Drawing.Printing;
+using System.Threading;
 
 namespace SZI
 {
@@ -18,7 +19,11 @@ namespace SZI
     /// </summary>
     public partial class ConfigManagementForm : Form, IForm
     {
-        private Tables selectedTab = Tables.Collectors;
+        /// <summary>
+        /// Tablica zawierająca wartości określające czy dane ListView zostało wypełnione.
+        /// </summary>
+        public static bool[] ListViewFilled;
+        public static Tables selectedTab = Tables.Collectors;
         private TabControl tabControl;
         public static IDataBase[] dataBase;
         public static ListView[] listView;
@@ -33,7 +38,7 @@ namespace SZI
         /// Pole potrzebne do poprawnego działania metody closeForm_Click. Wartość jest zawsze prawdziwa.
         /// </summary>
         private bool modified = true;
-
+        
         /// <summary>
         /// Właściwość potrzebna do poprawnego działania metody closeForm_Click.
         /// </summary>
@@ -52,9 +57,12 @@ namespace SZI
             MainTabControlInit();
         }
 
+
         // Data tabControl init
         private void MainTabControlInit()
         {
+            statusLabelMain.BackColor = Color.Transparent;
+            ListViewFilled = new bool[5];
             // Deklaracja
             TabPage[] tabPages;
             string[] tabNames;
@@ -274,15 +282,9 @@ namespace SZI
         // List wiew refresh ( every tick = 15 min [ 900000 ms ] )
         private void timerRefresh_Tick(object sender, EventArgs e)
         {
-            ListViewDataManipulation.RefreshListView(this);
+            //ListViewDataManipulation.RefreshListView(this);
         }
 
-
-        // Data refresh
-        private void closeForm_Click(object sender, EventArgs e)
-        {
-            ListViewDataManipulation.RefreshListView(sender);
-        }
 
         /// <summary>
         /// Ustawia zmienną selectedTab na liczbę odpowiadającą wybranej zakładce
@@ -294,6 +296,12 @@ namespace SZI
             selectedTab = (Tables)tabControl.SelectedIndex;
             listView[(int)selectedTab].HideSelection = false;
             SetButtonEnabledProperty(false, false);
+            if (btRefresh.Text == LangPL.MainFormLang["Refresh"] && ListViewFilled[(int)selectedTab] == false)
+            {
+                Thread t = new Thread(() => ListViewDataManipulation.ComplementListView(this));
+                t.Start();
+                ListViewFilled[(int)selectedTab] = true;
+            }
         }
 
         #region ListView
@@ -356,7 +364,8 @@ namespace SZI
         {
             if (ListViewDataManipulation.DeleteItems(listView[(int)selectedTab], selectedTab))
             {
-                ListViewDataManipulation.RefreshListView(this, selectedTab);
+                Thread t = new Thread(() => ListViewDataManipulation.RefreshListView(sender, selectedTab));
+                t.Start();                
                 SetButtonEnabledProperty(false, false);
             }
             listView[(int)selectedTab].HideSelection = false;
@@ -370,7 +379,6 @@ namespace SZI
         private void btInsert_Click(object sender, EventArgs e)
         {
             var insertForm = new InsertForm(selectedTab);
-            insertForm.FormClosing += closeForm_Click;
             insertForm.ShowDialog();
             SetButtonEnabledProperty(false, false);
         }
@@ -390,11 +398,12 @@ namespace SZI
         private void btRefresh_Click(object sender, EventArgs e)
         {
             btRefresh.Text = LangPL.MainFormLang["Refresh"];
+            Thread t = new Thread(() => ListViewDataManipulation.RefreshListView(this));
             ListViewDataManipulation.RefreshListView(this);
         }
 
         #endregion
-
+        
         #region ToolStripMenu
 
         /// <summary>
@@ -497,8 +506,6 @@ namespace SZI
             Process.Start(sInfo);
         }
 
-        #endregion
-
         private void backupToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
@@ -519,8 +526,6 @@ namespace SZI
             }
         }
 
-        #endregion
-
         private void restoreToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -540,5 +545,19 @@ namespace SZI
                     MessageBox.Show("Wczytano dane!");
             }
         }
+
+        #endregion
+
+        #endregion
+
+        private delegate void UpdateLabelDelegate(ConfigManagementForm MainForm, Tables UpdatedTable);
+        public void UpdateStatusLabel(int UpdatedTable)
+        {
+            if (UpdatedTable > 0)
+                statusLabelMain.Text = LangPL.Loadings[(Tables)UpdatedTable];
+            else
+                statusLabelMain.Text = LangPL.LoadingsStrings["LoadingFinished"];
+        }
+
     }
 }

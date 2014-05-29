@@ -201,5 +201,19 @@ namespace SZI
             {"Counters", 3},
             {"Addresses", 4}
         };
+
+        static public Dictionary<Tables, string> Loadings = new Dictionary<Tables, string>()
+        {
+            {Tables.Collectors, "Wczytywane są dane z tabeli Inkasenci. Proszę czekać."},
+            {Tables.Customers, "Wczytywane są dane z tabeli Klienci. Proszę czekać."},
+            {Tables.Addresses, "Wczytywane są dane z tabeli Adresy. Proszę czekać."},
+            {Tables.Counters, "Wczytywane są dane z tabeli Liczniki. Proszę czekać."},
+            {Tables.Areas, "Wczytywane są dane z tabeli Tereny. Proszę czekać."},
+        };
+
+        static public Dictionary<string, string> LoadingsStrings = new Dictionary<string, string>()
+        {
+            {"LoadingFinished", "Wczytywanie zakończone."}
+        };
     }
 }
