@@ -34,7 +34,7 @@ namespace SZI
         /// <summary>
         /// Liczba generowanych odczytów.
         /// </summary>
-        static int numberOfReadings = 300;
+        static int numberOfReadings = 0;
         /// <summary>
         /// Wczytane dane.
         /// </summary>
