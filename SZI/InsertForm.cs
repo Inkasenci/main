@@ -578,11 +578,6 @@ namespace SZI
 
         private void InsertForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-                  
-        }
-
-        private void InsertForm_FormClosed(object sender, FormClosedEventArgs e)
-        {
             Thread t = new Thread(() => ListViewDataManipulation.RefreshListView(sender));
             t.Start();
         }
