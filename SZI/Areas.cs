@@ -34,56 +34,45 @@ namespace SZI
             RefreshList();
         }
 
-        private void GenerateItemList()
+        private void GenerateAreasList()
         {
-            areasList.Clear();
-            using (var dataBase = new CollectorsManagementSystemEntities())
-            {
-                foreach (var value in dataBase.Areas)                    
-                    areasList.Add(value);                
-            }
-        }
-
-        static public string FetchCollector(string CollectorID) //zwraca imię i nazwisko inkasenta na podstawie jego ID
-        {
-            string FullName = "";
+            List<string[]> Areas = null;
 
             using (var database = new CollectorsManagementSystemEntities())
             {
-                var collector = from c in database.Collectors 
-                                where c.CollectorId == CollectorID 
-                                select c;
 
-                if (collector.Count() == 1)
+                var result = (from area in database.Areas
+                              join collector in database.Collectors
+                              on area.CollectorId equals collector.CollectorId into gj
+                              select new
+                              {
+                                  areaid = area.AreaId,
+                                  street = area.Street,
+                                  coll =
+                                  (
+                                    from subCollector in database.Collectors
+                                    where subCollector.CollectorId == area.CollectorId
+                                    select subCollector.Name + " " + subCollector.LastName                                    
+                                  ).ToList()
+                              }).ToList();
+
+
+                Areas = new List<string[]>(result.Count());
+                for (int i = 0; i < result.Count(); i++)
                 {
-                    foreach (Collector c in collector)
-                        FullName = c.Name + " " + c.LastName;
-                }
+                    Areas.Add(new string[3]);
+                    Areas[i][0] = result[i].areaid.ToString();
+                    Areas[i][1] = result[i].street;
+                    Areas[i][2] = result[i].coll.Count == 0 ? "" : result[i].coll[0];
+                }                
             }
 
-            return FullName;
-        }
-
-        private void GenerateStringList()
-        {
-            List<string> convertedItem;
-
-            itemList.Clear();
-            foreach (var item in areasList)
-            {
-                convertedItem = new List<string>();
-                convertedItem.Add(item.AreaId.ToString());
-                convertedItem.Add(item.Street);
-                convertedItem.Add(FetchCollector(item.CollectorId));
-                itemList.Add(convertedItem.ToArray());
-            }
-                
+            this.itemList = Areas;
         }
 
         public void RefreshList()
         {
-            GenerateItemList();
-            GenerateStringList();
+            GenerateAreasList();
         }
 
         public int recordCount

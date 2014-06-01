@@ -36,17 +36,49 @@ namespace SZI
             RefreshList();
         }
 
-        private void GenerateItemList()
+        private void GenerateCountersList()
         {
-            counterList.Clear();
-            using (var dataBase = new CollectorsManagementSystemEntities())
+            List<string[]> Counters = null;
+            using (var database = new CollectorsManagementSystemEntities())
             {
-                foreach (var value in dataBase.Counters)
-                    counterList.Add(value);
+
+                var result = (from counter in database.Counters
+                              join address in database.Addresses on counter.AddressId equals address.AddressId into gj
+                              join customer in database.Customers on counter.CustomerId equals customer.CustomerId into test
+                              select new
+                              {
+                                  circuitno = counter.CircuitNo,
+                                  counterno = counter.CounterNo,
+                                  address =
+                                  (
+                                    from subAddress in database.Addresses
+                                    where subAddress.AddressId == counter.AddressId
+                                    join area in database.Areas on subAddress.AreaId equals area.AreaId
+                                    select area.Street + " " + subAddress.HouseNo + (subAddress.FlatNo.HasValue ? "/" + subAddress.FlatNo.Value : "")
+                                  ).ToList(),
+                                  customer =
+                                  (
+                                     from subCustomer in database.Customers
+                                     where subCustomer.CustomerId == counter.CustomerId
+                                     select subCustomer.Name + " " + subCustomer.LastName
+                                  ).ToList()
+                              }).ToList();
+
+                Counters = new List<string[]>(result.Count());
+                for (int i = 0; i < result.Count(); i++)
+                {
+                    Counters.Add(new string[4]);
+                    Counters[i][0] = result[i].circuitno.ToString();
+                    Counters[i][1] = result[i].counterno.ToString();
+                    Counters[i][2] = result[i].address.Count == 0 ? "" : result[i].address[0];
+                    Counters[i][3] = result[i].customer.Count == 0 ? "" : result[i].customer[0];
+                }  
             }
+            this.itemList = Counters;
         }
 
-        static public string FetchCustomer(string CustomerID) //zwraca imię i nazwisko klienta na podstawie jego ID
+
+        public static string FetchCustomer(string CustomerID) //zwraca imię i nazwisko klienta na podstawie jego ID
         {
             string FullName = "";
 
@@ -91,26 +123,9 @@ namespace SZI
             return FullAddressString;
         }
 
-        private void GenerateStringList()
-        {
-            List<string> convertedItem;
-
-            itemList.Clear();
-            foreach (var item in counterList)
-            {
-                convertedItem = new List<string>();
-                convertedItem.Add(item.CounterNo.ToString());
-                convertedItem.Add(item.CircuitNo.ToString());
-                convertedItem.Add((item.AddressId.HasValue) ? FetchFullAddress(item.AddressId.Value) : String.Empty);
-                convertedItem.Add(FetchCustomer(item.CustomerId));
-                itemList.Add(convertedItem.ToArray());
-            }
-        }
-
         public void RefreshList()
         {
-            GenerateItemList();
-            GenerateStringList();
+            GenerateCountersList();
         }
 
         public int recordCount

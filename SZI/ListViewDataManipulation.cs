@@ -69,33 +69,39 @@ namespace SZI
             switch (ConfigManagementForm.selectedTab)
             {
                 case Tables.Collectors:
+                    MainForm.UpdateStatusLabel((int)Tables.Collectors);
                     ConfigManagementForm.dataBase[(int)Tables.Collectors] = new Collectors();
                     ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[(int)Tables.Collectors], ConfigManagementForm.dataBase[(int)Tables.Collectors].itemList);
                     break;
 
                 case Tables.Customers:
+                    MainForm.UpdateStatusLabel((int)Tables.Customers);
                     ConfigManagementForm.dataBase[(int)Tables.Customers] = new Customers();
                     ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[(int)Tables.Customers], ConfigManagementForm.dataBase[(int)Tables.Customers].itemList);
                     break;
 
                 case Tables.Areas:
+                    MainForm.UpdateStatusLabel((int)Tables.Areas);
                     ConfigManagementForm.dataBase[(int)Tables.Areas] = new Areas();
                     ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[(int)Tables.Areas], ConfigManagementForm.dataBase[(int)Tables.Areas].itemList);
                     break;
 
                 case Tables.Counters:
+                    MainForm.UpdateStatusLabel((int)Tables.Counters);
                     ConfigManagementForm.dataBase[(int)Tables.Counters] = new Counters();
                     ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[(int)Tables.Counters], ConfigManagementForm.dataBase[(int)Tables.Counters].itemList);
                     break;
 
                 case Tables.Addresses:
-                   ConfigManagementForm.dataBase[(int)Tables.Addresses] = new Addresses();
-                   ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[(int)Tables.Addresses], ConfigManagementForm.dataBase[(int)Tables.Addresses].itemList);
-                   break;
+                    MainForm.UpdateStatusLabel((int)Tables.Addresses);
+                    ConfigManagementForm.dataBase[(int)Tables.Addresses] = new Addresses();
+                    ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[(int)Tables.Addresses], ConfigManagementForm.dataBase[(int)Tables.Addresses].itemList);
+                    break;
 
                 default:
                     break;
             }
+            MainForm.UpdateStatusLabel(-1);
         }
 
         /// <summary>
@@ -106,26 +112,31 @@ namespace SZI
             switch (ConfigManagementForm.selectedTab)
             {
                 case Tables.Collectors:
+                    MainForm.UpdateStatusLabel((int)Tables.Collectors);
                     ConfigManagementForm.dataBase = new IDataBase[5] { new Collectors(), null, null, null, null };
                     ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[(int)Tables.Collectors], ConfigManagementForm.dataBase[(int)Tables.Collectors].itemList);
                     break;
 
                 case Tables.Customers:
+                    MainForm.UpdateStatusLabel((int)Tables.Customers);
                     ConfigManagementForm.dataBase = new IDataBase[5] { null, new Customers(), null, null, null };
                     ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[(int)Tables.Customers], ConfigManagementForm.dataBase[(int)Tables.Customers].itemList);
                     break;
 
                 case Tables.Areas:
+                    MainForm.UpdateStatusLabel((int)Tables.Areas);
                     ConfigManagementForm.dataBase = new IDataBase[5] { null, null, new Areas(), null, null };
                     ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[(int)Tables.Areas], ConfigManagementForm.dataBase[(int)Tables.Areas].itemList);
                     break;
 
                 case Tables.Counters:
+                    MainForm.UpdateStatusLabel((int)Tables.Counters);
                     ConfigManagementForm.dataBase = new IDataBase[5] { null, null, null, new Counters(), null };
                     ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[(int)Tables.Counters], ConfigManagementForm.dataBase[(int)Tables.Counters].itemList);
                     break;
 
                 case Tables.Addresses:
+                    MainForm.UpdateStatusLabel((int)Tables.Addresses);
                     ConfigManagementForm.dataBase = new IDataBase[5] { null, null, null, null, new Addresses() };
                     ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[(int)Tables.Addresses], ConfigManagementForm.dataBase[(int)Tables.Addresses].itemList);
                     break;
@@ -133,6 +144,7 @@ namespace SZI
                 default:
                     break;
             }
+            MainForm.UpdateStatusLabel(-1);
             ConfigManagementForm.ListViewFilled[(int)ConfigManagementForm.selectedTab] = true;
         }
 
@@ -145,7 +157,7 @@ namespace SZI
             if (progressStatus.InvokeRequired)
             {
                 UpdateProgressStatusDelegate del = new UpdateProgressStatusDelegate(UpdateProgressStatus);
-                progressStatus.Invoke(del, progressStatus, i, max);
+                progressStatus.Invoke(del, MainForm, i, max);
                 return;
             }
             progressStatus.Value = (i / (float)max) * 100;
@@ -157,7 +169,8 @@ namespace SZI
         /// </summary>
         private static void RefreshFilledListViews(ConfigManagementForm MainForm)
         {
-            int ListViewsToUpdate = 0;
+            int ListViewsToUpdate = 0; //liczba ListView do odświeżenia
+            int k = 0; //numer odświeżanej listy
 
             for (int i = 0; i < ConfigManagementForm.ListViewFilled.Count(); i++)
                 if (ConfigManagementForm.ListViewFilled[i] == true)
@@ -165,12 +178,13 @@ namespace SZI
 
             for (int i = 0; i < ConfigManagementForm.ListViewFilled.Count(); i++)
             {
-                MainForm.UpdateStatusLabel(i);
-                UpdateProgressStatus(MainForm, i, ListViewsToUpdate);
                 if (ConfigManagementForm.dataBase[i] != null)
                 {
+                    MainForm.UpdateStatusLabel(i);
+                    UpdateProgressStatus(MainForm, k, ListViewsToUpdate);
                     ConfigManagementForm.dataBase[i].RefreshList();
                     ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[i], ConfigManagementForm.dataBase[i].itemList);
+                    k++;
                 }
             }
             MainForm.UpdateStatusLabel(-1);
@@ -186,7 +200,7 @@ namespace SZI
         {
             if (sender.GetType() == typeof(Button)) //usunięto rekord
             {
-                RefreshNecessaryTables(Table);
+                RefreshNecessaryTables(Table, sender);
                 return;
             }
 
@@ -210,73 +224,131 @@ namespace SZI
                 else if (form.GetType() == typeof(ModifyForm))//zmodyfikowano rekord
                 {
                     ModifyForm modifyForm = (ModifyForm)form;
-                    RefreshNecessaryTables(modifyForm.Table);
+                    RefreshNecessaryTables(modifyForm.Table, form);
                 }
             }
         }
-
 
 
         /// <summary>
         /// Odświeża ListView odpowiadające zmodyfikowanej tabeli, a także powiązane z nią ListView, które zawierają klucze obce.
         /// </summary>
         /// <param name="ModifiedTable">Zmodyfikowana tabela.</param>
-        public static void RefreshNecessaryTables(Tables ModifiedTable)
+        public static void RefreshNecessaryTables(Tables ModifiedTable, object CallingObject)
         {
+            int ListViewsToUpdate = 1;
+            int k = 0;
+
+            ConfigManagementForm MainForm;
+            ModifyForm modifyForm;
+            Button bt;
+
+            if (CallingObject.GetType() == typeof(ModifyForm))
+            {
+                modifyForm = (ModifyForm)CallingObject;
+                MainForm = (ConfigManagementForm)modifyForm.MainForm;
+            }
+            else
+            {
+                bt = (Button)CallingObject;
+                MainForm = (ConfigManagementForm)bt.Parent;
+            }
+
             switch (ModifiedTable)
             {
-                case Tables.Collectors: //jeśli zmieniono coś w inkasentach, to odświez inkasentów, tereny i adresy
-                    
+                case Tables.Collectors: //jeśli zmieniono coś w inkasentach, to odśwież inkasentów, tereny i adresy
+
+                    if (ConfigManagementForm.ListViewFilled[(int)Tables.Addresses])
+                        ListViewsToUpdate++;
+                    if (ConfigManagementForm.ListViewFilled[(int)Tables.Addresses])
+                        ListViewsToUpdate++;
+
+                    MainForm.UpdateStatusLabel((int)Tables.Collectors);
+                    UpdateProgressStatus(MainForm, k, ListViewsToUpdate);
+                    k++;
                     ConfigManagementForm.dataBase[(int)Tables.Collectors].RefreshList();
                     ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[(int)Tables.Collectors], ConfigManagementForm.dataBase[(int)Tables.Collectors].itemList);
 
                     if (ConfigManagementForm.ListViewFilled[(int)Tables.Areas])
                     {
+                        MainForm.UpdateStatusLabel((int)Tables.Areas);
+                        UpdateProgressStatus(MainForm, k, ListViewsToUpdate);
+                        k++;
                         ConfigManagementForm.dataBase[(int)Tables.Areas].RefreshList();
                         ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[(int)Tables.Areas], ConfigManagementForm.dataBase[(int)Tables.Areas].itemList);
                     }
 
                     if (ConfigManagementForm.ListViewFilled[(int)Tables.Addresses])
                     {
+                        MainForm.UpdateStatusLabel((int)Tables.Addresses);
+                        UpdateProgressStatus(MainForm, k, ListViewsToUpdate);
+                        k++;
                         ConfigManagementForm.dataBase[(int)Tables.Addresses].RefreshList();
                         ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[(int)Tables.Addresses], ConfigManagementForm.dataBase[(int)Tables.Addresses].itemList);
                     }
                     break;
 
                 case Tables.Customers: //jeśli zmieniono coś w klientach, to odświez klientów i liczniki
+                    if (ConfigManagementForm.ListViewFilled[(int)Tables.Counters])
+                        ListViewsToUpdate++;
+
+                    MainForm.UpdateStatusLabel((int)Tables.Customers);
+                    UpdateProgressStatus(MainForm, k, ListViewsToUpdate);
+                    k++;
                     ConfigManagementForm.dataBase[(int)Tables.Customers].RefreshList();
                     ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[(int)Tables.Customers], ConfigManagementForm.dataBase[(int)Tables.Customers].itemList);
 
                     if (ConfigManagementForm.ListViewFilled[(int)Tables.Counters])
                     {
+                        MainForm.UpdateStatusLabel((int)Tables.Counters);
+                        UpdateProgressStatus(MainForm, k, ListViewsToUpdate);
+                        k++;
                         ConfigManagementForm.dataBase[(int)Tables.Counters].RefreshList();
                         ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[(int)Tables.Counters], ConfigManagementForm.dataBase[(int)Tables.Counters].itemList);
                     }
                     break;
 
                 case Tables.Areas: //jeśli zmieniono coś w terenach, to odświez tereny, liczniki i adresy
+                    if (ConfigManagementForm.ListViewFilled[(int)Tables.Counters])
+                        ListViewsToUpdate++;
+                    if (ConfigManagementForm.ListViewFilled[(int)Tables.Addresses])
+                        ListViewsToUpdate++;
+
+                    MainForm.UpdateStatusLabel((int)Tables.Areas);
+                    UpdateProgressStatus(MainForm, k, ListViewsToUpdate);
+                    k++;
                     ConfigManagementForm.dataBase[(int)Tables.Areas].RefreshList();
                     ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[(int)Tables.Areas], ConfigManagementForm.dataBase[(int)Tables.Areas].itemList);
 
                     if (ConfigManagementForm.ListViewFilled[(int)Tables.Counters])
                     {
+                        MainForm.UpdateStatusLabel((int)Tables.Counters);
+                        UpdateProgressStatus(MainForm, k, ListViewsToUpdate);
+                        k++;
                         ConfigManagementForm.dataBase[(int)Tables.Counters].RefreshList();
                         ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[(int)Tables.Counters], ConfigManagementForm.dataBase[(int)Tables.Counters].itemList);
                     }
 
                     if (ConfigManagementForm.ListViewFilled[(int)Tables.Addresses])
                     {
+                        MainForm.UpdateStatusLabel((int)Tables.Addresses);
+                        UpdateProgressStatus(MainForm, k, ListViewsToUpdate);
+                        k++;
                         ConfigManagementForm.dataBase[(int)Tables.Addresses].RefreshList();
                         ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[(int)Tables.Addresses], ConfigManagementForm.dataBase[(int)Tables.Addresses].itemList);
                     }
                     break;
 
                 case Tables.Counters:
+                    MainForm.UpdateStatusLabel((int)Tables.Counters);
+                    UpdateProgressStatus(MainForm, k, ListViewsToUpdate);
                     ConfigManagementForm.dataBase[(int)Tables.Counters].RefreshList();
                     ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[(int)Tables.Counters], ConfigManagementForm.dataBase[(int)Tables.Counters].itemList);
                     break;
 
                 case Tables.Addresses:
+                    MainForm.UpdateStatusLabel((int)Tables.Addresses);
+                    UpdateProgressStatus(MainForm, k, ListViewsToUpdate);
                     ConfigManagementForm.dataBase[(int)Tables.Addresses].RefreshList();
                     ListViewConfig.ListViewRefresh(ConfigManagementForm.listView[(int)Tables.Addresses], ConfigManagementForm.dataBase[(int)Tables.Addresses].itemList);
                     break;
@@ -284,6 +356,8 @@ namespace SZI
                 default:
                     break;
             }
+            MainForm.UpdateStatusLabel(-1);
+            UpdateProgressStatus(MainForm, 0, ListViewsToUpdate);
         }
 
 
@@ -292,11 +366,11 @@ namespace SZI
         /// </summary>
         /// <param name="listView">ListView w którym dokonano modyfikacji.</param>
         /// <param name="Table">Odpowiadająca modyfikowanemu ListView tabela.</param>
-        public static void ModifyRecord(ListView listView, Tables Table)
+        public static void ModifyRecord(ListView listView, Tables Table, ConfigManagementForm MainForm)
         {
             List<string> ids = Auxiliary.CreateIdList(listView);
             int selectedIndex = listView.SelectedIndices[0]; //index modyfikowanego itemu
-            var modifyForm = new ModifyForm(ids, Table);
+            var modifyForm = new ModifyForm(ids, Table, MainForm);
             modifyForm.ShowDialog();
             listView.HideSelection = false;
 

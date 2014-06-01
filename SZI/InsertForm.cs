@@ -44,7 +44,7 @@ namespace SZI
             SetupControls();
             selectedTab = MainFormSelectedTab;
             tcInsert.SelectTab((int)MainFormSelectedTab);
-            InitializeEP(selectedTab);
+            InitializeEP(selectedTab);            
         }
 
         private void SetupControls()

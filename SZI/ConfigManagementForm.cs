@@ -201,10 +201,10 @@ namespace SZI
         }
 
         /// <summary>
-        /// Tworzy kolekcję itemów dla ContextMenuStrip gdy nie jest zaznaczony w ListView żaden item
+        /// Tworzy kolekcję itemów dla ContextMenuStrip gdy nie jest zaznaczony w ListView żaden item.
         /// </summary>
-        /// <param name="Owner">ContextMenuStrip do którego kolekcja zostanie przypisana</param>
-        /// <returns>Kolekcja itemów</returns>
+        /// <param name="Owner">ContextMenuStrip do którego kolekcja zostanie przypisana.</param>
+        /// <returns>Kolekcja itemów.</returns>
         private ToolStripItemCollection CreateContextMenuItems_NoSelection(object Owner)
         {
             ToolStripItemCollection items = new ToolStripItemCollection(Owner as ContextMenuStrip, new ToolStripItem[]
@@ -221,7 +221,7 @@ namespace SZI
         /// </summary>
         /// <param name="btDeleteEnabledProperty">Pożądany stan właściwości "Enabled" dla przycisku "Usuń".</param>
         /// <param name="btDeleteModifyProperty">Pożądany stan właściwości "Enabled" dla przycisku "Modyfikuj".</param>
-        private void SetButtonEnabledProperty(bool btDeleteEnabledProperty, bool btModifyEnabledProperty)
+        public void SetButtonEnabledProperty(bool btDeleteEnabledProperty, bool btModifyEnabledProperty)
         {
             btDelete.Enabled = btDeleteEnabledProperty;
             btModify.Enabled = btModifyEnabledProperty;
@@ -230,8 +230,8 @@ namespace SZI
         /// <summary>
         /// Zaznacza wszystkie itemy w aktywnej ListView
         /// </summary>
-        /// <param name="sender">Nieistotny parametr, niezbędny do przypisania metody do EventHandlera ToolStripItemu</param>
-        /// <param name="e">Nieistotny parametr, niezbędny do przypisania metody do EventHandlera ToolStripItemu</param>
+        /// <param name="sender">Obiekt wywołujący metodę.</param>
+        /// <param name="e">Argumenty zdarzenia.</param>
         private void SelectAllItems(object sender, EventArgs e)
         {
             ListView lv = listView[(int)selectedTab];
@@ -364,7 +364,7 @@ namespace SZI
         {
             if (ListViewDataManipulation.DeleteItems(listView[(int)selectedTab], selectedTab))
             {
-                Thread t = new Thread(() => ListViewDataManipulation.RefreshListView(sender, selectedTab));
+                Thread t = new Thread(() => ListViewDataManipulation.RefreshListView(btDelete, selectedTab));
                 t.Start();                
                 SetButtonEnabledProperty(false, false);
             }
@@ -390,13 +390,13 @@ namespace SZI
         /// <param name="e">Argumenty zdarzenia.</param>
         private void btModify_Click(object sender, EventArgs e)
         {
-            ListViewDataManipulation.ModifyRecord(listView[(int)selectedTab], selectedTab);
-            SetButtonEnabledProperty(true, true);
-        }
+            ListViewDataManipulation.ModifyRecord(listView[(int)selectedTab], selectedTab, this);
+       } 
 
         // Refresh data button
         private void btRefresh_Click(object sender, EventArgs e)
         {
+            SetButtonEnabledProperty(false, false);
             btRefresh.Text = LangPL.MainFormLang["Refresh"];
             Thread t = new Thread(() => ListViewDataManipulation.RefreshListView(this));
             ListViewDataManipulation.RefreshListView(this);
