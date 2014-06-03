@@ -562,6 +562,7 @@
             this.Controls.Add(this.btOK);
             this.Name = "InsertForm";
             this.Text = "Wprowadź do bazy";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.InsertForm_FormClosing);
             this.tcInsert.ResumeLayout(false);
             this.tpCollector.ResumeLayout(false);
             this.tpCollector.PerformLayout();

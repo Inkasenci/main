@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace SZI
 {
@@ -64,6 +65,16 @@ namespace SZI
         private Dictionary<Control, bool> ControlToBool_Dict;
         private ComboBoxConfig[] CBConfigs;
 
+        private ConfigManagementForm mainForm;
+
+        public ConfigManagementForm MainForm
+        {
+            get
+            {
+                return this.mainForm;
+            }
+        }
+
         /// <summary>
         /// Zwraca wartość pola modified
         /// </summary>
@@ -80,9 +91,10 @@ namespace SZI
         /// </summary>
         /// <param name="ids">Identyfikatory rekordów zaznaczonych w momencie tworzenia formularza.</param>
         /// <param name="selectedTab">Karta, z której otwarto formularz.</param>
-        public ModifyForm(List<string> ids, Tables Table)
+        public ModifyForm(List<string> ids, Tables Table, ConfigManagementForm configManagementForm)
         {
             InitializeComponent();
+            mainForm = configManagementForm;
             dataBase = new CollectorsManagementSystemEntities();
             ErrorProvider ep;
             int i;
@@ -391,6 +403,16 @@ namespace SZI
             {
                 ControlToEP_Dict[ValidatedTextBox].SetError(ValidatedTextBox, "Nieprawidłowo wypełnione pole.");
                 ControlToBool_Dict[ValidatedTextBox] = false;
+            }
+        }
+               
+        private void ModifyForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (modified)
+            {
+                mainForm.SetButtonEnabledProperty(false, false);
+                Thread t = new Thread(() => ListViewDataManipulation.RefreshListView(this));
+                t.Start();
             }
         }
     }

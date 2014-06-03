@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace SZI
 {
@@ -43,7 +44,7 @@ namespace SZI
             SetupControls();
             selectedTab = MainFormSelectedTab;
             tcInsert.SelectTab((int)MainFormSelectedTab);
-            InitializeEP(selectedTab);
+            InitializeEP(selectedTab);            
         }
 
         private void SetupControls()
@@ -574,6 +575,12 @@ namespace SZI
         }
 
         #endregion
+
+        private void InsertForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Thread t = new Thread(() => ListViewDataManipulation.RefreshListView(sender));
+            t.Start();
+        }
 
     }
 }

@@ -23,71 +23,63 @@ namespace SZI
             addressesList = new List<Address>();
             itemList = new List<string[]>();
 
-            columnList = new string[4] {
-                "Id adresu",
-                "Numer domu",
-                "Numer mieszkania",
-                "Id terenu"
-            };
-
             className = this.GetType().Name;
 
             RefreshList();
         }
 
-        private void GenerateItemList()
+        private void GenerateAddressesList()
         {
-            addressesList.Clear();
-            using (var dataBase = new CollectorsManagementSystemEntities())
+            List<string[]> Addresses = null;
+
+            using (var database=new CollectorsManagementSystemEntities())
             {
-                foreach (var value in dataBase.Addresses)
-                    addressesList.Add(value);
-            }
-        }
+                addressesList = (from address in database.Addresses
+                                 select address).ToList();
 
-        static public string FetchAreaAndCollector(Guid AreaID) //zwraca przypisany do adresu teren i przypisanego do niego inkasenta
-        {
-            string AreaAndCollector = "";
+                var result = (from address in database.Addresses
+                             join area in database.Areas
+                             on address.AreaId equals area.AreaId into gj
+                             select new
+                             {
+                                 addressid = address.AddressId,
+                                 house = address.HouseNo,
+                                 flat = address.FlatNo,
+                                 area =
+                                 (
+                                      from subArea in database.Areas
+                                      where subArea.AreaId == address.AreaId
+                                      join collector in database.Collectors
+                                      on subArea.CollectorId equals collector.CollectorId into wp
+                                      select new
+                                      {
+                                          areaid = subArea.Street,
+                                          collector =
+                                          (
+                                              from subCollector in database.Collectors
+                                              where subCollector.CollectorId == subArea.CollectorId
+                                              select subCollector.Name + " " + subCollector.LastName
+                                          ).ToList()
+                                      }
+                                 ).ToList()
+                             }).ToList();
 
-            using (var database = new CollectorsManagementSystemEntities())
-            {
-                var Result = from area in database.Areas
-                             join collector in database.Collectors on area.CollectorId equals collector.CollectorId into areaJoinedCollector
-                             where area.AreaId == AreaID
-                             from collector in areaJoinedCollector.DefaultIfEmpty()
-                             select new { Area = area, Collector = collector == null ? String.Empty : ": " + collector.Name + " " + collector.LastName };
-
-                if (Result.Count() == 1)
+                Addresses = new List<string[]>();
+                for (int i = 0; i < result.Count; i++)
                 {
-                    foreach (var item in Result)
-                        AreaAndCollector = item.Area.Street + item.Collector;             
+                    Addresses.Add(new string[4]);
+                    Addresses[i][0] = result[i].addressid.ToString();
+                    Addresses[i][1] = result[i].house.ToString();
+                    Addresses[i][2] = result[i].flat.HasValue ? result[i].flat.ToString() : "";
+                    Addresses[i][3] = result[i].area[0].collector.Count == 0 ? result[i].area[0].areaid.ToString() : result[i].area[0].areaid.ToString() + ": " + result[i].area[0].collector[0];
                 }
             }
-
-            return AreaAndCollector;
-        }
-
-        private void GenerateStringList()
-        {
-            List<string> convertedItem;
-
-            itemList.Clear();
-
-            foreach (var item in addressesList)
-            {
-                convertedItem = new List<string>();
-                convertedItem.Add(item.AddressId.ToString());
-                convertedItem.Add(item.HouseNo.ToString());
-                convertedItem.Add(item.FlatNo.ToString());
-                convertedItem.Add(FetchAreaAndCollector(item.AreaId));
-                itemList.Add(convertedItem.ToArray());
-            }
-        }
+            this.itemList = Addresses;
+        }        
 
         public void RefreshList()
         {
-            GenerateItemList();
-            GenerateStringList();
+            GenerateAddressesList();
         }
 
         public int recordCount

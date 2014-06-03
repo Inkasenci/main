@@ -12,6 +12,8 @@ namespace SZI
     /// </summary>
     static class ListViewConfig
     {
+        private delegate ListView InvokeClearLV(ListView listView);
+
         /// <summary>
         /// Pozwala na określenie kolejności sortowania.
         /// </summary>
@@ -62,6 +64,8 @@ namespace SZI
             return lv;
         }
 
+        private delegate void AddItemDelegate(ListView listView, string[] item);
+
         /// <summary>
         /// Główna funkcja inicjująca listView.
         /// </summary>
@@ -69,8 +73,15 @@ namespace SZI
         /// <param name="className">Nazwa listy.</param>
         static public void AddItem(ListView listView, string[] item)
         {
+            if (listView.InvokeRequired)
+            {
+                AddItemDelegate del = new AddItemDelegate(AddItem);
+                listView.Invoke(del, listView, item);
+                return;
+            }
             listView.Items.Add(ConvertToItem(item));
         }
+
 
         /// <summary>
         /// Czyszczenie listView.
@@ -79,6 +90,12 @@ namespace SZI
         /// <returns>Zwracanie czystej ListView.</returns> 
         static public ListView ClearListView(ListView listView)
         {
+            if (listView.InvokeRequired)
+            {
+                InvokeClearLV del = new InvokeClearLV(ClearListView);
+                listView.Invoke(del, listView);
+                return listView;
+            }
             listView.BeginUpdate();
             listView.Items.Clear();
             listView.EndUpdate();
@@ -108,12 +125,20 @@ namespace SZI
             return listView;
         }
 
+        private delegate void AdjustColumnsDelegate(ListView listView);
+
         /// <summary>
         /// Dopasowywuje szerokość kolumn listy do najszerszego elementu.
         /// </summary>
         /// <param name="listView">Lista, której kolumny są dopasowywane.</param>
         static public void AdjustColumnWidth(ListView listView)
         {
+            if (listView.InvokeRequired)
+            {
+                AdjustColumnsDelegate del = new AdjustColumnsDelegate(AdjustColumnWidth);
+                listView.Invoke(del, listView);
+                return;
+            }
             foreach (ColumnHeader column in listView.Columns)
                 column.Width = -2;
         }

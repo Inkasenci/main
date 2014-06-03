@@ -18,23 +18,23 @@ namespace SZI
         /// <summary>
         /// Liczba generowanych klientów.
         /// </summary>
-        static int numberOfCustomers = 100;
+        static int numberOfCustomers = 10;
         /// <summary>
         /// Liczba generowanych terenów. Nie może być większa niż liczba elementów tablicy streets w SampleDataSource
         /// </summary>
-        static int numberOfAreas = 5;
+        static int numberOfAreas = 2;
         /// <summary>
         /// Liczba generowanych liczników.
         /// </summary>
-        static int numberOfCounters = 100;
+        static int numberOfCounters = 10;
         /// <summary>
         /// Liczba generowanych adresów.
         /// </summary>
-        static int numberOfAddresses = 100;
+        static int numberOfAddresses = 10;
         /// <summary>
         /// Liczba generowanych odczytów.
         /// </summary>
-        static int numberOfReadings = 0;
+        static int numberOfReadings = 10;
         /// <summary>
         /// Wczytane dane.
         /// </summary>
@@ -188,7 +188,6 @@ namespace SZI
         {
             Random rnd = new Random();
             Counter counter;
-            Counters dataBase = new Counters();
 
             for (int i = 0; i < numberOfCounters; i++)
             {
@@ -212,16 +211,28 @@ namespace SZI
         {
             Random rnd = new Random();
             Reading reading;
+            Guid g;
 
+            using (var dataBase = new CollectorsManagementSystemEntities())
+            {
             for (int i = 0; i < numberOfReadings; i++)
             {
                 reading = new Reading();
 
-                reading.ReadingId = Guid.NewGuid();
+                do
+                {
+                    g = Guid.NewGuid();
+                } while (g == Guid.Empty);
+
+                reading.ReadingId = g;// Guid.NewGuid();
                 reading.CounterNo = Convert.ToInt32(ChooseRandomId(0));
 
-                using (var dataBase = new CollectorsManagementSystemEntities())
-                {
+
+                    //var counters = (from counter in dataBase.Counters
+                    //                select counter.CounterNo).ToList();
+
+                    List<int> test = (from c in dataBase.Counters select c.CounterNo).ToList();
+
                     var tmp = (from c in dataBase.Counters where c.CounterNo == reading.CounterNo select c.AddressId).FirstOrDefault();
                     var tmp2 = (from a in dataBase.Addresses where a.AddressId == tmp select a.AreaId).FirstOrDefault();
                     reading.CollectorId = (from a in dataBase.Areas where a.AreaId == tmp2 select a.CollectorId).FirstOrDefault().ToString();
@@ -240,9 +251,10 @@ namespace SZI
                     }
 
                     reading.Date = DateTime.Now;
-                }
+                
 
                 reading.InsertIntoDB();
+            }
             }
         }
 
