@@ -217,7 +217,7 @@ namespace SZI
 
 
         /// <summary>
-        /// Ustawia właściwość "Enabled" dla przycisków "Usuń" i "Modyfikuj".
+        /// Ustawia właściwość "Enabled" dla przycisków "Dodaj", "Usuń" i "Modyfikuj".
         /// </summary>
         /// <param name="btDeleteEnabledProperty">Pożądany stan właściwości "Enabled" dla przycisku "Usuń".</param>
         /// <param name="btDeleteModifyProperty">Pożądany stan właściwości "Enabled" dla przycisku "Modyfikuj".</param>
@@ -396,6 +396,7 @@ namespace SZI
         // Refresh data button
         private void btRefresh_Click(object sender, EventArgs e)
         {
+            btInsert.Enabled = true;
             SetButtonEnabledProperty(false, false);
             btRefresh.Text = LangPL.MainFormLang["Refresh"];
             Thread t = new Thread(() => ListViewDataManipulation.RefreshListView(this));
@@ -449,7 +450,7 @@ namespace SZI
         /// <param name="e">Parametry zdarzenia.</param>
         private void generateDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SampleDataConfig.GenerateDataBase();
+            new SampleDataForm().ShowDialog();
         }
 
         /// <summary>
