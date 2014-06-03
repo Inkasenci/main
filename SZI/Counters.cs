@@ -24,13 +24,6 @@ namespace SZI
             counterList = new List<Counter>();
             itemList = new List<string[]>();
 
-            columnList = new string[4] {
-                "Numer licznika",
-                "Numer układu",
-                "Id adresu",
-                "Id klienta"
-            };
-
             className = this.GetType().Name;
 
             RefreshList();
@@ -41,6 +34,8 @@ namespace SZI
             List<string[]> Counters = null;
             using (var database = new CollectorsManagementSystemEntities())
             {
+                counterList = (from counter in database.Counters
+                               select counter).ToList();
 
                 var result = (from counter in database.Counters
                               join address in database.Addresses on counter.AddressId equals address.AddressId into gj
@@ -68,11 +63,11 @@ namespace SZI
                 for (int i = 0; i < result.Count(); i++)
                 {
                     Counters.Add(new string[4]);
-                    Counters[i][0] = result[i].circuitno.ToString();
-                    Counters[i][1] = result[i].counterno.ToString();
+                    Counters[i][0] = result[i].counterno.ToString();
+                    Counters[i][1] = result[i].circuitno.ToString();
                     Counters[i][2] = result[i].address.Count == 0 ? "" : result[i].address[0];
                     Counters[i][3] = result[i].customer.Count == 0 ? "" : result[i].customer[0];
-                }  
+                }
             }
             this.itemList = Counters;
         }
@@ -86,7 +81,7 @@ namespace SZI
             {
                 var customer = from c in database.Customers
                                where c.CustomerId == CustomerID
-                                select c;
+                               select c;
 
                 if (customer.Count() == 1)
                 {
@@ -105,9 +100,9 @@ namespace SZI
             using (var database = new CollectorsManagementSystemEntities())
             {
                 var FullAddress = from address in database.Addresses
-                               join area in database.Areas on address.AreaId equals area.AreaId
-                               where address.AddressId == AddressID
-                               select new { Address = address, Area = area };
+                                  join area in database.Areas on address.AreaId equals area.AreaId
+                                  where address.AddressId == AddressID
+                                  select new { Address = address, Area = area };
 
                 if (FullAddress.Count() == 1)
                 {

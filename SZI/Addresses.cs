@@ -23,13 +23,6 @@ namespace SZI
             addressesList = new List<Address>();
             itemList = new List<string[]>();
 
-            columnList = new string[4] {
-                "Id adresu",
-                "Numer domu",
-                "Numer mieszkania",
-                "Id terenu"
-            };
-
             className = this.GetType().Name;
 
             RefreshList();
@@ -41,6 +34,9 @@ namespace SZI
 
             using (var database=new CollectorsManagementSystemEntities())
             {
+                addressesList = (from address in database.Addresses
+                                 select address).ToList();
+
                 var result = (from address in database.Addresses
                              join area in database.Areas
                              on address.AreaId equals area.AreaId into gj
@@ -73,8 +69,8 @@ namespace SZI
                 {
                     Addresses.Add(new string[4]);
                     Addresses[i][0] = result[i].addressid.ToString();
-                    Addresses[i][1]=result[i].house.ToString();
-                    Addresses[i][2] = result[i].flat.HasValue ? result[i].house.ToString() : "";
+                    Addresses[i][1] = result[i].house.ToString();
+                    Addresses[i][2] = result[i].flat.HasValue ? result[i].flat.ToString() : "";
                     Addresses[i][3] = result[i].area[0].collector.Count == 0 ? result[i].area[0].areaid.ToString() : result[i].area[0].areaid.ToString() + ": " + result[i].area[0].collector[0];
                 }
             }

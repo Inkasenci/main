@@ -23,12 +23,6 @@ namespace SZI
             areasList = new List<Area>();
             itemList = new List<string[]>();
 
-            columnList = new string[3] {
-                "Id terenu",
-                "Ulica",
-                "Id inkasenta"
-            };
-
             className = this.GetType().Name;
 
             RefreshList();
@@ -40,6 +34,8 @@ namespace SZI
 
             using (var database = new CollectorsManagementSystemEntities())
             {
+                areasList = (from area in database.Areas
+                             select area).ToList();
 
                 var result = (from area in database.Areas
                               join collector in database.Collectors
