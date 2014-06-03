@@ -54,6 +54,7 @@ namespace SZI
         {
             this.collectorId = collectorId;
             InitializeComponent();
+            InitializeForm();
         }
 
         /// <summary>
