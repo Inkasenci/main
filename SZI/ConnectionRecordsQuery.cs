@@ -12,9 +12,9 @@ namespace SZI
     static public class ConnectionRecordsQuery
     {
         /// <summary>
-        /// Zwraca rekordy powiązane z zaznaczonym w ListView Inkasentem
+        /// Zwraca rekordy powiązane z zaznaczonym w ListView inkasentem.
         /// </summary>
-        /// <returns>Rekordy powiązane z zaznaczonym w ListView Inkasentem</returns>
+        /// <returns>Rekordy powiązane z zaznaczonym w ListView inkasentem.</returns>
         static public List<List<string>> ReturnRecordsAssociatedWithCollector(string id)
         {
             string CollectorID = id;
@@ -38,9 +38,9 @@ namespace SZI
         }
 
         /// <summary>
-        /// Zwraca rekordy powiązane z zaznaczonym w ListView Klientem
+        /// Zwraca rekordy powiązane z zaznaczonym w ListView klientem.
         /// </summary>
-        /// <returns>Rekordy powiązane z zaznaczonym w ListView Klientem</returns>
+        /// <returns>Rekordy powiązane z zaznaczonym w ListView klientem.</returns>
         static public List<List<string>> ReturnRecordsAssociatedWithCustomer(string id)
         {
             string CustomerID = id;
@@ -67,9 +67,9 @@ namespace SZI
         }
 
         /// <summary>
-        /// Zwraca rekordy powiązane z zaznaczonym w ListView Terenem
+        /// Zwraca rekordy powiązane z zaznaczonym w ListView terenem.
         /// </summary>
-        /// <returns>Rekordy powiązane z zaznaczonym w ListView Terenem</returns>
+        /// <returns>Rekordy powiązane z zaznaczonym w ListView terenem.</returns>
         static public List<List<string>> ReturnRecordsAssociatedWithArea(string id)
         {
             Guid AreaID = new Guid(id);
@@ -93,9 +93,9 @@ namespace SZI
         }
 
         /// <summary>
-        /// Zwraca rekordy powiązane z zaznaczonym w ListView Licznikiem
+        /// Zwraca rekordy powiązane z zaznaczonym w ListView licznikiem.
         /// </summary>
-        /// <returns>Rekordy powiązane z zaznaczonym w ListView Licznikiem</returns>
+        /// <returns>Rekordy powiązane z zaznaczonym w ListView licznikiem.</returns>
         static public List<List<string>> ReturnRecordsAssociatedWithCounter(string id)
         {
             int CounterID = Convert.ToInt32(id);
@@ -119,9 +119,9 @@ namespace SZI
         }
 
         /// <summary>
-        /// Zwraca rekordy powiązane z zaznaczonym w ListView Adresem
+        /// Zwraca rekordy powiązane z zaznaczonym w ListView adresem.
         /// </summary>
-        /// <returns>Rekordy powiązane z zaznaczonym w ListView Adresem</returns>
+        /// <returns>Rekordy powiązane z zaznaczonym w ListView adresem.</returns>
         static public List<List<string>> ReturnRecordsAssociatedWithAddress(string id)
         {
             Guid AddressID = new Guid(id);

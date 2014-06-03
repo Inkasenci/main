@@ -9,22 +9,22 @@ using System.Windows.Forms;
 namespace SZI
 {
     /// <summary>
-    /// Klasa sortująca dane w listView względem kolumny.
+    /// Klasa sortująca względem kolumny dane w listView.
     /// </summary>
     class ListViewSorter : IComparer
     {
         /// <summary>
-        /// Numer kolumny względem której sortujemy.
+        /// Numer kolumny, względem której sortujemy.
         /// </summary>
         private int sortColum;
 
         /// <summary>
-        /// Kolejność sortowania ASC / DESC.
+        /// Porządek sortowania ASC / DESC.
         /// </summary>
         private bool orderBy;
 
         /// <summary>
-        /// Domyślny parametr ( konstruktor ) w przypadku rozruchu listView.
+        /// Domyślny parametr (konstruktor) w przypadku rozruchu listView.
         /// </summary>
         public ListViewSorter()
             : this(0, false)
@@ -34,8 +34,8 @@ namespace SZI
         /// <summary>
         /// Konstruktor sortera ListView.
         /// </summary>
-        /// <param name="column">Numer kolumny względem której będziemy sortować dane.</param>
-        /// <param name="order">Określa kolejność sortowania.</param>
+        /// <param name="column">Numer kolumny, względem której będziemy sortować dane.</param>
+        /// <param name="order">Określa porządek sortowania.</param>
         public ListViewSorter(int column, bool order)
         {
             this.sortColum = column;
@@ -43,11 +43,11 @@ namespace SZI
         }
 
         /// <summary>
-        /// Funkcja wskazująca - porównująca ciągi znaków - położenie danego obiektu.
+        /// Funkcja wskazująca (porównująca ciągi znaków) położenie danego obiektu.
         /// </summary>
         /// <param name="first">Określa pierwszy porównywany obiekt.</param>
         /// <param name="second">Określa drugi porównywany rekord.</param>
-        /// <returns>Zwraca liczbę całkowitą, która wskazuje ich położenia w porządku sortowania.</returns>
+        /// <returns>Zwraca liczbę całkowitą, która wskazuje położenia rekordów w porządku sortowania.</returns>
         public int Compare(object first, object second)
         {
             string firstText = ((ListViewItem)first).SubItems[sortColum].Text;

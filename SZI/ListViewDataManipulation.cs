@@ -10,11 +10,11 @@ namespace SZI
     public static class ListViewDataManipulation
     {
         /// <summary>
-        /// Metoda usuwająca rekordy w bazie danych odpowiadające zaznaczonym w przekazanym ListView itemom.
+        /// Metoda usuwająca rekordy odpowiadające zaznaczonym itemom w przekazanym ListView.
         /// </summary>
-        /// <param name="listView">ListView którego zaznaczone itemy zostaną usunięte z bazy danych.</param>
-        /// <param name="Table">Tabela z której zostaną usunięte rekordy.</param>
-        /// <returns>Wartość mówiąca o tym czy użytkownik zdecydował się na usunięcie rekordów.</returns>
+        /// <param name="listView">ListView, którego zaznaczone itemy zostaną usunięte.</param>
+        /// <param name="Table">Tabela, z której zostaną usunięte rekordy.</param>
+        /// <returns>Wartość mówiąca o tym, czy użytkownik zdecydował się na usunięcie rekordów.</returns>
         public static bool DeleteItems(ListView listView, Tables Table)
         {
             List<string> ids = Auxiliary.CreateIdList(listView);
@@ -62,8 +62,9 @@ namespace SZI
         }
 
         /// <summary>
-        /// Wypełnia otwarty w danym momencie ListView i dopisuje go do tablicy IDataBase.
+        /// Wypełnia ListView otwarty w danym momencie i dopisuje go do tablicy IDataBase.
         /// </summary>
+        /// <param name="MainForm">Główny formularz programu.</param>
         public static void ComplementListView(ConfigManagementForm MainForm)
         {
             switch (ConfigManagementForm.selectedTab)
@@ -105,8 +106,9 @@ namespace SZI
         }
 
         /// <summary>
-        /// Wypełnia otwarty w danym momencie ListView i tworzy tablicę IDataBase.
+        /// Wypełnia ListView otwarty w danym momencie i tworzy tablicę IDataBase.
         /// </summary>
+        /// <param name="MainForm">Główny formularz programu.</param>
         private static void FillListView(ConfigManagementForm MainForm)
         {
             switch (ConfigManagementForm.selectedTab)
@@ -167,6 +169,7 @@ namespace SZI
         /// <summary>
         /// Odświeża wszystkie ListView, które były wcześniej wypełnione.
         /// </summary>
+        /// <param name="MainForm">Główny formularz programu.</param>
         private static void RefreshFilledListViews(ConfigManagementForm MainForm)
         {
             int ListViewsToUpdate = 0; //liczba ListView do odświeżenia
@@ -364,8 +367,9 @@ namespace SZI
         /// <summary>
         /// Wywoływana po naciśnięciu przycisku "Modyfikuj". Otwiera formularz umożliwiający modyfikację zaznaczonego rekordu.
         /// </summary>
-        /// <param name="listView">ListView w którym dokonano modyfikacji.</param>
-        /// <param name="Table">Odpowiadająca modyfikowanemu ListView tabela.</param>
+        /// <param name="listView">ListView, w której dokonano modyfikacji.</param>
+        /// <param name="Table">Tabela odpowiadająca modyfikowanej ListView.</param>
+        /// <param name="MainForm">Główny formularz programu.</param>
         public static void ModifyRecord(ListView listView, Tables Table, ConfigManagementForm MainForm)
         {
             List<string> ids = Auxiliary.CreateIdList(listView);

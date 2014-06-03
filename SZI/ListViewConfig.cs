@@ -15,7 +15,7 @@ namespace SZI
         private delegate ListView InvokeClearLV(ListView listView);
 
         /// <summary>
-        /// Pozwala na określenie kolejności sortowania.
+        /// Pozwala na określenie porządku sortowania.
         /// </summary>
         static public bool orderBy = false;
 
@@ -23,7 +23,7 @@ namespace SZI
         /// Funkcja pozwalająca na tworzenie elementu listView z tablicy string.
         /// </summary>
         /// <param name="item">Tablica danych tworzących element listView.</param>
-        /// <returns>Element w postaci ListViewItem.</returns> 
+        /// <returns>Element typu ListViewItem.</returns> 
         static private ListViewItem ConvertToItem(string[] item)
         {
             return new ListViewItem(item);
@@ -35,9 +35,9 @@ namespace SZI
         /// <param name="columnList">Tablica określająca kolumny listView.</param>
         /// <param name="className">Nazwa listy.</param>
         /// <param name="itemList">Lista elementów dodawanych do listView, domyślne null pozwala na generowanie pustej kontrolki.</param>
-        /// <param name="columnSort">Określa względem której kolumny sortujemy.</param>
+        /// <param name="columnSort">Określa, względem której kolumny odbywa się sortowanie.</param>
         /// <param name="orderby">Określa sposób sortowania danej tabeli - ASC / DESC.</param>
-        /// <returns>Zwracanie utworzonej ListView.</returns> 
+        /// <returns>Utworzona ListView.</returns> 
         static public ListView ListViewInit(string[] columnList, string className, List<string[]> itemList = null, bool orderby = false, int columnSort = 0)
         {
             ListView lv = new ListView();
@@ -84,10 +84,10 @@ namespace SZI
 
 
         /// <summary>
-        /// Czyszczenie listView.
+        /// Czyści listView.
         /// </summary>
-        /// <param name="listView">Element ListView do wyczyszczenie.</param>
-        /// <returns>Zwracanie czystej ListView.</returns> 
+        /// <param name="listView">Element ListView do wyczyszczenia.</param>
+        /// <returns>Czysta ListView.</returns> 
         static public ListView ClearListView(ListView listView)
         {
             if (listView.InvokeRequired)
@@ -107,7 +107,7 @@ namespace SZI
         /// </summary>
         /// <param name="listView">Element ListView do odświeżenia.</param>
         /// <param name="itemList">Lista elementów dodawanych do listView, domyślne null pozwala na generowanie pustej kontrolki.</param>
-        /// <returns>Zwracanie odświeżonej ListView.</returns> 
+        /// <returns>Odświeżona ListView.</returns> 
         static public ListView ListViewRefresh(ListView listView, List<string[]> itemList)
         {
             if (listView.Name == "CountersForm")

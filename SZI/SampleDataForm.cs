@@ -16,7 +16,7 @@ namespace SZI
     public partial class SampleDataForm : Form
     {
         /// <summary>
-        /// Kontruktor formularza. Przeprowadza podstawowe inicjalizacje generowanie automatycznie. Dodaje metody obsługujące zdarzenie do pól tekstowych.
+        /// Kontruktor formularza. Przeprowadza podstawowe inicjalizacje generowanie automatycznie. Dodaje do pól tekstowych metody obsługujące zdarzenie.
         /// </summary>
         public SampleDataForm()
         {

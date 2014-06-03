@@ -105,7 +105,7 @@ namespace SZI
             }
 
             /// <summary>
-            /// Event handler drukujący raport misję.
+            /// Event handler drukujący raport - misję.
             /// </summary>
             /// <param name="sender">Obiekt PrintDocument wywołujący metodę.</param>
             /// <param name="e">Argumenty zdarzenia.</param>
@@ -194,7 +194,6 @@ namespace SZI
             /// <summary>
             /// Zamienia listy misji na stringa przystosowanego do dodania do raportu.
             /// </summary>
-            /// <param name="List">Lista misji.</param>
             /// <returns>String przystosowany do wydruku jako część raportu.</returns>
             private static string ListToString()
             {
@@ -418,7 +417,6 @@ namespace SZI
             /// <summary>
             /// Zamienia listy inkasentów na stringa przystosowanego do dodania do raportu.
             /// </summary>
-            /// <param name="List">Lista inkasentów.</param>
             /// <returns>String przystosowany do wydruku jako część raportu.</returns>
             private static string ListToString()
             {
@@ -641,7 +639,6 @@ namespace SZI
             /// <summary>
             /// Zamienia listy klientów na stringa przystosowanego do dodania do raportu.
             /// </summary>
-            /// <param name="List">Lista klientów.</param>
             /// <returns>String przystosowany do wydruku jako część raportu.</returns>
             private static string ListToString()
             {
@@ -680,24 +677,24 @@ namespace SZI
         private static class Printing
         {
             /// <summary>
-            /// Metoda rysująca stringa s czcionką font w punkcie point na stronie z którą związany jest parametr e.
+            /// Metoda rysująca stringa s czcionką font w punkcie point na stronie, z którą związany jest parametr e.
             /// </summary>
             /// <param name="s">Napis do narysowania.</param>
-            /// <param name="font">Czcionka którą napis zostanie narysowany.</param>
-            /// <param name="point">Punkt w którym napis zostanie narysowany.</param>
-            /// <param name="e">Parametr związany ze stroną na której napis zostanie narysowany.</param>
+            /// <param name="font">Czcionka, którą napis zostanie narysowany.</param>
+            /// <param name="point">Punkt, w którym napis zostanie narysowany.</param>
+            /// <param name="e">Parametr związany ze stroną, na której napis zostanie narysowany.</param>
             public static void DrawString(String s, Font font, Point point, PrintPageEventArgs e)
             {
                 e.Graphics.DrawString(s, font, brush, point, format);
             }
 
             /// <summary>
-            /// Metoda rysująca stringa s czcionką font w prostokącie rectangle na stronie z którą związany jest parametr e.
+            /// Metoda rysująca stringa s czcionką font w prostokącie rectangle na stronie, z którą związany jest parametr e.
             /// </summary>
             /// <param name="s">Napis do narysowania.</param>
-            /// <param name="font">Czcionka którą napis zostanie narysowany.</param>
-            /// <param name="rectangle">Prostokąt w którym napis zostanie narysowany.</param>
-            /// <param name="e">Parametr związany ze stroną na której napis zostanie narysowany.</param>
+            /// <param name="font">Czcionka, którą napis zostanie narysowany.</param>
+            /// <param name="rectangle">Prostokąt, w którym napis zostanie narysowany.</param>
+            /// <param name="e">Parametr związany ze stroną, na której napis zostanie narysowany.</param>
             public static void DrawString(String s, Font font, Rectangle rectangle, PrintPageEventArgs e)
             {
                 e.Graphics.DrawString(s, font, brush, rectangle, format);
@@ -707,9 +704,9 @@ namespace SZI
             /// Rysuje napis s na wysokości CurrentHeight na środku strony czcionką font.
             /// </summary>
             /// <param name="s">Napis do narysowania.</param>
-            /// <param name="CurrentHeight">Wysokość na jakiej napis zostanie narysowany.</param>
+            /// <param name="CurrentHeight">Wysokość, na jakiej napis zostanie narysowany.</param>
             /// <param name="e">Parametr zawierający informację o marginesach na drukowanej stronie.</param>
-            /// <param name="font">Czcionka którą napis zostanie narysowany.</param>
+            /// <param name="font">Czcionka, którą napis zostanie narysowany.</param>
             /// <returns></returns>
             public static SizeF PrintIntheMiddle(String s, float CurrentHeight, PrintPageEventArgs e, Font font)
             {
@@ -726,7 +723,7 @@ namespace SZI
             /// Rysuje linię od lewej do prawej krawędzi według koordynatów zawartych w parametrze e, na wysokości TotalHeight.
             /// </summary>
             /// <param name="e">Parametr zawierający informację o marginesach na drukowanej stronie.</param>
-            /// <param name="TotalHeight">Wysokość na jakiej linia zostanie narysowana.</param>
+            /// <param name="TotalHeight">Wysokość, na jakiej linia zostanie narysowana.</param>
             public static void DrawLine(PrintPageEventArgs e, float TotalHeight)
             {
                 e.Graphics.DrawLine

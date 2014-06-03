@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 namespace SZI
 {
     /// <summary>
-    /// Klasa obslugująca język w aplikacji ( błędy, treści, nazwy ).
+    /// Klasa obsługująca słowniki w aplikacji (błędy, treści, nazwy).
     /// </summary>
     static class LangPL
     {
         /// <summary>
-        /// Treści używane podczas dodawania rekordów do bazy danych - błędy / walidacja.
+        /// Treści używane podczas dodawania rekordów do bazy danych, dotyczące błędów oraz walidacji.
         /// </summary>
         static public Dictionary<string, string> InsertFormLang = new Dictionary<string, string>()
         {
@@ -42,7 +42,7 @@ namespace SZI
         };
 
         /// <summary>
-        /// Treści używane podczas generowania pomocy ( HELP ) programu - [ytania.
+        /// Treści używane podczas generowania pomocy programu - pytania.
         /// </summary>
         static public Dictionary<string, string> FaqQuestion = new Dictionary<string, string>()
         {
@@ -82,7 +82,7 @@ namespace SZI
         };
 
         /// <summary>
-        /// Treści używane podczas generowania pomocy ( HELP ) programu - odpowiedzi.
+        /// Treści używane podczas generowania pomocy programu - odpowiedzi.
         /// </summary>
         static public Dictionary<string, string> FaqAnswers = new Dictionary<string, string>()
         {
@@ -122,7 +122,7 @@ namespace SZI
         };
 
         /// <summary>
-        /// Treści używane podczas generowania pomocy ( HELP ) programu - błędy.
+        /// Treści używane podczas generowania pomocy programu - błędy.
         /// </summary>
         static public Dictionary<string, string> FaqErrors = new Dictionary<string, string>()
         {
@@ -143,7 +143,7 @@ namespace SZI
         };
 
         /// <summary>
-        /// Treści używane podczas obsługi odczytów - błędy.
+        /// Treści używane podczas obsługi odczytów.
         /// </summary>
         static public Dictionary<string, string> CountersWarnings = new Dictionary<string, string>()
         {
@@ -191,7 +191,7 @@ namespace SZI
         };
 
         /// <summary>
-        /// Mapuje nazwy kontrolek typu listView na indeks karty, z której pochodzą.
+        /// Mapowanie nazwy kontrolek typu listView na indeks karty, z której pochodzą.
         /// </summary>
         static public Dictionary<string, int> ListViewNameToPageNumber = new Dictionary<string, int>()
         {

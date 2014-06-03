@@ -385,9 +385,9 @@ namespace SZI
         }
 
         /// <summary>
-        /// Losuje płeć, a następnie imię i nazwisko z dostępnej puli.
+        /// Losuje imię i nazwisko z dostępnej puli.
         /// </summary>
-        /// <param name="gender">Płeć wylosowanej osoby.</param>
+        /// <param name="gender">Płeć losowanej osoby.</param>
         /// <returns>Dwuelementowa tablica zawierająca imię i nazwisko.</returns>
         static string[] GenerateNameAndLastName(int gender)
         {
@@ -426,7 +426,7 @@ namespace SZI
         /// <summary>
         /// Spośród identyfikatorów w podanej tabeli wybiera losowo jeden.
         /// </summary>
-        /// <param name="choosen">Wybrana tabela,  z której ma być wylosowany klucz.</param>
+        /// <param name="choosen">Tabela, z której ma być wylosowany klucz.</param>
         /// <returns>Wylosowany klucz.</returns>
         static string ChooseRandomId(int choosen)
         {

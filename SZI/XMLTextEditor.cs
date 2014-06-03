@@ -22,19 +22,19 @@ namespace SZI
         /// </summary>
         private List<TextBox> textBox;
         /// <summary>
-        /// Informuje o nie zapisanych danych - zapobiega ich utrace.
+        /// Informuje o nie zapisanych danych - zapobiega ich utracie.
         /// </summary>
         private bool SaveData = false;
         /// <summary>
-        /// Rekord w którym aktualnie przebywamy.
+        /// Rekord, w którym aktualnie przebywamy.
         /// </summary>
         private int nrRecord = 0;
         /// <summary>
-        /// Wczytane rekordy z pliku XML.
+        /// Wczytane z pliku XML rekordy.
         /// </summary>
         private CountersCollection xmlRecords = new CountersCollection();
         /// <summary>
-        /// Adres pliku z ktorego pobieramy dane.
+        /// Adres pliku, z którego pobieramy dane.
         /// </summary>
         private string path;
 
@@ -84,7 +84,7 @@ namespace SZI
         };
 
         /// <summary>
-        /// Funkcja inicjowane przy starcie okna.
+        /// Funkcja inicjowana przy starcie okna.
         /// </summary>
         public XMLTextEditor()
         {
@@ -142,7 +142,7 @@ namespace SZI
         }
 
         /// <summary>
-        /// Kończenie działania aplikacji - sprawdza czy zapisać dane.
+        /// Kończenie działania aplikacji - sprawdza, czy zapisać dane.
         /// </summary>
         /// <param name="sender">Obiekt eventu.</param>
         /// <param name="e">Argument eventu.</param>
@@ -275,7 +275,7 @@ namespace SZI
         }
 
         /// <summary>
-        /// Przejście do następnego rekordu - Click ( Menu ).
+        /// Przejście do następnego rekordu - Click (Menu).
         /// </summary>
         /// <param name="sender">Obiekt eventu.</param>
         /// <param name="e">Argument eventu.</param>
@@ -285,7 +285,7 @@ namespace SZI
         }
 
         /// <summary>
-        /// Przejście do poprzedniego rekordu - Click ( Menu ).
+        /// Przejście do poprzedniego rekordu - Click (Menu).
         /// </summary>
         /// <param name="sender">Obiekt eventu.</param>
         /// <param name="e">Argument eventu.</param>
@@ -295,7 +295,7 @@ namespace SZI
         }
 
         /// <summary>
-        /// Zapisz jako ... wybranie nowego pliku XML jako doceolowy zapisu ( aktualizacja metody this.path ) - Click.
+        /// Zapisz jako ... wybranie nowego pliku XML jako docelowy zapisu (aktualizacja metody this.path) - Click.
         /// </summary>
         /// <param name="sender">Obiekt eventu.</param>
         /// <param name="e">Argument eventu.</param>

@@ -15,14 +15,38 @@ namespace SZI
     using System.Linq;
     using System.Text.RegularExpressions;
 
+    /// <summary>
+    /// Wygenerowana automatycznie klasa odpowiadaj¹ca tabeli Inkasent.
+    /// </summary>
     public partial class Collector : IItem
     {
+        /// <summary>
+        /// Id inkasenta.
+        /// </summary>
         public string CollectorId { get; set; }
+        /// <summary>
+        /// Imiê.
+        /// </summary>
         public string Name { get; set; }
+        /// <summary>
+        /// Nazwisko.
+        /// </summary>
         public string LastName { get; set; }
+        /// <summary>
+        /// Kod pocztowy.
+        /// </summary>
         public string PostalCode { get; set; }
+        /// <summary>
+        /// Miasto.
+        /// </summary>
         public string City { get; set; }
+        /// <summary>
+        /// Adres.
+        /// </summary>
         public string Address { get; set; }
+        /// <summary>
+        /// Telefon kontaktowy.
+        /// </summary>
         public string PhoneNumber { get; set; }
 
         public string[] GetElements
@@ -42,6 +66,9 @@ namespace SZI
             }
         }
 
+        /// <summary>
+        /// Dodaje rekord do tabeli.
+        /// </summary>
         public void InsertIntoDB()
         {
             try
@@ -63,6 +90,10 @@ namespace SZI
             }
         }
 
+        /// <summary>
+        /// Modyfikuje odpowiedni rekord.
+        /// </summary>
+        /// <param name="id">Id modyfikowanego rekordu.</param>
         public void ModifyRecord(string id)
         {
             using (var dataBase = new CollectorsManagementSystemEntities())

@@ -14,11 +14,26 @@ namespace SZI
     using System.Linq;
     using System.Data.Entity.Infrastructure;
 
+    /// <summary>
+    /// Wygenerowana uatomatycznie klasa odpowiadaj¹ca tabeli Licznik.
+    /// </summary>
     public partial class Counter : IItem
     {
+        /// <summary>
+        /// Nuumer licznika.
+        /// </summary>
         public int CounterNo { get; set; }
+        /// <summary>
+        /// Numer uk³adu.
+        /// </summary>
         public int CircuitNo { get; set; }
+        /// <summary>
+        /// Id adresu.
+        /// </summary>
         public Nullable<System.Guid> AddressId { get; set; }
+        /// <summary>
+        /// Id klienta.
+        /// </summary>
         public string CustomerId { get; set; }
 
         public string[] GetElements
@@ -34,6 +49,9 @@ namespace SZI
             }
         }
 
+        /// <summary>
+        /// Dodaje rekord do tabeli.
+        /// </summary>
         public void InsertIntoDB()
         {
             try
@@ -55,6 +73,10 @@ namespace SZI
             }
         }
 
+        /// <summary>
+        /// Modyfikuje odpowiedni rekord.
+        /// </summary>
+        /// <param name="id">Id modyfikowanego rekordu.</param>
         public void ModifyRecord(string id)
         {
             using (var dataBase = new CollectorsManagementSystemEntities())

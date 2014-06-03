@@ -55,7 +55,7 @@
             this.Controls.Add(this.rtbHelp);
             this.Controls.Add(this.tvFAQ);
             this.Name = "HelpForm";
-            this.Text = "HelpForm";
+            this.Text = "Pomoc";
             this.ResumeLayout(false);
 
         }

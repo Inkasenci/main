@@ -12,12 +12,12 @@ using System.Windows.Forms;
 namespace SZI
 {
     /// <summary>
-    /// Klasa pozwalająca zarządzać odczytami.
+    /// Formularz pozwalający zarządzać odczytami.
     /// </summary>
     public partial class ReadingModifyForm : Form
     {
         /// <summary>
-        /// Przekazany numer identyfikujacy odczyt.
+        /// Przekazany numer, który identyfikuje odczyt.
         /// </summary>
         private System.Guid editId = System.Guid.Empty;
 

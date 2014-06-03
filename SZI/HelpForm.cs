@@ -39,7 +39,7 @@ namespace SZI
         /// <summary>
         /// Funkcja zmieniająca adresy obrazów na obrazy.
         /// </summary>
-        /// <param name="text">Walidowany text.</param>
+        /// <param name="text">Walidowany tekst.</param>
         private void AddImages(string text)
         {
             HelpTextBox.ReadOnly = false;
@@ -75,7 +75,7 @@ namespace SZI
         }
 
         /// <summary>
-        /// Inicjalizacja Boxu - wyświetlającego odpowiedzi.
+        /// Inicjalizacja Boxu wyświetlającego odpowiedzi.
         /// </summary>
         private void InitTextBox()
         {
@@ -85,7 +85,7 @@ namespace SZI
         }
 
         /// <summary>
-        /// Inicjalizacja TreeView - wyświtlający pytania.
+        /// Inicjalizacja TreeView wyświetlającego pytania.
         /// </summary>
         private void InitTreeView()
         {
@@ -141,7 +141,7 @@ namespace SZI
         }
 
         /// <summary>
-        /// Tworzene elementu drzewa
+        /// Tworzenie elementu drzewa.
         /// </summary>
         /// <param name="textNode">Text wyświetlany na liście.</param>
         private TreeNode TreeNode(string textNode)
@@ -154,7 +154,7 @@ namespace SZI
         }
 
         /// <summary>
-        /// Generowanie obsługi drzewa - kolejny elementy odpowiadają wybranym odpowiedzią ( wyswietlanych w RichTextBox ).
+        /// Generowanie obsługi drzewa. Kolejne elementy odpowiadają wybranym odpowiedziom (wyświetlanym w RichTextBox).
         /// </summary>
         /// <param name="sender">Obiekt eventu.</param>
         /// <param name="e">Argument eventu.</param>

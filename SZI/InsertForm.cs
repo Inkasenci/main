@@ -23,7 +23,7 @@ namespace SZI
         private bool modified = false;
         
         /// <summary>
-        /// Tabela do której wstawiono rekord.
+        /// Tabela, do której wstawiono rekord.
         /// </summary>
         public Tables InsertedTo;
 

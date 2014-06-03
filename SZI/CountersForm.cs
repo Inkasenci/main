@@ -13,7 +13,7 @@ using System.Drawing.Printing;
 namespace SZI
 {
     /// <summary>
-    /// Klasa obsługująca Liczniki.
+    /// Formularz obsługujący liczniki.
     /// </summary>
     public partial class CountersForm : Form
     {
@@ -22,15 +22,15 @@ namespace SZI
         /// </summary>
         private ListView listView;
         /// <summary>
-        /// Lista elementów wyswietalnych w listView.
+        /// Lista elementów wyświetalnych w listView.
         /// </summary>
         private List<CountersFormClass> ccList;
         /// <summary>
-        /// Wybrany indeks z listy.
+        /// Wybrany z listy indeks.
         /// </summary>
         private string selectedid = "0";
         /// <summary>
-        /// Zaznaczone elementy na liście.
+        /// Zaznaczone na liście elementy.
         /// </summary>
         private ListView.SelectedIndexCollection index;
         /// <summary>
@@ -54,7 +54,7 @@ namespace SZI
         }
 
         /// <summary>
-        /// Zwracanie aktualnych danych dotyczących odczytów.
+        /// Zwraca aktualne dane dotyczące odczytów.
         /// </summary>
         /// <returns>Lista tablic stringów zawierająca dane.</returns>
         public List<string[]> ReturnListViewData()
@@ -93,7 +93,7 @@ namespace SZI
         }
 
         /// <summary>
-        /// Inicjacja listy - pobranie rekordów i umieszczenie ich na ListView.
+        /// Inicjacja listy - pobranie rekordów i umieszczenie ich w ListView.
         /// </summary>
         public void InitializeForm()
         {
@@ -111,7 +111,7 @@ namespace SZI
         /// Konwersja listy elementów do stringów.
         /// </summary>
         /// <param name="list">Lista dostępnych elementów.</param>
-        /// <returns>Lista tablic stringów ( format pozwalającej wyświetlić rekordy ).</returns>
+        /// <returns>Lista tablic stringów (format pozwalający wyświetlić rekordy).</returns>
         List<string[]> ConvertToListOfStrings(List<CountersFormClass> list)
         {
             List<string[]> output = new List<string[]>();
@@ -151,7 +151,7 @@ namespace SZI
         }
 
         /// <summary>
-        /// Uruchomienie okna dla danego inkasenta zależnie od argumentu.
+        /// Uruchomienie okna dla danego inkasenta, które jest zależne od argumentu.
         /// </summary>
         /// <param name="sender">Obiekt eventu.</param>
         /// <param name="e">Argument eventu.</param>
@@ -162,7 +162,7 @@ namespace SZI
         }
 
         /// <summary>
-        /// Import ( wczytanie ) danych z pliku - odczytów.
+        /// Import (wczytanie) danych z pliku - odczytów.
         /// </summary>
         /// <param name="sender">Obiekt eventu.</param>
         /// <param name="e">Argument eventu.</param>
@@ -190,9 +190,9 @@ namespace SZI
         }
 
         /// <summary>
-        /// Event handlera buttona tworzącego misję dla zaznaczonego inkasenta.
+        /// Event handler przycisku tworzącego misję dla zaznaczonego inkasenta.
         /// </summary>
-        /// <param name="sender">Button btGenerateMission.</param>
+        /// <param name="sender">Przycisk btGenerateMission.</param>
         /// <param name="e">Parametry zdarzenia.</param>
         private void btGenerateMission_Click(object sender, EventArgs e)
         {

@@ -73,7 +73,7 @@
             this.Controls.Add(this.btImport);
             this.Controls.Add(this.btCheck);
             this.Name = "CountersForm";
-            this.Text = "CountersForm";
+            this.Text = "Odczyty";
             this.ResumeLayout(false);
 
         }

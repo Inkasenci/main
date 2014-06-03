@@ -22,9 +22,9 @@ namespace SZI
 
 
         /// <summary>
-        /// Zwraca listę identyfikatorów związanych z zaznaczonymi w przekazanej ListView itemami.
+        /// Zwraca listę identyfikatorów związanych z zaznaczonymi itemami w przekazanej ListView.
         /// </summary>
-        /// <param name="listView">ListView którego identyfikatory zaznaczonych itemów zostaną stworzone.</param>
+        /// <param name="listView">ListView, której identyfikatory zaznaczonych itemów zostaną stworzone.</param>
         /// <returns>Lista identyfikatorów zaznaczonych itemów.</returns>
         public static List<string> CreateIdList(ListView listView)
         {
