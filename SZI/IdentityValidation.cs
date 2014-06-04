@@ -24,10 +24,10 @@ namespace SZI
         }
 
         /// <summary>
-        /// Funkcja określająca rok, w którym urodziła się osoba.
+        /// Funkcja określająca wiek, w którym urodziła się osoba.
         /// </summary>
         /// <param name="nrId">11-cyfrowy numer PESEL.</param>
-        /// <returns>Rok z numeru PESEL.</returns>
+        /// <returns>Wiek z numeru PESEL.</returns>
         static private int CenturyId(string nrId)
         {
             return ((CutId(nrId, 3, 2) / 20) != 4) ? Convert.ToInt32((19 + (CutId(nrId, 3, 2) / 20))) : 18;

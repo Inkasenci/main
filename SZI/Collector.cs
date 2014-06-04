@@ -16,7 +16,7 @@ namespace SZI
     using System.Text.RegularExpressions;
 
     /// <summary>
-    /// Wygenerowana automatycznie klasa odpowiadaj¹ca tabeli Inkasent.
+    /// Wygenerowana automatycznie klasa - odpowiednik tabeli Inkasent.
     /// </summary>
     public partial class Collector : IItem
     {

@@ -10,9 +10,9 @@ namespace SZI
     public static class ListViewDataManipulation
     {
         /// <summary>
-        /// Metoda usuwająca rekordy odpowiadające zaznaczonym itemom w przekazanym ListView.
+        /// Metoda usuwająca rekordy odpowiadające zaznaczonym w przekazanym ListView itemom.
         /// </summary>
-        /// <param name="listView">ListView, którego zaznaczone itemy zostaną usunięte.</param>
+        /// <param name="listView">ListView, której zaznaczone itemy zostaną usunięte.</param>
         /// <param name="Table">Tabela, z której zostaną usunięte rekordy.</param>
         /// <returns>Wartość mówiąca o tym, czy użytkownik zdecydował się na usunięcie rekordów.</returns>
         public static bool DeleteItems(ListView listView, Tables Table)
@@ -62,7 +62,7 @@ namespace SZI
         }
 
         /// <summary>
-        /// Wypełnia ListView otwarty w danym momencie i dopisuje go do tablicy IDataBase.
+        /// Wypełnia ListView otwartą w danym momencie i dopisuje ją do tablicy IDataBase.
         /// </summary>
         /// <param name="MainForm">Główny formularz programu.</param>
         public static void ComplementListView(ConfigManagementForm MainForm)
@@ -106,7 +106,7 @@ namespace SZI
         }
 
         /// <summary>
-        /// Wypełnia ListView otwarty w danym momencie i tworzy tablicę IDataBase.
+        /// Wypełnia ListView otwartą w danym momencie i tworzy tablicę IDataBase.
         /// </summary>
         /// <param name="MainForm">Główny formularz programu.</param>
         private static void FillListView(ConfigManagementForm MainForm)

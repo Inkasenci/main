@@ -161,7 +161,7 @@ namespace SZI
         }
 
         /// <summary>
-        /// Wyświetla rekordy powiązane z zaznaczonym rekordem w ListView.
+        /// Wyświetla rekordy powiązane z zaznaczonym w ListView rekordem.
         /// </summary>
         /// <param name="sender">Nieistotny parametr, niezbędny do przypisania metody do EventHandlera ToolStripItemu.</param>
         /// <param name="e">Nieistotny parametr, niezbędny do przypisania metody do EventHandlera ToolStripItemu.</param>
@@ -203,7 +203,7 @@ namespace SZI
         /// <summary>
         /// Tworzy kolekcję itemów dla ContextMenuStrip, gdy nie jest zaznaczony żaden item w ListView.
         /// </summary>
-        /// <param name="Owner">ContextMenuStrip, do którego kolekcja zostanie przypisana.</param>
+        /// <param name="Owner">ContextMenuStrip, do którego zostanie przypisana kolekcja.</param>
         /// <returns>Kolekcja itemów.</returns>
         private ToolStripItemCollection CreateContextMenuItems_NoSelection(object Owner)
         {

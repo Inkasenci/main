@@ -270,7 +270,7 @@ namespace SZI
         }
 
         /// <summary>
-        /// Tworzy kolekcję itemów dla ContextMenuStrip, gdy nie jest zaznaczony w ListView żaden item.
+        /// Tworzy kolekcję itemów dla ContextMenuStrip, gdy nie jest zaznaczony żaden item w ListView.
         /// </summary>
         /// <param name="Owner">ContextMenuStrip, do którego zostanie przypisana kolekcja.</param>
         /// <returns>Kolekcja itemów.</returns>

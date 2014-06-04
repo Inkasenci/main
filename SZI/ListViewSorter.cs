@@ -9,7 +9,7 @@ using System.Windows.Forms;
 namespace SZI
 {
     /// <summary>
-    /// Klasa sortująca względem kolumny dane w listView.
+    /// Klasa sortująca dane w listView względem kolumny.
     /// </summary>
     class ListViewSorter : IComparer
     {

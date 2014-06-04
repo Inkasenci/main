@@ -17,7 +17,7 @@ namespace SZI
     using System.Data.Entity.Infrastructure;
     
     /// <summary>
-    /// Wygenerowana automatycznie klasa odpowiadaj¹ca tabeli Adres.
+    /// Wygenerowana automatycznie klasa - odpowiednik tabeli Adres.
     /// </summary>
     public partial class Address : IItem
     {
@@ -30,7 +30,7 @@ namespace SZI
         /// </summary>
         public int HouseNo { get; set; }
         /// <summary>
-        /// Number mieszkania.
+        /// Numer mieszkania.
         /// </summary>
         public Nullable<int> FlatNo { get; set; }
         /// <summary>

@@ -16,7 +16,7 @@ namespace SZI
     using System.Text.RegularExpressions;
 
     /// <summary>
-    /// Wygenerowana automatycznie klasa odpowiadaj¹ca tabeli Klient.
+    /// Wygenerowana automatycznie klasa - odpowiednik tabeli Klient.
     /// </summary>
     public partial class Customer : IItem
     {

@@ -15,7 +15,7 @@ namespace SZI
     using System.Data.Entity.Infrastructure;
 
     /// <summary>
-    /// Wygenerowana automatycznie klasa odpowiadaj¹ca tabeli Teren.
+    /// Wygenerowana automatycznie klasa - odpowiednik tabeli Teren.
     /// </summary>
     public partial class Area : IItem
     {

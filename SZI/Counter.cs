@@ -15,7 +15,7 @@ namespace SZI
     using System.Data.Entity.Infrastructure;
 
     /// <summary>
-    /// Wygenerowana uatomatycznie klasa odpowiadaj¹ca tabeli Licznik.
+    /// Wygenerowana uatomatycznie klasa - odpowiednik tabeli Licznik.
     /// </summary>
     public partial class Counter : IItem
     {
