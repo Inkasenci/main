@@ -9,18 +9,33 @@ using System.Data.Entity.Infrastructure;
 
 namespace SZI
 {
+    /// <summary>
+    /// Klasa odpowiedzialna za zarządzanie wyjątkami.
+    /// </summary>
     public static class ExceptionHandling
     {
+        /// <summary>
+        /// Informuje o tym, że rekord o podanym kluczu głównym już istnieje.
+        /// </summary>
         private static void PrimaryKeyViolation()
         {
             MessageBox.Show("Istnieje już wpis z takim kluczem głównym", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Stop);
         }
 
+        /// <summary>
+        /// Określa wyjątki innego rodzaju, niż obsługiwane.
+        /// </summary>
+        /// <param name="Message"></param>
         private static void OtherException(string Message)
         {
             MessageBox.Show("Błąd wprowadzania danych\n" + Message, "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Stop);
         }
 
+        /// <summary>
+        /// Specyficzne wyjątki.
+        /// </summary>
+        /// <param name="Number">Numer wyjątku.</param>
+        /// <param name="Message">Wiadomość wysyłana przez wyjątek.</param>
         private static void SpecificException(int Number, string Message)
         {
             switch (Number)
@@ -39,6 +54,10 @@ namespace SZI
             }
         }
 
+        /// <summary>
+        /// Metoda obsługująca wyjątek dotyczący bazy danych.
+        /// </summary>
+        /// <param name="Ex">Wyjątek dotyczący bazy danych.</param>
         public static void ShowException(DbUpdateException Ex)
         {
             var innerEx = Ex.InnerException;
@@ -51,6 +70,10 @@ namespace SZI
             ExceptionHandling.SpecificException(ProjectedException.Number, ProjectedException.Message);
         }
 
+        /// <summary>
+        /// Metoda obsługująca wyjątek dotyczący walidacji.
+        /// </summary>
+        /// <param name="Ex">Wyjątek dotyczący walidacji.</param>
         public static void ShowException(System.ComponentModel.DataAnnotations.ValidationException Ex)
         {
             var innerEx = Ex.InnerException;
