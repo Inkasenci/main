@@ -13,16 +13,40 @@ namespace SZI
     /// </summary>
     public static class Reports
     {
+        /// <summary>
+        /// Czczionka używana do drukowania liter.
+        /// </summary>
         private static string FontName = "Times New Roman";
+        /// <summary>
+        /// Data w momencie wydrukowania raportu.
+        /// </summary>
         private static string Date = " " + DateTime.Now.ToShortDateString();
 
+        /// <summary>
+        /// Rozmiar czcionki dla głównego nagłówka.
+        /// </summary>
         private static Font HeadFont = new Font(FontName, 20);
+        /// <summary>
+        /// Rozmiar czcionki dla tekstu średniej wielkości.
+        /// </summary>
         private static Font MediumFont = new Font(FontName, 15);
+        /// <summary>
+        /// Rozmiar czcionki dla tekstu małej wielkości.
+        /// </summary>
         private static Font TinyFont = new Font(FontName, 10);
 
+        /// <summary>
+        /// Formaty wydruku liczb typu double.
+        /// </summary>
         private static string DoubleFormat = "0.##";
 
+        /// <summary>
+        /// Brush używany do drukowania.
+        /// </summary>
         private static Brush brush = Brushes.Black;
+        /// <summary>
+        /// Stringformat służący do drukowania.
+        /// </summary>
         private static StringFormat format = StringFormat.GenericTypographic;
 
         /// <summary>
