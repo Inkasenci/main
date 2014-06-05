@@ -100,6 +100,10 @@ namespace SZI
             int i = 0;
             textBox = new List<TextBox>();
             TextBox tmp;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+
             foreach (var element in initPosition)
             {
                 tmp = new TextBox();

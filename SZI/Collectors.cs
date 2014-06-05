@@ -47,8 +47,8 @@ namespace SZI
             collectorList.Clear();
             using (var dataBase = new CollectorsManagementSystemEntities())
             {
-                foreach (var value in dataBase.Collectors)
-                    collectorList.Add(value);
+                collectorList = (from collector in dataBase.Collectors
+                                 select collector).ToList();
             }
         }
 

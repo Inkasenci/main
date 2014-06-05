@@ -98,6 +98,9 @@ namespace SZI
         public void InitializeForm()
         {
             listView = new ListView();
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
 
             listView = ListViewConfig.ListViewInit(columnList, this.GetType().Name, ReturnListViewData());
             listView.SelectedIndexChanged += lv_SelectedIndexChanged;

@@ -202,6 +202,9 @@ namespace SZI
             {"Addresses", 4}
         };
 
+        /// <summary>
+        /// Treści używane podczas wczytywania danych.
+        /// </summary>
         static public Dictionary<Tables, string> Loadings = new Dictionary<Tables, string>()
         {
             {Tables.Collectors, "Wczytywane są dane z tabeli Inkasenci. Proszę czekać."},
@@ -211,6 +214,9 @@ namespace SZI
             {Tables.Areas, "Wczytywane są dane z tabeli Tereny. Proszę czekać."},
         };
 
+        /// <summary>
+        /// Treści używane podczas wczytywania danych.
+        /// </summary>
         static public Dictionary<string, string> LoadingsStrings = new Dictionary<string, string>()
         {
             {"LoadingFinished", "Wczytywanie zakończone."}

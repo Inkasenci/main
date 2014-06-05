@@ -11,6 +11,9 @@ using System.Windows.Forms.Design;
 
 namespace SZI
 {
+    /// <summary>
+    /// Klasa umożliwiająca kontrolę postępu wydarzeń. Używana do aktualizowania postępu wczytywania rekordów z bazy danych.
+    /// </summary>
     public class ProgressStatusStrip : StatusStrip
     {
         #region ProgressStatusStrip Definitions

@@ -150,8 +150,20 @@ namespace SZI
             ConfigManagementForm.ListViewFilled[(int)ConfigManagementForm.selectedTab] = true;
         }
 
+        /// <summary>
+        /// Delegacja okreslająca wygląd nagłówka metody aktualizującej ProgressStatusStripa.
+        /// </summary>
+        /// <param name="MainForm">Instancja klasy ConfigManagementForm która zawiera aktualizowany ProgressStatusStrip.</param>
+        /// <param name="i">Wartość ustawiana na ProgressStatusStripie.</param>
+        /// <param name="max">Maksymalna dopuszczalna wartość.</param>
         private delegate void UpdateProgressStatusDelegate(ConfigManagementForm MainForm, int i, int max);
 
+        /// <summary>
+        /// Metoda aktualizująca stan ProgressStatusStripa.
+        /// </summary>
+        /// <param name="MainForm">Instancja klasy ConfigManagementForm która zawiera aktualizowany ProgressStatusStrip.</param>
+        /// <param name="i">Wartość ustawiana na ProgressStatusStripie.</param>
+        /// <param name="max">Maksymalna dopuszczalna wartość.</param>
         private static void UpdateProgressStatus(ConfigManagementForm MainForm, int i, int max)
         {
             String ProgressStatusName = "progressStatusMain";

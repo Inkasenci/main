@@ -60,13 +60,30 @@ namespace SZI
         /// </summary>
         private CollectorsManagementSystemEntities dataBase;
 
+        /// <summary>
+        /// Słownik mapujący kontrolkę na ErrorProvider do niej przypisany.
+        /// </summary>
         private Dictionary<Control, ErrorProvider> ControlToEP_Dict;
+        /// <summary>
+        /// Słownik mapujący nazwę kontrolki na metodę walidującą daną kontrolkę.
+        /// </summary>
         private Dictionary<string, ValidatingMethod> NameToMethod_Dict;
+        /// <summary>
+        /// Słownik mapujący kontrolkę na wartość logiczną określającą pomyślność walidacji.
+        /// </summary>
         private Dictionary<Control, bool> ControlToBool_Dict;
+        /// <summary>
+        /// Tablica ComboBoxConfigów.
+        /// </summary>
         private ComboBoxConfig[] CBConfigs;
-
+        /// <summary>
+        /// Instancja klasy ConfigManagementForm która utworzyła daną instancję klasy ModifyForm.
+        /// </summary>
         private ConfigManagementForm mainForm;
 
+        /// <summary>
+        /// Instancja klasy ConfigManagementForm która utworzyła daną instancję klasy ModifyForm.
+        /// </summary>
         public ConfigManagementForm MainForm
         {
             get
@@ -99,6 +116,9 @@ namespace SZI
             ErrorProvider ep;
             int i;
 
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Text = "Modyfikacja rekordu";
             this.ids = ids;
             this.Table = Table;
@@ -363,6 +383,11 @@ namespace SZI
             }
         }
 
+        /// <summary>
+        /// Metoda walidująca ComboBoxy służące do wybrania rekordów podczas wprowadzania do bazy nowego licznika.
+        /// </summary>
+        /// <param name="sender">Walidowany ComboBox.</param>
+        /// <param name="e">Parametry zdarzenia.</param>
         private void CountersValidation(object sender, CancelEventArgs e)
         {
             ComboBox cb = (ComboBox)sender;
@@ -374,6 +399,11 @@ namespace SZI
                 MainValidation.XNOR_ComboBoxValidation(cb, CBConfigs[0].comboBox, ControlToEP_Dict, ControlToBool_Dict);
         }
 
+        /// <summary>
+        /// Metoda walidująca ComboBoxy służące do wybrania rekordów podczas wprowadzania czegokolwiek oprócz licznika.
+        /// </summary>
+        /// <param name="sender">Walidowany ComboBox.</param>
+        /// <param name="e">Parametry zdarzenia.</param>
         private void ComboBoxValidation(object sender, CancelEventArgs e)
         {
             ComboBox cb = (ComboBox)sender;
@@ -389,6 +419,11 @@ namespace SZI
             }
         }
 
+        /// <summary>
+        /// Metoda walidująca TextBoxy.
+        /// </summary>
+        /// <param name="sender">Walidowany ComboBox.</param>
+        /// <param name="e">Parametry zdarzenia.</param>
         private void Validation(object sender, CancelEventArgs e)
         {
             TextBox ValidatedTextBox = (TextBox)sender;
@@ -406,6 +441,11 @@ namespace SZI
             }
         }
                
+        /// <summary>
+        /// Metoda wywoływana po zamknięciu danej instancji klasy ModifyForm.
+        /// </summary>
+        /// <param name="sender">Zamykana instancja klasy ModifyForm.</param>
+        /// <param name="e">Parametry zdarzenia.</param>
         private void ModifyForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (modified)

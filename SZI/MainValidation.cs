@@ -10,7 +10,14 @@ namespace SZI
 {
     static class MainValidation
     {
-        //pomocnicza funkcja do walidacji dwóch comboboxów        
+        /// <summary>
+        /// Metoda walidująca dwa ComboBoxy służące do wprowadzenia do bazy inkasenta.
+        /// </summary>
+        /// <param name="cb1">Pierwszy walidowany ComboBox.</param>
+        /// <param name="cb2">Drugi walidowany ComboBox.</param>
+        /// <param name="CBtoEP">Słownik mapujący ComboBoxy na ErrorProvidery do nich przypisane.</param>
+        /// <param name="CBtoBool">Słownik mapujący ComboBoxy na wartości określające pomyślność walidacji do nich przypisane.</param>
+       
         static public void XNOR_ComboBoxValidation(ComboBox cb1, ComboBox cb2, Dictionary<Control, ErrorProvider> CBtoEP, Dictionary<Control, bool> CBtoBool)
         {
             //jeśli nie został wybrany ani klient, ani adres, lub w drugim przypadku został wybrany i klient, i adres, to walidacja pomyślna
@@ -31,7 +38,12 @@ namespace SZI
             }
         }
 
-        static public bool OptionalChoice_ComboBox(string index) //z Comboboxa nie musi być wybrany żaden item
+        /// <summary>
+        /// Metoda walidująca ComboBox dla przypadku, gdy nie musi być z niego wybrany żaden item.
+        /// </summary>
+        /// <param name="index">Index wybranego itemu.</param>
+        /// <returns>Wartość określająca pomyślność walidacji.</returns>
+        static public bool OptionalChoice_ComboBox(string index)
         {
             int i = Convert.ToInt32(index);
             if (i < 0)
@@ -39,6 +51,12 @@ namespace SZI
             else 
                 return true;
         }
+
+        /// <summary>
+        /// Metoda walidująca ComboBox dla przypadku, gdy musi być z niego wybrany item.
+        /// </summary>
+        /// <param name="index">Index wybranego itemu.</param>
+        /// <returns>Wartość określająca pomyślność walidacji.</returns>
         static public bool MandatoryChoice_ComboBox(string index) //z Comboboxa musi zostać wybrany item
         {
             int i = Convert.ToInt32(index);
@@ -48,6 +66,11 @@ namespace SZI
                 return true;
         }
 
+        /// <summary>
+        /// Metoda walidująca CheckBox dla przypadku, gdy przypisanie inkasenta jest opcjonalne.
+        /// </summary>
+        /// <param name="s">ID inkasenta.</param>
+        /// <returns>Wartość określająca pomyślność walidacji.</returns>
         static public bool OptionalCollector(string s)
         {
             if (EmptyString(s))
@@ -56,6 +79,11 @@ namespace SZI
                 return CollectorExists(s);
         }
 
+        /// <summary>
+        /// Metoda walidująca CheckBox.
+        /// </summary>
+        /// <param name="s">ID.</param>
+        /// <returns>Wartość określająca pomyślność walidacji.</returns>
         static public bool IDValidation(string ID)
         {
             Int64 Parse;
@@ -65,6 +93,11 @@ namespace SZI
                 return true;
         }
 
+        /// <summary>
+        /// Metode zwracająca string z wielką literą na jego początku.
+        /// </summary>
+        /// <param name="s">String do zamienienia wielkiej litery na jego początku.</param>
+        /// <returns>Zamieniony string z wielką literą na początku.</returns>
         static public string UppercaseFirst(string s)
         {
             char[] a = s.ToCharArray();
@@ -72,6 +105,11 @@ namespace SZI
             return new string(a);
         }
 
+        /// <summary>
+        /// Walidacja numeru licznika, układu, mieszkania i domu.
+        /// </summary>
+        /// <param name="Number">Walidowany numer.</param>
+        /// <returns>Wartość określająca pomyślność walidacji.</returns>
         static public bool CircuitAndCounterAndHouseAndFlatNumberValidation(string Number)
         {
             int Parse;
@@ -82,6 +120,11 @@ namespace SZI
                 return false;
         }
 
+        /// <summary>
+        /// Walidacja numeru licznika, układu, mieszkania i domu.
+        /// </summary>
+        /// <param name="No">Walidowany numer.</param>
+        /// <returns>Wartość określająca pomyślność walidacji.</returns>
         static private bool CheckCircuitAndCounterAndHouseAndFlatNumber(int No)
         {
             if (No > 0)
@@ -90,16 +133,31 @@ namespace SZI
                 return false;
         }
 
+        /// <summary>
+        /// Określa czy string zawiera cyfry.
+        /// </summary>
+        /// <param name="S">String, który zostanie sprawdzony pod kątem zawartości cyfr.</param>
+        /// <returns>Wartość określająca zawartość cyfr.</returns>
         static private bool ContainsNumbers(string S)
         {
             return S.Any(char.IsDigit);
         }
 
+        /// <summary>
+        /// Określa czy string zawiera litery.
+        /// </summary>
+        /// <param name="S">String, który zostanie sprawdzony pod kątem zawartości liter.</param>
+        /// <returns>Wartość określająca zawartość liter.</returns>
         static public bool ContainsLetters(string S)
         {
             return S.Any(char.IsLetter);
         }
 
+        /// <summary>
+        /// Walidacja stringu z nazwą miasta.
+        /// </summary>
+        /// <param name="No">Walidowany string.</param>
+        /// <returns>Wartość określająca pomyślność walidacji.</returns>
         static public bool CityNameValidation(string Name)
         {
             if (Name.Length < 2 || ContainsNumbers(Name))
@@ -108,6 +166,11 @@ namespace SZI
                 return true;                
         }
 
+        /// <summary>
+        /// Walidacja stringu z nazwą ulicy.
+        /// </summary>
+        /// <param name="No">Walidowany string.</param>
+        /// <returns>Wartość określająca pomyślność walidacji.</returns>
         static public bool StreetValidation(string Name)
         {
             if (Name.Length < 2)
@@ -115,6 +178,12 @@ namespace SZI
             else
                 return true;  
         }
+
+        /// <summary>
+        /// Walidacja stringu z kodem pocztowym.
+        /// </summary>
+        /// <param name="PostalCode">Walidowany kod pocztowy.</param>
+        /// <returns>Wartość określająca pomyślność walidacji.</returns>
         static public bool PostalCodeValidation(string PostalCode)
         {
             Regex regex = new Regex(@"[0-9]{2}-[0-9]{3}");
@@ -125,6 +194,11 @@ namespace SZI
                 return true;
         }
 
+        /// <summary>
+        /// Walidacja stringu z numerem telefonu.
+        /// </summary>
+        /// <param name="PostalCode">Walidowany numer telefonu.</param>
+        /// <returns>Wartość określająca pomyślność walidacji.</returns>
         static public bool PhoneValidation(string Phone)
         {
             if (Phone.Length != 9 || ContainsLetters(Phone))
@@ -133,6 +207,11 @@ namespace SZI
                 return true;
         }
 
+        /// <summary>
+        /// Sprawdza czy klient z ID istnieje w bazie.
+        /// </summary>
+        /// <param name="ID">Sprawdzane ID.</param>
+        /// <returns>Wartośc logiczna określająca czy klient z ID istnieje w bazie.</returns>
         static public bool CustomerExists(string ID)
         {
             using (var dataBase = new CollectorsManagementSystemEntities())
@@ -148,6 +227,11 @@ namespace SZI
             return false;
         }
 
+        /// <summary>
+        /// Sprawdza czy inkasent z ID istnieje w bazie.
+        /// </summary>
+        /// <param name="ID">Sprawdzane ID.</param>
+        /// <returns>Wartośc logiczna określająca czy inkasent z ID istnieje w bazie.</returns>
         static public bool CollectorExists(string ID)
         {
             foreach (Collector c in Collectors.collectorList)
@@ -157,6 +241,11 @@ namespace SZI
             return false;
         }
 
+        /// <summary>
+        /// Sprawdza czy adres z ID istnieje w bazie.
+        /// </summary>
+        /// <param name="ID">Sprawdzane ID.</param>
+        /// <returns>Wartośc logiczna określająca czy adres z ID istnieje w bazie.</returns>
         static private bool AddressExists(Guid ID)
         {
             using (var dataBase = new CollectorsManagementSystemEntities())
@@ -172,6 +261,11 @@ namespace SZI
             return false;
         }
 
+        /// <summary>
+        /// Sprawdza czy licznik z ID istnieje w bazie.
+        /// </summary>
+        /// <param name="ID">Sprawdzane ID.</param>
+        /// <returns>Wartośc logiczna określająca czy licznik z ID istnieje w bazie.</returns>
         static public bool CounterExists(int ID)
         {
             using (var dataBase = new CollectorsManagementSystemEntities())
@@ -187,99 +281,14 @@ namespace SZI
             return false;
         }
 
+        /// <summary>
+        /// Sprawdza czy string jest pusty.
+        /// </summary>
+        /// <param name="stringToValidate">Sprawdzany string.</param>
+        /// <returns>Wartośc logiczna określająca czy string jest pusty.</returns>
         static public bool EmptyString(string stringToValidate)
         {
             return (stringToValidate == String.Empty) ? false : true;
-        }
-
-        static public string CollectorValidateString(Collector collector)
-        {
-            string checkBug = String.Empty;
-            bool IsOK;
-
-            if (!ContainsLetters(collector.CollectorId))
-                checkBug += IdentityValidation.CheckId(collector.CollectorId) ? LangPL.InsertFormLang["textBoxCCID"] : String.Empty;
-            else
-                checkBug += LangPL.InsertFormLang["textBoxCCID"];
-            
-
-            checkBug += (IsOK = CityNameValidation(collector.Name)) ? String.Empty : LangPL.InsertFormLang["textBoxName"];
-            if (IsOK)
-                collector.Name = UppercaseFirst(collector.Name);
-
-            checkBug += (IsOK = CityNameValidation(collector.LastName)) ? String.Empty : LangPL.InsertFormLang["textBoxLastName"];
-            if (IsOK)
-                collector.LastName = UppercaseFirst(collector.LastName);
-
-            checkBug += PostalCodeValidation(collector.PostalCode) ? String.Empty : LangPL.InsertFormLang["textBoxPostalCode"];
-            
-            checkBug += (IsOK = CityNameValidation(collector.City)) ? String.Empty : LangPL.InsertFormLang["textBoxCity"];
-            if (IsOK)
-                collector.City = UppercaseFirst(collector.City);
-
-            checkBug += (EmptyString(collector.Address)) ? LangPL.InsertFormLang["textBoxAddress"] : String.Empty;            
-            checkBug += PhoneValidation(collector.PhoneNumber) ? String.Empty : LangPL.InsertFormLang["textBoxPhoneNumber"];
-            
-            return checkBug;
-        }
-
-        static public string CustomerValidateString(Customer customer)
-        {
-            string checkBug = String.Empty;
-            bool IsOK;
-
-            if (!ContainsLetters(customer.CustomerId))
-                checkBug += (IdentityValidation.CheckId(customer.CustomerId)) ? LangPL.InsertFormLang["textBoxCCID"] : String.Empty;
-            else
-                checkBug += LangPL.InsertFormLang["textBoxCCID"];
-            
-
-            checkBug += (IsOK = CityNameValidation(customer.Name)) ? String.Empty : LangPL.InsertFormLang["textBoxName"];
-            if (IsOK)
-                customer.Name = UppercaseFirst(customer.Name);
-
-            checkBug += (IsOK = CityNameValidation(customer.LastName)) ? String.Empty : LangPL.InsertFormLang["textBoxLastName"];
-            if (IsOK)
-                customer.LastName = UppercaseFirst(customer.LastName);
-
-            checkBug += PostalCodeValidation(customer.PostalCode) ? String.Empty : LangPL.InsertFormLang["textBoxPostalCode"];
-
-            checkBug += (IsOK = CityNameValidation(customer.City)) ? String.Empty : LangPL.InsertFormLang["textBoxCity"];
-            if (IsOK)
-                customer.City = UppercaseFirst(customer.City);
-
-            checkBug += (EmptyString(customer.Address)) ?String.Empty : LangPL.InsertFormLang["textBoxAddress"];            
-            checkBug += PhoneValidation(customer.PhoneNumber) ? String.Empty : LangPL.InsertFormLang["textBoxPhoneNumber"];            
-            
-            return checkBug;
-        }
-
-        static public string AreaValidateString(Area a)
-        {
-            string checkBug = String.Empty;
-            bool IsOK;
-
-            checkBug += (IsOK = StreetValidation(a.Street)) ? String.Empty : LangPL.InsertFormLang["textBoxStreet"];
-            if (IsOK)
-                a.Street = UppercaseFirst(a.Street);
-
-            checkBug += CollectorExists(a.CollectorId) ? String.Empty : LangPL.InsertFormLang["textBoxCollectorID"];
-
-            return checkBug;
-        }
-
-        static public string CounterValidateString(Counter c)
-        {
-            string checkBug = String.Empty;
-
-            checkBug += CheckCircuitAndCounterAndHouseAndFlatNumber(c.CounterNo) ? String.Empty : LangPL.InsertFormLang["textBoxCounterNo"];
-            checkBug += CheckCircuitAndCounterAndHouseAndFlatNumber(c.CircuitNo) ? String.Empty : LangPL.InsertFormLang["textBoxCircuitNo"];
-            checkBug += (EmptyString(c.AddressId.Value.ToString())) ? String.Empty : LangPL.InsertFormLang["textBoxAddress"];
-            //if (checkBug == String.Empty)
-            //    checkBug += AddressExists(c.AddressId.Value) ? LangPL.InsertFormLang["textBoxAddressID"] : String.Empty;
-            checkBug += CustomerExists(c.CustomerId) ? String.Empty : LangPL.InsertFormLang["textBoxCustomerID"];
-               
-            return checkBug;
         }
     }
 }

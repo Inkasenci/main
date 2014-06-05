@@ -11,15 +11,39 @@ using System.Threading;
 
 namespace SZI
 {
+    /// <summary>
+    /// Forma służąca do wprowadzania nowych rekordów do bazy danych.
+    /// </summary>
     public partial class InsertForm : Form, IForm
     {
+        /// <summary>
+        /// Tabela do której wprowadzane są dane.
+        /// </summary>
         private Tables selectedTab;
 
+        /// <summary>
+        /// Wartości określające, czy ErrorProvidery przypisane do poszczególnych kontrolek zostały utworzone.
+        /// </summary>
         private bool CollectorEPInitialized = false, CustomerEPInitialized = false, AreaEPInitialized = false, CounterEPInitialized = false, AddressEPInitialized = false;
+        /// <summary>
+        /// Słownik mapujący nazwę kontrolki na metodę walidującą daną kontrolkę.
+        /// </summary>
         private Dictionary<string, ValidatingMethod> NameToMethod_Dict;
+        /// <summary>
+        /// Słownik mapujący kontrolkę na ErrorProvider do niej przypisany.
+        /// </summary>
         private Dictionary<Control, ErrorProvider> ControltoEP_Collector_Dict, ControltoEP_Customer_Dict, ControltoEP_Area_Dict, ControltoEP_Counter_Dict, ControltoEP_Address_Dict, Current_ControltoEP_Dict;
+       /// <summary>
+        /// Słownik mapujący kontrolkę na wartość określającą czy walidacja została przeprowadzona pomyślnie.
+       /// </summary>
         private Dictionary<Control, bool> ControlToBool_Collector_Dict, ControlToBool_Customer_Dict, ControlToBool_Area_Dict, ControlToBool_Counter_Dict, ControlToBool_Address_Dict, Current_ControlToBool_Dict;
+        /// <summary>
+        /// Kontrolki ComboBoxConfig.
+        /// </summary>
         private ComboBoxConfig cbcCustomer, cbcCollector, cbcArea, cbcAddress;
+        /// <summary>
+        /// Wartość określająca czy użytkownik zdecydował się na modyfikację rekordu.
+        /// </summary>
         private bool modified = false;
         
         /// <summary>
@@ -28,7 +52,7 @@ namespace SZI
         public Tables InsertedTo;
 
         /// <summary>
-        /// Zwraca wartość logiczną, która określa czy baza została zmieniona.
+        /// Zwraca wartość logiczną, która określa czy użytkownik zdecydował się na modyfikację rekordu.
         /// </summary>
         public bool Modified
         {
@@ -38,6 +62,10 @@ namespace SZI
             }
         }
 
+        /// <summary>
+        /// Konstruktor klasy InsertForm.
+        /// </summary>
+        /// <param name="MainFormSelectedTab">Zakładka otwarta w głównym oknie programu w momencie utworzenia klasy InsertForm.</param>
         public InsertForm(Tables MainFormSelectedTab)
         {
             InitializeComponent();
@@ -47,6 +75,9 @@ namespace SZI
             InitializeEP(selectedTab);            
         }
 
+        /// <summary>
+        /// Metoda ustawiająca odpowiednio kontrolki.
+        /// </summary>
         private void SetupControls()
         {
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
@@ -56,6 +87,9 @@ namespace SZI
 
         #region Inicjalizacja słowników i przypisywanie EventHandlerów do TextBoxów
 
+        /// <summary>
+        /// Metoda inicjująca słowniki i textboxy odpowiadające inkasentom.
+        /// </summary>
         private void InitializeCollectorDictAndTB()
         {
             ControltoEP_Collector_Dict = new Dictionary<Control, ErrorProvider>();
@@ -90,6 +124,9 @@ namespace SZI
             ControlToBool_Collector_Dict.Add(tbCollectorPhoneNumber, false);
         }
 
+        /// <summary>
+        /// Metoda inicjująca słowniki i textboxy odpowiadające klientom.
+        /// </summary>
         private void InitializeCustomerDictAndTB()
         {
             ControltoEP_Customer_Dict = new Dictionary<Control, ErrorProvider>();
@@ -124,6 +161,9 @@ namespace SZI
             ControlToBool_Customer_Dict.Add(tbCustomerPhoneNumber, false);
         }
 
+        /// <summary>
+        /// Metoda inicjująca słowniki i textboxy odpowiadające terenom.
+        /// </summary>
         private void InitializeAreaDictAndTB()
         {
             cbcCollector = new ComboBoxConfig("Collector", "cbCollector", new Point(86, 29));
@@ -142,6 +182,9 @@ namespace SZI
             ControlToBool_Area_Dict.Add(cbCollector, true);
         }
 
+        /// <summary>
+        /// Metoda inicjująca słowniki i textboxy odpowiadające klientom.
+        /// </summary>
         private void InitializeCounterDictAndTB()
         {
             cbcAddress = new ComboBoxConfig("Address", "cbAddress", new Point(89, 55));
@@ -172,6 +215,9 @@ namespace SZI
             ControlToBool_Counter_Dict.Add(cbCustomer, true);
         }
 
+        /// <summary>
+        /// Metoda inicjująca słowniki i textboxy odpowiadające adresom.
+        /// </summary>
         private void InitializeAddressDictAndTB()
         {
             cbcArea = new ComboBoxConfig("Area", "cbArea", new Point(117, 55));
@@ -190,6 +236,9 @@ namespace SZI
             ControlToBool_Address_Dict.Add(cbArea, false);
         }
 
+        /// <summary>
+        /// Metoda inicjująca ErrorProvidery.
+        /// </summary>
         private void InitializeEP(Tables tabPage)
         {
             switch (tabPage)
@@ -237,6 +286,10 @@ namespace SZI
         #endregion
 
         #region Czyszczenie textboxów
+
+        /// <summary>
+        /// Czyści TextBoxy na karcie wprowadzania inkasenta.
+        /// </summary>
         private void ClearTBCollector()
         {
             tbCollectorID.Text = "";
@@ -248,6 +301,9 @@ namespace SZI
             tbCollectorPhoneNumber.Text = "";
         }
 
+        /// <summary>
+        /// Czyści TextBoxy na karcie wprowadzania klienta.
+        /// </summary>
         private void ClearTBCustomer()
         {
             tbCustomerID.Text = "";
@@ -259,6 +315,9 @@ namespace SZI
             tbCustomerPhoneNumber.Text = "";
         }
 
+        /// <summary>
+        /// Czyści TextBoxy na karcie wprowadzania terenu.
+        /// </summary>
         private void ClearTBArea()
         {
             tbStreet.Text = "";
@@ -269,6 +328,9 @@ namespace SZI
             tbCounterNo.Text = "";
         }
 
+        /// <summary>
+        /// Czyści TextBoxy na karcie wprowadzania adresu.
+        /// </summary>
         private void ClearTBAddress()
         {
             tbHouseNo.Text = "";
@@ -278,6 +340,11 @@ namespace SZI
         #endregion
 
         #region Wprowadzanie do bazy
+
+        /// <summary>
+        /// Metoda służąca do wprowadzania do bazy danych inkasenta.
+        /// </summary>
+        /// <returns>Określa czy wprowadzanie zostały zakończone pomyślnie.</returns>
         private bool InsertCollector()
         {
             Collector c = new Collector();
@@ -303,6 +370,10 @@ namespace SZI
             }
         }
 
+        /// <summary>
+        /// Metoda służąca do wprowadzania do bazy danych klienta.
+        /// </summary>
+        /// <returns>Określa czy wprowadzanie zostały zakończone pomyślnie.</returns>
         private bool InsertCustomer()
         {
             Customer c = new Customer();
@@ -328,6 +399,10 @@ namespace SZI
             }
         }
 
+        /// <summary>
+        /// Metoda służąca do wprowadzania do bazy danych terenu.
+        /// </summary>
+        /// <returns>Określa czy wprowadzanie zostały zakończone pomyślnie.</returns>
         private bool InsertArea()
         {
             Area a = new Area();
@@ -349,6 +424,10 @@ namespace SZI
             }
         }
 
+        /// <summary>
+        /// Metoda służąca do wprowadzania do bazy danych licznika.
+        /// </summary>
+        /// <returns>Określa czy wprowadzanie zostały zakończone pomyślnie.</returns>
         private bool InsertCounter()
         {
             int Parse;
@@ -379,6 +458,10 @@ namespace SZI
             }
         }
 
+        /// <summary>
+        /// Metoda służąca do wprowadzania do bazy danych adresu.
+        /// </summary>
+        /// <returns>Określa czy wprowadzanie zostały zakończone pomyślnie.</returns>
         private bool InsertAddress()
         {
             int Parse;
@@ -409,6 +492,12 @@ namespace SZI
         #endregion
 
         #region EventHandlery
+
+        /// <summary>
+        /// Metoda walidująca ComboBox.
+        /// </summary>
+        /// <param name="sender">Walidowany ComboBox.</param>
+        /// <param name="e">Parametry zdarzenia.</param>
         private void ComboBoxValidation(object sender, CancelEventArgs e)
         {
             ComboBox cb = (ComboBox)sender;
@@ -424,6 +513,11 @@ namespace SZI
             }
         }
 
+        /// <summary>
+        /// Metoda walidująca ComboBoxy na karcie wprowadzania licznika.
+        /// </summary>
+        /// <param name="sender">Walidowany ComboBox.</param>
+        /// <param name="e">Parametry zdarzenia.</param>
         private void CountersValidation(object sender, CancelEventArgs e)
         {
             ComboBox cb = (ComboBox)sender;
@@ -434,6 +528,11 @@ namespace SZI
                 MainValidation.XNOR_ComboBoxValidation(cb, cbcAddress.comboBox, Current_ControltoEP_Dict, Current_ControlToBool_Dict);
         }
 
+        /// <summary>
+        /// Metoda walidująca kontrolki.
+        /// </summary>
+        /// <param name="sender">Walidowana kontrolka.</param>
+        /// <param name="e">Parametry zdarzenia.</param>
         private void Validation(object sender, CancelEventArgs e)
         {
             TextBox ValidatedTextBox = (TextBox)sender;
@@ -451,6 +550,12 @@ namespace SZI
                 //e.Cancel = true;
             }
         }
+
+        /// <summary>
+        /// Metoda wywoływana po wciśnięciu przycisku służącego do wprowadzenia rekordu do bazy danych.
+        /// </summary>
+        /// <param name="sender">Przycisk btOK.</param>
+        /// <param name="e">Parametry zdarzenia.</param>
         private void btOK_Click(object sender, EventArgs e)
         {
             switch (selectedTab)
@@ -485,6 +590,11 @@ namespace SZI
             }
         }
 
+        /// <summary>
+        /// Metoda czyszcząca kontrolki.
+        /// </summary>
+        /// <param name="sender">Przycisk btClear.</param>
+        /// <param name="e">Parametry zdarzenia.</param>
         private void btClear_Click(object sender, EventArgs e)
         {
             switch (selectedTab)
@@ -514,6 +624,11 @@ namespace SZI
             }
         }
 
+        /// <summary>
+        /// Metoda wywoływana po zmianie aktywnej zakładki w TabControl.
+        /// </summary>
+        /// <param name="sender">Obiekt TabControl w którym zmieniona została aktywna zakładka.</param>
+        /// <param name="e">Parametry zdarzenia.</param>
         private void tcInsert_SelectedIndexChanged(object sender, EventArgs e)
         {
             selectedTab = (Tables)tcInsert.SelectedIndex;
@@ -576,6 +691,11 @@ namespace SZI
 
         #endregion
 
+        /// <summary>
+        /// Metoda wywoływana po zamknięciu InsertForm.
+        /// </summary>
+        /// <param name="sender">Zamykana instacja klasy InsertForm.</param>
+        /// <param name="e">Parametry zdarzenia.</param>
         private void InsertForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             Thread t = new Thread(() => ListViewDataManipulation.RefreshListView(sender));

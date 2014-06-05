@@ -28,6 +28,9 @@ namespace SZI
             RefreshList();
         }
 
+        /// <summary>
+        /// Generuje listę terenów.
+        /// </summary>
         private void GenerateAreasList()
         {
             List<string[]> Areas = null;
