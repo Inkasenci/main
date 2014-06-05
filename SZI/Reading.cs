@@ -20,7 +20,7 @@ namespace SZI
     using System.Linq;
 
     /// <summary>
-    /// Klasa pozwalające na obsługę tabeli odczyty.
+    /// Klasa pozwalająca na obsługę tabeli Odczyty.
     /// </summary>
     public partial class Reading
     {
@@ -37,11 +37,11 @@ namespace SZI
         /// </summary>
         public double Value { get; set; }
         /// <summary>
-        /// Inkasent, który wykonał dany odczyt.
+        /// Id inkasenta, który wykonał dany odczyt.
         /// </summary>
         public string CollectorId { get; set; }
         /// <summary>
-        /// Numer licznika dla którego został wykonany odczyt.
+        /// Numer licznika, na którym został wykonany odczyt.
         /// </summary>
         public int CounterNo { get; set; }
 

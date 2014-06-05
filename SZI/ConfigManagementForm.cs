@@ -112,9 +112,9 @@ namespace SZI
 
 
         /// <summary>
-        /// Tworzy ContextMenuStrip, które jest później przypisywane do wszystkich ListView
+        /// Tworzy ContextMenuStrip, które jest później przypisywane do wszystkich ListView.
         /// </summary>
-        /// <returns>Stworzone ContextMenuStrip</returns>
+        /// <returns>Stworzone ContextMenuStrip.</returns>
         private ContextMenuStrip CreateContextMenu()
         {
             ContextMenuStrip contextMenu = new ContextMenuStrip();
@@ -123,10 +123,10 @@ namespace SZI
         }
 
         /// <summary>
-        /// Tworzy kolekcję itemów dla ContextMenuStrip gdy zaznaczony jest w ListView jeden item
+        /// Tworzy kolekcję itemów dla ContextMenuStrip, gdy zaznaczony jest jeden item w ListView.
         /// </summary>
-        /// <param name="Owner">ContextMenuStrip do którego kolekcja zostanie przypisana</param>
-        /// <returns>Kolekcja itemów</returns>
+        /// <param name="Owner">ContextMenuStrip, do którego kolekcja zostanie przypisana.</param>
+        /// <returns>Kolekcja itemów.</returns>
         private ToolStripItemCollection CreateContextMenuItems_SingleSelection(object Owner)
         {
             ToolStripItemCollection items = new ToolStripItemCollection(Owner as ContextMenuStrip, new ToolStripItem[]
@@ -143,10 +143,10 @@ namespace SZI
         }
 
         /// <summary>
-        /// Tworzy kolekcję itemów dla ContextMenuStrip gdy zaznaczony jest w ListView więcej niż jeden item
+        /// Tworzy kolekcję itemów dla ContextMenuStrip, gdy zaznaczony jest więcej niż jeden item w ListView.
         /// </summary>
-        /// <param name="Owner">ContextMenuStrip do którego kolekcja zostanie przypisana</param>
-        /// <returns>Kolekcja itemów</returns>
+        /// <param name="Owner">ContextMenuStrip, do którego kolekcja zostanie przypisana.</param>
+        /// <returns>Kolekcja itemów.</returns>
         private ToolStripItemCollection CreateContextMenuItems_MultipleSelection(object Owner)
         {
             ToolStripItemCollection items = new ToolStripItemCollection(Owner as ContextMenuStrip, new ToolStripItem[]
@@ -161,10 +161,10 @@ namespace SZI
         }
 
         /// <summary>
-        /// Wyświetla rekordy powiązane z zaznaczonym w ListView rekordem
+        /// Wyświetla rekordy powiązane z zaznaczonym w ListView rekordem.
         /// </summary>
-        /// <param name="sender">Nieistotny parametr, niezbędny do przypisania metody do EventHandlera ToolStripItemu</param>
-        /// <param name="e">Nieistotny parametr, niezbędny do przypisania metody do EventHandlera ToolStripItemu</param>
+        /// <param name="sender">Nieistotny parametr, niezbędny do przypisania metody do EventHandlera ToolStripItemu.</param>
+        /// <param name="e">Nieistotny parametr, niezbędny do przypisania metody do EventHandlera ToolStripItemu.</param>
         private void ShowAssociatedRecords(object sender, EventArgs e)
         {
             List<List<string>> AssociatedRecords;
@@ -201,9 +201,9 @@ namespace SZI
         }
 
         /// <summary>
-        /// Tworzy kolekcję itemów dla ContextMenuStrip gdy nie jest zaznaczony w ListView żaden item.
+        /// Tworzy kolekcję itemów dla ContextMenuStrip, gdy nie jest zaznaczony żaden item w ListView.
         /// </summary>
-        /// <param name="Owner">ContextMenuStrip do którego kolekcja zostanie przypisana.</param>
+        /// <param name="Owner">ContextMenuStrip, do którego zostanie przypisana kolekcja.</param>
         /// <returns>Kolekcja itemów.</returns>
         private ToolStripItemCollection CreateContextMenuItems_NoSelection(object Owner)
         {
@@ -228,7 +228,7 @@ namespace SZI
         }
 
         /// <summary>
-        /// Zaznacza wszystkie itemy w aktywnej ListView
+        /// Zaznacza wszystkie itemy w aktywnej ListView.
         /// </summary>
         /// <param name="sender">Obiekt wywołujący metodę.</param>
         /// <param name="e">Argumenty zdarzenia.</param>
@@ -245,9 +245,9 @@ namespace SZI
         #region EventHandlery
 
         /// <summary>
-        /// Metoda wywołująca właściwą metodę kopiującą itemy aktywnego ListView do schowka. Przekazuje do niej jako parametr aktywne ListView.
+        /// Metoda wywołująca właściwą metodę kopiującą do schowka itemy aktywnej ListView. Przekazuje do niej jako parametr aktywną ListView.
         /// </summary>
-        /// <param name="sender">Element ContextMenuToolStrip który został naciśnięty.</param>
+        /// <param name="sender">Element ContextMenuToolStrip, który został naciśnięty.</param>
         /// <param name="e">Parametry zdarzenia.</param>
         private void CopyItemstoClipboard(object sender, EventArgs e)
         {
@@ -257,8 +257,8 @@ namespace SZI
         /// <summary>
         /// Metoda wywoływana przy otwieraniu ContextToolStripMenu. Przypisuje odpowiednią kolekcję itemów w zależności od liczby zaznaczonych itemów.
         /// </summary>
-        /// <param name="sender">ContextToolStripMenu do którego zostanie przypisana kolekcja itemów</param>
-        /// <param name="e">Parametry zdarzenia</param>
+        /// <param name="sender">ContextToolStripMenu, do którego zostanie przypisana kolekcja itemów.</param>
+        /// <param name="e">Parametry zdarzenia.</param>
         private void contextMenu_Opening(object sender, CancelEventArgs e)
         {
             ContextMenuStrip cms = (ContextMenuStrip)sender;
@@ -287,10 +287,10 @@ namespace SZI
 
 
         /// <summary>
-        /// Ustawia zmienną selectedTab na liczbę odpowiadającą wybranej zakładce
+        /// Ustawia zmienną selectedTab na liczbę odpowiadającą wybranej zakładce.
         /// </summary>
-        /// <param name="sender">TabControl w ConfigManagementFormie</param>
-        /// <param name="e">Parametry zdarzenia</param>
+        /// <param name="sender">TabControl w ConfigManagementFormie.</param>
+        /// <param name="e">Parametry zdarzenia.</param>
         void tabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             selectedTab = (Tables)tabControl.SelectedIndex;
@@ -307,10 +307,10 @@ namespace SZI
         #region ListView
 
         /// <summary>
-        /// Metoda zajmująca się skrótami klawiszowymi dla ListView
+        /// Metoda zajmująca się skrótami klawiszowymi dla ListView.
         /// </summary>
-        /// <param name="sender">ListView które wywołuje zdarzenie</param>
-        /// <param name="e">Parametry zdarzenia</param>
+        /// <param name="sender">ListView, która wywołuje zdarzenie.</param>
+        /// <param name="e">Parametry zdarzenia.</param>
         void ListView_KeyDown(object sender, KeyEventArgs e)
         {
             ListView lv = (ListView)sender;
@@ -396,6 +396,7 @@ namespace SZI
         // Refresh data button
         private void btRefresh_Click(object sender, EventArgs e)
         {
+            btInsert.Enabled = true;
             SetButtonEnabledProperty(false, false);
             btRefresh.Text = LangPL.MainFormLang["Refresh"];
             Thread t = new Thread(() => ListViewDataManipulation.RefreshListView(this));
@@ -407,7 +408,7 @@ namespace SZI
         #region ToolStripMenu
 
         /// <summary>
-        /// Event handler dla itemu z ToolStripMenu wywołujący metodę tworząca raport inkasentów.
+        /// Event handler dla itemu z ToolStripMenu, który wywołuje metodę tworząca raport inkasentów.
         /// </summary>
         /// <param name="sender">Item z ToolStripMenu wywołujący metodę.</param>
         /// <param name="e">Parametry zdarzenia.</param>
@@ -425,7 +426,7 @@ namespace SZI
         }
 
         /// <summary>
-        /// Event handler dla itemu z ToolStripMenu wywołujący metodę tworząca raport klientów.
+        /// Event handler dla itemu z ToolStripMenu, który wywołuje metodę tworząca raport klientów.
         /// </summary>
         /// <param name="sender">Item z ToolStripMenu wywołujący metodę.</param>
         /// <param name="e">Parametry zdarzenia.</param>
@@ -443,13 +444,13 @@ namespace SZI
         }
 
         /// <summary>
-        /// Generuje przykładowe dane do bazy danych.
+        /// Otwiera formularz umożliwiający wygenerowanie przykładowej bazy danych.
         /// </summary>
         /// <param name="sender">Item generateDataToolStripMenuItem ToolStripMenu.</param>
         /// <param name="e">Parametry zdarzenia.</param>
         private void generateDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SampleDataConfig.GenerateDataBase();
+            new SampleDataForm().ShowDialog();
         }
 
         /// <summary>

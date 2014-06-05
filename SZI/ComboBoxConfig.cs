@@ -31,7 +31,7 @@ namespace SZI
         /// </summary>
         List<ComboBoxItem> itemList;
         /// <summary>
-        /// Napis przechowując tekst filtrujący rekordy rozwijanej listy.
+        /// Napis przechowujący tekst filtrujący rekordy rozwijanej listy.
         /// </summary>
         string filter = string.Empty;
         /// <summary>
@@ -133,7 +133,7 @@ namespace SZI
         /// <summary>
         /// Zwraca klucz aktualnie wybranego rekordu.
         /// </summary>
-        /// <returns>Klucz wybranego rekordu</returns>
+        /// <returns>Klucz wybranego rekordu.</returns>
         public string ReturnForeignKey()
         {
             return itemList.ElementAt(comboBox.SelectedIndex).fields.ElementAt(0);
@@ -185,7 +185,7 @@ namespace SZI
         }
 
         /// <summary>
-        /// Znajduje na liście elementów obiektu obiekt będący odpowiednikiem zaznaczonego na rozwijanej liście rekordu.
+        /// Znajduje na liście elementów rozwijanej listy obiekt będący odpowiednikiem zaznaczonego na rozwijanej liście rekordu.
         /// </summary>
         /// <param name="item">"Aktualnie badany element listy.</param>
         /// <returns>true - badany obiekt jest poszukiwanym obiektem.</returns>
@@ -305,7 +305,7 @@ namespace SZI
         }
 
         /// <summary>
-        /// Wywoływana, gdy podczas przeglądania rozwijanej listy zostanie naciśnięty klawisz.
+        /// Wywoływana, gdy podczas przeglądania rozwijanej listy zostanie naciśnięty klawisz, co uruchamia filtrowanie.
         /// </summary>
         /// <param name="sender">Rozwijana lista konfigurowana w ramach obiektu.</param>
         /// <param name="e">Argumenty zdarzenia.</param>

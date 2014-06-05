@@ -8,7 +8,7 @@ namespace SZI
 {
 
     /// <summary>
-    /// Interfejs który musi być implementowany przez ModifyForm i InsertForm. Potrzebny do tego, by wiedzieć czy cokolwiek w bazie zostało zmienione.
+    /// Interfejs, który musi być implementowany przez ModifyForm i InsertForm. Potrzebny, aby wiedzieć czy cokolwiek zostało zmienione w bazie.
     /// </summary>
     interface IForm
     {

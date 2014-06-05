@@ -14,10 +14,22 @@ namespace SZI
     using System.Linq;
     using System.Data.Entity.Infrastructure;
 
+    /// <summary>
+    /// Wygenerowana automatycznie klasa - odpowiednik tabeli Teren.
+    /// </summary>
     public partial class Area : IItem
     {
+        /// <summary>
+        /// Id terenu.
+        /// </summary>
         public System.Guid AreaId { get; set; }
+        /// <summary>
+        /// Ulica.
+        /// </summary>
         public string Street { get; set; }
+        /// <summary>
+        /// Id inkasenta.
+        /// </summary>
         public string CollectorId { get; set; }
 
         public string[] GetElements
@@ -33,6 +45,9 @@ namespace SZI
             }
         }
 
+        /// <summary>
+        /// Dodaje rekord do tabeli.
+        /// </summary>
         public void InsertIntoDB()
         {
             try
@@ -54,6 +69,10 @@ namespace SZI
             }
         }
 
+        /// <summary>
+        /// Modyfikuje odpowiedni rekord.
+        /// </summary>
+        /// <param name="id">Id modyfikowanego rekordu.</param>
         public void ModifyRecord(string id)
         {
             using (var dataBase = new CollectorsManagementSystemEntities())

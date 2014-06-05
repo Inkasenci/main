@@ -68,6 +68,7 @@
             // 
             // btInsert
             // 
+            this.btInsert.Enabled = false;
             this.btInsert.Location = new System.Drawing.Point(12, 534);
             this.btInsert.Name = "btInsert";
             this.btInsert.Size = new System.Drawing.Size(157, 29);

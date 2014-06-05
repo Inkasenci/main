@@ -47,7 +47,7 @@ namespace SZI
         /// </summary>
         /// <param name="AreaId">Id terenu.</param>
         /// <param name="Street">Ulica.</param>
-        /// <param name="CollectorId">Id Inkasenta.</param>
+        /// <param name="CollectorId">Id inkasenta.</param>
         /// <returns>Zwraca rekord w postaci zapytania SQL.</returns>
         private String AreaBackUp(System.Guid AreaId, string Street, string CollectorId)
         {
@@ -72,7 +72,7 @@ namespace SZI
         /// <summary>
         /// Funkcja odpowiedzialna za generowanie zapytania SQL na podstawie rekordu z tabeli Collector.
         /// </summary>
-        /// <param name="CollectorId">Id Inkasenta.</param>
+        /// <param name="CollectorId">Id inkasenta.</param>
         /// <param name="Name">Imię.</param>
         /// <param name="LastName">Nazwisko.</param>
         /// <param name="PostalCode">Kod pocztowy.</param>
@@ -109,8 +109,8 @@ namespace SZI
         /// </summary>
         /// <param name="CounterNo">Numer licznika.</param>
         /// <param name="CircuitNo">Numer układu.</param>
-        /// <param name="AddressId">Id Adresu.</param>
-        /// <param name="CustomerId">Id Klienta.</param>
+        /// <param name="AddressId">Id adresu.</param>
+        /// <param name="CustomerId">Id klienta.</param>
         /// <returns>Zwraca rekord w postaci zapytania SQL.</returns>
         private String CounterBackUp(int CounterNo, int CircuitNo, Nullable<System.Guid> AddressId, string CustomerId)
         {
@@ -136,7 +136,7 @@ namespace SZI
         /// <summary>
         /// Funkcja odpowiedzialna za generowanie zapytania SQL na podstawie rekordu z tabeli Customer.
         /// </summary>
-        /// <param name="CustomerId">Id Inkasenta.</param>
+        /// <param name="CustomerId">Id inkasenta.</param>
         /// <param name="Name">Imię.</param>
         /// <param name="LastName">Nazwisko.</param>
         /// <param name="PostalCode">Kod pocztowy.</param>
@@ -171,12 +171,12 @@ namespace SZI
         /// <summary>
         /// Funkcja odpowiedzialna za generowanie zapytania SQL na podstawie rekordu z tabeli Reading.
         /// </summary>
-        /// <param name="ReadingId">Id Odczytu.</param>
+        /// <param name="ReadingId">Id odczytu.</param>
         /// <param name="Date">Data.</param>
-        /// <param name="Value">Wartoć odczytu.</param>
-        /// <param name="CollectorId">Id Inkasenta.</param>
+        /// <param name="Value">Wartość odczytu.</param>
+        /// <param name="CollectorId">Id inkasenta.</param>
         /// <param name="CounterNo">Numer licznika.</param>
-        /// <returns></returns>
+        /// <returns>Zwraca rekord w postaci zapytania SQL.</returns>
         private String ReadingBackUp(System.Guid ReadingId, System.DateTime Date, double Value, string CollectorId, int CounterNo)
         {
             return "INSERT INTO Reading ( ReadingId, Date, Value, CollectorId, CounterNo ) VALUES ('" + ReadingId.ToString() + "', '" +
@@ -215,7 +215,7 @@ namespace SZI
         }
 
         /// <summary>
-        /// Zwracany komentarz informujący o aktualnie generowanym BackUp-ie ( tabeli na której zostaje wykonany zapis ).
+        /// Zwracany komentarz informujący o aktualnie generowanym BackUp-ie (tabeli na której zostaje wykonany zapis).
         /// </summary>
         /// <param name="tableName">Nazwa tabeli.</param>
         /// <returns>Komentarz SQL.</returns>

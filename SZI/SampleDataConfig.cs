@@ -14,27 +14,27 @@ namespace SZI
         /// <summary>
         /// Liczba generowanych inkasentów.
         /// </summary>
-        static int numberOfCollectors = 2;
+        public static int numberOfCollectors = 0;
         /// <summary>
         /// Liczba generowanych klientów.
         /// </summary>
-        static int numberOfCustomers = 10;
+        public static int numberOfCustomers = 0;
         /// <summary>
         /// Liczba generowanych terenów. Nie może być większa niż liczba elementów tablicy streets w SampleDataSource
         /// </summary>
-        static int numberOfAreas = 2;
+        public static int numberOfAreas = 0;
         /// <summary>
         /// Liczba generowanych liczników.
         /// </summary>
-        static int numberOfCounters = 10;
+        public static int numberOfCounters = 0;
         /// <summary>
         /// Liczba generowanych adresów.
         /// </summary>
-        static int numberOfAddresses = 10;
+        public static int numberOfAddresses = 0;
         /// <summary>
         /// Liczba generowanych odczytów.
         /// </summary>
-        static int numberOfReadings = 10;
+        public static int numberOfReadings = 0;
         /// <summary>
         /// Wczytane dane.
         /// </summary>
@@ -385,9 +385,9 @@ namespace SZI
         }
 
         /// <summary>
-        /// Losuje płeć, a następnie imię i nazwisko z dostępnej puli.
+        /// Losuje imię i nazwisko z dostępnej puli.
         /// </summary>
-        /// <param name="gender">Płeć wylosowanej osoby.</param>
+        /// <param name="gender">Płeć losowanej osoby.</param>
         /// <returns>Dwuelementowa tablica zawierająca imię i nazwisko.</returns>
         static string[] GenerateNameAndLastName(int gender)
         {
@@ -426,7 +426,7 @@ namespace SZI
         /// <summary>
         /// Spośród identyfikatorów w podanej tabeli wybiera losowo jeden.
         /// </summary>
-        /// <param name="choosen">Wybrana tabela,  z której ma być wylosowany klucz.</param>
+        /// <param name="choosen">Tabela, z której ma być wylosowany klucz.</param>
         /// <returns>Wylosowany klucz.</returns>
         static string ChooseRandomId(int choosen)
         {

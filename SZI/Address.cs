@@ -16,11 +16,26 @@ namespace SZI
     using System.Collections.Generic;
     using System.Data.Entity.Infrastructure;
     
+    /// <summary>
+    /// Wygenerowana automatycznie klasa - odpowiednik tabeli Adres.
+    /// </summary>
     public partial class Address : IItem
     {
+        /// <summary>
+        /// Id adresu.
+        /// </summary>
         public System.Guid AddressId { get; set; }
+        /// <summary>
+        /// Numer domu.
+        /// </summary>
         public int HouseNo { get; set; }
+        /// <summary>
+        /// Numer mieszkania.
+        /// </summary>
         public Nullable<int> FlatNo { get; set; }
+        /// <summary>
+        /// Id terenu.
+        /// </summary>
         public System.Guid AreaId { get; set; }
 
         public string[] GetElements
@@ -37,6 +52,9 @@ namespace SZI
             }
         }
 
+        /// <summary>
+        /// Dodaje nowy rekord do tabeli.
+        /// </summary>
         public void InsertIntoDB()
         {
             try
@@ -58,6 +76,10 @@ namespace SZI
             }
         }
 
+        /// <summary>
+        /// Modyfikuje odpowiedni rekord.
+        /// </summary>
+        /// <param name="id">Id modyfikowanego rekordu.</param>
         public void ModifyRecord(string id)
         {
             using (var dataBase = new CollectorsManagementSystemEntities())

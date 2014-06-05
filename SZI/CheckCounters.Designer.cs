@@ -48,7 +48,7 @@
             this.ClientSize = new System.Drawing.Size(834, 537);
             this.Controls.Add(this.btExport);
             this.Name = "CheckCounters";
-            this.Text = "CheckCounters";
+            this.Text = "Liczniki";
             this.ResumeLayout(false);
 
         }

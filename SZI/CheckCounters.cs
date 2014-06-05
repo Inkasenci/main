@@ -11,12 +11,12 @@ using System.Windows.Forms;
 namespace SZI
 {
     /// <summary>
-    /// Klasa obsługująca Liczniki dla wybranego inkasenta.
+    /// Klasa obsługująca liczniki dla wybranego inkasenta.
     /// </summary>
     public partial class CheckCounters : Form
     {
         /// <summary>
-        /// Id inkasenta dla którego szukamy odczytów.
+        /// Id inkasenta, dla którego szukamy odczytów.
         /// </summary>
         private string collectorId;
         /// <summary>
@@ -41,7 +41,7 @@ namespace SZI
                 "Numer układu",
                 "Właściciel",
                 "Adres",
-                "Data odczyt",
+                "Data odczytu",
                 "Inkasent",
                 "Wartość odczytu"
         };
@@ -49,8 +49,8 @@ namespace SZI
         /// <summary>
         /// Konstruktor formy.
         /// </summary>
-        /// <param name="collectorId">pobranie danych względem danego w argumencie rekordu.</param>
-        public CheckCounters( string collectorId )
+        /// <param name="collectorId">Pobranie danych odbywa się względem danego w argumencie rekordu.</param>
+        public CheckCounters(string collectorId)
         {
             this.collectorId = collectorId;
             InitializeComponent();
@@ -167,7 +167,7 @@ namespace SZI
         }
 
         /// <summary>
-        /// Export ( wysłanie ) danych do pliku XML.
+        /// Export (wysłanie) danych do pliku XML.
         /// </summary>
         /// <param name="sender">Obiekt eventu.</param>
         /// <param name="e">Argument eventu.</param>

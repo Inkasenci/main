@@ -49,7 +49,6 @@ namespace SZI
 
         /// <summary>
         /// Usuwa rekordy z tabeli Inkasent. Zamienia identyfikatory tej tabeli będące kluczami obcymi w tabeli Teren na wartość null.
-        /// Usuwa rekordy z tabeli Odczyt powiązane z usuwanymi rekordami tabeli Inkasent.
         /// </summary>
         /// <param name="IDs">Lista identyfikatorów inkasentów do skasowania.</param>
         /// <param name="idIsForeignKey">true - do kasowanych rekordów istnieją odniesienia w innych tabelach.</param>
@@ -340,9 +339,9 @@ namespace SZI
         }
 
         /// <summary>
-        /// Usuwanie odczytu z bazy danych.
+        /// Usuwa odczyt z bazy danych.
         /// </summary>
-        /// <param name="id">Id odczytu usuwanego.</param>
+        /// <param name="id">Id usuwanego odczytu.</param>
         static public void DeleteReadFromDB(System.Guid id)
         {
             try

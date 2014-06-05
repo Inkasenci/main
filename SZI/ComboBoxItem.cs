@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace SZI
 {
     /// <summary>
-    /// Obiekty tej klasy są polami rozwijanej listy
+    /// Obiekty tej klasy są polami rozwijanej listy.
     /// </summary>
     public class ComboBoxItem
     {

@@ -11,7 +11,7 @@ using System.Windows.Forms;
 namespace SZI
 {
     /// <summary>
-    /// Forma służaca do wyświetlania rekordów powiązanych z rekordem wybranym w ConfigManagementForm. Tworzona po wybraniu opcji "Wyświetl powiązane rekordy" z menu kontekstowego.
+    /// Forma służąca do wyświetlania rekordów powiązanych z rekordem wybranym w ConfigManagementForm. Tworzona po wybraniu opcji "Wyświetl powiązane rekordy" z menu kontekstowego.
     /// </summary>
     public partial class AssociatedRecordsForm : Form
     {
@@ -47,8 +47,8 @@ namespace SZI
         /// <summary>
         /// Konstruktor formy wyświetlającej listę rekordów powiązanych z wybranym rekordem w ConfigManagementForm.
         /// </summary>
-        /// <param name="AssociatedRecords">Rekordy powiązane z wybranym w ConfigManagementForm rekordzie.</param>
-        /// <param name="Table">Tabela z której pochodzi wybrany rekord</param>
+        /// <param name="AssociatedRecords">Rekordy powiązane z wybranym rekordem w ConfigManagementForm.</param>
+        /// <param name="Table">Tabela, z której pochodzi wybrany rekord.</param>
         public AssociatedRecordsForm(List<List<string>> AssociatedRecords, Tables Table, string choosenId)
         {
             InitializeComponent();
@@ -155,7 +155,7 @@ namespace SZI
         }
 
         /// <summary>
-        /// Otworzenie okna do edycji rekordu.
+        /// Otwarcie okna do edycji rekordu.
         /// </summary>
         /// <param name="sender">Obiekt eventu.</param>
         /// <param name="e">Argument eventu.</param>
@@ -221,9 +221,9 @@ namespace SZI
         }
 
         /// <summary>
-        /// Tworzy ContextMenuStrip, które jest później przypisywane do wszystkich ListView
+        /// Tworzy ContextMenuStrip, które jest później przypisywane do wszystkich ListView.
         /// </summary>
-        /// <returns>Stworzone ContextMenuStrip</returns>
+        /// <returns>Stworzone ContextMenuStrip.</returns>
         private ContextMenuStrip CreateContextMenu()
         {
             ContextMenuStrip ContextMenu = new ContextMenuStrip();
@@ -253,9 +253,9 @@ namespace SZI
         }
 
         /// <summary>
-        /// Tworzy kolekcję itemów dla ContextMenuStrip gdy zaznaczony jest w ListView co najmniej jeden item.
+        /// Tworzy kolekcję itemów dla ContextMenuStrip, gdy zaznaczony jest co najmniej jeden item w ListView.
         /// </summary>
-        /// <param name="Owner">ContextMenuStrip do którego kolekcja zostanie przypisana.</param>
+        /// <param name="Owner">ContextMenuStrip, do którego kolekcja zostanie przypisana.</param>
         /// <returns>Kolekcja itemów.</returns>
         private ToolStripItemCollection CreateContextMenuItems_ItemsSelected(object Owner)
         {
@@ -270,10 +270,10 @@ namespace SZI
         }
 
         /// <summary>
-        /// Tworzy kolekcję itemów dla ContextMenuStrip gdy nie jest zaznaczony w ListView żaden item
+        /// Tworzy kolekcję itemów dla ContextMenuStrip, gdy nie jest zaznaczony żaden item w ListView.
         /// </summary>
-        /// <param name="Owner">ContextMenuStrip do którego kolekcja zostanie przypisana</param>
-        /// <returns>Kolekcja itemów</returns>
+        /// <param name="Owner">ContextMenuStrip, do którego zostanie przypisana kolekcja.</param>
+        /// <returns>Kolekcja itemów.</returns>
         private ToolStripItemCollection CreateContextMenuItems_NoSelection(object Owner)
         {
             ToolStripItemCollection items = new ToolStripItemCollection(Owner as ContextMenuStrip, new ToolStripItem[]
@@ -285,10 +285,10 @@ namespace SZI
         }
 
         /// <summary>
-        /// Zaznacza wszystkie itemy w ListView
+        /// Zaznacza wszystkie itemy w ListView.
         /// </summary>
-        /// <param name="sender">Nieistotny parametr, niezbędny do przypisania metody do EventHandlera ToolStripItemu</param>
-        /// <param name="e">Nieistotny parametr, niezbędny do przypisania metody do EventHandlera ToolStripItemu</param>
+        /// <param name="sender">Nieistotny parametr, niezbędny do przypisania metody do EventHandlera ToolStripItemu.</param>
+        /// <param name="e">Nieistotny parametr, niezbędny do przypisania metody do EventHandlera ToolStripItemu.</param>
         private void SelectAllItems(object sender, EventArgs e)
         {
             lvRecords.MultiSelect = true;
@@ -301,7 +301,7 @@ namespace SZI
         /// <summary>
         /// Metoda wywołująca właściwą metodę kopiującą itemy aktywnego ListView do schowka. Przekazuje do niej jako parametr aktywne ListView.
         /// </summary>
-        /// <param name="sender">Element ContextMenuToolStrip który został naciśnięty.</param>
+        /// <param name="sender">Element ContextMenuToolStrip, który został naciśnięty.</param>
         /// <param name="e">Parametry zdarzenia.</param>
         private void CopyItemstoClipboard(object sender, EventArgs e)
         {

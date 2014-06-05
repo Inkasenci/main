@@ -19,7 +19,7 @@ namespace SZI
         /// </summary>
         int tabPageIndex;
         /// <summary>
-        /// Tablica przechowująca nagłówki kolumn listView, które wyświetlanie są potem w etykietach pól filtra.
+        /// Tablica przechowująca nagłówki kolumn listView, które wyświetlane są potem w etykietach pól filtra.
         /// </summary>
         string[] fieldsNames;
         /// <summary>
@@ -93,7 +93,7 @@ namespace SZI
         }
 
         /// <summary>
-        /// Inicjalizuje cały panel filtra, jego etykiety, pola tekstowe, pole wyboru (jeśli dotyczy) oraz przycisk je czyszczący.
+        /// Inicjalizuje cały panel filtra, jego etykiety, pola tekstowe, pole wyboru (jeśli dotyczy) oraz przycisk czyszczący pola tekstowe.
         /// </summary>
         /// <returns>Panel filtra.</returns>
         public GroupBox InitializeFilter()

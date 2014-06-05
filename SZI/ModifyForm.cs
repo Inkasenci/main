@@ -51,7 +51,7 @@ namespace SZI
         private string[] TableNames;
 
         /// <summary>
-        /// Dokonano modyfikacji modyfikowanego rekordu, lub nie
+        /// Wartość określająca czy dokonano modyfikacji modyfikowanego rekordu.
         /// </summary>
         private bool modified = false;
 
@@ -76,7 +76,7 @@ namespace SZI
         }
 
         /// <summary>
-        /// Zwraca wartość pola modified
+        /// Zwraca wartość pola modified.
         /// </summary>
         public bool Modified
         {
@@ -204,7 +204,7 @@ namespace SZI
         }
 
         /// <summary>
-        /// Inicjalizuje pola tekstowe i rozwijane listy. Pola tekstowe są zwracane, a rozwijane listy przypisane do pola obiektu
+        /// Inicjalizuje pola tekstowe i rozwijane listy. Pola tekstowe są zwracane, a rozwijane listy przypisane do pola obiektu.
         /// </summary>
         /// <returns>Zainicjalizowane pola tekstowe.</returns>
         private TextBox[] InitializeTextAndCBConfigs()

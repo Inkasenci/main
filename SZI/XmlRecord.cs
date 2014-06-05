@@ -112,7 +112,7 @@ namespace SZI
     {
         #region XML Form
         /// <summary>
-        /// Id Inkasenta wykonującego dane odczyty.
+        /// Id inkasenta wykonującego dane odczyty.
         /// </summary>
         [XmlAttribute("CollectorID")]
         public string collectorId { get; set; }
