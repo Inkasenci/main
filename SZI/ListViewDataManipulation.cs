@@ -7,6 +7,9 @@ using System.Windows.Forms;
 
 namespace SZI
 {
+    /// <summary>
+    /// Klasa odpowiadająca za zarządzanie danym w listView.
+    /// </summary>
     public static class ListViewDataManipulation
     {
         /// <summary>

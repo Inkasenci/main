@@ -49,6 +49,9 @@ namespace SZI
         /// </summary>
         public string PhoneNumber { get; set; }
 
+        /// <summary>
+        /// Pobranie elementu w formie tablicy string.
+        /// </summary>
         public string[] GetElements
         {
             get

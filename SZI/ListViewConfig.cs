@@ -12,6 +12,11 @@ namespace SZI
     /// </summary>
     static class ListViewConfig
     {
+        /// <summary>
+        /// Odwołanie się do czyszczenia listView.
+        /// </summary>
+        /// <param name="listView">Obiekt listView.</param>
+        /// <returns>Wyczyszczony obiekt.</returns>
         private delegate ListView InvokeClearLV(ListView listView);
 
         /// <summary>
@@ -64,6 +69,11 @@ namespace SZI
             return lv;
         }
 
+        /// <summary>
+        /// Delegata pozwalająca na dodanie nowego elementu do listView.
+        /// </summary>
+        /// <param name="listView">ListView do którego się odwołujemy.</param>
+        /// <param name="item">Dodawany element.</param>
         private delegate void AddItemDelegate(ListView listView, string[] item);
 
         /// <summary>
@@ -125,6 +135,10 @@ namespace SZI
             return listView;
         }
 
+        /// <summary>
+        /// Delegeata wyrównująca kolumny w listView, względem najdłuższego elementu. 
+        /// </summary>
+        /// <param name="listView">ListView do wyrównania.</param>
         private delegate void AdjustColumnsDelegate(ListView listView);
 
         /// <summary>

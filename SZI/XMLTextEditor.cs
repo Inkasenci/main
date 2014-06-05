@@ -74,8 +74,8 @@ namespace SZI
         private string[] labels = new string[]
         {
                 "Odczyt nr: ",
-                "Nr licznika: ",
                 "Nr układu: ",
+                "Nr licznika:",
                 "Klient: ",
                 "Adres: ",
                 "Ostatni odczyt wykonano: ",
@@ -99,6 +99,7 @@ namespace SZI
         {
             int i = 0;
             textBox = new List<TextBox>();
+
             TextBox tmp;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
