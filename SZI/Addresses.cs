@@ -28,6 +28,9 @@ namespace SZI
             RefreshList();
         }
 
+        /// <summary>
+        /// Generuje listę adresów.
+        /// </summary>
         private void GenerateAddressesList()
         {
             List<string[]> Addresses = null;

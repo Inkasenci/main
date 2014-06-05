@@ -57,6 +57,7 @@
             // 
             // btDelete
             // 
+            this.btDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btDelete.Enabled = false;
             this.btDelete.Location = new System.Drawing.Point(12, 569);
             this.btDelete.Name = "btDelete";
@@ -68,6 +69,7 @@
             // 
             // btInsert
             // 
+            this.btInsert.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btInsert.Enabled = false;
             this.btInsert.Location = new System.Drawing.Point(12, 534);
             this.btInsert.Name = "btInsert";
@@ -79,6 +81,7 @@
             // 
             // btModify
             // 
+            this.btModify.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btModify.Enabled = false;
             this.btModify.Location = new System.Drawing.Point(12, 603);
             this.btModify.Name = "btModify";
@@ -95,6 +98,7 @@
             // 
             // btRefresh
             // 
+            this.btRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btRefresh.Location = new System.Drawing.Point(12, 638);
             this.btRefresh.Name = "btRefresh";
             this.btRefresh.Size = new System.Drawing.Size(157, 29);

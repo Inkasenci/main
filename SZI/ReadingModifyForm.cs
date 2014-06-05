@@ -73,6 +73,9 @@ namespace SZI
         public ReadingModifyForm(string id)
         {
             InitializeComponent();
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             if (System.Guid.TryParse(id, out editId))
             {
                 InitializeReading();

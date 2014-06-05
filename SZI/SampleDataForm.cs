@@ -21,6 +21,9 @@ namespace SZI
         public SampleDataForm()
         {
             InitializeComponent();
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
 
             collectorsCount.KeyPress += textBox_KeyPress;
             customersCount.KeyPress += textBox_KeyPress;

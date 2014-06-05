@@ -23,6 +23,9 @@ namespace SZI
         /// Tablica zawierająca wartości określające czy dane ListView zostało wypełnione.
         /// </summary>
         public static bool[] ListViewFilled;
+        /// <summary>
+        /// Obecnie otwarta zakładka.
+        /// </summary>
         public static Tables selectedTab = Tables.Collectors;
         private TabControl tabControl;
         public static IDataBase[] dataBase;
@@ -31,8 +34,17 @@ namespace SZI
         /// Filtry poszczególnych tabel.
         /// </summary>
         public static ListViewFilter[] listViewFilters;
+        /// <summary>
+        /// Kolekcja itemów menu kontekstowego dla przypadku, gdy zaznaczony jest jeden item w ListView.
+        /// </summary>
         private ToolStripItemCollection Items_SingleSelection;
+        /// <summary>
+        /// Kolekcja itemów menu kontekstowego dla przypadku, gdy zaznaczony jest więcej niż jeden item w ListView.
+        /// </summary>
         private ToolStripItemCollection Items_MultipleSelection;
+        /// <summary>
+        /// Kolekcja itemów menu kontekstowego dla przypadku, gdy nie jest zaznaczony żaden item w ListView.
+        /// </summary>
         private ToolStripItemCollection Items_NoSelection;
         /// <summary>
         /// Pole potrzebne do poprawnego działania metody closeForm_Click. Wartość jest zawsze prawdziwa.
@@ -83,6 +95,10 @@ namespace SZI
             Items_MultipleSelection = CreateContextMenuItems_MultipleSelection(contextMenu);
             timerRefresh.Start();
 
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+
             // Tworzenie tabControl
             tabControl.Padding = new Point(10, 10);
             tabControl.Location = new Point(10, 30);
@@ -93,7 +109,7 @@ namespace SZI
             {
                 tabPages[i] = new TabPage();
                 tabPages[i].Name = tabPages[i].Text = tabNames[i];
-                listView[i] = ListViewConfig.ListViewInit(columnLists[i], classNames[i], null);//dataBase[i].itemList);
+                listView[i] = ListViewConfig.ListViewInit(columnLists[i], classNames[i], null);
                 listView[i].SelectedIndexChanged += lv_SelectedIndexChanged;
                 listView[i].KeyDown += ListView_KeyDown;
                 listView[i].ContextMenuStrip = contextMenu;
@@ -334,6 +350,11 @@ namespace SZI
             }
         }
 
+        /// <summary>
+        /// Metoda uruchamiana, gdy wywołany jest event zmiany zaznaczonego itemu w ListView.
+        /// </summary>
+        /// <param name="sender">ListView w którym została dokonana zmiana zaznaczonego itemu.</param>
+        /// <param name="e">Parametry zdarzenia.</param>
         void lv_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (listView[(int)selectedTab].SelectedItems.Count)
@@ -393,7 +414,11 @@ namespace SZI
             ListViewDataManipulation.ModifyRecord(listView[(int)selectedTab], selectedTab, this);
        } 
 
-        // Refresh data button
+        /// <summary>
+        /// Metoda służąca do odświeżenia danych w jednym, lub więcej ListView.
+        /// </summary>
+        /// <param name="sender">Obiekt wywołujący metodę.</param>
+        /// <param name="e">Parametry zdarzenia.</param>
         private void btRefresh_Click(object sender, EventArgs e)
         {
             btInsert.Enabled = true;
@@ -551,6 +576,11 @@ namespace SZI
 
         #endregion
 
+        /// <summary>
+        /// Delegacja określająca nagłówek metody aktualizującej Label przypisany do ProgressStatusStripa.
+        /// </summary>
+        /// <param name="MainForm">Instancja klasy ConfigManagementForm która zawiera aktualizowany Label.</param>
+        /// <param name="UpdatedTable">ListView odpowiadająca tabeli która jest aktualizowana.</param>
         private delegate void UpdateLabelDelegate(ConfigManagementForm MainForm, Tables UpdatedTable);
         public void UpdateStatusLabel(int UpdatedTable)
         {
