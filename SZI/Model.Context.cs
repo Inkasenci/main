@@ -18,6 +18,9 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 
 
+    /// <summary>
+    /// Wygenerowana automatycznie klasa. Poprzez jej obiekty możliwe jest łączenie z bazą danych.
+    /// </summary>
     public partial class CollectorsManagementSystemEntities : DbContext
     {
         public CollectorsManagementSystemEntities()
