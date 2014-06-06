@@ -6,18 +6,39 @@ using System.Threading.Tasks;
 
 namespace SZI
 {
+    /// <summary>
+    /// Klasa obsługująca - wczytująca - adresy z bazy danych.
+    /// </summary>
     class Addresses : IDataBase
     {
+        /// <summary>
+        /// Lista adresów.
+        /// </summary>
         static public List<Address> addressesList;
+
+        /// <summary>
+        /// Tablica zawierająca listę kolumn.
+        /// </summary>
         public static string[] columnList = new string[] {
                 "Id adresu",
                 "Numer domu",
                 "Numer mieszkania",
                 "Id terenu"
             };
+
+        /// <summary>
+        /// Nazwa klasy.
+        /// </summary>
         public static string className = "Addresses";
+
+        /// <summary>
+        /// Lista itemów - używana podczas odświeżania listView.
+        /// </summary>
         public List<string[]> itemList { get; set; }
 
+        /// <summary>
+        /// Konstruktor inicjujący pola związane z klasą.
+        /// </summary>
         public Addresses()
         {
             addressesList = new List<Address>();
@@ -80,16 +101,27 @@ namespace SZI
             this.itemList = Addresses;
         }        
 
+        /// <summary>
+        /// Funkcja odpowiedzialna za odświeżanie listy danych.
+        /// </summary>
         public void RefreshList()
         {
             GenerateAddressesList();
         }
 
+        /// <summary>
+        /// Metoda zwracająca ilość rekordów. 
+        /// </summary>
         public int recordCount
         {
             get { return addressesList.Count(); }
         }
 
+        /// <summary>
+        /// Metoda zwracająca dany rekord, zależnie od podanego indentyfikatora.
+        /// </summary>
+        /// <param name="id">Id rekordu.</param>
+        /// <returns>Rekord w postaci zawartej w bazie danych.</returns>
         public Address this[int id]
         {
             get

@@ -7,12 +7,21 @@ using System.Windows.Forms;
 
 namespace SZI
 {
+    /// <summary>
+    /// Delegata przechowująca informacje na temat walidacji - jej porpawności.
+    /// </summary>
+    /// <param name="S">Format walidacji.</param>
+    /// <returns>Informacja o poprawności walidacji.</returns>
     public delegate bool ValidatingMethod(string S);
 
+    /// <summary>
+    /// Metoda zawierająca tabele z których korzystamy w aplikacji.
+    /// </summary>
     public enum Tables { Collectors, Customers, Areas, Counters, Addresses};
 
-    
-
+    /// <summary>
+    /// Klasa zawierające funkcje i metody pomocnicze.
+    /// </summary>
     public static class Auxiliary
     {
         /// <summary>
@@ -66,6 +75,11 @@ namespace SZI
             }
         }
 
+        /// <summary>
+        /// Funkcja sprawdzająca czy aktualna wartość jest poprawna.
+        /// </summary>
+        /// <param name="Dict">Aktualny słownik którym w którym się obracamy.</param>
+        /// <returns>Wartość true w przypadku poprawnej wartości, false w przeciwnym razie.</returns>
         public static bool IsCurrentValueOK(Dictionary<Control, bool> Dict)
         {
             Dictionary<Control, bool>.ValueCollection valueColl = Dict.Values;
@@ -75,6 +89,11 @@ namespace SZI
             return true;
         }
         
+        /// <summary>
+        /// Konwertowanie wartości int do Guid.
+        /// </summary>
+        /// <param name="value">Liczbę w formacie typu int.</param>
+        /// <returns>Konwertowana wartość Guid.</returns>
         public static Guid ToGuid(int value)
         {
             byte[] bytes = new byte[16];
@@ -82,12 +101,22 @@ namespace SZI
             return new Guid(bytes);
         }
 
+        /// <summary>
+        /// Ustawienie ErrorProvider - informacji dotyczących formanut na formularzui skojarzonego z nim błądu.
+        /// </summary>
+        /// <param name="ep">Utworzony uprzednio ErrorProvider.</param>
+        /// <param name="tb">Kontrolka względem której zaistniał błąd.</param>
         public static void SetErrorProvider(ErrorProvider ep, Control tb)
         {
             ep.SetIconAlignment(tb, ErrorIconAlignment.MiddleRight);
             ep.SetIconPadding(tb, 2);
         }
 
+        /// <summary>
+        /// Informuje, że formant na formularzu ma skojarzony z nim błąd.
+        /// </summary>
+        /// <param name="tb">Kontrolka względem której zaistniał błąd.</param>
+        /// <returns>ErrorProvider pokazujący ikonę obok kontrolki.</returns>
         public static ErrorProvider InitializeErrorProvider(Control tb)
         {
             ErrorProvider ep = new ErrorProvider();
@@ -100,6 +129,10 @@ namespace SZI
             return ep;
         }
 
+        /// <summary>
+        /// Tworzenie słownika walidacji używanego podczas modyfikacji rekordu.
+        /// </summary>
+        /// <returns>Słownik walidacji.</returns>
         public static Dictionary<string, ValidatingMethod> Modify_CreateNameToMethodDict()
         {
             return new Dictionary<string, ValidatingMethod>()
@@ -126,6 +159,10 @@ namespace SZI
             };
         }
 
+        /// <summary>
+        /// Tworzenie słownika walidacji używanego podczas dodawania rekordu.
+        /// </summary>
+        /// <returns>Słownik walidacji.</returns>
         public static Dictionary<string, ValidatingMethod> Insert_CreateNameToMethodDict()
         {
             return new Dictionary<string, ValidatingMethod>()

@@ -8,6 +8,9 @@ using System.Windows.Forms;
 
 namespace SZI
 {
+    /// <summary>
+    /// Klasa odpowiedzialna za walidację danych.
+    /// </summary>
     static class MainValidation
     {
         /// <summary>

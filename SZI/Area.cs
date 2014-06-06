@@ -32,6 +32,9 @@ namespace SZI
         /// </summary>
         public string CollectorId { get; set; }
 
+        /// <summary>
+        /// Pobranie elementu w formie tablicy string.
+        /// </summary>
         public string[] GetElements
         {
             get

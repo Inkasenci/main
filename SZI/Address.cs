@@ -38,6 +38,9 @@ namespace SZI
         /// </summary>
         public System.Guid AreaId { get; set; }
 
+        /// <summary>
+        /// Pobranie elementu w formie tablicy string.
+        /// </summary>
         public string[] GetElements
         {
             get

@@ -23,7 +23,7 @@ namespace SZI
         /// </summary>
         /// <param name="path">Adres pliku do odczytu.</param>
         /// <param name="cCollection">Argument wejœciowo/wyjœciowy zawieraj¹cy kolekcjê odczytów.</param>
-        /// <param name="toDataBase">Argument informuj¹cy o koniecznoœci (b¹dŸ nie) zapisu danych do bazy.</param>
+        /// <param name="toDataBase">Argument informuj¹cy o koniecznoœci zapisu danych do bazy.</param>
         static public void ReadFromXml(string path, bool toDataBase, out CountersCollection cCollection)
         {
             cCollection = null;
@@ -48,7 +48,7 @@ namespace SZI
         /// </summary>
         /// <param name="path">Adres pliku do odczytu.</param>
         /// <param name="cCollection">Argument zawieraj¹cy kolekcjê odczytów.</param>
-        /// <param name="SaveFile">Zwraca informacjê o zapisie danych do pliku (true w przypadku nieudanej próby, true w przypadku udanej ).</param>
+        /// <param name="SaveFile">Okreœla poprawnoœæ zapisu danych.</param>
         static public void WriteToXml(string path, CountersCollection cCollection, out bool SaveFile)
         {
             try

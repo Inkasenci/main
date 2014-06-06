@@ -7,17 +7,38 @@ using System.Windows.Forms;
 
 namespace SZI
 {
+    /// <summary>
+    /// Klasa obsługująca - wczytująca - tereny z bazy danych.
+    /// </summary>
     class Areas : IDataBase
     {
+        /// <summary>
+        /// Lista terenów.
+        /// </summary>
         static public List<Area> areasList;
+
+        /// <summary>
+        /// Tablica zawierająca listę kolumn.
+        /// </summary>
         public static string[] columnList = new string[] {
                 "Id terenu",
                 "Ulica",
                 "Id inkasenta"
             };
+
+        /// <summary>
+        /// Nazwa klasy.
+        /// </summary>
         public static string className = "Areas";
+
+        /// <summary>
+        /// Lista itemów - używana podczas odświeżania listView.
+        /// </summary>
         public List<string[]> itemList { get; set; }
 
+        /// <summary>
+        /// Konstruktor inicjujący pola związane z klasą.
+        /// </summary>
         public Areas()
         {
             areasList = new List<Area>();
@@ -69,16 +90,27 @@ namespace SZI
             this.itemList = Areas;
         }
 
+        /// <summary>
+        /// Funkcja odpowiedzialna za odświeżanie listy danych.
+        /// </summary>
         public void RefreshList()
         {
             GenerateAreasList();
         }
 
+        /// <summary>
+        /// Metoda zwracająca ilość rekordów. 
+        /// </summary>
         public int recordCount
         {
             get { return areasList.Count(); }
         }
 
+        /// <summary>
+        /// Metoda zwracająca dany rekord, zależnie od podanego indentyfikatora.
+        /// </summary>
+        /// <param name="id">Id rekordu.</param>
+        /// <returns>Rekord w postaci zawartej w bazie danych.</returns>
         public Area this[int id]
         {
             get

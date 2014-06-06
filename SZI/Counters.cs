@@ -7,18 +7,39 @@ using System.Windows.Forms;
 
 namespace SZI
 {
+    /// <summary>
+    /// Klasa obsługująca - wczytująca - tereny z bazy danych.
+    /// </summary>
     public class Counters : IDataBase
     {
+        /// <summary>
+        /// Lista liczników.
+        /// </summary>
         public List<Counter> counterList;
+
+        /// <summary>
+        /// Tablica zawierająca listę kolumn.
+        /// </summary>
         public static string[] columnList = new string[] {
                 "Numer licznika",
                 "Numer układu",
                 "Id adresu",
                 "Id klienta"
             };
+
+        /// <summary>
+        /// Nazwa klasy.
+        /// </summary>
         public static string className = "Counters";
+
+        /// <summary>
+        /// Lista itemów - używana podczas odświeżania listView.
+        /// </summary>
         public List<string[]> itemList { get; set; }
 
+        /// <summary>
+        /// Konstruktor inicjujący pola związane z klasą.
+        /// </summary>
         public Counters()
         {
             counterList = new List<Counter>();
@@ -29,6 +50,9 @@ namespace SZI
             RefreshList();
         }
 
+        /// <summary>
+        /// Pobieranie listy liczników z bazy danych i konwertowanie do formatu używanego w programie.
+        /// </summary>
         private void GenerateCountersList()
         {
             List<string[]> Counters = null;
@@ -72,8 +96,12 @@ namespace SZI
             this.itemList = Counters;
         }
 
-
-        public static string FetchCustomer(string CustomerID) //zwraca imię i nazwisko klienta na podstawie jego ID
+        /// <summary>
+        /// Zwraca imię i nazwisko klienta na podstawie jego ID.
+        /// </summary>
+        /// <param name="CustomerID">Id klienta.</param>
+        /// <returns>Imię i nazwisko klienta.</returns>
+        public static string FetchCustomer(string CustomerID)
         {
             string FullName = "";
 
@@ -93,6 +121,11 @@ namespace SZI
             return FullName;
         }
 
+        /// <summary>
+        /// Zwraca pełny adres (ulica, numer domu i mieszkania) na podstawie AddressID.
+        /// </summary>
+        /// <param name="AddressID">Id adresu.</param>
+        /// <returns>Pełny adres.</returns>
         static public string FetchFullAddress(Guid AddressID) //zwraca pełny adres (ulica, numer domu i mieszkania) na podstawie AddressID
         {
             string FullAddressString = "";
@@ -118,16 +151,27 @@ namespace SZI
             return FullAddressString;
         }
 
+        /// <summary>
+        /// Funkcja odpowiedzialna za odświeżanie listy danych.
+        /// </summary>
         public void RefreshList()
         {
             GenerateCountersList();
         }
 
+        /// <summary>
+        /// Metoda zwracająca ilość rekordów.
+        /// </summary>
         public int recordCount
         {
             get { return counterList.Count(); }
         }
 
+        /// <summary>
+        /// Metoda zwracająca dany rekord, zależnie od podanego indentyfikatora.
+        /// </summary>
+        /// <param name="id">Id rekordu.</param>
+        /// <returns>Rekord w postaci zawartej w bazie danych.</returns>
         public Counter this[int id]
         {
             get

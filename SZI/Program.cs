@@ -6,6 +6,9 @@ using System.Windows.Forms;
 
 namespace SZI
 {
+    /// <summary>
+    /// Klasa rozruchowa aplikacji.
+    /// </summary>
     static class Program
     {
         /// <summary>
