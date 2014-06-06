@@ -120,7 +120,7 @@ namespace SZI
         /// <returns>Odświeżona ListView.</returns> 
         static public ListView ListViewRefresh(ListView listView, List<string[]> itemList)
         {
-            if (listView.Name == "CountersForm")
+            if (listView.Name == "CountersForm" || listView.Name == "Collectors")
             {
                 listView = ClearListView(listView);
 
