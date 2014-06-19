@@ -146,7 +146,8 @@ namespace SZI
             Items_ItemsSelected = CreateContextMenuItems_ItemsSelected(ContextMenu);
             Items_NoSelection = CreateContextMenuItems_NoSelection(ContextMenu);
             lvRecords.ContextMenuStrip = ContextMenu;
-            lvRecords.SelectedIndexChanged += lv_SelectedIndexChanged;
+            if (Table == Tables.Counters)
+                lvRecords.SelectedIndexChanged += lv_SelectedIndexChanged;
             lvRecords.Location = new Point(this.Location.X + 15, this.Location.Y + 10);
             lvRecords.Size = new Size(this.Size.Width - 50, this.Size.Height - 100);
             ListViewConfig.AdjustColumnWidth(lvRecords);
