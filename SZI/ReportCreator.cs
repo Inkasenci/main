@@ -45,9 +45,6 @@ namespace SZI
             /// <returns>PrintPreviewDialog, który jest podglądem wydruku wygenerowanej misji.</returns>
             public static PrintPreviewDialog CreateMission(string id)
             {
-                //id = "14868162082";
-                id = "42888805449";
-
                 PrintDocument pd = new PrintDocument();
                 PrintPreviewDialog ppd = new PrintPreviewDialog();
 
