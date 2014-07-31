@@ -55,6 +55,7 @@
             // 
             // btGenerateMission
             // 
+            this.btGenerateMission.Enabled = false;
             this.btGenerateMission.Location = new System.Drawing.Point(12, 550);
             this.btGenerateMission.Name = "btGenerateMission";
             this.btGenerateMission.Size = new System.Drawing.Size(157, 29);

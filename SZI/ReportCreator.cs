@@ -55,8 +55,8 @@ namespace SZI
 
                     //imię i nazwisko inkasenta
                     CollectorsName = (from collector in database.Collectors
-                                             where collector.CollectorId == id
-                                             select collector.Name + " " + collector.LastName).FirstOrDefault();
+                                      where collector.CollectorId == id
+                                      select collector.Name + " " + collector.LastName).FirstOrDefault();
 
                     //adresy pod którymi są liczniki, których trzeba zebrać odczyty (bo ostatni odczyt był wcześniej niż 30 dni temu, lub nigdy go nie było)
                     //+ właściciel danego licznika
@@ -78,7 +78,7 @@ namespace SZI
                                               on customer.CustomerId equals subCounter.CustomerId
                                               where subCounter.CounterNo == counter.CounterNo
                                               select customer.Name + " " + customer.LastName + " " + customer.PhoneNumber).FirstOrDefault(),
-                                     max = gj.Max(a => (DateTime?)a.Date) == null ? new DateTime() : gj.Max(a => (DateTime?)a.Date)
+                                     max = gj.Max(a => (DateTime?)a.Date) == null ? new DateTime() : gj.Max(a => (DateTime?)a.Date).Value,
                                  }).ToList();
 
                     PlacesToVisit = query.Count;
@@ -90,7 +90,7 @@ namespace SZI
                         Missions[i].Add(query[i].owner);
                         Missions[i].Add(query[i].CounterNo.ToString());
                         Missions[i].Add(query[i].CircuitNo.ToString());
-                        Missions[i].Add(query[i].max.ToString() == new DateTime().ToString() ? "nigdy" : query[i].max.ToString());
+                        Missions[i].Add(query[i].max == new DateTime() ? "nigdy" : query[i].max.ToShortDateString());
                     }
                 }
 
@@ -118,7 +118,7 @@ namespace SZI
                     string PlacesToVisitString = LangPL.Missions["PlacesToVisit"];
                     string MissionAttributesListString = LangPL.Missions["MissionAttributesList"];
 
-                   
+
                     SizeF HeadSize = e.Graphics.MeasureString(Head, HeadFont);
                     SizeF NumberOfPlacesToVisit = e.Graphics.MeasureString(NumberOfPlacesToVisitString, MediumFont);
                     SizeF PlacesToVisitSize = e.Graphics.MeasureString(PlacesToVisitString, MediumFont);
@@ -224,7 +224,7 @@ namespace SZI
             private static List<List<string>> CollectorsWithoutArea;
 
             private static string ToPrint = string.Empty;
-            
+
             private static bool FirstPagePrinted = false;
 
             private static double averageAreaPerCollector = 0;
@@ -304,7 +304,7 @@ namespace SZI
                         //CollectorsWithoutArea[i].Add(query1[i].areacount.ToString());
                         //CollectorsWithoutArea[i].Add(query1[i].addresscount.ToString());
                     }
-                    
+
                 }
 
                 pd.DefaultPageSettings.Margins.Right = 2 * pd.DefaultPageSettings.Margins.Left;
@@ -322,7 +322,7 @@ namespace SZI
             /// <param name="sender">Obiekt PrintDocument wywołujący metodę.</param>
             /// <param name="e">Argumenty zdarzenia.</param>
             private static void PrintCollectors(object sender, PrintPageEventArgs e)
-            {                
+            {
                 if (!FirstPagePrinted)
                 {
                     float TotalHeight;
@@ -378,12 +378,12 @@ namespace SZI
                     {
                         e.HasMorePages = true;
                         FirstPagePrinted = true;
-                    }    
+                    }
                     else
-                    {                        
+                    {
                         TotalHeight += CollectorsStringSize.Height;
                         Printing.DrawLine(e, TotalHeight);
-                    }                    
+                    }
                 }
                 else
                 {
@@ -403,7 +403,7 @@ namespace SZI
                     if (ToPrint.Length > 0)
                     {
                         e.HasMorePages = true;
-                    }    
+                    }
                     else
                     {
                         float TotalHeight = CollectorsStringSize.Height;
@@ -447,7 +447,7 @@ namespace SZI
                 return s;
             }
         }
-        
+
         /// <summary>
         /// Klasa generująca raport dotyczący klientów.
         /// </summary>
@@ -470,7 +470,7 @@ namespace SZI
             public static PrintPreviewDialog CreateReport()
             {
                 PrintDocument pd = new PrintDocument();
-                PrintPreviewDialog ppd = new PrintPreviewDialog();                
+                PrintPreviewDialog ppd = new PrintPreviewDialog();
 
                 using (var database = new CollectorsManagementSystemEntities())
                 {
@@ -487,7 +487,7 @@ namespace SZI
                                      countercount = gj.Count()
                                  }).ToList();
 
-                    
+
                     //klienci bez przypisanych liczników
                     var query1 = (from customer in database.Customers
                                   join counter in database.Counters
@@ -526,7 +526,7 @@ namespace SZI
                         CustomersWithoutCounters[i].Add(query1[i].lastname);
                         CustomersWithoutCounters[i].Add(query1[i].countercount.ToString());
                     }
-                        
+
                 }
 
                 pd.DefaultPageSettings.Margins.Right = 2 * pd.DefaultPageSettings.Margins.Left;
@@ -596,7 +596,7 @@ namespace SZI
                     ToPrint = ToPrint.Substring(charactersOnPage);
                     if (ToPrint.Length > 0)
                     {
-                        e.HasMorePages = true;                        
+                        e.HasMorePages = true;
                     }
                     else
                     {
@@ -715,10 +715,10 @@ namespace SZI
                 e.Graphics.DrawString(s, font, Brushes.Black,
                     new Point(e.MarginBounds.Location.X + (int)(e.MarginBounds.Width / 2 - Size.Width / 2), e.PageBounds.Y + (int)CurrentHeight),
                     StringFormat.GenericTypographic);
-                
+
                 return Size;
             }
-            
+
             /// <summary>
             /// Rysuje linię od lewej do prawej krawędzi według koordynatów zawartych w parametrze e, na wysokości TotalHeight.
             /// </summary>
@@ -733,7 +733,7 @@ namespace SZI
                     new Point(e.MarginBounds.Right, e.PageBounds.Y + (int)TotalHeight)
                     );
             }
-        
+
         }
 
 
